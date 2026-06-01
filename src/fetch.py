@@ -84,8 +84,11 @@ def fetch_stock_data(code: str):
     # 1. 抓取 K 线（近 60 个交易日）
     logger.info("正在获取 %s K线数据...", code)
     try:
-        kline = fetcher.get_daily_history(code, count=60)
-        if kline is not None and not kline.empty:
+        kline = fetcher.get_daily_data(code, days=60)
+        # get_daily_data returns tuple (df, metadata) or None
+        if isinstance(kline, tuple):
+            kline = kline[0]
+        if kline is not None and hasattr(kline, 'empty') and not kline.empty:
             records = kline.to_dict(orient="records")
             _write_json(stock_dir, "kline.json", {
                 "code": code,
@@ -124,7 +127,7 @@ def fetch_stock_data(code: str):
     # 3. 抓取基本面
     logger.info("正在获取 %s 基本面...", code)
     try:
-        fundamentals = fetcher.get_fundamentals(code)
+        fundamentals = fetcher.get_fundamental_context(code)
         if fundamentals:
             _write_json(stock_dir, "fundamentals.json", {
                 "code": code,

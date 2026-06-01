@@ -6,11 +6,20 @@ Stock-On: 精简配置管理模块
 import logging
 import os
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 from dotenv import load_dotenv, dotenv_values
 from dataclasses import dataclass, field
 
 logger = logging.getLogger(__name__)
+
+# 新闻策略窗口定义（从 ref-repo/src/config.py 提取）
+NEWS_STRATEGY_WINDOWS: Dict[str, int] = {
+    "ultra_short": 1,
+    "short": 3,
+    "medium": 7,
+    "long": 14,
+    "extended": 30,
+}
 
 
 @dataclass
@@ -33,6 +42,16 @@ class Config:
     report_language: str = "zh"
     max_workers: int = 4
     data_dir: str = "data"
+
+    # === 技术分析参数 ===
+    bias_threshold: float = 5.0  # 乖离率阈值（%），超过此值不追高
+    enable_eastmoney_patch: bool = True  # 启用东方财富数据补丁
+    enable_realtime_quote: bool = True  # 启用实时行情
+    realtime_source_priority: str = "efinance,akshare"  # 实时行情数据源优先级
+    enable_fundamental_pipeline: bool = True  # 启用基本面分析
+    fundamental_fetch_timeout_seconds: float = 8.0  # 基本面获取超时
+    fundamental_stage_timeout_seconds: float = 8.0  # 基本面分析超时
+    fundamental_cache_ttl_seconds: int = 120  # 基本面缓存过期时间
 
     # === 交易日检查 ===
     trading_day_check_enabled: bool = True
@@ -72,4 +91,6 @@ def get_config() -> Config:
     cfg.proxy_port = os.getenv("PROXY_PORT", "10809")
     cfg.trading_day_check_enabled = os.getenv("TRADING_DAY_CHECK_ENABLED", "true").lower() != "false"
     cfg.max_workers = int(os.getenv("MAX_WORKERS", "4"))
+    cfg.bias_threshold = float(os.getenv("BIAS_THRESHOLD", "5.0"))
+    cfg.enable_eastmoney_patch = os.getenv("ENABLE_EASTMONEY_PATCH", "true").lower() != "false"
     return cfg
