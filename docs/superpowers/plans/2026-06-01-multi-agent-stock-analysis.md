@@ -14,30 +14,30 @@
 
 **说明：** 创建完整的目录结构，为后续所有模块提供基础。
 
+**重要：** 使用 `src/` 而非 `python/`，避免与 Python 标准库命名冲突。
+
 - [ ] **Step 1: 创建目录结构**
 
 ```bash
 cd /Users/majiang/Work/tools/stock-on
-# 清理旧的 clone 目录（避免混淆）
-rm -rf daily_stock_analysis
 
-# 创建 python/ 子目录
-mkdir -p python/data_provider
-mkdir -p python/data
-mkdir -p python/utils
-mkdir -p python/llm
+# 创建 src/ 子目录（Python 数据处理层）
+mkdir -p src/data_provider
+mkdir -p src/data
+mkdir -p src/utils
+mkdir -p src/llm
 
-# 创建 data/ 目录
+# 创建 data/ 目录（Agent 间共享数据）
 mkdir -p data
 
-# 创建 strategies/ 目录
+# 创建 strategies/ 目录（YAML 策略文件）
 mkdir -p strategies
 
 # 创建 skills 目录
 mkdir -p .claude/skills
 
-# 创建文档目录
-mkdir -p docs
+# 创建 tests/ 目录（TDD）
+mkdir -p tests
 ```
 
 ---
@@ -48,38 +48,39 @@ mkdir -p docs
 
 注意：由于我们 clone 后 review 完了，可以把该项目删掉重新 clone，或者直接从 clone 的目录复制文件。为了方便，直接克隆到临时目录再复制。
 
-- [ ] **Task 1.1: 重新克隆原项目并复制 data_provider**
+- [ ] **Task 1.1: 从 ref-repo 复制源代码到 src/**
+
+ref-repo 已 clone 到本地，直接复制。
 
 ```bash
-cd /tmp
-rm -rf daily_stock_analysis
-git clone --depth 1 https://github.com/ZhuLinsen/daily_stock_analysis.git
 # 复制 data_provider
-cp -r /tmp/daily_stock_analysis/data_provider/* /Users/majiang/Work/tools/stock-on/python/data_provider/
+cp -r /Users/majiang/Work/tools/stock-on/ref-repo/data_provider/* /Users/majiang/Work/tools/stock-on/src/data_provider/
 # 复制 stock_analyzer.py
-cp /tmp/daily_stock_analysis/src/stock_analyzer.py /Users/majiang/Work/tools/stock-on/python/stock_analyzer.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/stock_analyzer.py /Users/majiang/Work/tools/stock-on/src/stock_analyzer.py
 # 复制 src/data/
-cp -r /tmp/daily_stock_analysis/src/data/* /Users/majiang/Work/tools/stock-on/python/data/
+cp -r /Users/majiang/Work/tools/stock-on/ref-repo/src/data/* /Users/majiang/Work/tools/stock-on/src/data/
 # 复制 src/utils/
-cp /tmp/daily_stock_analysis/src/utils/sanitize.py /Users/majiang/Work/tools/stock-on/python/utils/sanitize.py
-cp /tmp/daily_stock_analysis/src/utils/data_processing.py /Users/majiang/Work/tools/stock-on/python/utils/data_processing.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/utils/sanitize.py /Users/majiang/Work/tools/stock-on/src/utils/sanitize.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/utils/data_processing.py /Users/majiang/Work/tools/stock-on/src/utils/data_processing.py
 # 复制 src/enums.py
-cp /tmp/daily_stock_analysis/src/enums.py /Users/majiang/Work/tools/stock-on/python/enums.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/enums.py /Users/majiang/Work/tools/stock-on/src/enums.py
 # 复制 src/report_language.py
-cp /tmp/daily_stock_analysis/src/report_language.py /Users/majiang/Work/tools/stock-on/python/report_language.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/report_language.py /Users/majiang/Work/tools/stock-on/src/report_language.py
+# 复制 src/search_service.py（新闻搜索，Task 1.8 fetch.py 依赖）
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/search_service.py /Users/majiang/Work/tools/stock-on/src/search_service.py
 # 复制 src/llm/ (仅 generation_params.py)
-cp /tmp/daily_stock_analysis/src/llm/generation_params.py /Users/majiang/Work/tools/stock-on/python/llm/generation_params.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/llm/generation_params.py /Users/majiang/Work/tools/stock-on/src/llm/generation_params.py
 # 复制 src/services/run_diagnostics.py
-cp /tmp/daily_stock_analysis/src/services/run_diagnostics.py /Users/majiang/Work/tools/stock-on/python/utils/run_diagnostics.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/services/run_diagnostics.py /Users/majiang/Work/tools/stock-on/src/utils/run_diagnostics.py
 # 复制 src/logging_config.py
-cp /tmp/daily_stock_analysis/src/logging_config.py /Users/majiang/Work/tools/stock-on/python/logging_config.py
+cp /Users/majiang/Work/tools/stock-on/ref-repo/src/logging_config.py /Users/majiang/Work/tools/stock-on/src/logging_config.py
 # 复制 strategies/
-cp /tmp/daily_stock_analysis/strategies/* /Users/majiang/Work/tools/stock-on/strategies/
+cp /Users/majiang/Work/tools/stock-on/ref-repo/strategies/* /Users/majiang/Work/tools/stock-on/strategies/
 ```
 
 - [ ] **Task 1.2: 创建精简版 config.py**
 
-创建 `python/config.py`，剥离通知/webui/bot 相关依赖。这是原项目 `src/config.py` 的精简版本。
+创建 `src/config.py`，剥离通知/webui/bot 相关依赖。这是原项目 `src/config.py` 的精简版本。
 
 ```python
 """
@@ -161,20 +162,20 @@ def get_config() -> Config:
     return cfg
 ```
 
-- [ ] **Task 1.3: 创建 python/data/__init__.py**
+- [ ] **Task 1.3: 创建 src/data/__init__.py**
 
 创建空的包初始化文件：
 ```python
 # data package
 ```
 
-- [ ] **Task 1.4: 创建 python/utils/__init__.py**
+- [ ] **Task 1.4: 创建 src/utils/__init__.py**
 
 ```python
 # utils package
 ```
 
-- [ ] **Task 1.5: 创建 python/llm/__init__.py**
+- [ ] **Task 1.5: 创建 src/llm/__init__.py**
 
 ```python
 # llm package
@@ -182,55 +183,59 @@ def get_config() -> Config:
 
 - [ ] **Task 1.6: 修复 python/data_provider/base.py 的 import 路径**
 
-原代码用 `from src.xxx import ...`，需要改为 `from python.xxx import ...` 或相对导入。
+原代码用 `from src.xxx import ...`，需要改为 `from src.xxx import ...` 或相对导入。
 
 编辑 `python/data_provider/base.py`：
 
 ```python
 # 修改第27-29行
 # 原：from src.data.stock_index_loader import get_index_stock_name
-# 改：from python.data.stock_index_loader import get_index_stock_name
-from python.data.stock_index_loader import get_index_stock_name
-from python.data.stock_mapping import STOCK_NAME_MAP, is_meaningful_stock_name
-from python.utils.run_diagnostics import record_provider_run
+# 改：from src.data.stock_index_loader import get_index_stock_name
+from src.data.stock_index_loader import get_index_stock_name
+from src.data.stock_mapping import STOCK_NAME_MAP, is_meaningful_stock_name
+from src.utils.run_diagnostics import record_provider_run
 ```
 
 - [ ] **Task 1.7: 修复 data_provider 各 fetcher 的 import 路径**
 
 检查并修复所有 fetcher 中的 `from src.xxx` 和 `from data_provider.xxx` 导入。
 
-编辑 `python/data_provider/akshare_fetcher.py`，将 `from data_provider.xxx` 改为 `from python.data_provider.xxx`：
+编辑 `python/data_provider/akshare_fetcher.py`，将 `from data_provider.xxx` 改为 `from src.data_provider.xxx`：
 ```python
-# 搜索替换：from data_provider. → from python.data_provider.
-# 搜索替换：from src. → from python.
+# 搜索替换：from data_provider. → from src.data_provider.
+# 搜索替换：from src. → from src.
 ```
 
 对所有 fetcher 文件执行相同的 import 修复：
 ```bash
-cd /Users/majiang/Work/tools/stock-on/python
+cd /Users/majiang/Work/tools/stock-on/src
 # 修复 data_provider 中的 import
 for f in data_provider/*.py; do
-    sed -i '' 's/from src\./from python./g' "$f"
-    sed -i '' 's/from data_provider\./from python.data_provider./g' "$f"
+    sed -i '' 's/from src\./from src./g' "$f"
+    sed -i '' 's/from data_provider\./from src.data_provider./g' "$f"
 done
 # 修复顶级模块中的 import
 for f in *.py utils/*.py data/*.py llm/*.py; do
     if [ -f "$f" ]; then
-        sed -i '' 's/from src\./from python./g' "$f"
-        sed -i '' 's/from data_provider\./from python.data_provider./g' "$f"
+        sed -i '' 's/from src\./from src./g' "$f"
+        sed -i '' 's/from data_provider\./from src.data_provider./g' "$f"
     fi
 done
 ```
 
-- [ ] **Task 1.8: 创建 python/fetch.py**
+- [ ] **Task 1.8: 创建 src/fetch.py**
 
 ```python
 #!/usr/bin/env python3
 """
 数据抓取入口。供 Claude Code fetch-data Skill 调用。
 
-用法: python python/fetch.py --code 600519
+用法: python src/fetch.py --code 600519
 输出: data/{code}/kline.json, quote.json, fundamentals.json, news.json
+
+注意:
+  - DataFetcherManager() 不接受 Config 参数，用无参构造自动初始化
+  - SearchService() 从环境变量读取 API keys
 """
 
 import argparse
@@ -238,22 +243,27 @@ import json
 import logging
 import os
 import sys
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-# 确保 python/ 在 sys.path 中
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(__file__))
 
-from python.config import get_config, setup_env
-from python.data_provider import DataFetcherManager
-from python.data_provider.base import canonical_stock_code
+from src.config import get_config, setup_env
+from src.data_provider import DataFetcherManager
+from src.data_provider.base import canonical_stock_code
 
 logger = logging.getLogger(__name__)
+
+_TZ_CN = timezone(timedelta(hours=8))
+
+
+def _now_str() -> str:
+    return datetime.now(_TZ_CN).isoformat()
 
 
 def _ensure_data_dir(code: str) -> Path:
     config = get_config()
-    data_dir = Path(config.data_dir)
-    stock_dir = data_dir / code
+    stock_dir = Path(config.data_dir) / code
     stock_dir.mkdir(parents=True, exist_ok=True)
     return stock_dir
 
@@ -265,13 +275,39 @@ def _write_json(stock_dir: Path, filename: str, data: dict):
     logger.info("已写入: %s", path)
 
 
+def _detect_market(code: str) -> str:
+    code = code.upper()
+    if code.startswith("HK"):
+        return "HK"
+    if any(code.startswith(p) for p in ("US", "NYSE", "NASDAQ")):
+        return "US"
+    if code[0] in ("6", "5"):
+        return "SH"
+    if code[0] in ("0", "3"):
+        return "SZ"
+    if code[0] in ("4", "8"):
+        return "BJ"
+    return ""
+
+
+def _convert_dates(records: list) -> list:
+    """Convert pandas Timestamps to ISO strings for JSON serialization."""
+    import pandas as pd
+    for r in records:
+        for k, v in r.items():
+            if isinstance(v, pd.Timestamp):
+                r[k] = v.isoformat()
+    return records
+
+
 def fetch_stock_data(code: str):
     """抓取单只股票的完整数据"""
     setup_env()
     config = get_config()
     stock_dir = _ensure_data_dir(code)
 
-    fetcher = DataFetcherManager(config)
+    # DataFetcherManager 无参构造，自动按优先级初始化数据源
+    fetcher = DataFetcherManager()
 
     # 1. 抓取 K 线（近 60 个交易日）
     logger.info("正在获取 %s K线数据...", code)
@@ -296,17 +332,18 @@ def fetch_stock_data(code: str):
     try:
         quote = fetcher.get_realtime_quote(code)
         if quote:
+            name = getattr(quote, "name", "") or fetcher.get_stock_name(code)
             _write_json(stock_dir, "quote.json", {
                 "code": code,
-                "name": getattr(quote, "name", ""),
-                "price": getattr(quote, "price", 0),
-                "pct_chg": getattr(quote, "pct_chg", 0),
-                "volume": getattr(quote, "volume", 0),
-                "amount": getattr(quote, "amount", 0),
-                "turnover_rate": getattr(quote, "turnover_rate", 0),
-                "pe": getattr(quote, "pe", 0),
-                "pb": getattr(quote, "pb", 0),
-                "market_cap": getattr(quote, "market_cap", 0),
+                "name": name,
+                "price": float(getattr(quote, "price", 0) or 0),
+                "pct_chg": float(getattr(quote, "pct_chg", 0) or 0),
+                "volume": int(getattr(quote, "volume", 0) or 0),
+                "amount": float(getattr(quote, "amount", 0) or 0),
+                "turnover_rate": float(getattr(quote, "turnover_rate", 0) or 0),
+                "pe": float(getattr(quote, "pe", 0) or 0),
+                "pb": float(getattr(quote, "pb", 0) or 0),
+                "market_cap": float(getattr(quote, "market_cap", 0) or 0),
                 "updated_at": _now_str(),
             })
     except Exception as e:
@@ -334,8 +371,8 @@ def fetch_stock_data(code: str):
     # 4. 抓取新闻
     logger.info("正在获取 %s 新闻...", code)
     try:
-        from python.search_service import SearchService
-        search = SearchService(config)
+        from src.search_service import SearchService
+        search = SearchService()
         news = search.search_stock_news(code, days=7)
         if news:
             _write_json(stock_dir, "news.json", {
@@ -347,37 +384,6 @@ def fetch_stock_data(code: str):
         logger.warning("获取新闻失败 %s: %s", code, e)
 
     logger.info("数据抓取完成: %s → %s", code, stock_dir)
-
-
-def _detect_market(code: str) -> str:
-    code = code.upper()
-    if code.startswith("HK"):
-        return "HK"
-    if code.startswith(("US", "NYSE", "NASDAQ")):
-        return "US"
-    if code.startswith(("6", "5")):
-        return "SH"
-    if code.startswith(("0", "3")):
-        return "SZ"
-    if code.startswith(("4", "8")):
-        return "BJ"
-    return ""
-
-
-def _now_str() -> str:
-    from datetime import datetime, timezone, timedelta
-    tz = timezone(timedelta(hours=8))
-    return datetime.now(tz).isoformat()
-
-
-def _convert_dates(records: list) -> list:
-    """Convert pandas Timestamps to ISO strings for JSON serialization."""
-    import pandas as pd
-    for r in records:
-        for k, v in r.items():
-            if isinstance(v, pd.Timestamp):
-                r[k] = v.isoformat()
-    return records
 
 
 def main():
@@ -398,16 +404,19 @@ if __name__ == "__main__":
     main()
 ```
 
-- [ ] **Task 1.9: 创建 python/indicators.py**
+- [ ] **Task 1.9: 创建 src/indicators.py**
 
 ```python
 #!/usr/bin/env python3
 """
 技术指标计算入口。供 Claude Code tech-indicators Skill 调用。
 
-用法: python python/indicators.py --code 600519
+用法: python src/indicators.py --code 600519
 输入: data/{code}/kline.json
 输出: data/{code}/indicators.json
+
+依赖: StockTrendAnalyzer.analyze(df, code) → TrendAnalysisResult
+字段映射参见 ref-repo/src/stock_analyzer.py:135-168 TrendAnalysisResult.to_dict()
 """
 
 import argparse
@@ -417,93 +426,12 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(__file__))
 
-from python.config import get_config
-from python.stock_analyzer import StockTrendAnalyzer
+from src.config import get_config
+from src.stock_analyzer import StockTrendAnalyzer
 
 logger = logging.getLogger(__name__)
-
-
-def compute_indicators(code: str):
-    """计算技术指标并写入 JSON"""
-    config = get_config()
-    data_dir = Path(config.data_dir)
-    stock_dir = data_dir / code
-    kline_path = stock_dir / "kline.json"
-
-    if not kline_path.exists():
-        logger.error("K线数据不存在: %s", kline_path)
-        return False
-
-    with open(kline_path, "r", encoding="utf-8") as f:
-        kline_data = json.load(f)
-
-    import pandas as pd
-    df = pd.DataFrame(kline_data["kline"])
-    if df.empty:
-        logger.error("K线为空: %s", code)
-        return False
-
-    # 确保日期排序
-    df["date"] = pd.to_datetime(df["date"])
-    df = df.sort_values("date")
-
-    # 使用 StockTrendAnalyzer 计算技术指标
-    analyzer = StockTrendAnalyzer()
-    result = analyzer.analyze(df)
-
-    indicators = {
-        "code": code,
-        "updated_at": kline_data.get("updated_at", ""),
-        "ma": {
-            "ma5": _safe_float(getattr(result, "ma5", None)),
-            "ma10": _safe_float(getattr(result, "ma10", None)),
-            "ma20": _safe_float(getattr(result, "ma20", None)),
-            "ma60": _safe_float(getattr(result, "ma60", None)),
-        },
-        "macd": {
-            "dif": _safe_float(getattr(result, "macd_dif", None)),
-            "dea": _safe_float(getattr(result, "macd_dea", None)),
-            "hist": _safe_float(getattr(result, "macd_hist", None)),
-        },
-        "rsi": {
-            "rsi6": _safe_float(getattr(result, "rsi6", None)),
-            "rsi12": _safe_float(getattr(result, "rsi12", None)),
-            "rsi24": _safe_float(getattr(result, "rsi24", None)),
-        },
-        "volume": {
-            "ma5_vol": _safe_float(getattr(result, "ma5_volume", None)),
-            "volume_ratio": _safe_float(getattr(result, "volume_ratio", None)),
-        },
-        "boll": {
-            "upper": _safe_float(getattr(result, "boll_upper", None)),
-            "mid": _safe_float(getattr(result, "boll_mid", None)),
-            "lower": _safe_float(getattr(result, "boll_lower", None)),
-        },
-        "bias": {
-            "bias5": _safe_float(getattr(result, "bias5", None)),
-            "bias10": _safe_float(getattr(result, "bias10", None)),
-            "bias20": _safe_float(getattr(result, "bias20", None)),
-        },
-        "chip": {
-            "concentration": _safe_float(getattr(result, "chip_concentration", None)),
-            "profit_ratio": _safe_float(getattr(result, "profit_ratio", None)),
-            "avg_cost": _safe_float(getattr(result, "avg_cost", None)),
-        },
-        "trend": {
-            "status": getattr(result, "trend_status", ""),
-            "ma_alignment": _describe_ma_alignment(result),
-            "support_levels": _safe_list(getattr(result, "support_levels", [])),
-            "resistance_levels": _safe_list(getattr(result, "resistance_levels", [])),
-        },
-    }
-
-    output_path = stock_dir / "indicators.json"
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(indicators, f, ensure_ascii=False, indent=2, default=str)
-    logger.info("技术指标已写入: %s", output_path)
-    return True
 
 
 def _safe_float(val):
@@ -521,20 +449,86 @@ def _safe_list(val):
     return [round(float(v), 2) if v else 0 for v in val]
 
 
-def _describe_ma_alignment(result) -> str:
-    ma5 = getattr(result, "ma5", None)
-    ma10 = getattr(result, "ma10", None)
-    ma20 = getattr(result, "ma20", None)
-    if ma5 and ma10 and ma20:
-        if ma5 > ma10 > ma20:
-            return "MA5>MA10>MA20"
-        if ma5 < ma10 < ma20:
-            return "MA5<MA10<MA20"
-        if ma5 > ma10 and ma10 < ma20:
-            return "MA5>MA10<MA20"
-        if ma5 < ma10 and ma10 > ma20:
-            return "MA5<MA10>MA20"
-    return "unknown"
+def compute_indicators(code: str):
+    """计算技术指标并写入 JSON"""
+    config = get_config()
+    stock_dir = Path(config.data_dir) / code
+    kline_path = stock_dir / "kline.json"
+
+    if not kline_path.exists():
+        logger.error("K线数据不存在: %s", kline_path)
+        return False
+
+    with open(kline_path, "r", encoding="utf-8") as f:
+        kline_data = json.load(f)
+
+    import pandas as pd
+    df = pd.DataFrame(kline_data["kline"])
+    if df.empty:
+        logger.error("K线为空: %s", code)
+        return False
+
+    df["date"] = pd.to_datetime(df["date"])
+    df = df.sort_values("date")
+
+    # StockTrendAnalyzer 接口: analyze(df, code) → TrendAnalysisResult
+    analyzer = StockTrendAnalyzer()
+    result = analyzer.analyze(df, code)
+
+    # 字段名严格对应 TrendAnalysisResult (ref-repo/src/stock_analyzer.py:83-168)
+    indicators = {
+        "code": code,
+        "updated_at": kline_data.get("updated_at", ""),
+        "ma": {
+            "ma5": _safe_float(result.ma5),
+            "ma10": _safe_float(result.ma10),
+            "ma20": _safe_float(result.ma20),
+            "ma60": _safe_float(result.ma60),
+        },
+        "macd": {
+            "dif": _safe_float(result.macd_dif),
+            "dea": _safe_float(result.macd_dea),
+            "hist": _safe_float(result.macd_bar),  # TrendAnalysisResult 中名为 macd_bar
+        },
+        "rsi": {
+            "rsi6": _safe_float(result.rsi_6),
+            "rsi12": _safe_float(result.rsi_12),
+            "rsi24": _safe_float(result.rsi_24),
+        },
+        "volume": {
+            "ma5_vol": round(_safe_list(df["volume"].tail(5))[0] or 0, 2)
+            if len(df) >= 5 else None,
+            "volume_ratio": _safe_float(result.volume_ratio_5d),
+            "volume_status": getattr(result.volume_status, "value", "")
+            if hasattr(result.volume_status, "value") else str(result.volume_status),
+        },
+        "bias": {
+            "bias5": _safe_float(result.bias_ma5),
+            "bias10": _safe_float(result.bias_ma10),
+            "bias20": _safe_float(result.bias_ma20),
+        },
+        "trend": {
+            "status": getattr(result.trend_status, "value", "")
+            if hasattr(result.trend_status, "value") else str(result.trend_status),
+            "ma_alignment": getattr(result, "ma_alignment", ""),
+            "trend_strength": _safe_float(getattr(result, "trend_strength", 0)),
+            "support_levels": _safe_list(result.support_levels),
+            "resistance_levels": _safe_list(result.resistance_levels),
+        },
+        "buy_signal": {
+            "signal": getattr(result.buy_signal, "value", "")
+            if hasattr(result.buy_signal, "value") else str(result.buy_signal),
+            "score": int(getattr(result, "signal_score", 0) or 0),
+            "reasons": list(getattr(result, "signal_reasons", []) or []),
+        },
+        "risk_factors": list(getattr(result, "risk_factors", []) or []),
+    }
+
+    output_path = stock_dir / "indicators.json"
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(indicators, f, ensure_ascii=False, indent=2, default=str)
+    logger.info("技术指标已写入: %s", output_path)
+    return True
 
 
 def main():
@@ -564,11 +558,11 @@ pip install python-dotenv pandas numpy akshare efinance yfinance
 echo 'STOCK_LIST=600519,000001' > .env
 
 # 测试数据抓取
-python python/fetch.py --code 600519
+python src/fetch.py --code 600519
 # 预期输出：K线数据已写入 data/600519/kline.json
 
 # 测试技术指标计算
-python python/indicators.py --code 600519
+python src/indicators.py --code 600519
 # 预期输出：技术指标已写入 data/600519/indicators.json
 
 # 验证 JSON 输出
@@ -602,7 +596,7 @@ description: 抓取股票行情数据，写入 data/{code}/ 目录。Phase 1 数
 运行 Python 数据抓取脚本：
 
 ```bash
-python python/fetch.py --code {code}
+python src/fetch.py --code {code}
 ```
 
 ## 输出
@@ -646,7 +640,7 @@ description: 计算股票技术指标，写入 data/{code}/indicators.json。Pha
 ## 执行
 
 ```bash
-python python/indicators.py --code {code}
+python src/indicators.py --code {code}
 ```
 
 ## 输出
@@ -1177,19 +1171,19 @@ data/{code}/      # 数据落地 + Agent 间通信
 
 ### 模块 6：剩余策略 Agent（10 个）
 
-以下策略按同一模板创建，每个对应一个 Skill 文件。分析框架从对应 YAML 文件提取核心规则。
+以下策略按统一模板创建，每个 Skill 文件包含 YAML 中的完整 instructions。分析框架从 ref-repo/strategies/*.yaml 逐文件提取。
 
 **通用模板**（每个 Skill 文件）：
 
 ```markdown
 ---
 name: strategy-{name}
-description: {display_name}策略 — {description}
+description: {description} — 对应 strategies/{name}.yaml
 ---
 
 # {display_name}策略 Agent
 
-你是个策略专家，分析框架如下。
+你是{display_name}策略专家。
 
 ## 用法
 
@@ -1197,97 +1191,168 @@ description: {display_name}策略 — {description}
 
 ## 输入
 
-读 `data/{code}/` 下 kline.json, indicators.json, quote.json, news.json
+读 `data/{code}/` 下: kline.json, indicators.json, quote.json, news.json
 
 ## 分析框架
 
-### Step 1: [规则1]
-### Step 2: [规则2]
-### Step 3: [规则3]
-### Step 4: 风险评估
+{YAML instructions 全文，逐步骤展开}
 
 ## 输出
 
-写入 `data/{code}/strategy_{name}.json`，格式见均线金叉策略。
+用 Write 工具写入 `data/{code}/strategy_{name}.json`:
+
+```json
+{
+  "strategy": "{name}",
+  "display_name": "{display_name}",
+  "stock_code": "600519",
+  "signal": "buy|hold|sell",
+  "score": 0-100,
+  "confidence": 0.0-1.0,
+  "reasoning": "判断逻辑摘要",
+  "key_levels": {"support": 0, "resistance": 0, "entry": 0, "stop_loss": 0},
+  "risk_flags": [],
+  "details": "Markdown 详细分析"
+}
+```
 ```
 
-- [ ] **Task 6.1: strategy-shrink-pullback — 缩量回调策略**
+- [ ] **Task 6.1: strategy-shrink-pullback** — `strategies/shrink_pullback.yaml`
+  - 核心信号: 缩量回踩 MA5/MA10，价格企稳不破支撑
+  - Step 1: 判断缩量（量比 < 0.7，相对 5 日均量）
+  - Step 2: 回踩判断（价格接近 MA5/MA10 ±2% 区间）
+  - Step 3: 企稳确认（当日收阳或十字星，不破前低）
+  - Step 4: 入场条件（缩量回踩+企稳 → 反弹买点，止损设在 MA20 下方）
 
-YAML: `strategies/shrink_pullback.yaml`
-核心规则：缩量回踩 MA5/MA10 支撑，量缩价稳，等待反弹。
+- [ ] **Task 6.2: strategy-dragon-head** — `strategies/dragon_head.yaml`
+  - 核心信号: 板块龙头股，放量突破，明显强于同板块
+  - Step 1: 板块地位判断（市值/成交额/辨识度在板块中领先）
+  - Step 2: 相对强度（涨幅 > 板块均值，回调幅度 < 板块均值）
+  - Step 3: 资金面（主力资金净流入，北向资金增持）
+  - Step 4: 强势确认（连续阳线，缩量回调不破 MA10）
 
-- [ ] **Task 6.2: strategy-dragon-head — 龙头股策略**
+- [ ] **Task 6.3: strategy-box-oscillation** — `strategies/box_oscillation.yaml`
+  - 核心信号: 价格在明确箱体内震荡，寻找上下轨交易机会
+  - Step 1: 箱体识别（20 日高/低点作为上下轨，宽度 > 3%）
+  - Step 2: 触碰判断（价格接近上轨 → 卖出，接近下轨 → 买入）
+  - Step 3: 量能配合（下轨缩量 → 好买点，上轨放量突破 → 真突破）
+  - Step 4: 突破/跌破处理（突破上轨 > 3% 站稳 → 转为趋势跟踪）
 
-YAML: `strategies/dragon_head.yaml`
-核心规则：板块龙头、放量突破、强于板块、高辨识度。
+- [ ] **Task 6.4: strategy-growth-quality** — `strategies/growth_quality.yaml`
+  - 核心信号: 基于基本面筛选成长质量标的
+  - Step 1: 营收增长（连续 2 季 +15% 以上？从 fundamentals.json 检查）
+  - Step 2: 利润质量（净利润增速匹配营收增速，非经常性损益占比 < 30%）
+  - Step 3: ROE 水平（> 12% 为优，> 8% 为合格）
+  - Step 4: 估值对比（PE 在行业/历史中枢以下 → 估值合理）
 
-- [ ] **Task 6.3: strategy-box-oscillation — 箱体震荡策略**
+- [ ] **Task 6.5: strategy-event-driven** — `strategies/event_driven.yaml`
+  - 核心信号: 重大公告/政策/合同等事件驱动股价变化
+  - Step 1: 事件识别（从 news.json 提取业绩预告、并购重组、大额合同、政策利好）
+  - Step 2: 事件评估（影响级别：重大 > 重要 > 一般，持续性：一次性 > 持续性）
+  - Step 3: 市场反应（公告后涨跌幅、成交量异常程度）
+  - Step 4: 时效管理（事件窗口期内操作，超期则信号衰减）
 
-YAML: `strategies/box_oscillation.yaml`
-核心规则：箱体上下轨识别、突破/跌破判断、震荡区间交易。
+- [ ] **Task 6.6: strategy-emotion-cycle** — `strategies/emotion_cycle.yaml`
+  - 核心信号: 市场情绪周期阶段判断
+  - Step 1: 情绪阶段（冰点/启动/高潮/退潮 → 基于涨跌家数、涨停数、成交量判断）
+  - Step 2: 换手率分析（低换手 < 1% 冰点，高换手 > 10% 情绪高）
+  - Step 3: 涨跌停分布（涨停数 > 100 且跌停 < 10 → 启动/高潮，跌停 > 20 → 退潮）
+  - Step 4: 节奏建议（冰点末期逐步建仓，高潮末期逐步减仓）
 
-- [ ] **Task 6.4: strategy-growth-quality — 成长质量策略**
+- [ ] **Task 6.7: strategy-expectation-repricing** — `strategies/expectation_repricing.yaml`
+  - 核心信号: PE/PB 历史分位与业绩预期的再定价机会
+  - Step 1: 估值分位（PE 在近 5 年 < 30% 分位 → 低估，> 70% → 高估）
+  - Step 2: 业绩拐点（营收/利润增速由负转正或加速 → 预期改善）
+  - Step 3: 行业对比（PE 低于行业均值且业绩增速高于行业均值 → 双击机会）
+  - Step 4: 催化剂（新产品/新市场/价格上涨等触发估值修复）
 
-YAML: `strategies/growth_quality.yaml`
-核心规则：营收增长、利润增长、ROE、现金流质量。
+- [ ] **Task 6.8: strategy-wave-theory** — `strategies/wave_theory.yaml`
+  - 核心信号: 艾略特 5 浪上涨/3 浪下跌
+  - Step 1: 浪型识别（推动浪 1-2-3-4-5 或调整浪 A-B-C）
+  - Step 2: 当前浪位（3 浪中期 → 最强，5 浪末期 → 顶背驰风险）
+  - Step 3: 斐波那契目标（1 浪的 1.618 → 3 浪目标，1-3 浪的 0.382 → 5 浪目标）
+  - Step 4: 浪规检查（2 浪不破 1 浪起点，4 浪不进 1 浪区间）
 
-- [ ] **Task 6.5: strategy-event-driven — 事件驱动策略**
+- [ ] **Task 6.9: strategy-bottom-volume** — `strategies/bottom_volume.yaml`
+  - 核心标识: 成交量缩至极低水平（地量）
+  - Step 1: 地量判断（成交量 < 20 日均量的 50% 或近 60 日最低）
+  - Step 2: 价格企稳（连续 3 日涨跌 < 2%，K 线实体缩小）
+  - Step 3: 变盘信号（地量+窄幅震荡 → 即将变盘，等待方向确认）
+  - Step 4: 入场时机（放量阳线突破震荡区间 → 买入，继续缩量阴跌 → 观望）
 
-YAML: `strategies/event_driven.yaml`
-核心规则：业绩公告、股权变动、重大合同、政策利好。
-
-- [ ] **Task 6.6: strategy-emotion-cycle — 情绪周期策略**
-
-YAML: `strategies/emotion_cycle.yaml`
-核心规则：市场情绪阶段（冰点→启动→高潮→退潮）、换手率、涨停跌停。
-
-- [ ] **Task 6.7: strategy-expectation-repricing — 预期重估策略**
-
-YAML: `strategies/expectation_repricing.yaml`
-核心规则：PE/PB 历史分位、业绩拐点、行业周期反转。
-
-- [ ] **Task 6.8: strategy-wave-theory — 波浪理论策略**
-
-YAML: `strategies/wave_theory.yaml`
-核心规则：5 浪上涨 / 3 浪下跌、浪型识别、斐波那契目标位。
-
-- [ ] **Task 6.9: strategy-bottom-volume — 地量策略**
-
-YAML: `strategies/bottom_volume.yaml`
-核心规则：成交量缩至阶段地量、价格企稳、变盘信号。
-
-- [ ] **Task 6.10: strategy-one-yang-three-yin — 一阳三阴策略**
-
-YAML: `strategies/one_yang_three_yin.yaml`
-核心规则：一阳穿三阴、阳线反包、底部反转形态。
+- [ ] **Task 6.10: strategy-one-yang-three-yin** — `strategies/one_yang_three_yin.yaml`
+  - 核心信号: 一根阳线反包前三根阴线
+  - Step 1: 形态识别（当日阳线实体 > 前 3 日 K 线实体之和，且收盘 > 前 3 日最高）
+  - Step 2: 量能确认（当日成交量 > 前 3 日日均量 × 1.5）
+  - Step 3: 位置评估（在 MA20 附近或重要支撑位 → 强反转信号，高位 → 出货风险）
+  - Step 4: 后续验证（次日不破阳线实体 50% → 确认有效，破 → 假突破）
 
 ---
 
 ## 验证方式
 
-### 端到端单股测试
+### TDD 开发流程
+
+每个模块：**写测试 → 运行验证失败 → 写实现 → 运行验证通过 → Commit**
+
+### 模块 1 验证：Python 数据层
 
 ```bash
-# 1. 数据抓取
-python python/fetch.py --code 600519
+# 安装依赖
+pip install python-dotenv pandas numpy akshare efinance yfinance
 
-# 2. 技术指标
-python python/indicators.py --code 600519
+# 配置测试
+echo 'STOCK_LIST=600519,000001' > .env
 
-# 3. 验证 JSON 完整性
+# 测试 data_provider 导入
+python -c "from src.data_provider import DataFetcherManager; print('OK')"
+
+# 测试 config
+python -c "from src.config import get_config; c = get_config(); print(c.stock_list)"
+
+# 测试数据抓取（需要网络）
+python src/fetch.py --code 600519
+# 预期: data/600519/kline.json, quote.json 存在且不为空
+
+# 测试技术指标计算
+python src/indicators.py --code 600519
+# 预期: data/600519/indicators.json 包含所有字段
+
+# 验证 JSON schema 完整性
 python -c "
 import json
-files = ['kline.json', 'quote.json', 'indicators.json']
-for f in files:
-    path = f'data/600519/{f}'
-    with open(path) as fh:
-        data = json.load(fh)
-    print(f'{f}: {len(json.dumps(data))} bytes OK')
-"
+from pathlib import Path
 
-# 4. 在 Claude Code 中测试多 Agent 链路：
-# /market-regime 600519
-# /strategy-ma-golden-cross 600519
-# /strategy-volume-breakout 600519
-# /decision-agent 600519
+d = Path('data/600519')
+required = ['kline.json', 'quote.json', 'indicators.json']
+for f in required:
+    path = d / f
+    assert path.exists(), f'{f} MISSING'
+    data = json.loads(path.read_text())
+    print(f'{f}: OK ({len(json.dumps(data))} bytes)')
+print('All checks passed')
+"
+```
+
+### 模块 2-6 验证：Skills + 多 Agent 链路
+
+```bash
+# 在 Claude Code 中端到端测试:
+# "请用所有策略分析 600519"
+
+# 预期流程:
+# Phase 1: /fetch-data 600519 → /tech-indicators 600519
+# Phase 2: /market-regime 600519 → data/600519/regime.json
+# Phase 3: 3-5 个 strategy-xxx Agent 并发执行
+# Phase 4: /decision-agent 600519 → data/600519/decision.json
+# Phase 5: 最终报告呈现
+
+# 验证每个策略输出 schema 正确:
+python -c "
+import json, glob
+for f in glob.glob('data/600519/strategy_*.json'):
+    d = json.load(open(f))
+    assert 'signal' in d and 'score' in d
+    print(f'{d[\"strategy\"]}: {d[\"signal\"]} score={d[\"score\"]}')
+"
 ```
