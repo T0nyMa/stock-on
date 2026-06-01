@@ -13,6 +13,13 @@ from dataclasses import dataclass, field
 logger = logging.getLogger(__name__)
 
 # 新闻策略窗口定义（从 ref-repo/src/config.py 提取）
+def normalize_news_strategy_profile(profile: str) -> str:
+    return profile if profile in {"ultra_short", "short", "medium", "long", "extended"} else "short"
+
+def resolve_news_window_days(news_max_age_days: int = 3, news_strategy_profile: str = "short") -> int:
+    days = NEWS_STRATEGY_WINDOWS.get(news_strategy_profile, 3)
+    return max(1, min(days, news_max_age_days))
+
 NEWS_STRATEGY_WINDOWS: Dict[str, int] = {
     "ultra_short": 1,
     "short": 3,
@@ -52,6 +59,7 @@ class Config:
     fundamental_fetch_timeout_seconds: float = 8.0  # 基本面获取超时
     fundamental_stage_timeout_seconds: float = 8.0  # 基本面分析超时
     fundamental_cache_ttl_seconds: int = 120  # 基本面缓存过期时间
+    fundamental_retry_max: int = 2  # 基本面获取重试次数
 
     # === 交易日检查 ===
     trading_day_check_enabled: bool = True
