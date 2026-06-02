@@ -1,0 +1,44 @@
+# ref-repo 对齐差距分析报告
+
+**日期**: 2026-06-02
+
+## 已对齐（无差距）
+
+| 模块 | 状态 |
+|------|------|
+| `data_provider/` — 10+ fetchers, 优先级/fallback | ✅ 逐字节一致 |
+| `stock_analyzer.py` — 趋势/均线/MACD/RSI/量能 | ✅ 15/15 字段逐位匹配 |
+| `search_service.py` — 多引擎新闻搜索 | ✅ 一致 |
+| `enums.py`, `report_language.py` | ✅ 一致 |
+| `utils/sanitize.py`, `utils/data_processing.py` | ✅ 一致 |
+
+## 关键差距（需立即修复）
+
+| 模块 | 缺失能力 | 严重度 |
+|------|---------|:---:|
+| `analyzer.py` | LLM分析层（GeminiAnalyzer + AnalysisResult） | **致命** |
+| `core/pipeline.py` | 分析流水线编排 | **致命** |
+| `market_analyzer.py` | 大盘复盘分析 | **致命** |
+| `core/market_profile.py` | 各市场配置（CN/US/HK） | **致命** |
+| `storage.py` + `repositories/` | 数据库持久化 | **致命** |
+| `schemas/report_schema.py` | 分析报告 Pydantic Schema | **致命** |
+| `config.py` | LLM key/搜索key/数据库配置缺失 | **致命** |
+| `services/analysis_context_builder.py` | 分析上下文构建 | 高 |
+| `core/trading_calendar.py` | 交易时段感知 | 高 |
+| `services/history_loader.py` | 历史数据缓存加载 | 高 |
+| `core/market_strategy.py` | 策略蓝图（攻/守/均衡） | 中 |
+| `services/run_diagnostics.py` | 全流程诊断追踪 | 中 |
+
+## 跳过（用户指定不需要）
+
+- notification/notification_sender — 通知推送
+- bot/ — 机器人
+- api/ + webui — Web界面
+- apps/ — 前端/桌面端
+- agent/ — 多agent系统（由Claude Code承担）
+- alert_* — 告警系统
+- backtest_* — 回测
+- portfolio_* — 持仓管理
+- scheduler.py — 定时任务
+- image_stock_extractor.py — 图片识别
+- social_sentiment_service.py — 美股舆情
