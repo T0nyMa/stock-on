@@ -8,6 +8,7 @@
 references/
   README.md                       ← 本文件
   analysis-methodology.md         ← 完整四阶段方法论（Phase 1-4）
+  screening-methodology.md        ← 三层筛选方法论（L1快照→L2指标→L3策略）
   skills-index.md                 ← 19个Skill用途 + 分类 + 参数
   gap-analysis.md                 ← 功能差距分析（开发阶段遗留）
   scenarios/                      ← 场景执行文档
