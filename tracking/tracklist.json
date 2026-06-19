@@ -70,6 +70,26 @@
       "has_position": false,
       "tags": ["汽零"],
       "market": "SZ"
+    },
+    {
+      "code": "002463",
+      "name": "沪电股份",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["PCB", "AI算力"],
+      "market": "SZ"
+    },
+    {
+      "code": "000988",
+      "name": "华工科技",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["光通信", "激光", "AI算力"],
+      "market": "SZ"
     }
   ]
 }
