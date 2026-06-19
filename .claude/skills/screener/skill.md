@@ -23,20 +23,24 @@ source .venv/bin/activate && python src/screener.py
 
 耗时约 20-30 秒，拉取 5000+ 只股票实时行情。
 
-输出：`data/market/hot_stocks.json`
+输出：`data/market/screener.json`
 
 ### 2. 读取结果
 
-Read `data/market/hot_stocks.json`，包含 7 个维度：
+Read `data/market/screener.json`，三大类 10 个维度：
 
-| 维度 | 筛选逻辑 | 用途 |
-|------|---------|------|
-| `top_gainers` | 涨幅 3%-9.5%，前30 | 强势但未涨停，有追入空间 |
-| `volume_breakout` | 上涨+大成交额，前30 | 大资金关注 |
-| `bottom_reversal` | 涨幅温和+成交额>5亿 | 可能底部启动 |
-| `near_limit` | 涨幅>7%，前20 | 情绪高涨，追高风险 |
-| `high_close` | 收于日内高点附近，前20 | 买方主导，光头阳线 |
-| `strong_start` | 涨幅3-7%+成交>3亿，前20 | 最值得跟踪的候选 |
+| 类别 | 维度 | 逻辑 |
+|------|------|------|
+| 🔴 机会 | `mild_breakout` | 涨幅3-7%+放量+收于中上部，最值得跟踪 |
+| 🔴 机会 | `breakout` | 涨幅2-6%+光头阳线，买方主导突破 |
+| 🔴 机会 | `gap_up` | 跳空高开+日内未补缺口 |
+| 🟢 超跌 | `deep_cut` | 跌5-9%未跌停，超卖反弹机会 |
+| 🟢 超跌 | `stablizing` | 跌幅收窄+振幅缩小，接近底部 |
+| 🟢 超跌 | `panic_sell` | 放量下跌中，等止跌确认 |
+| 🔵 异动 | `heavy_volume` | 高振幅+大成交，多空激烈 |
+| 🔵 异动 | `doji` | 宽幅十字星，即将变盘 |
+| 🔵 异动 | `top_amount` | 全市场成交额TOP30 |
+| 🔵 异动 | `wild_swing` | 极端振幅>8% |
 
 ### 3. 交叉对比追踪池
 
