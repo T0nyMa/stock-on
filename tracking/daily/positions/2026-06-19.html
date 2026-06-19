@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>持仓观察日报 — 2026年6月18日</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 32px; border-radius: 12px; margin-bottom: 24px; }
+  .header h1 { font-size: 24px; margin-bottom: 8px; }
+  .header .date { font-size: 14px; color: #8892b0; }
+
+  .card { background: #fff; border-radius: 10px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #eee; }
+  .card.core h2 { color: #e74c3c; border-color: #fde8e8; }
+  .card.key h2 { color: #e67e22; border-color: #fef0e6; }
+  .card.watch h2 { color: #2980b9; border-color: #e8f4fd; }
+
+  .stock-name { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  .stock-name .code { color: #999; font-weight: 400; font-size: 13px; margin-left: 8px; }
+
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .meta-item { background: #f8f9fa; padding: 10px 12px; border-radius: 6px; }
+  .meta-item .label { font-size: 11px; color: #999; text-transform: uppercase; }
+  .meta-item .value { font-size: 16px; font-weight: 600; }
+  .value.up { color: #e74c3c; }
+  .value.down { color: #27ae60; }
+
+  .strategy-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; }
+  .strategy-table th { background: #f8f9fa; padding: 8px 12px; text-align: left; font-weight: 500; color: #666; border-bottom: 2px solid #eee; }
+  .strategy-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; }
+  .signal { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .signal.buy { background: #e8f5e9; color: #27ae60; }
+  .signal.hold { background: #fff3e0; color: #e67e22; }
+  .signal.sell { background: #fde8e8; color: #e74c3c; }
+
+  .levels { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .level { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; }
+  .level.stop { background: #fde8e8; color: #c0392b; }
+  .level.support { background: #e8f5e9; color: #27ae60; }
+  .level.resistance { background: #e8f4fd; color: #2980b9; }
+  .level.cost { background: #fef0e6; color: #e67e22; }
+
+  .action { background: #fef9e7; border-left: 4px solid #f1c40f; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 14px; margin-top: 12px; }
+  .action strong { color: #e67e22; }
+
+  .watch-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .watch-table th { background: #f8f9fa; padding: 8px 10px; text-align: left; font-weight: 500; color: #666; border-bottom: 2px solid #eee; }
+  .watch-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge.hot { background: #fde8e8; color: #e74c3c; }
+  .badge.warn { background: #fff3e0; color: #e67e22; }
+  .badge.ok { background: #e8f5e9; color: #27ae60; }
+  .badge.cold { background: #f0f0f0; color: #999; }
+
+  .footer { text-align: center; color: #999; font-size: 12px; margin-top: 24px; padding: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>持仓观察日报</h1>
+  <div class="date">2026年6月18日（周四） · 数据截至收盘</div>
+</div>
+
+<!-- 核心持仓 -->
+<div class="card core">
+  <h2>★ 核心持仓</h2>
+  <div class="stock-name">三花智控<span class="code">SZ:002050</span></div>
+
+  <div class="meta-grid">
+    <div class="meta-item"><div class="label">收盘</div><div class="value up">45.74 <small>+2.56%</small></div></div>
+    <div class="meta-item"><div class="label">量比</div><div class="value">1.26</div></div>
+    <div class="meta-item"><div class="label">换手率</div><div class="value">3.39%</div></div>
+    <div class="meta-item"><div class="label">趋势</div><div class="value" style="color:#e67e22">空头排列(25)</div></div>
+    <div class="meta-item"><div class="label">RSI6</div><div class="value">47.25</div></div>
+    <div class="meta-item"><div class="label">MACD HIST</div><div class="value">-0.53</div></div>
+  </div>
+
+  <table class="strategy-table">
+    <thead><tr><th>策略</th><th>类型</th><th>信号</th><th>评分</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>缩量回调</td><td>量价</td><td><span class="signal buy">buy</span></td><td>70</td><td>回踩MA5后放量反弹收阳，企稳确认</td></tr>
+      <tr><td>地量</td><td>量价</td><td><span class="signal buy">buy</span></td><td>65</td><td>前期缩量企稳+今日放量变盘</td></tr>
+      <tr><td>情绪周期</td><td>题材</td><td><span class="signal hold">hold</span></td><td>55</td><td>冰点末期但未确认反转</td></tr>
+      <tr><td>一阳三阴</td><td>形态</td><td><span class="signal hold">hold</span></td><td>45</td><td>今日阳线实体不够大，未完全反包前阴</td></tr>
+      <tr><td>预期重估</td><td>基本面</td><td><span class="signal hold">hold</span></td><td>40</td><td>PE 40x略高于合理估值，等催化</td></tr>
+    </tbody>
+  </table>
+
+  <div class="levels">
+    <span class="level stop">止损 43.50</span>
+    <span class="level support">支撑 44.50 ✓</span>
+    <span class="level resistance">阻力 47.48 (MA20)</span>
+    <span class="level cost">成本 57.90</span>
+  </div>
+
+  <div class="action">
+    <strong>持有不动。</strong> 放量+2.56%+趋势改善+5策略偏多共振，44.50支撑第5次守住。等48-49减仓窗口。
+  </div>
+</div>
+
+<!-- 重点观察 -->
+<div class="card key">
+  <h2>★ 重点观察</h2>
+  <div class="stock-name">兆易创新<span class="code">SH:603986</span></div>
+
+  <div class="meta-grid">
+    <div class="meta-item"><div class="label">收盘</div><div class="value up">629.00 <small>+7.33%</small></div></div>
+    <div class="meta-item"><div class="label">量比</div><div class="value">1.36</div></div>
+    <div class="meta-item"><div class="label">换手率</div><div class="value">8.86%</div></div>
+    <div class="meta-item"><div class="label">趋势</div><div class="value" style="color:#27ae60">强势多头(90)</div></div>
+    <div class="meta-item"><div class="label">RSI6</div><div class="value" style="color:#e74c3c">85.87 ⚠</div></div>
+    <div class="meta-item"><div class="label">乖离率</div><div class="value" style="color:#e74c3c">14.5% ⚠</div></div>
+  </div>
+
+  <table class="strategy-table">
+    <thead><tr><th>策略</th><th>信号</th><th>评分</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>多头趋势</td><td><span class="signal hold">hold</span></td><td>55</td><td>趋势极强但乖离14.5%+RSI86极度超买</td></tr>
+      <tr><td>放量突破</td><td><span class="signal hold">hold</span></td><td>40</td><td>552突破确认但644新阻力遇阻，量能不足</td></tr>
+      <tr><td>缩量回调</td><td><span class="signal sell">wait</span></td><td>20</td><td>当前放量上行。定义下次入场：缩量回踩MA5(549)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="action">
+    <strong>空仓等缩量回调至540-560。</strong> MACD金叉完成+552突破确认，中期看多。但629追高乖离14.5%风险极大。已持有者止损上移至552。
+  </div>
+</div>
+
+<!-- 一般观察 -->
+<div class="card watch">
+  <h2>一般观察</h2>
+  <table class="watch-table">
+    <thead><tr><th>股票</th><th>收盘</th><th>涨跌</th><th>量比</th><th>RSI6</th><th>趋势</th><th>策略</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>扬杰科技</strong> <span style="color:#999">300373</span></td>
+        <td>123.13</td><td class="value up">+7.91%</td><td>1.33</td><td style="color:#e67e22">76.6</td><td>强势多头(90)</td>
+        <td>多头(hold,65)+金叉(hold,55)</td>
+        <td><span class="badge warn">乖离12.4%</span></td>
+      </tr>
+      <tr>
+        <td><strong>中微公司</strong> <span style="color:#999">688012</span></td>
+        <td>360.00</td><td class="value up">+2.56%</td><td>0.90</td><td style="color:#e74c3c">85.9</td><td>强势多头(90)</td>
+        <td>多头(hold,68)+金叉(hold,56)</td>
+        <td><span class="badge warn">MA10×MA20金叉</span></td>
+      </tr>
+      <tr>
+        <td><strong>北方华创</strong> <span style="color:#999">002371</span></td>
+        <td>721.04</td><td class="value up">+2.39%</td><td>0.88</td><td style="color:#e67e22">79.3</td><td>强势多头(90)</td>
+        <td>多头(buy,82)+金叉(buy,68)</td>
+        <td><span class="badge ok">最健康芯片股</span></td>
+      </tr>
+      <tr>
+        <td><strong>双林股份</strong> <span style="color:#999">300100</span></td>
+        <td>31.69</td><td class="value up">+11.86%</td><td>2.81</td><td>62.4</td><td>空头排列(25)</td>
+        <td>地量(buy,72)+情绪(buy,68)</td>
+        <td><span class="badge hot">涨停 冰点→启动</span></td>
+      </tr>
+      <tr>
+        <td><strong>宁波东力</strong> <span style="color:#999">002164</span></td>
+        <td>12.86</td><td class="value up">+0.23%</td><td>0.76</td><td>36.8</td><td>弱势空头(40)</td>
+        <td>地量(30)+情绪(35)</td>
+        <td><span class="badge cold">退潮期 回避</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">Stock-On · 数据截至2026年6月18日收盘 · 7只股票全部完成策略分析</div>
+</div>
+</body>
+</html>

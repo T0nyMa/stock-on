@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock-On · 股票追踪日报</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; max-width: 720px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 28px; margin-bottom: 8px; color: #f0f6fc; }
+  .sub { color: #8b949e; margin-bottom: 32px; font-size: 14px; }
+  .section { margin-bottom: 28px; }
+  .section h2 { font-size: 16px; color: #8b949e; border-bottom: 1px solid #21262d; padding-bottom: 8px; margin-bottom: 12px; }
+  .link { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #161b22; border: 1px solid #21262d; border-radius: 6px; margin-bottom: 6px; text-decoration: none; color: #c9d1d9; transition: border-color .2s; }
+  .link:hover { border-color: #58a6ff; }
+  .link .title { font-weight: 500; }
+  .link .date { color: #8b949e; font-size: 13px; }
+  .tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; margin-left:8px; }
+  .tag.market { background:#1f2a37; color:#58a6ff; }
+  .tag.positions { background:#2a1f1f; color:#f78166; }
+  .tag.weekly { background:#1f2a1f; color:#3fb950; }
+  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #21262d; font-size:12px; color:#8b949e; }
+  .footer a { color:#58a6ff; }
+</style>
+</head>
+<body>
+<h1>Stock-On</h1>
+<p class="sub">股票追踪日报 · 基于 Claude Code 多 Agent 分析</p>
+
+<div class="section">
+  <h2>6月18日（周四）</h2>
+  <a class="link" href="tracking/daily/market/2026-06-19.html">
+    <span class="title">📊 大盘总结 <span class="tag market">market</span></span>
+    <span class="date">科创50 +3.84% · 科技碾压价值</span>
+  </a>
+  <a class="link" href="tracking/daily/positions/2026-06-19.html">
+    <span class="title">📋 持仓观察日报 <span class="tag positions">positions</span></span>
+    <span class="date">7只股票 · 18策略分析 · 三花偏多持有</span>
+  </a>
+</div>
+
+<div class="section">
+  <h2>周报</h2>
+  <a class="link" href="tracking/weekly/2026-06-19.html">
+    <span class="title">📈 周度总结 W25 <span class="tag weekly">weekly</span></span>
+    <span class="date">芯片暴涨+14.2% · 北方华创/中微MA10×MA20金叉</span>
+  </a>
+</div>
+
+<div class="section">
+  <h2>单股分析</h2>
+  <a class="link" href="tracking/002050-%E4%B8%89%E8%8A%B1%E6%99%BA%E6%8E%A7/2026-06-18-analysis.md">
+    <span class="title">三花智控 002050 <span class="tag" style="background:#2a1f1f;color:#f78166;">core</span></span>
+    <span class="date">5策略 · 缩量回调(buy,70) + 地量(buy,65) → 偏多</span>
+  </a>
+  <a class="link" href="tracking/603986-%E5%85%86%E6%98%93%E5%88%9B%E6%96%B0/2026-06-18-analysis.md">
+    <span class="title">兆易创新 603986 <span class="tag" style="background:#2a1f0a;color:#e67e22;">key</span></span>
+    <span class="date">3策略 · MACD金叉完成 但乖离14.5% 等回调</span>
+  </a>
+  <a class="link" href="tracking/002371-%E5%8C%97%E6%96%B9%E5%8D%8E%E5%88%9B/2026-06-18-analysis.md">
+    <span class="title">北方华创 002371 <span class="tag" style="background:#1f2a37;color:#58a6ff;">watch</span></span>
+    <span class="date">2策略 · 多头(buy,82) + 金叉(buy,68) 最健康芯片股</span>
+  </a>
+  <a class="link" href="tracking/300100-%E5%8F%8C%E6%9E%97%E8%82%A1%E4%BB%BD/2026-06-18-analysis.md">
+    <span class="title">双林股份 300100 <span class="tag" style="background:#1f2a37;color:#58a6ff;">watch</span></span>
+    <span class="date">2策略 · 涨停+11.86% 冰点→启动</span>
+  </a>
+  <a class="link" href="tracking/300373-%E6%89%AC%E6%9D%B0%E7%A7%91%E6%8A%80/2026-06-18-analysis.md">
+    <span class="title">扬杰科技 300373 <span class="tag" style="background:#1f2a37;color:#58a6ff;">watch</span></span>
+    <span class="date">2策略 · 乖离12.4% 前高126遇阻</span>
+  </a>
+  <a class="link" href="tracking/688012-%E4%B8%AD%E5%BE%AE%E5%85%AC%E5%8F%B8/2026-06-18-analysis.md">
+    <span class="title">中微公司 688012 <span class="tag" style="background:#1f2a37;color:#58a6ff;">watch</span></span>
+    <span class="date">2策略 · MA10×MA20金叉 乖离8.8%</span>
+  </a>
+  <a class="link" href="tracking/002164-%E5%AE%81%E6%B3%A2%E4%B8%9C%E5%8A%9B/2026-06-18-analysis.md">
+    <span class="title">宁波东力 002164 <span class="tag" style="background:#1f2a37;color:#58a6ff;">watch</span></span>
+    <span class="date">2策略 · 退潮期 继续回避</span>
+  </a>
+</div>
+
+<div class="footer">
+  <a href="https://github.com/T0nyMa/stock-on">github.com/T0nyMa/stock-on</a> ·
+  基于 Claude Code 多 Agent 架构 ·
+  数据截至2026年6月18日
+</div>
+</body>
+</html>
