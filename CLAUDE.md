@@ -21,6 +21,7 @@ Python 负责数据抓取和技术指标计算，Claude 负责所有分析决策
 | "扫描策略 {code}" / "策略分析" | Read `references/scenarios/strategy-scan.md` |
 | "日报" / "今日总结" / "daily" | 调用 `/daily-report` Skill |
 | "周报" / "本周总结" / "weekly" | 调用 `/weekly-report` Skill |
+| "发布" / "deploy" | 调用 `/deploy` Skill |
 
 ## 追踪清单
 

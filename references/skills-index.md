@@ -9,6 +9,7 @@
 | `daily-report` | 每日追踪报告编排：大盘 + 7只单股日报（按tier执行不同策略数） + 持仓汇总 |
 | `weekly-report` | 周度总结：汇总本周日报生成周报 |
 | `strategy-executor {code} {strategy}` | 标准化策略执行器：读策略定义 → 逐步执行 → 输出信号+评分+依据 |
+| `deploy {date}` | 发布到 GitHub Pages：生成HTML + 更新首页索引 + git push |
 
 ## 数据准备
 
