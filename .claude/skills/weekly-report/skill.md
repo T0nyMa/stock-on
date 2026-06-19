@@ -62,6 +62,12 @@ ls tracking/{code}-{name}/    → 取本周所有单股日报
 
 Write `tracking/weekly/YYYY-MM-DD.md`
 
+### 7. 发布
+
+周报生成后，**必须自动执行部署**：
+
+调用 `/deploy {date}` — 生成周报 HTML + 更新首页 + git push
+
 格式：
 ```markdown
 # 周度总结 — YYYY年Wxx周（M月D日 - M月D日）
@@ -87,3 +93,4 @@ Write `tracking/weekly/YYYY-MM-DD.md`
 - [ ] 大盘周度表现已汇总
 - [ ] 每只股票周评已更新
 - [ ] 下周关注点已列出
+- [ ] **已部署到 GitHub Pages**（HTML + index.html + git push）

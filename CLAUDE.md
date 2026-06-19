@@ -7,6 +7,7 @@ Python 负责数据抓取和技术指标计算，Claude 负责所有分析决策
 1. **先读后写**：分析任何股票前，Read tracking/ 下已有报告和 position.json
 2. **具体到价位和股数**：不说"反弹就减仓"，说"48.5-49.5 缩量 → 卖出 1000 股"
 3. **数据先行**：分析前必须 `python src/fetch.py --code {code}` + `python src/indicators.py --code {code}`
+4. **日报/周报自动发布**：日报和周报生成完成后，必须自动执行 `/deploy` 推送到 GitHub Pages，不需要用户提醒
 
 ## 意图路由
 

@@ -129,12 +129,21 @@ Write `tracking/daily/market/YYYY-MM-DD.md`
 
 Write `tracking/daily/positions/YYYY-MM-DD.md`
 
-## 输出清单（必须全部生成）
+### Phase 5: 发布
+
+日报全部生成后，**必须自动执行部署**，不需要等用户说"发布"：
+
+调用 `/deploy {date}` — 生成 HTML + 更新首页 + git push
+
+## 输出清单（必须全部生成 + 部署）
 
 ```
 tracking/daily/market/YYYY-MM-DD.md              ← 大盘总结
+tracking/daily/market/YYYY-MM-DD.html            ← 大盘总结 (HTML)
 tracking/daily/positions/YYYY-MM-DD.md           ← 持仓观察汇总
-tracking/{code}-{name}/YYYY-MM-DD-analysis.md    ← 全部 N 只单股日报（以 tracklist.json 为准）
+tracking/daily/positions/YYYY-MM-DD.html         ← 持仓观察汇总 (HTML)
+tracking/{code}-{name}/YYYY-MM-DD-analysis.md    ← 全部 N 只单股日报
+https://t0nyma.github.io/stock-on/               ← GitHub Pages 已更新
 ```
 
 ## 完成标志
@@ -144,3 +153,4 @@ tracking/{code}-{name}/YYYY-MM-DD-analysis.md    ← 全部 N 只单股日报（
 - [ ] 大盘总结已写入
 - [ ] 全部 N 只单股日报已写入（core: 3-5策略 / key: 2-3策略 / watch: 1-2策略）
 - [ ] 持仓观察汇总日报已写入
+- [ ] **已部署到 GitHub Pages**（HTML 生成 + index.html 更新 + git push）
