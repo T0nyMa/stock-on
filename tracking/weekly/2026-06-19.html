@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周度总结 — 2026年W25</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+
+  .header { background: linear-gradient(135deg, #0d1b2a, #1b2838); color: #fff; padding: 36px; border-radius: 12px; margin-bottom: 24px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .header .date { font-size: 14px; color: #8892b0; }
+  .header .highlight { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+  .header .hl-tag { background: rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 6px; font-size: 13px; }
+  .hl-tag .num { font-size: 18px; font-weight: 700; color: #e74c3c; }
+
+  .card { background: #fff; border-radius: 10px; padding: 24px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 17px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #eee; }
+  .card.market h2 { color: #1a1a2e; border-color: #e0e0e0; }
+  .card.sector h2 { color: #2980b9; border-color: #e8f4fd; }
+  .card.core h2 { color: #e74c3c; border-color: #fde8e8; }
+  .card.key h2 { color: #e67e22; border-color: #fef0e6; }
+  .card.watch h2 { color: #2980b9; border-color: #e8f4fd; }
+  .card.focus h2 { color: #27ae60; border-color: #e8f5e9; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f8f9fa; padding: 8px 12px; text-align: left; font-weight: 500; color: #666; border-bottom: 2px solid #eee; }
+  td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+  .up { color: #e74c3c; font-weight: 600; }
+  .down { color: #27ae60; font-weight: 600; }
+
+  .stars { color: #e67e22; }
+  .section-desc { font-size: 13px; color: #888; margin-bottom: 10px; }
+
+  .stock-block { margin-bottom: 20px; }
+  .stock-block h3 { font-size: 15px; margin-bottom: 8px; }
+  .stock-block h3 .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 500; }
+  .tag.core { background: #fde8e8; color: #c0392b; }
+  .tag.key { background: #fef0e6; color: #e67e22; }
+
+  .bullet { padding-left: 16px; }
+  .bullet li { font-size: 14px; margin-bottom: 6px; color: #555; }
+  .bullet li strong { color: #333; }
+
+  .watch-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px; }
+  .watch-table th { background: #f8f9fa; padding: 7px 8px; font-size: 12px; }
+  .watch-table td { padding: 7px 8px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge.hot { background: #fde8e8; color: #e74c3c; }
+  .badge.warn { background: #fff3e0; color: #e67e22; }
+  .badge.ok { background: #e8f5e9; color: #27ae60; }
+  .badge.cold { background: #f0f0f0; color: #999; }
+  .badge.new { background: #e8f4fd; color: #2980b9; }
+
+  .focus-list { padding-left: 18px; }
+  .focus-list li { font-size: 14px; margin-bottom: 10px; color: #444; }
+  .focus-list li strong { color: #222; }
+
+  .footer { text-align: center; color: #999; font-size: 12px; margin-top: 24px; padding: 16px; }
+  .back { display: inline-block; margin-top: 8px; color: #58a6ff; font-size: 13px; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>周度总结 — W25</h1>
+  <div class="date">2026年6月15日（周一）至 6月19日（周五） · 5个交易日</div>
+  <div class="highlight">
+    <span class="hl-tag">科创50 <span class="num">+12.4%</span></span>
+    <span class="hl-tag">芯片板块均值 <span class="num">+20.1%</span></span>
+    <span class="hl-tag">创业板 <span class="num">+8.5%</span></span>
+    <span class="hl-tag">上证 <span class="num">+0.7%</span></span>
+  </div>
+</div>
+
+<!-- 大盘周评 -->
+<div class="card market">
+  <h2>大盘周评</h2>
+  <table>
+    <tr><th>指数</th><th>周一</th><th>周五</th><th>周涨跌</th><th>定性</th></tr>
+    <tr><td>上证指数</td><td>~4060</td><td>4090.48</td><td class="up">+0.7%</td><td>横盘震荡</td></tr>
+    <tr><td>深证成指</td><td>~15100</td><td>16030.70</td><td class="up">+6.2%</td><td>加速上涨</td></tr>
+    <tr><td>创业板指</td><td>~3920</td><td>4252.39</td><td class="up">+8.5%</td><td>加速上涨</td></tr>
+    <tr><td>科创50</td><td>~1700</td><td>1911.51</td><td class="up">+12.4%</td><td>暴涨</td></tr>
+  </table>
+  <p style="margin-top:12px;font-size:14px;color:#555;">
+  <strong>风格：</strong>成长碾压价值。上证几乎平盘（银行/传统权重拖累），科创50暴涨12%+。深证和创业板走势完全被芯片/科技成长主导。<br>
+  <strong>节奏：</strong>周一弱反弹 → 周二分化 → 周三震荡蓄势 → 周四全面爆发 → 周五加速冲顶。科创50 5日累计+14.93%进入技术性牛市。<br>
+  <strong>量能：</strong>周五两市合计1422亿，深市显著放量。科创50仅18亿成交即暴涨3.84%，筹码集中拉升轻盈。
+  </p>
+</div>
+
+<!-- 板块表现 -->
+<div class="card sector">
+  <h2>板块表现</h2>
+  <table>
+    <tr><th>板块</th><th>代表股</th><th>周涨幅</th><th>强度</th></tr>
+    <tr><td>芯片</td><td>兆易/扬杰/中微/北方</td><td class="up">+20.1%（均值）</td><td><span class="stars">★★★</span></td></tr>
+    <tr><td>AI算力（PCB+光通信）</td><td>沪电/华工</td><td>+0.9%/+4.1%（仅周五）</td><td><span class="stars">★★</span> <span class="badge new">新纳入</span></td></tr>
+    <tr><td>汽零</td><td>双林股份</td><td class="up">+20.0%</td><td><span class="stars">★★</span></td></tr>
+    <tr><td>机器人/汽零</td><td>三花智控</td><td class="up">+2.1%</td><td><span class="stars">★</span></td></tr>
+    <tr><td>传动设备</td><td>宁波东力</td><td class="down">-3.9%</td><td>↓</td></tr>
+  </table>
+  <p style="margin-top:8px;font-size:13px;color:#888;">
+  芯片是本周唯一主线。北方华创、中微公司、华工科技 MA10×MA20 接近同日金叉，板块中期趋势共振确立。
+  </p>
+</div>
+
+<!-- 持仓周评 -->
+<!-- 核心持仓 -->
+<div class="card core">
+  <h2>★ 核心持仓 — 三花智控（002050）</h2>
+  <ul class="bullet">
+    <li><strong>本周：</strong>+2.1%（44.81→45.74），过程极度波折——周三盘中击穿44.50至44.11，周四/周五连续放量反弹收回</li>
+    <li><strong>趋势变化：</strong>强势空头(10) → 空头排列(25)，RSI6 33→47，MA5走平，MACD绿柱缩小</li>
+    <li><strong>策略共识：</strong>缩量回调(hold,60) + 地量策略(hold,55) + 情绪周期(hold,55) → 反弹延续但强度减弱，需放量站上MA10(46)确认</li>
+    <li><strong>44.50支撑：</strong>经受住第5次考验（周三盘中击穿但收盘站回），可靠性持续提升</li>
+    <li><strong>操作回顾：</strong>本周无操作，周三最危险日坚持原则未恐慌操作</li>
+    <li><strong>下周关注：</strong>放量站上MA10(46)→MA20(47.5)，48-49是计划减仓窗口（卖出500-1000股）。止损43.50不变</li>
+  </ul>
+</div>
+
+<!-- 重点观察 -->
+<div class="card key">
+  <h2>★ 重点观察 — 兆易创新（603986）</h2>
+  <ul class="bullet">
+    <li><strong>本周：</strong>5连阳从482→629，<strong style="color:#e74c3c">+30.6%</strong>，创历史新高644.64后回落</li>
+    <li><strong>关键变化：</strong>MACD完成金叉（绿转红），6/17涨停突破552前高，均线四线发散上行</li>
+    <li><strong>当前位置：</strong>强势多头(90)，但乖离BIAS5=14.5% + RSI6=85.87，双重极度超买。连续两日冲644回落留上影</li>
+    <li><strong>买入条件：</strong>方案B（突破552追入）已触发，但629严禁追高。等缩量回踩560-580区间（MA5~MA10之间）</li>
+    <li><strong>下周关注：</strong>3-5日内是否出现缩量回调至560-580。644成短期强阻力。6/4剧本（+7.5%次日-7.8%）教训深刻</li>
+  </ul>
+</div>
+
+<!-- 一般观察 -->
+<div class="card watch">
+  <h2>一般观察周概览</h2>
+  <table class="watch-table">
+    <tr><th>股票</th><th>周涨跌</th><th>周最高</th><th>周最低</th><th>趋势</th><th>策略信号</th><th>状态</th></tr>
+    <tr>
+      <td><strong>扬杰科技</strong> <span style="color:#999">300373</span></td>
+      <td class="up">+27.4%</td><td>126.12</td><td>96.68</td><td>强势多头(90)</td>
+      <td>多头hold+放量突破buy</td>
+      <td><span class="badge warn">乖离12.4%，126遇阻</span></td>
+    </tr>
+    <tr>
+      <td><strong>中微公司</strong> <span style="color:#999">688012</span></td>
+      <td class="up">+15.4%</td><td>368.00</td><td>299.17</td><td>强势多头(90)</td>
+      <td>双hold(50)，动能减弱</td>
+      <td><span class="badge warn">RSI超买，等330回调</span></td>
+    </tr>
+    <tr>
+      <td><strong>北方华创</strong> <span style="color:#999">002371</span></td>
+      <td class="up">+8.2%</td><td>733.88</td><td>640.00</td><td>强势多头(90)</td>
+      <td>多头buy(65)</td>
+      <td><span class="badge ok">BIAS5=4.6%最优</span></td>
+    </tr>
+    <tr>
+      <td><strong>双林股份</strong> <span style="color:#999">300100</span></td>
+      <td class="up">+20.0%</td><td>32.42</td><td>28.02</td><td>空头排列→改善</td>
+      <td>放量突破buy+一阳三阴buy</td>
+      <td><span class="badge hot">🔥 底部反转</span></td>
+    </tr>
+    <tr>
+      <td><strong>沪电股份</strong> <span style="color:#999">002463</span></td>
+      <td class="up">+18%(估)</td><td>149.90</td><td>125.00</td><td>多头排列(75)</td>
+      <td>多头hold(60)</td>
+      <td><span class="badge new">🆕 L2排名#1</span></td>
+    </tr>
+    <tr>
+      <td><strong>华工科技</strong> <span style="color:#999">000988</span></td>
+      <td class="up">+18%(估)</td><td>181.57</td><td>151.00</td><td>多头排列(75)</td>
+      <td>双hold(55)，冲高回落</td>
+      <td><span class="badge new">🆕 L2排名#2</span></td>
+    </tr>
+    <tr>
+      <td><strong>宁波东力</strong> <span style="color:#999">002164</span></td>
+      <td class="down">-3.9%</td><td>13.46</td><td>12.66</td><td>弱势空头(40)</td>
+      <td>双hold(45)无信号</td>
+      <td><span class="badge cold">弱势 回避</span></td>
+    </tr>
+  </table>
+  <p style="font-size:12px;color:#999;margin-top:4px;">🆕 沪电股份(L2排名#1,73分)和华工科技(L2排名#2,70分)于6/19新纳入追踪</p>
+</div>
+
+<!-- 下周关注 -->
+<div class="card focus">
+  <h2>下周关注</h2>
+  <ol class="focus-list">
+    <li><strong>三花48-49减仓窗口：</strong>延续反弹站上MA10(46)→MA20(47.5)后，48-49是计划减仓目标区。卖出500-1000股降低风险敞口。止损43.50不变</li>
+    <li><strong>芯片股集体回调风险：</strong>四只芯片本周均值+20.1%，RSI普遍超买。北方华创乖离最优（BIAS5=4.6%），是芯片中唯一可关注回调介入的标的</li>
+    <li><strong>兆易等缩量回调：</strong>560-580是理想入场区间（MA5~MA10之间）。重点关注未来3-5日是否出现缩量+回踩MA5附近企稳信号</li>
+    <li><strong>双林股份反转确认：</strong>周五涨停突破所有均线，下周确认持续性——回踩MA20(31.16)不破+缩量企稳是加仓信号</li>
+    <li><strong>北方华创MA10×MA20金叉+乖离最优：</strong>本周最重要的中期信号之一。关注700附近缩量企稳的介入机会</li>
+    <li><strong>沪电/华工回调买点：</strong>两只新纳入标的趋势多头但乖离偏高。沪电等136-140（MA10）、华工等158-165（MA10/MA20重叠区）缩量回踩</li>
+    <li><strong>科创50技术性牛市风险：</strong>5日+14.93%进入极热状态，历史上连涨后必有震荡。整体做多但回调买不追高</li>
+  </ol>
+</div>
+
+<div class="footer">
+  Stock-On · 数据截至2026年6月19日收盘 · 本周5个交易日 · 9只股票全部完成多策略分析<br>
+  <a class="back" href="../../index.html">← 返回首页</a>
+</div>
+
+</div>
+</body>
+</html>
