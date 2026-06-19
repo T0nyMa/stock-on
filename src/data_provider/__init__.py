@@ -31,6 +31,7 @@
 """
 
 from .base import BaseFetcher, DataFetcherManager
+from .tickflow_daily_fetcher import TickFlowDailyFetcher
 from .efinance_fetcher import EfinanceFetcher
 from .akshare_fetcher import AkshareFetcher, is_hk_stock_code
 from .tushare_fetcher import TushareFetcher
@@ -45,6 +46,7 @@ from .us_index_mapping import is_us_index_code, is_us_stock_code, get_us_index_y
 __all__ = [
     'BaseFetcher',
     'DataFetcherManager',
+    'TickFlowDailyFetcher',
     'EfinanceFetcher',
     'AkshareFetcher',
     'TushareFetcher',

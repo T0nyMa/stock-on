@@ -1,0 +1,17 @@
+{
+  "stock_code": "300373",
+  "stock_name": "扬杰科技",
+  "tracking": "观察标的，无持仓",
+  "first_analyzed": "2026-06-15",
+  "key_levels": {
+    "resistance": 118.00,
+    "current": 105.15,
+    "ma5": 102.06,
+    "ma10": 102.04,
+    "ma20": 98.58,
+    "ma60": 83.77
+  },
+  "trend": "完全多头排列，趋势强度75，MACD即将金叉",
+  "watch_trigger": "回踩102-104缩量企稳 → 介入点",
+  "last_updated": "2026-06-15T20:00:00+08:00"
+}

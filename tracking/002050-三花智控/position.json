@@ -1,0 +1,53 @@
+{
+  "stock_code": "002050",
+  "stock_name": "三花智控",
+  "position": {
+    "buy_date": "2026-01-22",
+    "buy_price": 57.90,
+    "shares": 4300,
+    "cost": 248970,
+    "current_price": 45.74,
+    "current_value": 196682,
+    "unrealized_pnl": -52288,
+    "unrealized_pnl_pct": -21.0,
+    "max_drawdown_price": 41.77,
+    "max_drawdown_date": "2026-04-07",
+    "low_since_last": 43.50
+  },
+  "today_note": "放量+2.56%至45.74，量比1.26近两周最佳。44.50未触及(最低44.18)。RSI6从33跳升至47脱离超卖。趋势从强势空头(10)改善为空头排列(25)，MA5走平。策略共识：缩量回调buy(70)+地量buy(65)共振，情绪周期hold(55)+一阳三阴hold(45)+预期重估hold(40)。不减仓，持有4300股，止损43.50不变。",
+  "key_levels": {
+    "cost_basis": 57.90,
+    "resistance_2": 49.50,
+    "resistance_1": 47.48,
+    "ma10": 45.95,
+    "ma5": 45.20,
+    "current": 45.74,
+    "support_1": 44.50,
+    "stop_loss": 43.50,
+    "historical_low": 41.77
+  },
+  "swing_plan": {
+    "status": "警报暂时解除 — 放量反弹+趋势改善+两策略buy共振，44.50第五次守住",
+    "strategy_consensus": {
+      "buy_signals": ["缩量回调(70)", "地量策略(65)"],
+      "hold_signals": ["情绪周期(55)", "一阳三阴(45)", "预期重估(40)"],
+      "interpretation": "技术面看好短期反弹，基本面/形态偏谨慎，综合信号：谨慎看多"
+    },
+    "scenario_a": {
+      "name": "延续反弹",
+      "trigger": "6/19放量站上MA10(46)+回踩不破",
+      "action": "持有，等48-49减仓500-1000股"
+    },
+    "scenario_b": {
+      "name": "横盘磨底",
+      "trigger": "44.5-47.5区间震荡",
+      "action": "不动，观察均线粘合方向"
+    },
+    "scenario_c": {
+      "name": "再次下跌",
+      "trigger": "缩量回落跌破44.50或收盘跌破43.50",
+      "action": "44.50以下减仓500股，43.50全仓止损"
+    }
+  },
+  "last_updated": "2026-06-18T19:30:00+08:00"
+}

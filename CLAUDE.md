@@ -1,85 +1,52 @@
-# Stock-On: Claude Code 驱动的多 Agent 股票分析系统
+# Stock-On: 股票分析与追踪系统
 
-## 项目简介
+Python 负责数据抓取和技术指标计算，Claude 负责所有分析决策。
 
-基于 Claude Code 多 Agent 架构的股票分析系统。**Python 只负责数据抓取和技术指标计算，Claude Agent 负责所有分析决策。**
-Agent 之间通过 `data/{code}/` 下的 JSON 文件通信。
+## 核心规则
 
-## 目录结构
+1. **先读后写**：分析任何股票前，Read tracking/ 下已有报告和 position.json
+2. **具体到价位和股数**：不说"反弹就减仓"，说"48.5-49.5 缩量 → 卖出 1000 股"
+3. **数据先行**：分析前必须 `python src/fetch.py --code {code}` + `python src/indicators.py --code {code}`
+
+## 意图路由
+
+看到以下用户意图时，Read 对应文档并按步骤执行：
+
+| 用户说 | 执行 |
+|--------|------|
+| "分析三花" / "今日002050" | Read `references/scenarios/core-position.md` |
+| "分析兆易创新" / "603986怎么样" | Read `references/scenarios/key-observation.md` |
+| "巡检" / "观察列表" / "watchlist" | Read `references/scenarios/daily-patrol.md` |
+| "建仓分析 {code}" / "新股票" | Read `references/scenarios/first-time-setup.md` |
+| "扫描策略 {code}" / "策略分析" | Read `references/scenarios/strategy-scan.md` |
+| "日报" / "今日总结" / "daily" | 调用 `/daily-report` Skill |
+| "周报" / "本周总结" / "weekly" | 调用 `/weekly-report` Skill |
+
+## 追踪清单
+
+Read `tracking/tracklist.json` 获取当前追踪的所有股票及其分层和场景。
+
+## 目录导航
+
+遇到需要了解各目录职责时：
+
+| 目录 | 说明 | 入口 |
+|------|------|------|
+| `src/` | Python 数据层 | Read `src/README.md` |
+| `strategies/` | 15个策略定义 | Read `strategies/README.md` |
+| `tracking/` | 追踪报告 + 追踪清单 | Read `tracking/README.md` |
+| `references/` | 参考知识（方法论、场景、Skill索引） | Read `references/README.md` |
+| `data/` | 运行时JSON数据 | 直接 Read 对应文件 |
+| `.claude/skills/` | Skill 定义 | 按需调用 |
+
+## 渐进式加载
 
 ```
-src/              # Python 数据处理层（数据抓取 + 技术指标）
-strategies/       # YAML 策略定义
-data/{code}/      # 数据落地 + Agent 间通信
-.claude/skills/   # Claude Code Skill 定义
+用户意图
+  → CLAUDE.md（本文件，常驻）→ 匹配路由
+    → references/scenarios/{场景}.md（按需加载）→ 步骤执行
+      → references/analysis-methodology.md（深度分析时加载）→ 知识框架
+      → references/skills-index.md（使用Skill时加载）→ 工具参数
 ```
 
-## 核心流程
-
-当你收到 "分析 {股票代码}" 的指令时，按以下顺序执行：
-
-### Phase 1: 数据准备（Python 脚本，非 Agent）
-1. 运行 `source .venv/bin/activate && python src/fetch.py --code {code}` — 抓取行情到 `data/{code}/`
-2. 运行 `source .venv/bin/activate && python src/indicators.py --code {code}` — 计算指标到 `data/{code}/indicators.json`
-
-### Phase 2: 市场状态识别（Claude Agent）
-3. 调用 `/market-regime {code}` Skill
-
-### Phase 3: 并行策略分析（多 Agent）
-4. 读取 `data/{code}/regime.json` 获取 `recommended_strategies`
-5. 取前 3 个策略，同时用 Agent 工具 spawn 并行执行（设置 run_in_background: true）：
-   - `/strategy-ma-golden-cross {code}`      # 均线金叉
-   - `/strategy-volume-breakout {code}`      # 放量突破
-   - `/strategy-bull-trend {code}`           # 多头趋势
-   - `/strategy-chan-theory {code}`          # 缠论
-   - `/strategy-hot-theme {code}`            # 热点题材
-   - `/strategy-shrink-pullback {code}`      # 缩量回调
-   - `/strategy-dragon-head {code}`          # 龙头股
-   - `/strategy-box-oscillation {code}`      # 箱体震荡
-   - `/strategy-growth-quality {code}`       # 成长质量
-   - `/strategy-event-driven {code}`         # 事件驱动
-   - `/strategy-emotion-cycle {code}`        # 情绪周期
-   - `/strategy-expectation-repricing {code}` # 预期重估
-   - `/strategy-wave-theory {code}`          # 波浪理论
-   - `/strategy-bottom-volume {code}`        # 地量
-   - `/strategy-one-yang-three-yin {code}`   # 一阳三阴
-
-### Phase 4: 决策汇总（Claude Agent）
-6. 等所有策略 Agent 完成后，调用 `/decision-agent {code}` Skill
-
-### Phase 5: 呈现
-7. 将 decision.json 中的 final_report 呈现给用户
-
-## 多股票分析
-
-分析多只股票时，每只独立执行 Phase 1-4。可在 Phase 1 对多只股票串行（数据抓取需要网络稳定），Phase 3 再并行。
-
-## 单策略直调
-
-用户也可以直接指定单个策略分析：
-- `/strategy-chan-theory 000001` — 仅用缠论
-- `/strategy-wave-theory AAPL` — 仅用波浪理论
-
-## 可用 Skills
-
-| Phase | Skill | 类型 |
-|-------|-------|------|
-| 1 | fetch-data | Python 脚本 |
-| 1 | tech-indicators | Python 脚本 |
-| 2 | market-regime | Claude Agent |
-| 3 | strategy-ma-golden-cross | Claude Agent |
-| 3 | strategy-volume-breakout | Claude Agent |
-| 3 | strategy-bull-trend | Claude Agent |
-| 3 | strategy-chan-theory | Claude Agent |
-| 3 | strategy-hot-theme | Claude Agent |
-| 3 | strategy-shrink-pullback | Claude Agent |
-| 3 | strategy-dragon-head | Claude Agent |
-| 3 | strategy-box-oscillation | Claude Agent |
-| 3 | strategy-growth-quality | Claude Agent |
-| 3 | strategy-event-driven | Claude Agent |
-| 3 | strategy-emotion-cycle | Claude Agent |
-| 3 | strategy-expectation-repricing | Claude Agent |
-| 3 | strategy-wave-theory | Claude Agent |
-| 3 | strategy-bottom-volume | Claude Agent |
-| 3 | strategy-one-yang-three-yin | Claude Agent |
-| 4 | decision-agent | Claude Agent |
+本文件只做路由，不包含具体分析步骤。

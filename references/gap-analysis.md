@@ -42,3 +42,28 @@
 - scheduler.py — 定时任务
 - image_stock_extractor.py — 图片识别
 - social_sentiment_service.py — 美股舆情
+
+## 修复状态 (2026-06-02)
+
+| 模块 | 状态 | 备注 |
+|------|:---:|------|
+| Config (LLM/search/DB) | ✅ | 完整 ref-repo config + data_dir |
+| storage.py + repositories | ✅ | 从 ref-repo 复制 |
+| schemas/ | ✅ | Pydantic schema 完整 |
+| core/trading_calendar.py | ✅ | 交易时段感知 |
+| core/market_profile.py | ✅ | CN/US/HK 配置 |
+| core/market_strategy.py | ✅ | 策略蓝图 |
+| market_analyzer.py | ✅ | 大盘复盘分析 |
+| analyzer.py (LLM) | ✅ | GeminiAnalyzer + AnalysisResult |
+| core/pipeline.py | ✅ | 编排流水线 |
+| services/analysis_context_builder.py | ✅ | 分析上下文构建 |
+| services/history_loader.py | ✅ | 历史数据缓存 |
+| notification (stub) | ✅ | 满足 pipeline 导入 |
+| bot/models (stub) | ✅ | 满足 pipeline 导入 |
+| agent/ (minimum) | ✅ | llm_adapter + defaults + protocols |
+
+## 当前状态
+
+- 33 tests pass
+- 端到端 pipeline: fetch → indicators → full analysis chain 可用
+- 15/15 技术指标字段与 ref-repo 逐位匹配

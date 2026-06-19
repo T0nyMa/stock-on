@@ -1,0 +1,17 @@
+{
+  "stock_code": "688012",
+  "stock_name": "中微公司",
+  "tracking": "观察标的，无持仓",
+  "first_analyzed": "2026-06-15",
+  "key_levels": {
+    "resistance": 357.67,
+    "current": 319.98,
+    "ma5": 300.23,
+    "ma10": 290.07,
+    "ma20": 300.06,
+    "ma60": 250.36
+  },
+  "trend": "弱势多头，趋势强度55。MACD即将金叉+MA10即将上穿MA20，趋势可能升级",
+  "watch_trigger": "回踩300-310缩量企稳+MACD金叉确认 → 介入点",
+  "last_updated": "2026-06-15T20:00:00+08:00"
+}

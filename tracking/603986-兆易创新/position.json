@@ -1,0 +1,17 @@
+{
+  "stock_code": "603986",
+  "stock_name": "兆易创新",
+  "tracking": "观察标的，无持仓",
+  "first_analyzed": "2026-06-15",
+  "key_levels": {
+    "resistance": 552.82,
+    "current": 518.00,
+    "ma5": 492.86,
+    "ma10": 492.25,
+    "ma20": 482.16,
+    "ma60": 358.67
+  },
+  "trend": "完全多头排列，趋势强度75",
+  "watch_trigger": "回踩490-500缩量企稳 → 介入点",
+  "last_updated": "2026-06-15T20:00:00+08:00"
+}

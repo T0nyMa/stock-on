@@ -1,0 +1,75 @@
+{
+  "updated_at": "2026-06-19",
+  "stocks": [
+    {
+      "code": "002050",
+      "name": "三花智控",
+      "tier": "core",
+      "tier_label": "核心持仓",
+      "scenario": "core-position",
+      "has_position": true,
+      "tags": ["机器人", "汽零", "制冷"],
+      "market": "SZ"
+    },
+    {
+      "code": "603986",
+      "name": "兆易创新",
+      "tier": "key",
+      "tier_label": "重点观察",
+      "scenario": "key-observation",
+      "has_position": false,
+      "tags": ["芯片", "存储", "MCU"],
+      "market": "SH"
+    },
+    {
+      "code": "300373",
+      "name": "扬杰科技",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["芯片", "功率半导体"],
+      "market": "SZ"
+    },
+    {
+      "code": "688012",
+      "name": "中微公司",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["芯片", "刻蚀设备"],
+      "market": "SH"
+    },
+    {
+      "code": "002371",
+      "name": "北方华创",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["芯片", "设备"],
+      "market": "SZ"
+    },
+    {
+      "code": "002164",
+      "name": "宁波东力",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["传动设备"],
+      "market": "SZ"
+    },
+    {
+      "code": "300100",
+      "name": "双林股份",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["汽零"],
+      "market": "SZ"
+    }
+  ]
+}

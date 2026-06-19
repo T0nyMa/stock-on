@@ -564,6 +564,7 @@ class DataFetcherManager:
     """
 
     _DAILY_MARKET_FETCHER_SUPPORT = {
+        "TickFlowDailyFetcher": {"cn"},
         "EfinanceFetcher": {"cn"},
         "AkshareFetcher": {"cn", "hk"},
         "TushareFetcher": {"cn", "hk"},
@@ -1051,6 +1052,7 @@ class DataFetcherManager:
           4. YfinanceFetcher (Priority 4)
         """
         from src.config import get_config
+        from .tickflow_daily_fetcher import TickFlowDailyFetcher
         from .efinance_fetcher import EfinanceFetcher
         from .akshare_fetcher import AkshareFetcher
         from .tushare_fetcher import TushareFetcher
@@ -1060,6 +1062,7 @@ class DataFetcherManager:
         from .longbridge_fetcher import LongbridgeFetcher
         config = get_config()
         # 创建所有数据源实例（优先级在各 Fetcher 的 __init__ 中确定）
+        tickflow_daily = TickFlowDailyFetcher()
         efinance = EfinanceFetcher()
         akshare = AkshareFetcher()
         pytdx = PytdxFetcher()      # 通达信数据源（可配 PYTDX_HOST/PYTDX_PORT）
@@ -1096,6 +1099,7 @@ class DataFetcherManager:
         self._ensure_concurrency_guards()
         with self._fetchers_lock:
             self._fetchers = [
+                tickflow_daily,
                 efinance,
                 akshare,
                 pytdx,
