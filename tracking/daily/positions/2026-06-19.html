@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>持仓观察日报 — 2026年6月18日</title>
+<title>持仓观察汇总 — 2026年6月19日</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
@@ -56,6 +56,10 @@
   .badge.ok { background: #e8f5e9; color: #27ae60; }
   .badge.cold { background: #f0f0f0; color: #999; }
 
+  .focus-card { background: #f8f9fa; padding: 16px; border-radius: 8px; margin-top: 16px; }
+  .focus-card h3 { font-size: 14px; color: #666; margin-bottom: 10px; }
+  .focus-card li { font-size: 13px; margin-bottom: 6px; color: #555; }
+
   .footer { text-align: center; color: #999; font-size: 12px; margin-top: 24px; padding: 16px; }
 </style>
 </head>
@@ -63,14 +67,14 @@
 <div class="container">
 
 <div class="header">
-  <h1>持仓观察日报</h1>
-  <div class="date">2026年6月18日（周四） · 数据截至收盘</div>
+  <h1>持仓观察汇总</h1>
+  <div class="date">2026年6月19日（周五） · 数据截至收盘</div>
 </div>
 
 <!-- 核心持仓 -->
 <div class="card core">
   <h2>★ 核心持仓</h2>
-  <div class="stock-name">三花智控<span class="code">SZ:002050</span></div>
+  <div class="stock-name">三花智控<span class="code">SZ:002050</span> — 持有4300股 · 成本57.90 · 浮亏-21.0%</div>
 
   <div class="meta-grid">
     <div class="meta-item"><div class="label">收盘</div><div class="value up">45.74 <small>+2.56%</small></div></div>
@@ -78,29 +82,30 @@
     <div class="meta-item"><div class="label">换手率</div><div class="value">3.39%</div></div>
     <div class="meta-item"><div class="label">趋势</div><div class="value" style="color:#e67e22">空头排列(25)</div></div>
     <div class="meta-item"><div class="label">RSI6</div><div class="value">47.25</div></div>
-    <div class="meta-item"><div class="label">MACD HIST</div><div class="value">-0.53</div></div>
+    <div class="meta-item"><div class="label">MA10</div><div class="value">45.95</div></div>
   </div>
 
   <table class="strategy-table">
     <thead><tr><th>策略</th><th>类型</th><th>信号</th><th>评分</th><th>依据</th></tr></thead>
     <tbody>
-      <tr><td>缩量回调</td><td>量价</td><td><span class="signal buy">buy</span></td><td>70</td><td>回踩MA5后放量反弹收阳，企稳确认</td></tr>
-      <tr><td>地量</td><td>量价</td><td><span class="signal buy">buy</span></td><td>65</td><td>前期缩量企稳+今日放量变盘</td></tr>
-      <tr><td>情绪周期</td><td>题材</td><td><span class="signal hold">hold</span></td><td>55</td><td>冰点末期但未确认反转</td></tr>
-      <tr><td>一阳三阴</td><td>形态</td><td><span class="signal hold">hold</span></td><td>45</td><td>今日阳线实体不够大，未完全反包前阴</td></tr>
-      <tr><td>预期重估</td><td>基本面</td><td><span class="signal hold">hold</span></td><td>40</td><td>PE 40x略高于合理估值，等催化</td></tr>
+      <tr><td>缩量回调</td><td>量价</td><td><span class="signal hold">hold</span></td><td>60</td><td>站上MA5企稳，但量比1.26非缩量，反弹延续中</td></tr>
+      <tr><td>地量策略</td><td>量价</td><td><span class="signal hold">hold</span></td><td>55</td><td>RSI从33→47脱离超卖，地量条件不再满足</td></tr>
+      <tr><td>情绪周期</td><td>题材</td><td><span class="signal hold">hold</span></td><td>55</td><td>换手3.39%活跃，市场情绪转暖</td></tr>
+      <tr><td>预期重估</td><td>基本面</td><td><span class="signal hold">hold</span></td><td>45</td><td>PE/PB数据缺失，无催化剂</td></tr>
     </tbody>
   </table>
 
   <div class="levels">
     <span class="level stop">止损 43.50</span>
-    <span class="level support">支撑 44.50 ✓</span>
-    <span class="level resistance">阻力 47.48 (MA20)</span>
+    <span class="level support">支撑 44.50 (第6次)</span>
+    <span class="level">MA5 45.20 ✓</span>
+    <span class="level">MA10 45.95</span>
+    <span class="level resistance">MA20 47.48</span>
     <span class="level cost">成本 57.90</span>
   </div>
 
   <div class="action">
-    <strong>持有不动。</strong> 放量+2.56%+趋势改善+5策略偏多共振，44.50支撑第5次守住。等48-49减仓窗口。
+    <strong>持有不动。</strong>连续第2日反弹，站上MA5。两策略从buy降为hold，反弹需要放量站上MA10(46)确认。放量突破MA10后考虑48-49减仓500-1000股。
   </div>
 </div>
 
@@ -114,21 +119,21 @@
     <div class="meta-item"><div class="label">量比</div><div class="value">1.36</div></div>
     <div class="meta-item"><div class="label">换手率</div><div class="value">8.86%</div></div>
     <div class="meta-item"><div class="label">趋势</div><div class="value" style="color:#27ae60">强势多头(90)</div></div>
-    <div class="meta-item"><div class="label">RSI6</div><div class="value" style="color:#e74c3c">85.87 ⚠</div></div>
+    <div class="meta-item"><div class="label">RSI12</div><div class="value" style="color:#e74c3c">77.5 ⚠</div></div>
     <div class="meta-item"><div class="label">乖离率</div><div class="value" style="color:#e74c3c">14.5% ⚠</div></div>
   </div>
 
   <table class="strategy-table">
     <thead><tr><th>策略</th><th>信号</th><th>评分</th><th>依据</th></tr></thead>
     <tbody>
-      <tr><td>多头趋势</td><td><span class="signal hold">hold</span></td><td>55</td><td>趋势极强但乖离14.5%+RSI86极度超买</td></tr>
-      <tr><td>放量突破</td><td><span class="signal hold">hold</span></td><td>40</td><td>552突破确认但644新阻力遇阻，量能不足</td></tr>
-      <tr><td>缩量回调</td><td><span class="signal sell">wait</span></td><td>20</td><td>当前放量上行。定义下次入场：缩量回踩MA5(549)</td></tr>
+      <tr><td>多头趋势</td><td><span class="signal hold">hold</span></td><td>60</td><td>趋势极强但RSI超买+乖离14.5%严重偏高</td></tr>
+      <tr><td>放量突破</td><td><span class="signal hold">hold</span></td><td>55</td><td>量比1.36+7.33%，冲高644回落上影线15元</td></tr>
+      <tr><td>均线金叉</td><td><span class="signal hold">hold</span></td><td>65</td><td>金叉早已完成，趋势完好但短期过热</td></tr>
     </tbody>
   </table>
 
   <div class="action">
-    <strong>空仓等缩量回调至540-560。</strong> MACD金叉完成+552突破确认，中期看多。但629追高乖离14.5%风险极大。已持有者止损上移至552。
+    <strong>不追高，等回调至560-580。</strong>今日冲高644回落收629，换手8.86%偏高。RSI77.5+乖离14.5%，追高风险极大。等缩量回踩560-580企稳再考虑建仓。
   </div>
 </div>
 
@@ -136,43 +141,65 @@
 <div class="card watch">
   <h2>一般观察</h2>
   <table class="watch-table">
-    <thead><tr><th>股票</th><th>收盘</th><th>涨跌</th><th>量比</th><th>RSI6</th><th>趋势</th><th>策略</th><th>状态</th></tr></thead>
+    <thead><tr><th>股票</th><th>收盘</th><th>涨跌</th><th>量比</th><th>RSI12</th><th>趋势</th><th>策略信号</th><th>状态</th></tr></thead>
     <tbody>
       <tr>
         <td><strong>扬杰科技</strong> <span style="color:#999">300373</span></td>
-        <td>123.13</td><td class="value up">+7.91%</td><td>1.33</td><td style="color:#e67e22">76.6</td><td>强势多头(90)</td>
-        <td>多头(hold,65)+金叉(hold,55)</td>
+        <td>123.13</td><td class="value up">+7.91%</td><td>1.33</td><td>68.9</td><td>强势多头(90)</td>
+        <td>放量突破buy(60) + 多头hold(55)</td>
         <td><span class="badge warn">乖离12.4%</span></td>
       </tr>
       <tr>
         <td><strong>中微公司</strong> <span style="color:#999">688012</span></td>
-        <td>360.00</td><td class="value up">+2.56%</td><td>0.90</td><td style="color:#e74c3c">85.9</td><td>强势多头(90)</td>
-        <td>多头(hold,68)+金叉(hold,56)</td>
-        <td><span class="badge warn">MA10×MA20金叉</span></td>
+        <td>360.00</td><td class="value up">+2.56%</td><td>0.90</td><td style="color:#e74c3c">74.7</td><td>强势多头(90)</td>
+        <td>双hold(50) 缩量动能减</td>
+        <td><span class="badge warn">RSI超买</span></td>
       </tr>
       <tr>
         <td><strong>北方华创</strong> <span style="color:#999">002371</span></td>
-        <td>721.04</td><td class="value up">+2.39%</td><td>0.88</td><td style="color:#e67e22">79.3</td><td>强势多头(90)</td>
-        <td>多头(buy,82)+金叉(buy,68)</td>
-        <td><span class="badge ok">最健康芯片股</span></td>
+        <td>721.04</td><td class="value up">+2.39%</td><td>0.88</td><td>70.7</td><td>强势多头(90)</td>
+        <td>多头趋势buy(65)</td>
+        <td><span class="badge ok">BIAS5=4.6%最优</span></td>
       </tr>
       <tr>
         <td><strong>双林股份</strong> <span style="color:#999">300100</span></td>
-        <td>31.69</td><td class="value up">+11.86%</td><td>2.81</td><td>62.4</td><td>空头排列(25)</td>
-        <td>地量(buy,72)+情绪(buy,68)</td>
-        <td><span class="badge hot">涨停 冰点→启动</span></td>
+        <td>31.69</td><td class="value up">+11.86%</td><td>2.81</td><td>54.1</td><td>空头排列(25)</td>
+        <td>放量突破buy(55) + 一阳三阴buy(55)</td>
+        <td><span class="badge hot">🔥 底部反转</span></td>
+      </tr>
+      <tr>
+        <td><strong>沪电股份</strong> <span style="color:#999">002463</span></td>
+        <td>147.90</td><td class="value up">+0.92%</td><td>0.91</td><td>66.6</td><td>多头排列(75)</td>
+        <td>多头趋势hold(60)</td>
+        <td><span class="badge">蓄势待突破150</span></td>
+      </tr>
+      <tr>
+        <td><strong>华工科技</strong> <span style="color:#999">000988</span></td>
+        <td>177.55</td><td class="value up">+4.13%</td><td>1.14</td><td>67.6</td><td>多头排列(75)</td>
+        <td>双hold(55) 冲高回落</td>
+        <td><span class="badge warn">换手7.8%偏高</span></td>
       </tr>
       <tr>
         <td><strong>宁波东力</strong> <span style="color:#999">002164</span></td>
-        <td>12.86</td><td class="value up">+0.23%</td><td>0.76</td><td>36.8</td><td>弱势空头(40)</td>
-        <td>地量(30)+情绪(35)</td>
-        <td><span class="badge cold">退潮期 回避</span></td>
+        <td>12.86</td><td class="value up">+0.23%</td><td>0.76</td><td>43.7</td><td>弱势空头(40)</td>
+        <td>双hold(45) 无信号</td>
+        <td><span class="badge cold">弱势 回避</span></td>
       </tr>
     </tbody>
   </table>
+
+  <div class="focus-card">
+    <h3>今日关注焦点</h3>
+    <ol>
+      <li><strong>双林股份 +11.86% 底部放量：</strong>量比2.81，一阳穿MA5/10/20，底部反转信号最强烈。关注明日回踩MA20(31.16)确认</li>
+      <li><strong>北方华创 乖离最优：</strong>BIAS5仅4.6%，在多头股中性价比最高，关注700附近介入机会</li>
+      <li><strong>兆易创新 RSI77.5+BIAS5=14.5%：</strong>短期最过热，冲高644回落收629，警惕短期回调</li>
+      <li><strong>科创50 5日+14.93%：</strong>进入技术性牛市，但连涨后随时可能震荡整理</li>
+    </ol>
+  </div>
 </div>
 
-<div class="footer">Stock-On · 数据截至2026年6月18日收盘 · 7只股票全部完成策略分析</div>
+<div class="footer">Stock-On · 数据截至2026年6月19日收盘 · 9只股票 · 23个策略分析</div>
 </div>
 </body>
 </html>
