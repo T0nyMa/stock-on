@@ -45,14 +45,37 @@ source .venv/bin/activate && python src/sector_scan.py
 
 ### Phase 5: L3 策略验证
 
-用 Agent 工具 spawn 并行（每只一个 Agent, run_in_background: true）：
+用 Agent 工具 spawn 并行（每只一个 Agent, run_in_background: true）。
+
+**Agent 标准 prompt（必须原样使用）：**
 
 ```
-Agent prompt 要点:
-  - Read indicators.json → 定市场状态
-  - Read skills-index.md → 按状态选 3-5 策略
-  - 对每个策略: 读 skill.md → 按 Step 1→2→3→4 执行 → 输出信号+评分+依据
-  - Write data/{code}/strategy_scan.json
+你是L3策略验证Agent。对 {name}({code}) 执行策略分析。
+
+1. Read data/{code}/indicators.json → 判断 trend.status
+2. Read references/skills-index.md → 按市场状态选 3-5 个策略
+3. 对每个选中策略：
+   a. Read .claude/skills/strategy-{name}/skill.md
+   b. 按 Step 1→2→3→4 逐步执行，引用具体数据
+   c. 输出 JSON: {"name":"strategy-xxx","signal":"buy|hold|sell","score":0-100,"reason":"一句话"}
+4. 汇总写入 data/{code}/strategy_scan.json（code 为纯数字，不加 SZ/SH 前缀）：
+
+{
+  "code": "002463",
+  "name": "沪电股份",
+  "market_regime": "trending_up",
+  "strategies": [
+    {"name":"strategy-bull-trend","signal":"hold","score":72,"reason":"..."},
+    ...
+  ],
+  "consensus": {"buy":0,"hold":5,"sell":0},
+  "verdict": "偏多",
+  "weighted_score": 57
+}
+
+策略名格式: strategy-xxx-xxx（小写+连字符，禁止下划线）
+信号: buy/hold/sell（小写英文）
+路径: data/{code}/strategy_scan.json（纯数字code，不加SZ/SH）
 ```
 
 等全部完成后，汇总各候选得分。

@@ -45,19 +45,41 @@ data/{code}/fundamentals.json ← 如策略需要
 
 ### Step 4: 输出
 
-输出必须包含三项，不省略：
+**必须输出以下 JSON，格式固定，不得修改字段名：**
 
-```
-信号: buy | hold | sell
-评分: 0-100
-依据: 一句话总结关键判据
+```json
+{
+  "name": "strategy-wave-theory",
+  "signal": "buy",
+  "score": 68,
+  "reason": "C浪末端确认，44.11接近A浪低点44.5，78.6%回撤位守住"
+}
 ```
 
-示例输出：
-```markdown
-## strategy-wave-theory: buy (68)
-C浪末端确认，44.11接近A浪低点44.5，78.6%回撤位守住
+**字段规范（严格执行）：**
+- `name`: 策略名称，必须用 **小写+连字符**（`strategy-wave-theory`, `strategy-bull-trend`, `strategy-ma-golden-cross`），禁止用下划线
+- `signal`: 只允许 `buy` / `hold` / `sell`（小写英文）
+- `score`: 0-100 整数
+- `reason`: 一句话，中文，引用具体数据
+
+**多策略汇总**：执行完所有策略后，汇总写入 `data/{code}/strategy_scan.json`：
+
+```json
+{
+  "code": "002050",
+  "name": "三花智控",
+  "market_regime": "bearish",
+  "strategies": [
+    {"name": "strategy-wave-theory", "signal": "buy", "score": 68, "reason": "..."},
+    {"name": "strategy-emotion-cycle", "signal": "hold", "score": 55, "reason": "..."}
+  ],
+  "consensus": {"buy": 1, "hold": 4, "sell": 0},
+  "verdict": "偏多",
+  "weighted_score": 59
+}
 ```
+
+**路径规范**：`data/{code}/strategy_scan.json`，code 为纯数字（如 `002050`，**不要**加 SZ/SH 前缀）
 
 ## 多策略并行
 
