@@ -90,6 +90,36 @@
       "has_position": false,
       "tags": ["光通信", "激光", "AI算力"],
       "market": "SZ"
+    },
+    {
+      "code": "300308",
+      "name": "中际旭创",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["CPO", "光模块", "AI算力"],
+      "market": "SZ"
+    },
+    {
+      "code": "601138",
+      "name": "工业富联",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["AI服务器", "AI算力"],
+      "market": "SH"
+    },
+    {
+      "code": "002384",
+      "name": "东山精密",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["PCB", "AI算力"],
+      "market": "SZ"
     }
   ]
 }
