@@ -1,0 +1,86 @@
+---
+name: discovery
+description: 潜力股发现 — L1快照→L2评分→L3策略验证，完整三层筛选
+---
+
+# 潜力股发现
+
+从 5000+ A 股中系统化发现值得追踪的股票。三层筛选 + 策略验证。
+
+## 用法
+
+`/discovery` 或用户说"潜力股""发现股票""发现机会""有什么好股票"
+
+## 流程
+
+严格按 `references/scenarios/discovery.md` 执行。
+
+### Phase 1: L1 快照
+
+```bash
+source .venv/bin/activate && python src/screener.py
+```
+
+### Phase 2: L2 评分
+
+```bash
+source .venv/bin/activate && python src/screener.py --l2
+```
+
+### Phase 3: 板块扫描
+
+```bash
+source .venv/bin/activate && python src/sector_scan.py
+```
+
+### Phase 4: 确定 L3 候选
+
+读取三个 JSON 文件，按规则筛选 10-15 只：
+
+```
+规则 A: L2 ≥ 70 分 → 自动进入
+规则 B: 板块前5领头羊 ∩ L2 ≥ 55 分
+规则 C: L2 55-69分 ∩ 涨幅<8% ∩ 成交>100亿 → 择优选 3-5 只
+```
+
+### Phase 5: L3 策略验证
+
+用 Agent 工具 spawn 并行（每只一个 Agent, run_in_background: true）：
+
+```
+Agent prompt 要点:
+  - Read indicators.json → 定市场状态
+  - Read skills-index.md → 按状态选 3-5 策略
+  - 对每个策略: 读 skill.md → 按 Step 1→2→3→4 执行 → 输出信号+评分+依据
+  - Write data/{code}/strategy_scan.json
+```
+
+等全部完成后，汇总各候选得分。
+
+### Phase 6: 最终评分和报告
+
+```
+综合分 = L2评分 × 0.4 + 策略加权 × 0.4 + 板块强度 × 0.2
+
+排序 → 推荐前 3-5 只加入追踪池
+```
+
+Write `tracking/sectors/YYYY-MM-DD-discovery.md`
+
+更新 `tracking/tracklist.json` 加入推荐股票（tier: watch）
+
+## 输出
+
+- `data/market/screener.json`
+- `data/market/screener_l2.json`
+- `data/market/sector_scan.json`
+- `data/{code}/strategy_scan.json`（每只 L3 候选）
+- `tracking/sectors/YYYY-MM-DD-discovery.md`
+- `tracking/tracklist.json`（更新）
+
+## 完成标志
+
+- [ ] L1+L2+板块扫描 已完成
+- [ ] L3 策略验证完成（Agent 并行，每只 3-5 策略）
+- [ ] 发现报告已写入
+- [ ] 追踪清单已更新
