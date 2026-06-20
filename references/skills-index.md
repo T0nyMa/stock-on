@@ -2,14 +2,16 @@
 
 全部 Skill 的用途、分类和参数。
 
-## 编排类（新增）
+## 编排类
 
 | Skill | 说明 |
 |-------|------|
-| `daily-report` | 每日追踪报告编排：大盘 + 7只单股日报（按tier执行不同策略数） + 持仓汇总 |
+| `daily-report` | 每日追踪报告：大盘 + 全部追踪股单股日报（按tier执行不同策略数） + 持仓汇总 |
 | `weekly-report` | 周度总结：汇总本周日报生成周报 |
-| `strategy-executor {code} {strategy}` | 标准化策略执行器：读策略定义 → 逐步执行 → 输出信号+评分+依据 |
+| `discovery` | 潜力股发现：L1快照→L2评分→L3策略验证，完整三层筛选 |
+| `screener` | 全市场筛选：L1快照（10维度）或 L1+L2（技术评分），产出候选清单 |
 | `deploy {date}` | 发布到 GitHub Pages：生成HTML + 更新首页索引 + git push |
+| `strategy-executor {code} {strategy}` | 标准化策略执行器：读策略定义 → 逐步执行 → 输出标准JSON |
 
 ## 数据准备
 

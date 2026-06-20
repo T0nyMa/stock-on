@@ -25,6 +25,7 @@ Python 负责数据抓取和技术指标计算，Claude 负责所有分析决策
 | "发布" / "deploy" | 调用 `/deploy` Skill |
 | "潜力股" / "发现股票" / "发现机会" / "discovery" | 调用 `/discovery` Skill |
 | "筛选" / "热门板块" | 调用 `/screener` Skill |
+| "板块扫描" / "板块排名" / "热点板块" | 调用 `/sector-scan` Skill |
 
 ## 追踪清单
 
