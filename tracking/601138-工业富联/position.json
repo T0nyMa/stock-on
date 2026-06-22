@@ -1,0 +1,57 @@
+{
+  "stock_code": "601138",
+  "stock_name": "工业富联",
+  "position": {
+    "buy_date": "2026-06-22",
+    "buy_price": 78.7248,
+    "shares": 2200,
+    "cost": 173194.56,
+    "current_price": 78.88,
+    "current_value": 173536,
+    "unrealized_pnl": 341.44,
+    "unrealized_pnl_pct": 0.20,
+    "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
+  },
+  "key_levels": {
+    "cost_basis": 78.72,
+    "resistance_2": 84.95,
+    "resistance_1": 79.90,
+    "current": 78.88,
+    "ma5": 75.18,
+    "ma10": 73.19,
+    "ma20": 73.90,
+    "support_1": 75.80,
+    "stop_loss": 72.50
+  },
+  "strategy_consensus": {
+    "buy_signals": [
+      "均线金叉(72)",
+      "多头趋势(65)"
+    ],
+    "hold_signals": [
+      "放量突破(58)",
+      "情绪周期(55)",
+      "缩量回调(45)"
+    ],
+    "verdict": "偏多",
+    "weighted_score": 59
+  },
+  "swing_plan": {
+    "scenario_a": {
+      "name": "继续上行突破80",
+      "trigger": "放量突破79.90(6/18高点)，站稳80上方",
+      "action": "持有，加仓至3000-4000股，止损上移至76"
+    },
+    "scenario_b": {
+      "name": "回踩均线确认",
+      "trigger": "缩量回踩75-76(MA5)不破后企稳",
+      "action": "可小幅加仓1000股，止损72.5不变"
+    },
+    "scenario_c": {
+      "name": "跌破支撑",
+      "trigger": "放量跌破MA20(73.9)或收盘低于75.5",
+      "action": "减仓50%(1100股)，剩余止损72.5"
+    }
+  },
+  "last_updated": "2026-06-22T19:00:00+08:00"
+}

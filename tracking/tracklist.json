@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19",
+  "updated_at": "2026-06-22",
   "stocks": [
     {
       "code": "002050",
@@ -104,10 +104,16 @@
     {
       "code": "601138",
       "name": "工业富联",
-      "tier": "watch",
-      "tier_label": "一般观察",
-      "scenario": "daily-patrol",
-      "has_position": false,
+      "tier": "key",
+      "tier_label": "重点观察",
+      "scenario": "key-observation",
+      "has_position": true,
+      "position_info": {
+        "buy_date": "2026-06-22",
+        "buy_price": 78.72,
+        "shares": 2200,
+        "cost": 173194.56
+      },
       "tags": ["AI服务器", "AI算力"],
       "market": "SH"
     },
