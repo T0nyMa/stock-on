@@ -3,34 +3,39 @@
   "stock_name": "三花智控",
   "position": {
     "buy_date": "2026-01-22",
-    "buy_price": 57.90,
+    "buy_price": 57.9,
     "shares": 4300,
     "cost": 248970,
-    "current_price": 45.74,
-    "current_value": 196682,
-    "unrealized_pnl": -52288,
-    "unrealized_pnl_pct": -21.0,
+    "current_price": 45.23,
+    "current_value": 194489.0,
+    "unrealized_pnl": -54481.0,
+    "unrealized_pnl_pct": -21.88,
     "max_drawdown_price": 41.77,
     "max_drawdown_date": "2026-04-07",
-    "low_since_last": 43.50
+    "low_since_last": 43.5
   },
   "today_note": "连续第2日反弹+2.56%至45.74，量比1.26。站上MA5(45.20)，MA10(45.95)仅差0.5%。RSI6=47脱离超卖，趋势强度从10→25持续改善。策略共识：缩量回调hold(60)+地量策略hold(55)+情绪周期hold(55)+预期重估hold(45)，两策略从buy降为hold（量价条件不再共振），反弹需要放量站上MA10确认。持有4300股，止损43.50不变。",
   "key_levels": {
-    "cost_basis": 57.90,
-    "resistance_2": 49.50,
+    "cost_basis": 57.9,
+    "resistance_2": 49.5,
     "resistance_1": 47.48,
     "ma10": 45.95,
-    "ma5": 45.20,
-    "current": 45.74,
-    "support_1": 44.50,
-    "stop_loss": 43.50,
+    "ma5": 45.2,
+    "current": 45.23,
+    "support_1": 44.5,
+    "stop_loss": 43.5,
     "historical_low": 41.77
   },
   "swing_plan": {
     "status": "反弹延续第2日 — 站上MA5+趋势改善至25，但两策略从buy降为hold需放量站上MA10确认",
     "strategy_consensus": {
       "buy_signals": [],
-      "hold_signals": ["缩量回调(60)", "地量策略(55)", "情绪周期(55)", "预期重估(45)"],
+      "hold_signals": [
+        "缩量回调(60)",
+        "地量策略(55)",
+        "情绪周期(55)",
+        "预期重估(45)"
+      ],
       "interpretation": "反弹延续但量价信号减弱，缩量回调+地量策略从buy降为hold，需放量站上MA10确认趋势反转"
     },
     "scenario_a": {
@@ -49,5 +54,5 @@
       "action": "44.50以下减仓500股，43.50全仓止损"
     }
   },
-  "last_updated": "2026-06-19T17:30:00+08:00"
+  "last_updated": "2026-06-22T19:30:00+08:00"
 }

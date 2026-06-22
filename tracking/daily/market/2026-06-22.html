@@ -3,74 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大盘日报 · 2026-06-22</title>
+<title>大盘总结 — 2026年6月22日</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
-  h1 { font-size: 24px; color: #f0f6fc; margin-bottom: 4px; }
-  .date { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
-  h2 { font-size: 18px; color: #f0f6fc; border-bottom: 1px solid #21262d; padding-bottom: 8px; margin: 28px 0 12px; }
-  table { width:100%; border-collapse:collapse; margin:12px 0; }
-  th, td { padding:8px 12px; text-align:left; border-bottom:1px solid #21262d; font-size:14px; }
-  th { color:#8b949e; font-weight:500; }
-  td.up { color:#3fb950; }
-  td.down { color:#f85149; }
-  .card { background:#161b22; border:1px solid #21262d; border-radius:8px; padding:16px 20px; margin:12px 0; }
-  .card h3 { font-size:15px; color:#f0f6fc; margin-bottom:8px; }
-  .card p { font-size:14px; line-height:1.7; color:#8b949e; }
-  .tags { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0; }
-  .tag { display:inline-block; padding:4px 12px; border-radius:12px; font-size:12px; }
-  .tag.bull { background:#1f2a1f; color:#3fb950; }
-  .tag.warn { background:#2a1f1f; color:#f85149; }
-  .tag.info { background:#1f2a37; color:#58a6ff; }
-  .back { display:inline-block; margin-bottom:20px; color:#58a6ff; text-decoration:none; font-size:14px; }
-  .back:hover { text-decoration:underline; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+  .container { max-width: 720px; margin:0 auto; padding:24px 16px; }
+  .header { background: linear-gradient(135deg, #1a1a2e, #16213e); color:#fff; padding:32px; border-radius:12px; margin-bottom:24px; }
+  .header h1 { font-size:24px; margin-bottom:8px; }
+  .card { background:#fff; border-radius:10px; padding:24px; margin-bottom:16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .card h2 { font-size:18px; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #eee; }
+  table { width:100%; border-collapse:collapse; margin-bottom:16px; }
+  th { background:#f8f9fa; padding:10px 12px; text-align:left; font-weight:500; color:#666; border-bottom:2px solid #eee; }
+  td { padding:10px 12px; border-bottom:1px solid #f0f0f0; }
+  .up { color:#e74c3c; font-weight:600; }
+  .down { color:#27ae60; font-weight:600; }
+  .tag { display:inline-block; padding:3px 12px; border-radius:12px; font-size:12px; margin:2px 4px; }
+  .tag.bull { background:#fde8e8; color:#e74c3c; }
+  .tag.vol { background:#e8f4fd; color:#2980b9; }
+  .tag.warn { background:#fff3e0; color:#e67e22; }
+  .footer { text-align:center; color:#999; font-size:12px; margin-top:24px; padding:16px; }
 </style>
 </head>
 <body>
-<a class="back" href="../../../index.html">← 返回首页</a>
-<h1>大盘日报</h1>
-<p class="date">2026年06月22日（周一）</p>
+<div class="container">
+<div class="header">
+  <h1>大盘总结</h1>
+  <div class="date">2026年6月22日（周一） · 全面放量上攻</div>
+</div>
 
+<div class="card">
 <h2>四大指数表现</h2>
 <table>
-<tr><th>指数</th><th>收盘</th><th>涨跌</th><th>5日涨幅</th><th>定性</th></tr>
-<tr><td>上证指数</td><td class="down">4090.48</td><td class="down">-0.43%</td><td>+1.46%</td><td>窄幅震荡，权重承压</td></tr>
-<tr><td>深证成指</td><td class="up">16030.70</td><td class="up">+0.94%</td><td class="up">+7.13%</td><td>强势上行，科技驱动</td></tr>
-<tr><td>创业板指</td><td class="up">4252.39</td><td class="up">+2.05%</td><td class="up">+11.02%</td><td>加速上涨，放量突破</td></tr>
-<tr><td>科创50</td><td class="up">1911.51</td><td class="up">+3.84%</td><td class="up">+14.93%</td><td>最强指数，AI主线确立</td></tr>
+<thead><tr><th>指数</th><th>收盘</th><th>涨跌</th><th>5日涨幅</th></tr></thead>
+<tbody>
+<tr><td>上证指数</td><td>4163.10</td><td class="up">+1.78%</td><td class="up">+1.63%</td></tr>
+<tr><td>深证成指</td><td>16372.50</td><td class="up">+2.13%</td><td class="up">+5.42%</td></tr>
+<tr><td>创业板指</td><td>4359.39</td><td class="up">+2.52%</td><td class="up">+8.08%</td></tr>
+<tr><td>科创50</td><td>1948.93</td><td class="up">+1.96%</td><td class="up">+11.47%</td></tr>
+</tbody>
 </table>
 
-<h2>今日市场特征</h2>
-<div class="tags">
-  <span class="tag bull">科技成长领涨</span>
-  <span class="tag info">沪弱深强</span>
-  <span class="tag bull">AI主线持续</span>
-  <span class="tag warn">短期过热</span>
+<p><span class="tag bull">全面多头</span><span class="tag vol">放量上攻</span><span class="tag warn">科创5日+11.5%过热</span></p>
+
+<p><strong>风格定性</strong>：增量资金入场，科技成长强于传统权重。科创50 5日累计+11.47%进入技术性牛市加速段。深证+2.13%、创业板+2.52%领涨。</p>
+<p><strong>量能</strong>：两市合计约1619亿（上证743+深证876），较前日显著放量。增量资金入场明显。</p>
+<p><strong>操作环境</strong>：全面多头环境，但科创50短期过热，关注补涨标的（如工业富联+1%），而非追高已暴涨品种。</p>
 </div>
 
-<div class="card">
-  <h3>风格定性</h3>
-  <p>科技成长领涨，传统权重分化。科创50和创业板指大幅跑赢上证，市场风格极度偏向科技成长。资金从传统蓝筹向科技成长迁移趋势明显。</p>
+<div class="footer">Stock-On · 数据截至2026年6月22日收盘 · 来源 akshare</div>
 </div>
-
-<div class="card">
-  <h3>最强 vs 最弱</h3>
-  <p><strong>最强：科创50（+3.84%）</strong> — 连续大涨，AI算力/芯片主线持续发酵，5日涨幅达14.93%。</p>
-  <p style="margin-top:8px"><strong>最弱：上证指数（-0.43%）</strong> — 金融地产等传统权重拖累，与科技指数严重分化。</p>
-</div>
-
-<div class="card">
-  <h3>核心观察</h3>
-  <p>创业板5日涨幅11%，科创50近15%，短期进入超买区域但动能充沛。"沪弱深强"格局明确，AI算力产业链（芯片/光模块/PCB/服务器）全面走强。市场温度偏热，但主线清晰。</p>
-</div>
-
-<h2>操作环境评估</h2>
-<table>
-<tr><th>维度</th><th>状态</th><th>说明</th></tr>
-<tr><td>市场温度</td><td>偏热</td><td>科创50/创业板连续大涨，个股分化加大</td></tr>
-<tr><td>风险提示</td><td class="down">⚠ 短期过热</td><td>AI主线累计涨幅过大，追高风险上升</td></tr>
-<tr><td>策略建议</td><td>持仓观望</td><td>科技主线持有但不宜加仓；关注低位科技股补涨</td></tr>
-</table>
 </body>
 </html>
