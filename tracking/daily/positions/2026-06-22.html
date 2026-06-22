@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>持仓观察日报 · 2026-06-22</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 24px; color: #f0f6fc; margin-bottom: 4px; }
+  .date { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+  h2 { font-size: 18px; color: #f0f6fc; border-bottom: 1px solid #21262d; padding-bottom: 8px; margin: 28px 0 12px; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; }
+  th, td { padding:6px 10px; text-align:left; border-bottom:1px solid #21262d; font-size:13px; }
+  th { color:#8b949e; font-weight:500; }
+  td.up { color:#3fb950; }
+  td.down { color:#f85149; }
+  .card { background:#161b22; border:1px solid #21262d; border-radius:8px; padding:16px 20px; margin:12px 0; }
+  .card.core { border-color:#f78166; }
+  .card.key { border-color:#e67e22; }
+  .card.watch { border-color:#58a6ff; }
+  .card h3 { font-size:15px; margin-bottom:6px; }
+  .card .tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; margin-left:6px; }
+  .tag.core { background:#2a1f1f; color:#f78166; }
+  .tag.key { background:#2a1f0a; color:#e67e22; }
+  .tag.watch { background:#1f2a37; color:#58a6ff; }
+  .card p { font-size:13px; line-height:1.6; color:#8b949e; margin:2px 0; }
+  .card .price { font-size:16px; font-weight:600; color:#f0f6fc; }
+  .signal { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+  .signal.buy { background:#1f2a1f; color:#3fb950; }
+  .signal.hold { background:#1f2a37; color:#58a6ff; }
+  .signal.sell { background:#2a1f1f; color:#f85149; }
+  .market-bar { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+  .market-item { background:#161b22; border:1px solid #21262d; border-radius:6px; padding:8px 14px; font-size:13px; }
+  .market-item .val { font-weight:600; font-size:16px; }
+  .back { display:inline-block; margin-bottom:20px; color:#58a6ff; text-decoration:none; font-size:14px; }
+  .back:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<a class="back" href="../../../index.html">← 返回首页</a>
+<h1>持仓观察日报</h1>
+<p class="date">2026年06月22日（周一）</p>
+
+<div class="market-bar">
+  <div class="market-item">上证 <span class="val" style="color:#f85149">4090.48</span> -0.43%</div>
+  <div class="market-item">深证 <span class="val" style="color:#3fb950">16030.70</span> +0.94%</div>
+  <div class="market-item">创业板 <span class="val" style="color:#3fb950">4252.39</span> +2.05%</div>
+  <div class="market-item">科创50 <span class="val" style="color:#3fb950">1911.51</span> +3.84%</div>
+</div>
+
+<h2>核心持仓</h2>
+
+<div class="card core">
+  <h3>三花智控 002050 <span class="tag core">core</span> <span class="signal hold">hold</span></h3>
+  <p><span class="price">45.23</span> <span class="down">-1.11%</span> | 量比1.25 | RSI6=42.4</p>
+  <p>4策略一致hold，反弹未能延续。收盘跌破MA5(45.29)，空头排列未改善。</p>
+  <p>支撑44.50 | 阻力MA10=45.72, MA20=47.04 | 止损43.50 | 持有4300股不动</p>
+</div>
+
+<h2>重点观察</h2>
+
+<div class="card key">
+  <h3>兆易创新 603986 <span class="tag key">key</span> <span class="signal hold">hold</span></h3>
+  <p><span class="price">689.70</span> <span class="up">+9.65%</span> | 量比1.06 | RSI6=<span style="color:#f85149">90.2</span> | BIAS5=<span style="color:#f85149">16.7%</span></p>
+  <p>3策略一致hold，极端超买+量价背离。RSI90.2历史极端。严禁追高，等560-600回调。</p>
+</div>
+
+<h2>一般观察</h2>
+
+<table>
+<tr><th>股票</th><th>收盘</th><th>涨跌</th><th>量比</th><th>RSI6</th><th>趋势</th><th>信号</th></tr>
+<tr><td>扬杰科技 300373</td><td>128.11</td><td class="up">+4.04%</td><td>1.26</td><td style="color:#f85149">78.9</td><td>强势多头</td><td><span class="signal hold">hold</span></td></tr>
+<tr><td>中微公司 688012</td><td>372.74</td><td class="up">+3.54%</td><td>0.99</td><td style="color:#f85149">88.4</td><td>强势多头</td><td><span class="signal hold">hold</span></td></tr>
+<tr><td>北方华创 002371</td><td>745.00</td><td class="up">+3.32%</td><td>0.92</td><td>67.9</td><td>强势多头</td><td><span class="signal hold">hold</span></td></tr>
+<tr><td>宁波东力 002164</td><td>12.92</td><td class="up">+0.47%</td><td>1.14</td><td>48.1</td><td>弱势空头</td><td><span class="signal hold">hold</span></td></tr>
+<tr><td>双林股份 300100</td><td>30.20</td><td class="down">-4.70%</td><td>1.22</td><td>36.0</td><td>空头排列</td><td><span class="signal sell">sell</span></td></tr>
+<tr><td><strong>沪电股份 002463</strong></td><td>145.26</td><td class="down">-1.78%</td><td>0.97</td><td>70.4</td><td>强势多头</td><td><span class="signal buy">buy</span></td></tr>
+<tr><td>华工科技 000988</td><td>174.67</td><td class="down">-1.62%</td><td>1.22</td><td>67.3</td><td>强势多头</td><td><span class="signal buy">buy</span></td></tr>
+<tr><td>中际旭创 300308</td><td>1382.33</td><td class="up">+1.06%</td><td>0.98</td><td style="color:#f85149">81.9</td><td>强势多头</td><td><span class="signal hold">hold</span></td></tr>
+<tr><td>工业富联 601138</td><td>78.88</td><td class="up">+1.02%</td><td>1.39</td><td>60.6</td><td>弱势多头</td><td><span class="signal buy">buy</span></td></tr>
+<tr><td>东山精密 002384</td><td>270.55</td><td class="down">-0.90%</td><td>1.02</td><td>70.3</td><td>强势多头</td><td><span class="signal hold">hold</span></td></tr>
+<tr><td><strong>云南锗业 002428</strong></td><td>110.48</td><td class="up">+10.0%</td><td>0.31</td><td style="color:#f85149">79.0</td><td>强势多头</td><td><span class="signal buy">buy</span></td></tr>
+<tr><td>三环集团 300408</td><td>156.11</td><td class="down">-1.13%</td><td>1.00</td><td style="color:#f85149">76.5</td><td>强势多头</td><td><span class="signal hold">hold</span></td></tr>
+</table>
+
+<div class="card" style="margin-top: 20px">
+  <h3>今日操作总结</h3>
+  <p>无交易，全部持仓/观察维持不变。AI算力主线（沪电/华工/中际/东山/工业富联/云南锗业）整体强势。非AI板块（三花/双林/宁波东力）偏弱需警惕。市场风格极致分化，AI主线短期过热但趋势未破。</p>
+</div>
+</body>
+</html>
