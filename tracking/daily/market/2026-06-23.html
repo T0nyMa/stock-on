@@ -12,7 +12,7 @@
   .header h1 { font-size:24px; margin-bottom:8px; }
   .card { background:#fff; border-radius:10px; padding:24px; margin-bottom:16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
   .card h2 { font-size:18px; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #eee; }
-  table { width:100%; border-collapse:collapse; margin-bottom:16px; }
+  table { width:100%; border-collapse:collapse; margin-bottom:16px; font-size:13px; }
   th { background:#f8f9fa; padding:10px 12px; text-align:left; font-weight:500; color:#666; border-bottom:2px solid #eee; }
   td { padding:10px 12px; border-bottom:1px solid #f0f0f0; }
   .up { color:#27ae60; font-weight:600; }
@@ -20,6 +20,7 @@
   .tag { display:inline-block; padding:3px 12px; border-radius:12px; font-size:12px; margin:2px 4px; }
   .tag.bear { background:#fde8e8; color:#e74c3c; }
   .tag.warn { background:#fff3e0; color:#e67e22; }
+  .alert { background: #fde8e8; border-left: 4px solid #e74c3c; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
   .footer { text-align:center; color:#999; font-size:12px; margin-top:24px; padding:16px; }
 </style>
 </head>
@@ -27,29 +28,34 @@
 <div class="container">
 <div class="header">
   <h1>大盘总结</h1>
-  <div class="date">2026年6月23日（周二） · 全面大跌，获利盘集中兑现</div>
+  <div class="date">2026年6月23日（周二） · 全面大跌，一日游行情</div>
 </div>
 
 <div class="card">
-<h2>四大指数表现</h2>
+<h2>四大指数</h2>
 <table>
-<thead><tr><th>指数</th><th>收盘</th><th>涨跌</th><th>5日涨幅</th></tr></thead>
-<tbody>
+<tr><th>指数</th><th>收盘</th><th>涨跌</th><th>5日涨幅</th></tr>
 <tr><td>上证指数</td><td>4106.25</td><td class="down">-1.37%</td><td class="down">+0.35%</td></tr>
 <tr><td>深证成指</td><td>15854.20</td><td class="down">-3.17%</td><td class="down">+1.14%</td></tr>
 <tr><td>创业板指</td><td>4192.19</td><td class="down">-3.84%</td><td class="down">+2.18%</td></tr>
 <tr><td>科创50</td><td>1916.21</td><td class="down">-1.68%</td><td class="up">+8.97%</td></tr>
-</tbody>
 </table>
-
-<p><span class="tag bear">全面大跌</span><span class="tag warn">获利盘兑现</span></p>
-
-<p><strong>风格定性</strong>：昨日大涨后今日获利盘集中兑现。深证-3.17%、创业板-3.84%领跌。高位科技股（兆易-7%、华工-6.3%、三环-6.8%）集体重挫，资金从高估值品种撤退。</p>
-<p><strong>量能</strong>：缩量下跌，非恐慌抛售。属于获利盘有序兑现，但大跌幅度表明多头承接力不足。</p>
-<p><strong>操作环境</strong>：一日游行情暴露追高风险。市场从多头转震荡偏空，严格风控、观望为主。</p>
+<p><span class="tag bear">全面大跌</span><span class="tag warn">获利盘兑现</span><span class="tag warn">AI板块全灭</span></p>
+<p>昨日大涨→今日全面暴跌，典型的"一日游"行情。高位科技股集体重挫，资金从高估值品种撤退。市场从多头转震荡偏空。</p>
 </div>
 
-<div class="footer">Stock-On · 数据截至2026年6月23日收盘 · 来源 akshare</div>
+<div class="card">
+<h2>20板块强弱</h2>
+<table>
+<tr><th>板块</th><th>评分</th><th>均涨幅</th><th>上涨比</th><th>最强股</th></tr>
+<tr><td>光纤光缆</td><td>78</td><td class="up">+2.9%</td><td>1%</td><td>(+0%)</td></tr><tr><td>培育钻石</td><td>76</td><td class="up">+6.4%</td><td>1%</td><td>(+0%)</td></tr><tr><td>液冷</td><td>65</td><td class="up">+1.7%</td><td>0%</td><td>(+0%)</td></tr><tr><td>AI PC</td><td>51</td><td class="down">-2.1%</td><td>0%</td><td>(+0%)</td></tr><tr><td>算力租赁</td><td>51</td><td class="down">-0.7%</td><td>0%</td><td>(+0%)</td></tr><tr><td>AI 服务器</td><td>36</td><td class="down">-3.8%</td><td>0%</td><td>(+0%)</td></tr><tr><td>CPO（共封装光学）</td><td>32</td><td class="down">-5.2%</td><td>0%</td><td>(+0%)</td></tr><tr><td>MLCC（片式电容）</td><td>31</td><td class="down">-5.9%</td><td>0%</td><td>(+0%)</td></tr><tr><td>PCB（印制电路板）</td><td>30</td><td class="down">-6.2%</td><td>0%</td><td>(+0%)</td></tr><tr><td>OCS（光交换）</td><td>26</td><td class="down">-5.5%</td><td>0%</td><td>(+0%)</td></tr>
+</table>
+<div class="alert">
+<strong>板块分化</strong>：仅光纤光缆、培育钻石、液冷3个板块收红（全部是非AI主线的防御板块）。AI服务器、CPO、PCB、MLCC等AI核心板块上涨比=0%，全线溃败。铜箔-11.7%最惨。
+</div>
+</div>
+
+<div class="footer">Stock-On · 数据截至2026年6月23日收盘 · 来源 akshare + sector_scan.py</div>
 </div>
 </body>
 </html>
