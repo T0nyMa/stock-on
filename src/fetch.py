@@ -136,6 +136,9 @@ def _write_fundamentals(stock_dir: Path, code: str, name: str):
 
     fund["updated_at"] = _now_str()
     _write_json(stock_dir, "fundamentals.json", fund)
+
+
+def fetch_stock_data(code: str):
     setup_env()
     config = get_config()
     stock_dir = _ensure_data_dir(code)
