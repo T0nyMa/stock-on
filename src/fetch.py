@@ -76,7 +76,66 @@ def _convert_dates(records: list) -> list:
     return records
 
 
-def fetch_stock_data(code: str):
+def _write_fundamentals(stock_dir: Path, code: str, name: str):
+    """写入基本面数据，优先保留已有有效数据，空值从腾讯接口补充。"""
+    import urllib.request, ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+
+    fund = {"code": code, "name": name}
+
+    # 1. Try current fetcher first
+    try:
+        fetcher = DataFetcherManager()
+        ctx = fetcher.get_fundamental_context(code)
+        if ctx:
+            fund.update({k: ctx.get(k) for k in ["pe", "pb", "market_cap", "revenue", "profit", "industry"]})
+    except Exception:
+        pass
+
+    # 2. If PE/PB still null, try Tencent API
+    if fund.get("pe") is None or fund.get("pb") is None:
+        try:
+            prefix = "sh" if code.startswith("6") else "sz"
+            url = f"https://qt.gtimg.cn/q={prefix}{code}"
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0", "Referer": "https://finance.qq.com/",
+            })
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                raw = resp.read().decode("gbk")
+            fields = raw.split('="')[1].rstrip('";\n').split('~') if '="' in raw else raw.split('=')[1].split('~')
+            def _f(i, cast=float):
+                if i >= len(fields) or fields[i] == '': return None
+                try: return cast(fields[i])
+                except: return None
+            tencent = {
+                "pe": _f(39), "pb": _f(46),
+                "market_cap": _f(45, float),  # 亿 → 保持原始单位
+                "price": _f(3), "turnover_rate": _f(38), "volume_ratio": _f(49),
+                "source": "tencent",
+            }
+            for k in ["pe", "pb", "market_cap", "price", "turnover_rate", "volume_ratio"]:
+                if fund.get(k) is None and tencent.get(k) is not None:
+                    fund[k] = tencent[k]
+            if tencent.get("source"):
+                fund["source"] = tencent["source"]
+            logger.info("[基本面] %s 从腾讯接口补充PE/PB", code)
+        except Exception as e:
+            logger.debug("[基本面] 腾讯接口补充失败 %s: %s", code, e)
+
+    # 3. Merge with existing file — don't overwrite valid data with null
+    existing_path = stock_dir / "fundamentals.json"
+    if existing_path.exists():
+        try:
+            with open(existing_path, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+            for k in ["pe", "pb", "market_cap", "revenue", "profit", "roe", "eps", "industry"]:
+                if fund.get(k) is None and existing.get(k) is not None:
+                    fund[k] = existing[k]
+        except Exception:
+            pass
+
+    fund["updated_at"] = _now_str()
+    _write_json(stock_dir, "fundamentals.json", fund)
     setup_env()
     config = get_config()
     stock_dir = _ensure_data_dir(code)
@@ -122,22 +181,9 @@ def fetch_stock_data(code: str):
     except Exception as e:
         logger.error("获取行情失败 %s: %s", code, e)
 
-    # 3. Fundamentals
+    # 3. Fundamentals — preserve existing valid data, supplement with Tencent API
     logger.info("正在获取 %s 基本面...", code)
-    try:
-        fundamentals = fetcher.get_fundamental_context(code)
-        if fundamentals:
-            _write_json(stock_dir, "fundamentals.json", {
-                "code": code, "name": fundamentals.get("name", ""),
-                "pe": fundamentals.get("pe"), "pb": fundamentals.get("pb"),
-                "market_cap": fundamentals.get("market_cap"),
-                "revenue": fundamentals.get("revenue"),
-                "profit": fundamentals.get("profit"),
-                "industry": fundamentals.get("industry"),
-                "updated_at": _now_str(),
-            })
-    except Exception as e:
-        logger.warning("获取基本面失败 %s: %s", code, e)
+    _write_fundamentals(stock_dir, code, name or code)
 
     # 4. News
     logger.info("正在获取 %s 新闻...", code)

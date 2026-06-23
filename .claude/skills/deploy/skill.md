@@ -49,18 +49,21 @@ HTML 生成原则：
 
 ### 3. 更新首页索引
 
-Read `index.html`，在对应日期区块下添加新报告的链接条目。
+**整文件重写 index.html**（禁止增量插入，防止重复区块累积）:
 
-已有该日期的区块 → 在区块内追加新链接。
-没有该日期的区块 → 在顶部（最新）插入新日期区块。
-
-链接格式：
-```html
-<a class="link" href="tracking/daily/market/{date}.html">
-  <span class="title">📊 大盘总结</span>
-  <span class="date">一句话概述</span>
-</a>
+```python
+# 重写逻辑:
+1. 扫描 tracking/daily/market/*.md 和 tracking/daily/positions/*.md
+2. 提取所有日期，按日期倒序排列
+3. 读取当日单股报告（tracking/{code}-{name}/YYYY-MM-DD-analysis.md）获取一句话概述
+4. 重新生成完整 index.html（保留样式 + 固定结构），确保:
+   - 每个日期只出现一次
+   - 所有链接指向正确的 YYYY-MM-DD 文件
+   - 单股分析链接到最近交易日
+   - footer 日期更新为最新
 ```
+
+禁止行为：Read 后 `insert` 新块、不删旧块。
 
 ### 4. 提交推送
 
