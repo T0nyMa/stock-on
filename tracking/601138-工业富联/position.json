@@ -6,58 +6,62 @@
     "buy_price": 78.7248,
     "shares": 2200,
     "cost": 173194.56,
-    "current_price": 76.78,
-    "current_value": 168916.0,
-    "unrealized_pnl": -4278.559999999998,
-    "unrealized_pnl_pct": -2.5,
+    "current_price": 76.99,
+    "current_value": 169378.0,
+    "unrealized_pnl": -3816.56,
+    "unrealized_pnl_pct": -2.2,
     "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
   },
   "key_levels": {
     "cost_basis": 78.72,
     "resistance_2": 84.95,
     "resistance_1": 79.9,
-    "current": 74.1,
-    "ma5": 75.32,
-    "ma10": 73.55,
-    "ma20": 74.09,
-    "support_1": 73.55,
+    "current": 76.99,
+    "ma5": 76.97,
+    "ma10": 74.34,
+    "ma20": 74.78,
+    "support_1": 74.34,
     "stop_loss": 72.5
   },
   "strategy_consensus": {
     "buy_signals": [],
-    "hold_signals": [],
-    "sell_signals": [
-      "bull-trend(35): 多头趋势恶化，MACD死叉确认",
-      "shrink-pullback(25): 非缩量健康回踩，跌破MA5逼近MA20",
-      "ma-golden-cross(30): 金叉信号失效，MACD死叉形成中"
+    "hold_signals": [
+      "bull-trend(55): 弱势多头修复中，MA5>MA10但MA10未上穿MA20，MACD绿柱收窄接近转正，量能不足制约反弹",
+      "shrink-pullback(48): 价格紧贴MA5(bias5=0.03%)但今日收阴未确认企稳，量比0.73缩量不充分",
+      "ma-golden-cross(50): MA5×MA10金叉6/18已形成但MACD死叉未修复(HIST=-0.04)，等待MACD金叉确认"
     ],
-    "verdict": "偏空",
-    "weighted_score": 30
+    "sell_signals": [],
+    "verdict": "中性偏修复",
+    "weighted_score": 51
   },
   "swing_plan": {
     "scenario_c": {
       "name": "减仓防御（C已触发）",
       "trigger": "6/23收盘74.10 < 75.5，触发减仓条件",
-      "action": "明日(6/24)开盘减仓50%，卖出1100股，剩余1100股止损72.5",
-      "status": "triggered"
+      "action": "6/24开盘减仓50%，卖出1100股，剩余1100股止损72.5",
+      "status": "triggered_execution_pending"
     },
     "scenario_d": {
       "name": "止损清仓",
       "trigger": "剩余仓位跌破72.50或开盘跳空低于72.50",
-      "action": "清仓全部1100股，市价成交，认赔出局"
+      "action": "清仓全部1100股，市价成交，认赔出局",
+      "status": "active"
     },
     "scenario_e": {
       "name": "趋势修复",
-      "trigger": "重新站上MA5(75.32)且MACD柱转正",
-      "action": "观望不加仓，等待完整趋势确认后再考虑回补"
+      "trigger": "重新站上MA5(76.97)且MACD柱转正",
+      "action": "观望不加仓，等待完整趋势确认后再考虑回补",
+      "status": "partial",
+      "progress": "价格76.99已站上MA5(76.97) ✓，MACD HIST=-0.04尚未转正 ✗"
     }
   },
   "risk_notes": {
-    "macd": "DIF(2.01)下穿DEA(2.14)，柱状图转负(-0.27)，死叉确认",
-    "rsi": "RSI6从70.0骤降至49.03，跌破50中轴",
-    "ma20_test": "价格74.10距MA20(74.09)仅0.01元，命悬一线",
-    "max_loss": "总损失上限约¥11,934（减仓¥5,087 + 止损¥6,847），占总成本6.9%",
+    "macd": "DIF(2.10)上穿DEA(2.12)在即，HIST=-0.04接近零轴，金叉待确认",
+    "rsi": "RSI12=57.15，从49.03回升至中性偏强区间，脱离弱势",
+    "volume": "连续两日缩量(量比0.82→0.73)，反弹缺乏增量资金确认",
+    "ma10_ma20": "MA10(74.34)距MA20(74.78)仅0.44元，若上穿则形成完整多头排列",
+    "max_loss": "总损失上限约¥11,934（减仓¥6,297 + 止损¥5,637），占总成本6.9%",
     "lesson": "大涨次日不追高，BIAS5>4%需等缩量回踩确认后入场"
   },
-  "last_updated": "2026-06-24T18:00:00+08:00"
+  "last_updated": "2026-06-25T18:00:00+08:00"
 }

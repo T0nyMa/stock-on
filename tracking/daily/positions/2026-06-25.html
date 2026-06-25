@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>持仓观察汇总 · 2026-06-25</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 28px; margin-bottom: 4px; color: #f0f6fc; }
+  .sub { color: #8b949e; margin-bottom: 28px; font-size: 14px; }
+  h2 { font-size: 20px; color: #f0f6fc; margin: 28px 0 12px; border-bottom: 1px solid #21262d; padding-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #21262d; }
+  th { color: #8b949e; font-weight: 500; font-size: 11px; text-transform: uppercase; }
+  .up { color: #3fb950; }
+  .down { color: #f85149; }
+  .warn { color: #d29922; }
+  .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+  .card.core { border-left: 3px solid #f85149; }
+  .card.key { border-left: 3px solid #d29922; }
+  .card.watch { border-left: 3px solid #58a6ff; }
+  .card h3 { font-size: 15px; margin-bottom: 8px; }
+  .card p { font-size: 13px; margin: 4px 0; color: #8b949e; }
+  .card .price { font-size: 16px; font-weight: 600; color: #f0f6fc; }
+  .tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; margin: 0 2px; }
+  .tag.buy { background:#1f2a1f; color:#3fb950; }
+  .tag.hold { background:#1f2a2a; color:#58a6ff; }
+  .tag.sell { background:#2a1f1f; color:#f85149; }
+  .tag.stop { background:#2a1f1f; color:#f85149; font-weight:600; }
+  .pnl { font-weight:600; }
+  .divider { border:0; border-top:1px solid #21262d; margin: 28px 0; }
+  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #21262d; font-size:12px; color:#8b949e; }
+  .footer a { color:#58a6ff; }
+  .dist { display:flex; gap:8px; flex-wrap:wrap; margin: 8px 0; }
+  .dist .bar { flex:1; min-width:100px; background:#161b22; border-radius:6px; padding:10px; text-align:center; }
+  .bar .n { font-size:18px; font-weight:700; }
+  .bar .l { font-size:10px; color:#8b949e; }
+  @media (max-width:640px) { table { font-size:11px; } th, td { padding:6px 4px; } }
+</style>
+</head>
+<body>
+<h1>持仓观察汇总</h1>
+<p class="sub">2026年06月25日（周四） · 16只追踪股 · 2只持仓 · AI全面爆发</p>
+
+<h2>★ 核心持仓</h2>
+<div class="card core">
+  <h3>三花智控（002050）<span class="tag sell">sell</span><span class="tag stop">止损触发</span></h3>
+  <p class="price">¥43.94 <span class="down">浮亏 -24.1%</span></p>
+  <p>成本 ¥57.90 × 4300股 = ¥248,970 | 空头排列 MA5&lt;MA10&lt;MA20</p>
+  <p>MACD绿柱-0.46放大 | RSI12=39.56弱势 | 支撑41.77(历史低点)</p>
+  <p>⛔ 止损43.50已于6/23触发。0 buy / 3 hold / 1 sell，策略共识偏空</p>
+  <p><strong>操作: 如未清仓，6/26竞价全仓卖出。已清仓等41.77缩量止跌+RSI底背离</strong></p>
+</div>
+
+<h2>★ 重点观察</h2>
+<div class="card key">
+  <h3>工业富联（601138）<span class="tag hold">hold</span></h3>
+  <p class="price">¥76.99 <span class="down">浮亏 -2.2%</span></p>
+  <p>成本 ¥78.72 × 2200股 | 弱势多头修复中 | MACD绿柱-0.04接近转正</p>
+  <p>RSI12=57.15中性 | PE 37.6x / PB 8.67 | 趋势修复中，等MACD转正确认</p>
+  <p><strong>操作: 如已减仓50%则剩余1100股持有止损72.50。MACD转正+放量可回补</strong></p>
+</div>
+<div class="card key">
+  <h3>兆易创新（603986）<span class="tag hold">hold</span></h3>
+  <p class="price">¥775.21</p>
+  <p>强势多头 | MACD红柱41.37极强 | ⚠️ RSI 79.4超买 + BIAS5 12.7%严重乖离</p>
+  <p>PE 189.2x 严重高估 | 无持仓 | 持有者设MA5(688)止盈</p>
+  <p><strong>操作: 严禁追高。等缩量回踩MA10(604)或MA20(545)再考虑建仓</strong></p>
+</div>
+
+<h2>一般观察</h2>
+<table>
+  <tr><th>代码</th><th>名称</th><th>收盘</th><th>涨跌</th><th>量比</th><th>RSI12</th><th>PE</th><th>信号</th></tr>
+  <tr><td>002463</td><td>沪电股份</td><td class="up">154.99</td><td class="up">+8.1%</td><td>1.22</td><td>66.97</td><td>69.3</td><td><span class="tag buy">buy</span></td></tr>
+  <tr><td>000988</td><td>华工科技</td><td>173.58</td><td>—</td><td>0.81</td><td>60.99</td><td>102.7</td><td><span class="tag buy">buy</span></td></tr>
+  <tr><td>300308</td><td>中际旭创</td><td>1323.40</td><td>—</td><td>1.41</td><td>64.42</td><td>98.7</td><td><span class="tag buy">buy</span></td></tr>
+  <tr><td>600171</td><td>上海贝岭</td><td>31.95</td><td>—</td><td>1.96</td><td>70.11</td><td>102.8</td><td><span class="tag buy">buy</span></td></tr>
+  <tr><td>688795</td><td>摩尔线程</td><td>700.00</td><td>—</td><td>0.87</td><td>61.33</td><td class="down">-383</td><td><span class="tag buy">buy</span></td></tr>
+  <tr><td>300373</td><td>扬杰科技</td><td>137.45</td><td>—</td><td>0.92</td><td class="warn">75.65</td><td>54.5</td><td><span class="tag hold">hold</span></td></tr>
+  <tr><td>688012</td><td>中微公司</td><td>399.13</td><td>—</td><td>0.99</td><td class="warn">81.33</td><td>138.6</td><td><span class="tag hold">hold</span></td></tr>
+  <tr><td>002371</td><td>北方华创</td><td>798.00</td><td>—</td><td>1.07</td><td class="warn">79.63</td><td>103.9</td><td><span class="tag hold">hold</span></td></tr>
+  <tr><td>002384</td><td>东山精密</td><td>275.80</td><td>—</td><td>1.00</td><td>67.34</td><td class="warn">247.6</td><td><span class="tag hold">hold</span></td></tr>
+  <tr><td>300408</td><td>三环集团</td><td class="up">163.62</td><td class="up">+12.6%</td><td>1.19</td><td>69.05</td><td>109.0</td><td><span class="tag hold">hold</span></td></tr>
+  <tr><td>002428</td><td>云南锗业</td><td>130.10</td><td>—</td><td>0.99</td><td class="warn">79.03</td><td class="down">4459</td><td><span class="tag sell">sell</span></td></tr>
+  <tr><td>300100</td><td>双林股份</td><td>28.48</td><td>—</td><td>0.63</td><td>41.37</td><td>38.0</td><td><span class="tag hold">hold</span></td></tr>
+  <tr><td>002164</td><td>宁波东力</td><td>12.15</td><td>—</td><td>0.76</td><td class="down">36.29</td><td>32.0</td><td><span class="tag hold">hold</span></td></tr>
+</table>
+
+<h2>基本面估值分布</h2>
+<div class="dist">
+  <div class="bar"><div class="n down">1</div><div class="l">亏损</div></div>
+  <div class="bar"><div class="n">4</div><div class="l">PE 30-50</div></div>
+  <div class="bar"><div class="n">2</div><div class="l">PE 50-100</div></div>
+  <div class="bar"><div class="n">6</div><div class="l">PE 100-200</div></div>
+  <div class="bar"><div class="n warn">3</div><div class="l">PE >200</div></div>
+</div>
+<p style="font-size:13px;color:#8b949e;margin-top:4px;">估值洼地: 工业富联(PE 37.6x), 宁波东力(PE 32x) | 高估预警: 云南锗业(PE 4459x), 东山精密(PE 248x), 兆易创新(PE 189x)</p>
+
+<div class="footer">
+  自动生成于 2026-06-25 CST · <a href="https://github.com/t0nyma/stock-on">GitHub</a>
+</div>
+</body>
+</html>
