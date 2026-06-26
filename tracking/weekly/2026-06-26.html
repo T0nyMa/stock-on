@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周度总结 — 2026年W26</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+
+  .header { background: linear-gradient(135deg, #1a0a0a, #2a1a1a); color: #fff; padding: 36px; border-radius: 12px; margin-bottom: 24px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .header .date { font-size: 14px; color: #c0a0a0; }
+  .header .highlight { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+  .header .hl-tag { background: rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 6px; font-size: 13px; }
+  .hl-tag .num { font-size: 18px; font-weight: 700; }
+  .hl-tag .up { color: #ff6b6b; }
+  .hl-tag .down { color: #4ecdc4; }
+
+  .card { background: #fff; border-radius: 10px; padding: 24px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 17px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #eee; }
+  .card.market h2 { color: #1a1a2e; border-color: #e0e0e0; }
+  .card.sector h2 { color: #2980b9; border-color: #e8f4fd; }
+  .card.core h2 { color: #e74c3c; border-color: #fde8e8; }
+  .card.key h2 { color: #e67e22; border-color: #fef0e6; }
+  .card.watch h2 { color: #2980b9; border-color: #e8f4fd; }
+  .card.focus h2 { color: #27ae60; border-color: #e8f5e9; }
+  .card.danger h2 { color: #c0392b; border-color: #fde8e8; }
+  .card.loss h2 { color: #c0392b; border-color: #fde8e8; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f8f9fa; padding: 8px 12px; text-align: left; font-weight: 500; color: #666; border-bottom: 2px solid #eee; }
+  td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+  .up { color: #e74c3c; font-weight: 600; }
+  .down { color: #27ae60; font-weight: 600; }
+
+  .stars { color: #e67e22; }
+  .section-desc { font-size: 13px; color: #888; margin-bottom: 10px; }
+
+  .stock-block { margin-bottom: 20px; }
+  .stock-block h3 { font-size: 15px; margin-bottom: 8px; }
+  .stock-block h3 .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 500; }
+  .tag.core { background: #fde8e8; color: #c0392b; }
+  .tag.key { background: #fef0e6; color: #e67e22; }
+
+  .bullet { padding-left: 16px; }
+  .bullet li { font-size: 14px; margin-bottom: 6px; color: #555; }
+  .bullet li strong { color: #333; }
+
+  .watch-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px; }
+  .watch-table th { background: #f8f9fa; padding: 7px 8px; font-size: 12px; }
+  .watch-table td { padding: 7px 8px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge.hot { background: #fde8e8; color: #e74c3c; }
+  .badge.warn { background: #fff3e0; color: #e67e22; }
+  .badge.ok { background: #e8f5e9; color: #27ae60; }
+  .badge.cold { background: #f0f0f0; color: #999; }
+  .badge.new { background: #e8f4fd; color: #2980b9; }
+  .badge.stop { background: #fde8e8; color: #c0392b; font-weight: 700; }
+
+  .focus-list { padding-left: 18px; }
+  .focus-list li { font-size: 14px; margin-bottom: 10px; color: #444; }
+  .focus-list li strong { color: #222; }
+
+  .alert-box { background: #fff5f5; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .alert-box strong { color: #c0392b; }
+  .alert-box .big { font-size: 22px; font-weight: 700; color: #c0392b; }
+
+  .footer { text-align: center; color: #999; font-size: 12px; margin-top: 24px; padding: 16px; }
+  .back { display: inline-block; margin-top: 8px; color: #58a6ff; font-size: 13px; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>⚠️ 周度总结 — W26</h1>
+  <div class="date">2026年6月22日（周一）至 6月26日（周五） · 5个交易日</div>
+  <div class="highlight">
+    <span class="hl-tag">科创50 <span class="num up">+6.02%</span></span>
+    <span class="hl-tag">芯片板块 <span class="num up">+9.40%</span></span>
+    <span class="hl-tag">AI下游硬件 <span class="num down">-6.10%</span></span>
+    <span class="hl-tag">持仓亏损 <span class="num down">-20.4%</span></span>
+  </div>
+</div>
+
+<!-- 大盘周评 -->
+<div class="card market">
+  <h2>大盘周评</h2>
+  <table>
+    <tr><th>指数</th><th>周一(6/22)</th><th>周五(6/26)</th><th>周涨跌</th><th>周最高</th><th>周最低</th><th>定性</th></tr>
+    <tr><td>上证指数</td><td>4163.10</td><td>4120.28</td><td class="down">-1.03%</td><td>4175.35</td><td>4075.49</td><td>窄幅震荡偏弱</td></tr>
+    <tr><td>深证成指</td><td>16372.50</td><td>16344.08</td><td class="down">-0.17%</td><td>16355.95</td><td>15756.41</td><td>V型修复收平</td></tr>
+    <tr><td>创业板指</td><td>4359.39</td><td>4371.99</td><td class="up">+0.29%</td><td>4371.99</td><td>4159.48</td><td>V型修复微涨</td></tr>
+    <tr><td>科创50</td><td>1948.93</td><td>2066.33</td><td class="up">+6.02%</td><td>2066.33</td><td>1886.74</td><td>连续暴涨突破2000</td></tr>
+  </table>
+  <p style="margin-top:12px;font-size:14px;color:#555;">
+  <strong>风格：</strong>成长碾压价值，但板块内部分化已达极端。科创50周涨+6%突破2000，而上证周跌-1%。四大指数全线V型：周二集体暴跌→周三起科创50连续三根大阳线拉回。<br>
+  <strong>节奏：</strong>周一全面上攻 → 周二"指数跌赛道涨"（历史罕见，四大齐跌但20 AI板块全涨）→ 周三科创暴涨+3.82%确认修复 → 周四AI全产业链共振 → 周五科创+3.87%突破2000，但20板块中<strong style="color:#c0392b">15个下跌</strong>，极端分化。<br>
+  <strong>量能：</strong>科创50三日暴涨但成交仅18.5亿/日，拉升以存量调仓为主——这是后期风险点。<br>
+  <strong>与上周对比：</strong>科创50从+12.4%减速至+6.02%，深证从+6.2%急刹至-0.17%，芯片动能从+20.1%衰减至+9.4%。
+  </p>
+</div>
+
+<!-- 板块表现 -->
+<div class="card sector">
+  <h2>板块表现（从追踪股反推）</h2>
+  <table>
+    <tr><th>板块</th><th>代表股</th><th>周涨幅</th><th>强度</th><th>本周特征</th></tr>
+    <tr><td>芯片（存储/MCU）</td><td>兆易创新</td><td class="up">+11.64%</td><td><span class="stars">★★★</span></td><td>涨停→高位整理，RSI严重超买</td></tr>
+    <tr><td>芯片（刻蚀设备）</td><td>中微公司</td><td class="up">+10.80%</td><td><span class="stars">★★★</span></td><td>RSI=93极度超买</td></tr>
+    <tr><td>芯片（设备）</td><td>北方华创</td><td class="up">+9.18%</td><td><span class="stars">★★★</span></td><td>稳健上行，乖离扩大</td></tr>
+    <tr><td>芯片（功率半导体）</td><td>扬杰科技</td><td class="up">+5.97%</td><td><span class="stars">★★</span></td><td>温和跟涨</td></tr>
+    <tr><td>MLCC/电子元件</td><td>三环集团</td><td class="up">+2.52%</td><td><span class="stars">★</span></td><td>MLCC补涨逻辑</td></tr>
+    <tr><td>PCB</td><td>沪电/东山</td><td>+1.39%/-3.78%</td><td><span class="stars">★</span></td><td>窄幅震荡，内部分化</td></tr>
+    <tr><td>光通信/激光</td><td>华工科技</td><td class="down">-7.86%</td><td>↓↓</td><td>MACD死叉，MA20告急</td></tr>
+    <tr><td>CPO/光模块</td><td>中际旭创</td><td class="down">-9.29%</td><td>↓↓</td><td>MACD死叉延续，高PB承压</td></tr>
+    <tr><td>AI服务器</td><td>工业富联</td><td class="down">-10.98%</td><td>↓↓↓</td><td>建仓即暴跌，一周清仓</td></tr>
+    <tr><td>汽零</td><td>三花/双林</td><td class="down">-8.25%/-9.67%</td><td>↓↓</td><td>无一日上涨，全面崩溃</td></tr>
+    <tr><td>传动设备</td><td>宁波东力</td><td class="down">-8.59%</td><td>↓↓</td><td>全周单边下行</td></tr>
+  </table>
+  <p style="margin-top:8px;font-size:13px;color:#888;">
+  芯片仍是唯一主线但动能减半（+20.1%→+9.4%）。AI下游硬件惨烈回调（均值-6.1%）。汽零/传统制造被资金完全抛弃。板块轮动速度从"周级别"加速到"日级别"——典型的牛市末期特征。
+  </p>
+</div>
+
+<!-- 持仓盈亏 -->
+<div class="card loss">
+  <h2>⚠️ 持仓盈亏汇总</h2>
+  <div class="alert-box">
+    <strong>本周持仓总亏损</strong><br>
+    <span class="big">-¥86,173（-20.4%）</span>
+    <p style="font-size:13px;color:#888;margin-top:4px;">今年以来持仓损失最惨重的一周</p>
+  </div>
+  <table style="margin-top:12px;">
+    <tr><th>持仓</th><th>成本</th><th>现值</th><th>盈亏</th><th>状态</th></tr>
+    <tr>
+      <td><strong>三花智控</strong> 002050</td>
+      <td>¥248,970</td><td>¥178,450</td>
+      <td class="down">-¥70,520（-28.3%）</td>
+      <td><span class="badge stop">⛔ 6/29清仓</span></td>
+    </tr>
+    <tr>
+      <td><strong>工业富联</strong> 601138</td>
+      <td>¥173,195</td><td>¥157,542</td>
+      <td class="down">-¥15,653（-9.04%）</td>
+      <td><span class="badge cold">✅ 6/26已清仓</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- 核心持仓 -->
+<div class="card danger">
+  <h2>⛔ 核心持仓 — 三花智控（002050）止损已触发</h2>
+  <ul class="bullet">
+    <li><strong>本周：</strong>-8.25%（45.23→41.50），五连阴。周五光头光脚大阴线创持仓新低，跌破前低41.77</li>
+    <li><strong>趋势变化：</strong>空头排列延续并加速，MA5&lt;MA10&lt;MA20间距扩大。MACD绿柱-0.68，RSI6跌至23.57深超卖</li>
+    <li><strong>关键事件：</strong>6/23收盘43.19已跌破止损43.50，但未执行——重大失误。代价从-24%扩大到-28%</li>
+    <li><strong>策略共识（5策略）：</strong>growth-quality hold(40) + expectation-repricing hold(35) + emotion-cycle sell(25) + bottom-volume sell(20) + shrink-pullback sell(15)。均分27，严重偏空</li>
+    <li><strong>操作指令：</strong>⛔ <strong style="color:#c0392b">6/29（周一）开盘竞价全仓4300股卖出</strong>，预计¥41.0-41.8成交</li>
+    <li><strong>教训：</strong>止损铁律当日执行，不可犹豫。44.50支撑位信仰导致错失最佳止损时机</li>
+  </ul>
+</div>
+
+<!-- 重点观察 -->
+<div class="card key">
+  <h2>✅ 工业富联（601138）— 已清仓</h2>
+  <ul class="bullet">
+    <li><strong>本周：</strong>-10.98%（78.88→70.22），完整经历建仓→暴跌→减仓→清仓</li>
+    <li><strong>操作回顾：</strong>6/22建仓@78.72 → 6/24减仓50%@73.00（亏¥6,297）→ 6/26清仓@70.22（亏¥9,355）</li>
+    <li><strong>总亏损：</strong>¥15,653（-9.04%）</li>
+    <li><strong>教训：</strong>大涨次日不追高 + 止损铁律当日执行。MACD死叉确认后犹豫导致损失扩大</li>
+  </ul>
+</div>
+
+<div class="card key">
+  <h2>★ 重点观察 — 兆易创新（603986）— 无持仓</h2>
+  <ul class="bullet">
+    <li><strong>本周：</strong>+11.64%（689.7→770.0），先涨停→后高位整理</li>
+    <li><strong>日线节奏：</strong>周一+9.65%放量 → 周二-7.06%高位放量暴跌 → 周三涨停+10%修复→周四微涨→周五-0.67%首日未封板</li>
+    <li><strong>与上周对比：</strong>上周判断"等缩量回调至560-580"正确——本周最低640，远未到目标区间</li>
+    <li><strong>当前位置：</strong>BIAS5=7.51%接近警戒线，RSI=81.6超买。770追高风险更大</li>
+    <li><strong>下周关注：</strong>等缩量回踩MA5(716)附近企稳后再考虑建仓。严禁追高</li>
+  </ul>
+</div>
+
+<!-- 一般观察 -->
+<div class="card watch">
+  <h2>一般观察周概览</h2>
+  <table class="watch-table">
+    <tr><th>股票</th><th>周一</th><th>周五</th><th>周涨跌</th><th>趋势</th><th>RSI</th><th>PE</th><th>状态</th></tr>
+    <tr>
+      <td><strong>中微公司</strong> <span style="color:#999">688012</span></td>
+      <td>372.74</td><td>413.00</td><td class="up">+10.80%</td><td>强势多头</td><td>83.3</td><td>143x</td>
+      <td><span class="badge hot">⚠ RSI=93极端超买</span></td>
+    </tr>
+    <tr>
+      <td><strong>北方华创</strong> <span style="color:#999">002371</span></td>
+      <td>745.0</td><td>813.37</td><td class="up">+9.18%</td><td>强势多头</td><td>81.0</td><td>106x</td>
+      <td><span class="badge warn">乖离扩大，关注回调</span></td>
+    </tr>
+    <tr>
+      <td><strong>云南锗业</strong> <span style="color:#999">002428</span></td>
+      <td>110.48</td><td>120.48</td><td class="up">+9.05%</td><td>强势多头</td><td>67.2</td><td>4129x</td>
+      <td><span class="badge hot">⚠ 换手15-20%，纯炒作</span></td>
+    </tr>
+    <tr>
+      <td><strong>扬杰科技</strong> <span style="color:#999">300373</span></td>
+      <td>128.11</td><td>135.76</td><td class="up">+5.97%</td><td>强势多头</td><td>73.3</td><td>54x</td>
+      <td><span class="badge warn">温和跟涨，RSI超买</span></td>
+    </tr>
+    <tr>
+      <td><strong>三环集团</strong> <span style="color:#999">300408</span></td>
+      <td>156.11</td><td>160.05</td><td class="up">+2.52%</td><td>多头排列</td><td>65.8</td><td>107x</td>
+      <td><span class="badge ok">MLCC补涨，近死叉临界</span></td>
+    </tr>
+    <tr>
+      <td><strong>沪电股份</strong> <span style="color:#999">002463</span></td>
+      <td>145.26</td><td>147.28</td><td class="up">+1.39%</td><td>多头排列</td><td>59.5</td><td>66x</td>
+      <td><span class="badge ok">相对抗跌，MA5上方</span></td>
+    </tr>
+    <tr>
+      <td><strong>东山精密</strong> <span style="color:#999">002384</span></td>
+      <td>270.55</td><td>260.32</td><td class="down">-3.78%</td><td>多头排列</td><td>59.3</td><td>234x</td>
+      <td><span class="badge warn">回踩MA10，严重高估</span></td>
+    </tr>
+    <tr>
+      <td><strong>华工科技</strong> <span style="color:#999">000988</span></td>
+      <td>174.67</td><td>160.94</td><td class="down">-7.86%</td><td>多头排列</td><td>51.0</td><td>95x</td>
+      <td><span class="badge hot">⚠ MACD死叉，MA20告急</span></td>
+    </tr>
+    <tr>
+      <td><strong>宁波东力</strong> <span style="color:#999">002164</span></td>
+      <td>12.92</td><td>11.81</td><td class="down">-8.59%</td><td>空头排列</td><td>33.1</td><td>31x</td>
+      <td><span class="badge cold">RSI=18.7超卖，等止跌</span></td>
+    </tr>
+    <tr>
+      <td><strong>双林股份</strong> <span style="color:#999">300100</span></td>
+      <td>30.20</td><td>27.28</td><td class="down">-9.67%</td><td>空头排列</td><td>37.2</td><td>36x</td>
+      <td><span class="badge cold">反转信号完全失效</span></td>
+    </tr>
+    <tr>
+      <td><strong>中际旭创</strong> <span style="color:#999">300308</span></td>
+      <td>1382.33</td><td>1253.89</td><td class="down">-9.29%</td><td>多头排列</td><td>54.8</td><td>94x</td>
+      <td><span class="badge hot">MACD死叉，高PB承压</span></td>
+    </tr>
+    <tr>
+      <td><strong>上海贝岭</strong> <span style="color:#999">600171</span></td>
+      <td>—</td><td>29.90</td><td class="down">-3.08%*</td><td>强势多头</td><td>56.3</td><td>96x</td>
+      <td><span class="badge new">🆕 放量回踩MA10</span></td>
+    </tr>
+    <tr>
+      <td><strong>摩尔线程</strong> <span style="color:#999">688795</span></td>
+      <td>—</td><td>672.77</td><td class="down">-4.55%*</td><td>强势多头</td><td>52.9</td><td>亏损</td>
+      <td><span class="badge new">🆕 buy(75)缩量回踩</span></td>
+    </tr>
+  </table>
+  <p style="font-size:12px;color:#999;margin-top:4px;">🆕 上海贝岭和摩尔线程于6/23新纳入（主力资金流入标的） · *为三天数据</p>
+</div>
+
+<!-- 下周关注 -->
+<div class="card focus">
+  <h2>下周关注</h2>
+  <ol class="focus-list">
+    <li><strong>⛔ 三花智控 6/29开盘执行清仓：</strong>4300股全仓卖出，预计¥41.0-41.8成交。不再犹豫，趋势面前任何支撑位信仰都是致命的。清仓后等41.77以下缩量+RSI底背离的可靠回补信号</li>
+    <li><strong>工业富联复盘教训：</strong>大涨次日不追高 + 止损铁律当日执行。AI服务器板块若缩量企稳MA60(~68-69)，可重新列入观察</li>
+    <li><strong>科创50 2000点突破能否稳固：</strong>连续三日暴涨突破2000，但拉升依赖存量调仓（成交仅18.5亿/日）。历史上无量拉指数+板块大分化往往是短期见顶信号</li>
+    <li><strong>AI下游硬件回调深度：</strong>CPO/PCB/AI服务器全线惨跌。下周能否在MA20/MA10附近缩量止跌企稳，是判断AI行情是否结束的关键分水岭</li>
+    <li><strong>芯片股集体超买风险：</strong>中微RSI=93、北方RSI=81、兆易RSI=82，四只芯片股全部超买。北方华创（乖离最优）回调至780附近可关注</li>
+    <li><strong>电子布/MLCC上游材料持续性：</strong>周五逆势爆发，但如下游继续跌，上游补涨也难以持久（"皮之不存毛将焉附"）</li>
+    <li><strong>摩尔线程 buy(75) 信号：</strong>16只中唯一买入信号，缩量回踩MA10企稳。亏损GPU标的，小仓位可试但需严止损（MA20下方）</li>
+    <li><strong>云南锗业建议移除追踪：</strong>PE=4129x，日换手15-20%，纯游资炒作，不具备任何基本面支撑</li>
+  </ol>
+</div>
+
+<div class="footer">
+  Stock-On · 数据截至2026年6月26日收盘 · 本周5个交易日 · 16只股票全部追踪<br>
+  本周新增：上海贝岭(600171) + 摩尔线程(688795) — 主力资金流入标的<br>
+  <a class="back" href="../../index.html">← 返回首页</a>
+</div>
+
+</div>
+</body>
+</html>
