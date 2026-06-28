@@ -15,17 +15,20 @@ description: 每日追踪报告 — 生成大盘总结(含板块行情) + 全部
 
 ### Phase 0: 数据新鲜度校验（强制，不可跳过）
 
-**必须**先进行以下检查，再进入 Phase 1：
+**必须**先进行以下检查，再进入 Phase 1。这不是建议，是硬性前置条件。
 
 ```
-1. Read data/market/index.json → 检查 indices.{code}.date 是否为今天日期
-   - 如果日期 ≠ 今天 → 强制重跑: bash: source .venv/bin/activate && python src/fetch_market.py
-   - 如果日期 = 今天 → 可以跳过市场数据拉取
+1. Read data/market/index.json → 检查 _data_date 字段
+   - _data_date 是 fetch_market.py 写入的数据真实日期
+   - 如果 _data_date ≠ 今天 → 强制重跑: bash: source .venv/bin/activate && python src/fetch_market.py
+   - 如果文件不存在 _data_date 字段 → 旧版脚本输出，强制重跑
+   - 只有 _data_date = 今天 才能跳过
 2. 抽样检查 3 只股票的 fundamentals.json (core + key 各一只):
    Read data/{code}/fundamentals.json → 检查 pe 和 pb 是否非 null
-   - 如果 pe/pb 为 null → 说明被 fetch.py 覆盖，需重新补充
-   - 补充方法: bash: python3 -c "import json,urllib.request;..." (腾讯接口)
+   - 如果 pe/pb 为 null → 腾讯接口补充
 ```
+
+**如果 Phase 0 校验失败，不允许进入 Phase 1。** 这是防止日报数据错误的最关键步骤。
 
 ### Phase 1: 数据准备
 

@@ -77,6 +77,21 @@ def fetch():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2, default=str)
 
+    # Validate dates: all indices should have the same date, and it should be recent
+    dates = {e["date"] for e in result["indices"].values() if e.get("date")}
+    if len(dates) > 1:
+        logger.warning("⚠️ 指数日期不一致: %s", dates)
+
+    fetched_date = list(dates)[0][:10] if dates else "unknown"
+    today_str = datetime.now(_TZ_CN).strftime("%Y-%m-%d")
+    if fetched_date != today_str:
+        logger.warning("⚠️ 数据日期(%s) ≠ 今天(%s)，报告可能使用旧数据！请确认市场是否已收盘。", fetched_date, today_str)
+
+    # Write validation metadata
+    result["_validated"] = True
+    result["_fetch_date"] = today_str
+    result["_data_date"] = fetched_date
+
     logger.info("指数数据已写入: %s", output_path)
     return result
 

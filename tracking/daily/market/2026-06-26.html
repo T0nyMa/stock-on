@@ -1,120 +1,43 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大盘总结 · 2026-06-26</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大盘总结 — 2026年6月26日（周五）</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
-  h1 { font-size: 28px; margin-bottom: 4px; color: #f0f6fc; }
-  .sub { color: #8b949e; margin-bottom: 28px; font-size: 14px; }
-  h2 { font-size: 20px; color: #f0f6fc; margin: 28px 0 12px; border-bottom: 1px solid #21262d; padding-bottom: 8px; }
-  h3 { font-size: 16px; color: #c9d1d9; margin: 20px 0 10px; }
-  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
-  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #21262d; }
-  th { color: #8b949e; font-weight: 500; font-size: 12px; text-transform: uppercase; }
-  .up { color: #3fb950; }
-  .down { color: #f85149; }
-  .warn { color: #d29922; }
-  .danger { color: #f85149; font-weight: 600; }
-  .tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; margin: 0 2px; }
-  .tag.fire { background:#2a1f1f; color:#f78166; }
-  .tag.warn { background:#2a2a1f; color:#d2a850; }
-  .tag.ok { background:#1f2a1f; color:#3fb950; }
-  .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
-  .flex { display:flex; gap:12px; flex-wrap:wrap; }
-  .flex .stat { flex:1; min-width:140px; background:#0d1117; border-radius:6px; padding:12px; text-align:center; }
-  .stat .val { font-size:24px; font-weight:700; }
-  .stat .lbl { font-size:11px; color:#8b949e; margin-top:4px; }
-  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #21262d; font-size:12px; color:#8b949e; }
-  .footer a { color:#58a6ff; }
-  @media (max-width:640px) { .flex .stat { min-width:100px; } .stat .val { font-size:18px; } }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+  .container { max-width: 720px; margin:0 auto; padding:24px 16px; }
+  .header { background: linear-gradient(135deg, #1a1a2e, #16213e); color:#fff; padding:32px; border-radius:12px; margin-bottom:24px; }
+  .header h1 { font-size:24px; margin-bottom:8px; }
+  .card { background:#fff; border-radius:10px; padding:24px; margin-bottom:16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .card h2 { font-size:18px; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #eee; }
+  table { width:100%; border-collapse:collapse; margin-bottom:16px; font-size:13px; }
+  th { background:#f8f9fa; padding:10px 12px; text-align:left; font-weight:500; color:#666; }
+  td { padding:10px 12px; border-bottom:1px solid #f0f0f0; }
+  .up { color:#27ae60; font-weight:600; }
+  .down { color:#e74c3c; font-weight:600; }
+  .tag { display:inline-block; padding:3px 12px; border-radius:12px; font-size:12px; margin:2px 4px; }
+  .tag.bear { background:#fde8e8; color:#e74c3c; }
+  .footer { text-align:center; color:#999; font-size:12px; margin-top:24px; padding:16px; }
 </style>
 </head>
 <body>
-<h1>大盘总结</h1>
-<p class="sub">2026年06月26日（周五） · 科创50连续暴涨突破2066，上游材料补涨、下游硬件重挫</p>
-
-<h2>四大指数表现</h2>
-<div class="flex">
-  <div class="stat"><div class="val up">4120.28</div><div class="lbl">上证指数 +0.23%</div></div>
-  <div class="stat"><div class="val up">16344.08</div><div class="lbl">深证成指 +1.82%</div></div>
-  <div class="stat"><div class="val up">4371.99</div><div class="lbl">创业板指 +2.84%</div></div>
-  <div class="stat"><div class="val up" style="font-size:28px">2066.33</div><div class="lbl">科创50 +3.87% 🔥</div></div>
-</div>
-
+<div class="container">
+<div class="header"><h1>大盘总结</h1><div class="date">2026年6月26日（周五） · 全面大跌，AI下游重挫</div></div>
 <div class="card">
-  <h3>今日特征</h3>
-  <p><span class="tag fire">科创50领涨</span> <span class="tag warn">板块极端分化</span> <span class="tag ok">深市放量</span></p>
-  <p style="margin-top:10px;font-size:14px;line-height:1.6">
-  <strong>风格定性</strong>：科创50连续两日暴涨（+3.82%→+3.87%），突破2000整数关至2066.33，累计+7.8%。创业板跟随+2.84%，上证横盘+0.23%——"大弱小强"的成长风格。<br>
-  <strong>量能特征</strong>：深市成交831亿（增），创业板247亿（增），整体放量。但科创50量能持平，拉升以存量调仓为主。<br>
-  <strong class="danger">两极分化</strong>：四大指数全线上涨 vs 20个细分板块中<strong>15个下跌</strong>。板块层面极端撕裂，指数由少数权重股驱动。
-  </p>
-</div>
-
-<h2>20板块强度排名</h2>
+<h2>四大指数</h2>
 <table>
-<tr><th>#</th><th>板块</th><th>评分</th><th>均涨幅</th><th>上涨比</th><th>最强股</th><th>最弱股</th></tr>
-<tr><td>🥇</td><td><strong>电子布</strong></td><td class="up">92.7</td><td class="up">+6.57%</td><td>100%</td><td>国际复材(+9.2%)</td><td>中国巨石(+4.7%)</td></tr>
-<tr><td>🥈</td><td><strong>存储芯片</strong></td><td class="up">76.2</td><td class="up">+2.68%</td><td>75%</td><td>德明利(+6.7%)</td><td>兆易创新(-0.7%)</td></tr>
-<tr><td>🥉</td><td><strong>MLCC</strong></td><td class="up">66.2</td><td class="up">+1.67%</td><td>50%</td><td>火炬电子(+5.8%)</td><td>三环集团(-2.2%)</td></tr>
-<tr><td>4</td><td>先进封装</td><td>59.4</td><td class="down">-1.45%</td><td>50%</td><td>晶方科技(+4.6%)</td><td>通富微电(-8.0%)</td></tr>
-<tr><td>5</td><td>AI PC</td><td>51.6</td><td class="down">-2.61%</td><td>33%</td><td>京东方A(+3.6%)</td><td>苏大维格(-6.4%)</td></tr>
-<tr><td>6</td><td>铜箔</td><td>46.2</td><td class="down">-3.60%</td><td>25%</td><td>德福科技(+1.8%)</td><td>铜冠铜箔(-7.1%)</td></tr>
-<tr><td>7</td><td>液冷</td><td>44.7</td><td class="down">-4.13%</td><td>25%</td><td>中科曙光(+1.0%)</td><td>高澜股份(-6.3%)</td></tr>
-<tr><td>8</td><td>算电协同</td><td>44.4</td><td class="down">-2.90%</td><td>50%</td><td>华电辽能(+0.9%)</td><td>豫能控股(-9.6%)</td></tr>
-<tr><td>9</td><td>树脂</td><td>43.2</td><td class="down">-3.32%</td><td>25%</td><td>宏昌电子(+5.1%)</td><td>圣泉集团(-8.6%)</td></tr>
-<tr><td>10</td><td><strong class="danger">AI 服务器</strong></td><td class="down">40.8</td><td class="danger">-6.10%</td><td>25%</td><td>中科曙光(+1.0%)</td><td class="down">紫光股份(-9.8%)</td></tr>
-<tr><td>11</td><td>AI 芯片</td><td>35.5</td><td class="down">-3.96%</td><td class="down">0%</td><td>寒武纪(-3.1%)</td><td>景嘉微(-5.0%)</td></tr>
-<tr><td>12</td><td>PCB</td><td>30.6</td><td class="down">-6.01%</td><td class="down">0%</td><td>深南电路(-4.7%)</td><td>胜宏科技(-8.7%)</td></tr>
-<tr><td>13</td><td>CPO</td><td>29.0</td><td class="down">-6.71%</td><td class="down">0%</td><td>中际旭创(-5.3%)</td><td>新易盛(-7.3%)</td></tr>
-<tr><td>14</td><td>高速互联</td><td>26.5</td><td class="down">-7.71%</td><td class="down">0%</td><td>鼎通科技(-6.1%)</td><td>兆龙互连(-8.8%)</td></tr>
-<tr><td>15</td><td>电源</td><td>24.6</td><td class="down">-6.96%</td><td class="down">0%</td><td>中恒电气(-3.8%)</td><td>圣阳股份(-10.0%)</td></tr>
-<tr><td>16</td><td>光纤光缆</td><td>24.5</td><td class="down">-8.87%</td><td class="down">0%</td><td>长飞光纤(-5.6%)</td><td>烽火通信(-10.0%)</td></tr>
-<tr><td>17</td><td>OCS</td><td>20.4</td><td class="down">-7.21%</td><td class="down">0%</td><td>德科立(-4.1%)</td><td>光库科技(-8.4%)</td></tr>
-<tr><td>18</td><td>培育钻石</td><td>16.0</td><td class="down">-7.44%</td><td class="down">0%</td><td>恒盛能源(-6.0%)</td><td>黄河旋风(-8.9%)</td></tr>
-<tr><td>19</td><td>AIDC</td><td>14.3</td><td class="down">-7.29%</td><td class="down">0%</td><td>润泽科技(-7.0%)</td><td>光环新网(-8.0%)</td></tr>
-<tr><td>20</td><td>算力租赁</td><td>14.0</td><td class="down">-7.66%</td><td class="down">0%</td><td>三人行(-6.5%)</td><td>利通电子(-10.0%)</td></tr>
+<tr><th>指数</th><th>收盘</th><th>涨跌</th><th>5日涨幅</th></tr>
+<tr><td>上证指数</td><td>4027.26</td><td class="down">-2.26%</td><td class="down">-3.26%</td></tr>
+<tr><td>深证成指</td><td>15782.22</td><td class="down">-3.44%</td><td class="down">-3.61%</td></tr>
+<tr><td>创业板指</td><td>4194.21</td><td class="down">-4.07%</td><td class="down">-3.79%</td></tr>
+<tr><td>科创50</td><td>2032.28</td><td class="down">-1.65%</td><td class="up">+4.28%</td></tr>
 </table>
-
-<h2>板块分化分析</h2>
-<div class="card">
-<h3>🔥 最强3板块</h3>
-<p><strong>电子布 +6.57%</strong> — 4只全涨，玻璃纤维布是PCB核心基材，AI算力需求传导至上游原材料<br>
-<strong>存储芯片 +2.68%</strong> — HBM和存储周期继续发酵，德明利+6.7%<br>
-<strong>MLCC +1.67%</strong> — 被动元件补涨，火炬电子+5.8%</p>
+<p><span class="tag bear">全面大跌</span><span class="tag bear">AI下游重挫</span></p>
+<p><strong>关键分化</strong>：AI上游材料（电子布+6.6%、存储+2.7%）继续涨；AI下游硬件（AI服务器-6.1%、CPO-6.7%、PCB-6.0%）全线崩溃。</p>
+<p>本周行情总结：科创50连续暴涨是芯片和材料拉动的，AI服务器/CPO/PCB方向本周累计跌幅超15%。</p>
 </div>
-<div class="card">
-<h3>⚠️ 最弱3板块</h3>
-<p><strong>算力租赁 -7.66%</strong> — 利通电子跌停-10%，全军覆没<br>
-<strong>光纤光缆 -8.87%</strong> — 烽火通信、中天科技双双跌停<br>
-<strong>培育钻石 -7.44%</strong> — 前期炒作板块退潮</p>
-</div>
-<div class="card">
-<h3>🤖 AI主线表现</h3>
-<table>
-<tr><th>板块</th><th>今日</th><th>上涨比</th><th>解读</th></tr>
-<tr><td>AI 服务器</td><td class="danger">-6.10%</td><td>25%</td><td>工业富联-8.8%，紫光股份-9.8%</td></tr>
-<tr><td>AI 芯片</td><td class="down">-3.96%</td><td class="down">0%</td><td>全军覆没</td></tr>
-<tr><td>PCB</td><td class="down">-6.01%</td><td class="down">0%</td><td>胜宏科技-8.7%</td></tr>
-<tr><td>CPO</td><td class="down">-6.71%</td><td class="down">0%</td><td>中际旭创-5.3%，新易盛-7.3%</td></tr>
-<tr><td>高速互联</td><td class="down">-7.71%</td><td class="down">0%</td><td>立讯精密-8.6%</td></tr>
-</table>
-</div>
-
-<h2>资金流向判断</h2>
-<div class="card">
-<p style="font-size:14px;line-height:1.8">
-<strong class="warn">从AI下游硬件向上游材料迁移</strong>：CPO/PCB/AI服务器/高速互联等前期涨幅巨大的下游硬件板块集体大跌（-6%~-8%），电子布（+6.6%）、存储芯片（+2.7%）等上游材料板块逆势上涨。板块内轮动——资金从高位下游获利了结，流入低位上游原材料。<br><br>
-<strong class="danger">科创50背离警示</strong>：科创50连续暴涨，但20个板块中15个下跌。指数的上涨主要依赖大市值龙头，中小市值细分赛道普遍回调。这种"指数涨、个股跌"的结构性分化通常是短期见顶信号。<br><br>
-<strong>后续关注</strong>：上游材料行情能否持续还是一日游补涨；AI下游硬件回调深度（MA20支撑）；电子布板块持续性（4只全涨+大成交量有机构参与迹象）。
-</p>
-</div>
-
-<div class="footer">
-  <a href="../../index.html">← 返回首页</a> · 数据: akshare · 自动生成于 2026-06-26
+<div class="footer">Stock-On · 数据截至2026年6月26日（周五）收盘 · 来源 akshare</div>
 </div>
 </body>
 </html>
