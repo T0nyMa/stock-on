@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>持仓观察汇总 — 2026年6月26日</title>
+<title>持仓观察汇总 — 2026年6月26日（周五）</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
@@ -18,72 +18,159 @@
   .stock-name { font-size:16px; font-weight:600; margin-bottom:12px; }
   .meta-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px; margin-bottom:12px; }
   .meta-item { background:#f8f9fa; padding:10px 12px; border-radius:6px; }
-  .meta-item .label { font-size:11px; color:#999; }
-  .meta-item .value { font-size:16px; font-weight:600; }
-  .value.up { color:#27ae60; } .value.down { color:#e74c3c; }
-  .watch-table { width:100%; border-collapse:collapse; font-size:13px; }
-  .watch-table th { background:#f8f9fa; padding:8px 10px; text-align:left; font-weight:500; color:#666; border-bottom:2px solid #eee; }
-  .watch-table td { padding:8px 10px; border-bottom:1px solid #f0f0f0; }
-  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; }
-  .badge.hot { background:#fde8e8; color:#e74c3c; } .badge.warn { background:#fff3e0; color:#e67e22; } .badge.ok { background:#e8f5e9; color:#27ae60; }
+  .meta-item .lbl { font-size:11px; color:#999; }
+  .meta-item .val { font-size:16px; font-weight:600; }
+  .val.up { color:#27ae60; } .val.down { color:#e74c3c; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { background:#f8f9fa; padding:8px 10px; text-align:left; font-weight:500; color:#666; }
+  td { padding:8px 10px; border-bottom:1px solid #f0f0f0; }
   .footer { text-align:center; color:#999; font-size:12px; margin-top:24px; padding:16px; }
+</style></head><body><div class="container">
+<div class="header"><h1>持仓观察汇总</h1><div class="date">2026年6月26日（周五）</div></div>
+<div class="alert"><strong>⛔ 止损警报</strong>：三花智控(41.5 破止损43.5) · 工业富联(70.22 破止损72.5)</div>
+<div class="card core"><h2>★ 核心持仓</h2><div class="stock-name">三花智控<span style="color:#999;font-weight:400;font-size:13px;margin-left:8px;">002050</span> — 持有4300股 · <span style="color:#e74c3c">浮亏-28.3%</span></div><div class="meta-grid">
+        <div class="meta-item"><div class="lbl">收盘</div><div class="val down">41.50 <small>-5.55%</small></div></div>
+        <div class="meta-item"><div class="lbl">PE</div><div class="val">43</div></div>
+        <div class="meta-item"><div class="lbl">PB</div><div class="val">5.3</div></div>
+        <div class="meta-item"><div class="lbl">趋势</div><div class="val">空头排列(25.0)</div></div>
+        <div class="meta-item"><div class="lbl">RSI6</div><div class="val">24</div></div>
+        <div class="meta-item"><div class="lbl">共识</div><div class="val">中性(42)</div></div>
+        </div><div style="margin-bottom:8px">
+<style>
+.hbar-wrap { margin:4px 0; display:flex; align-items:center; gap:8px; }
+.hbar-label { width:80px; font-size:12px; text-align:right; flex-shrink:0; color:#666; }
+.hbar-track { flex:1; height:18px; background:#f0f0f0; border-radius:3px; overflow:hidden; }
+.hbar-fill { height:100%; border-radius:3px; transition:width .3s; display:flex; align-items:center; padding-left:6px; font-size:11px; color:#fff; font-weight:600; min-width:20px; }
+.spark-wrap { display:inline-block; vertical-align:middle; }
+.consensus-bar { height:24px; border-radius:4px; display:flex; overflow:hidden; font-size:10px; color:#fff; font-weight:600; }
+.consensus-bar .buy { background:#27ae60; }
+.consensus-bar .hold { background:#f39c12; }
+.consensus-bar .sell { background:#e74c3c; }
+.pe-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:12px 0; }
+.pe-cell { text-align:center; padding:12px 8px; border-radius:8px; }
+.pe-cell .count { font-size:24px; font-weight:700; }
+.pe-cell .label { font-size:11px; color:#888; margin-top:2px; }
+.pe-cell.c1{background:#e8f5e9;color:#27ae60}.pe-cell.c2{background:#fef9e7;color:#e67e22}
+.pe-cell.c3{background:#fde8e8;color:#e74c3c}.pe-cell.c4{background:#fadbd8;color:#c0392b}
+.kpi-card { background:#f8f9fa; border-radius:8px; padding:14px; text-align:center; }
+.kpi-card .val { font-size:22px; font-weight:700; }
+.kpi-card .lbl { font-size:11px; color:#999; margin-top:2px; }
+.kpi-card .trend { font-size:12px; margin-top:4px; }
 </style>
-</head>
-<body>
-<div class="container">
-<div class="header"><h1>持仓观察汇总</h1><div class="date">2026年6月26日（周五） · 大盘大跌 · AI上下游极端分化</div></div>
-<div class="alert"><strong>⛔ 2只持仓均跌破止损</strong>：三花智控41.5(止损43.5) · 工业富联70.2(止损72.5)</div>
-<div class="card core"><h2>★ 核心持仓</h2><div class="stock-name">三花智控<span style="color:#999;font-weight:400;font-size:13px;margin-left:8px;">002050</span> — 持有4300股 · 成本57.9 · <span style="color:#e74c3c">浮亏-28.3%</span></div><div class="meta-grid">
-    <div class="meta-item"><div class="label">收盘</div><div class="value down">41.50 <small>-5.55%</small></div></div>
-    <div class="meta-item"><div class="label">PE</div><div class="value">43</div></div>
-    <div class="meta-item"><div class="label">PB</div><div class="value">5.3</div></div>
-    <div class="meta-item"><div class="label">趋势</div><div class="value">空头排列(25.0)</div></div>
-    <div class="meta-item"><div class="label">RSI6</div><div class="value">24</div></div>
-    <div class="meta-item"><div class="label">BIAS5</div><div class="value">-4.7%</div></div></div><p style="color:#e74c3c;font-weight:600">⛔ 现价41.5 已跌破止损43.5 | 亏损¥70,520 | 距成本-28.3%</p></div><div class="card key"><h2>★ 重点观察</h2><div class="stock-name">兆易创新<span style="color:#999;font-weight:400;font-size:13px;margin-left:8px;">603986</span></div><div class="meta-grid">
-    <div class="meta-item"><div class="label">收盘</div><div class="value down">770.00 <small>-0.67%</small></div></div>
-    <div class="meta-item"><div class="label">PE</div><div class="value">188</div></div>
-    <div class="meta-item"><div class="label">PB</div><div class="value">21.8</div></div>
-    <div class="meta-item"><div class="label">趋势</div><div class="value">强势多头(90.0)</div></div>
-    <div class="meta-item"><div class="label">RSI6</div><div class="value">82</div></div>
-    <div class="meta-item"><div class="label">BIAS5</div><div class="value">7.5%</div></div></div><div class="stock-name">工业富联<span style="color:#999;font-weight:400;font-size:13px;margin-left:8px;">601138</span> — 持有2200股 · 成本78.72 · <span style="color:#e74c3c">浮亏-10.8%</span></div><div class="meta-grid">
-    <div class="meta-item"><div class="label">收盘</div><div class="value down">70.22 <small>-8.79%</small></div></div>
-    <div class="meta-item"><div class="label">PE</div><div class="value">34</div></div>
-    <div class="meta-item"><div class="label">PB</div><div class="value">7.9</div></div>
-    <div class="meta-item"><div class="label">趋势</div><div class="value">弱势多头(55.0)</div></div>
-    <div class="meta-item"><div class="label">RSI6</div><div class="value">36</div></div>
-    <div class="meta-item"><div class="label">BIAS5</div><div class="value">-6.9%</div></div></div><p style="color:#e74c3c;font-weight:600">⛔ 现价70.22 已跌破止损72.5 | 亏损¥18,711 | 距成本-10.8%</p></div><div class="card"><h2>一般观察</h2><table class="watch-table"><thead><tr><th>股票</th><th>收盘</th><th>涨跌</th><th>RSI6</th><th>趋势</th><th>PE</th><th>PB</th></tr></thead><tbody><tr><td><strong>扬杰科技</strong> <span style="color:#999">300373</span></td>
-    <td>135.76</td><td class="value down">-1.23%</td>
-    <td>80</td><td>强势多头(90.0)</td><td>54</td><td>7.7</td></tr><tr><td><strong>中微公司</strong> <span style="color:#999">688012</span></td>
-    <td>413.00</td><td class="value up">+3.48%</td>
-    <td>93</td><td>强势多头(90.0)</td><td>143</td><td>15.2</td></tr><tr><td><strong>北方华创</strong> <span style="color:#999">002371</span></td>
-    <td>813.37</td><td class="value up">+1.93%</td>
-    <td>92</td><td>强势多头(90.0)</td><td>106</td><td>15.0</td></tr><tr><td><strong>宁波东力</strong> <span style="color:#999">002164</span></td>
-    <td>11.81</td><td class="value down">-2.80%</td>
-    <td>19</td><td>空头排列(25.0)</td><td>31</td><td>4.0</td></tr><tr><td><strong>双林股份</strong> <span style="color:#999">300100</span></td>
-    <td>27.28</td><td class="value down">-4.21%</td>
-    <td>30</td><td>空头排列(25.0)</td><td>36</td><td>4.8</td></tr><tr><td><strong>沪电股份</strong> <span style="color:#999">002463</span></td>
-    <td>147.28</td><td class="value down">-4.97%</td>
-    <td>57</td><td>多头排列(75.0)</td><td>66</td><td>17.9</td></tr><tr><td><strong>华工科技</strong> <span style="color:#999">000988</span></td>
-    <td>160.94</td><td class="value down">-7.28%</td>
-    <td>44</td><td>多头排列(75.0)</td><td>95</td><td>14.2</td></tr><tr><td><strong>中际旭创</strong> <span style="color:#999">300308</span></td>
-    <td>1253.89</td><td class="value down">-5.25%</td>
-    <td>45</td><td>多头排列(75.0)</td><td>94</td><td>40.4</td></tr><tr><td><strong>东山精密</strong> <span style="color:#999">002384</span></td>
-    <td>260.32</td><td class="value down">-5.61%</td>
-    <td>56</td><td>多头排列(75.0)</td><td>234</td><td>21.1</td></tr><tr><td><strong>云南锗业</strong> <span style="color:#999">002428</span></td>
-    <td>120.48</td><td class="value down">-7.39%</td>
-    <td>67</td><td>强势多头(90.0)</td><td>4130</td><td>53.6</td></tr><tr><td><strong>三环集团</strong> <span style="color:#999">300408</span></td>
-    <td>160.05</td><td class="value down">-2.18%</td>
-    <td>65</td><td>多头排列(75.0)</td><td>107</td><td>14.2</td></tr><tr><td><strong>上海贝岭</strong> <span style="color:#999">600171</span></td>
-    <td>29.90</td><td class="value down">-6.42%</td>
-    <td>57</td><td>强势多头(90.0)</td><td>96</td><td>4.8</td></tr><tr><td><strong>摩尔线程</strong> <span style="color:#999">688795</span></td>
-    <td>672.77</td><td class="value down">-3.89%</td>
-    <td>52</td><td>强势多头(90.0)</td><td>-368</td><td>27.4</td></tr></tbody></table></div><div class="card"><h2>估值分布</h2>
-<p style="margin-bottom:12px">
-<span class="badge ok">PE&lt;50: 4只</span>
-<span class="badge warn">PE50-100: 5只</span>
-<span class="badge hot">PE100-200: 4只</span>
-<span class="badge hot">PE&gt;200: 2只</span>
-<span class="badge hot">亏损: 1只</span>
-</p>
+<div class="consensus-bar" style="width:200px"><div class="hold" style="width:67%">2持</div><div class="sell" style="width:33%">1卖</div></div></div><p style="color:#e74c3c;font-weight:600">⛔ 止损43.5 | 亏损¥70,520</p></div>
+<div class="card key"><h2>★ 重点观察</h2><div class="stock-name">兆易创新<span style="color:#999;font-weight:400;font-size:13px;margin-left:8px;">603986</span></div><div class="meta-grid">
+        <div class="meta-item"><div class="lbl">收盘</div><div class="val down">770.00 <small>-0.67%</small></div></div>
+        <div class="meta-item"><div class="lbl">PE</div><div class="val">188</div></div>
+        <div class="meta-item"><div class="lbl">PB</div><div class="val">21.8</div></div>
+        <div class="meta-item"><div class="lbl">趋势</div><div class="val">强势多头(90.0)</div></div>
+        <div class="meta-item"><div class="lbl">RSI6</div><div class="val">82</div></div>
+        <div class="meta-item"><div class="lbl">共识</div><div class="val">中性(56)</div></div>
+        </div><div style="margin-bottom:8px">
+<style>
+.hbar-wrap { margin:4px 0; display:flex; align-items:center; gap:8px; }
+.hbar-label { width:80px; font-size:12px; text-align:right; flex-shrink:0; color:#666; }
+.hbar-track { flex:1; height:18px; background:#f0f0f0; border-radius:3px; overflow:hidden; }
+.hbar-fill { height:100%; border-radius:3px; transition:width .3s; display:flex; align-items:center; padding-left:6px; font-size:11px; color:#fff; font-weight:600; min-width:20px; }
+.spark-wrap { display:inline-block; vertical-align:middle; }
+.consensus-bar { height:24px; border-radius:4px; display:flex; overflow:hidden; font-size:10px; color:#fff; font-weight:600; }
+.consensus-bar .buy { background:#27ae60; }
+.consensus-bar .hold { background:#f39c12; }
+.consensus-bar .sell { background:#e74c3c; }
+.pe-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:12px 0; }
+.pe-cell { text-align:center; padding:12px 8px; border-radius:8px; }
+.pe-cell .count { font-size:24px; font-weight:700; }
+.pe-cell .label { font-size:11px; color:#888; margin-top:2px; }
+.pe-cell.c1{background:#e8f5e9;color:#27ae60}.pe-cell.c2{background:#fef9e7;color:#e67e22}
+.pe-cell.c3{background:#fde8e8;color:#e74c3c}.pe-cell.c4{background:#fadbd8;color:#c0392b}
+.kpi-card { background:#f8f9fa; border-radius:8px; padding:14px; text-align:center; }
+.kpi-card .val { font-size:22px; font-weight:700; }
+.kpi-card .lbl { font-size:11px; color:#999; margin-top:2px; }
+.kpi-card .trend { font-size:12px; margin-top:4px; }
+</style>
+<div class="consensus-bar" style="width:200px"><div class="buy" style="width:33%">1买</div><div class="hold" style="width:67%">2持</div></div></div></div><div class="card key"><h2>★ 重点观察</h2><div class="stock-name">工业富联<span style="color:#999;font-weight:400;font-size:13px;margin-left:8px;">601138</span> — 持有2200股 · <span style="color:#e74c3c">浮亏-10.8%</span></div><div class="meta-grid">
+        <div class="meta-item"><div class="lbl">收盘</div><div class="val down">70.22 <small>-8.79%</small></div></div>
+        <div class="meta-item"><div class="lbl">PE</div><div class="val">34</div></div>
+        <div class="meta-item"><div class="lbl">PB</div><div class="val">7.9</div></div>
+        <div class="meta-item"><div class="lbl">趋势</div><div class="val">弱势多头(55.0)</div></div>
+        <div class="meta-item"><div class="lbl">RSI6</div><div class="val">36</div></div>
+        <div class="meta-item"><div class="lbl">共识</div><div class="val">中性(44)</div></div>
+        </div><div style="margin-bottom:8px">
+<style>
+.hbar-wrap { margin:4px 0; display:flex; align-items:center; gap:8px; }
+.hbar-label { width:80px; font-size:12px; text-align:right; flex-shrink:0; color:#666; }
+.hbar-track { flex:1; height:18px; background:#f0f0f0; border-radius:3px; overflow:hidden; }
+.hbar-fill { height:100%; border-radius:3px; transition:width .3s; display:flex; align-items:center; padding-left:6px; font-size:11px; color:#fff; font-weight:600; min-width:20px; }
+.spark-wrap { display:inline-block; vertical-align:middle; }
+.consensus-bar { height:24px; border-radius:4px; display:flex; overflow:hidden; font-size:10px; color:#fff; font-weight:600; }
+.consensus-bar .buy { background:#27ae60; }
+.consensus-bar .hold { background:#f39c12; }
+.consensus-bar .sell { background:#e74c3c; }
+.pe-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:12px 0; }
+.pe-cell { text-align:center; padding:12px 8px; border-radius:8px; }
+.pe-cell .count { font-size:24px; font-weight:700; }
+.pe-cell .label { font-size:11px; color:#888; margin-top:2px; }
+.pe-cell.c1{background:#e8f5e9;color:#27ae60}.pe-cell.c2{background:#fef9e7;color:#e67e22}
+.pe-cell.c3{background:#fde8e8;color:#e74c3c}.pe-cell.c4{background:#fadbd8;color:#c0392b}
+.kpi-card { background:#f8f9fa; border-radius:8px; padding:14px; text-align:center; }
+.kpi-card .val { font-size:22px; font-weight:700; }
+.kpi-card .lbl { font-size:11px; color:#999; margin-top:2px; }
+.kpi-card .trend { font-size:12px; margin-top:4px; }
+</style>
+<div class="consensus-bar" style="width:200px"><div class="hold" style="width:67%">2持</div><div class="sell" style="width:33%">1卖</div></div></div><p style="color:#e74c3c;font-weight:600">⛔ 止损72.5 | 亏损¥18,711</p></div>
+<div class="card"><h2>一般观察</h2>
+<table><thead><tr><th>股票</th><th>收盘</th><th>涨跌</th><th>RSI6</th><th>趋势</th><th>PE</th><th>PB</th><th>共识</th></tr></thead><tbody>
+<tr><td><strong>扬杰科技</strong> <span style="color:#999">300373</span></td>
+        <td>135.76</td><td class="down">-1.23%</td>
+        <td>80</td><td>强势多头(90.0)</td><td>54</td><td>7.7</td><td>中性(56)</td></tr><tr><td><strong>中微公司</strong> <span style="color:#999">688012</span></td>
+        <td>413.00</td><td class="up">+3.48%</td>
+        <td>93</td><td>强势多头(90.0)</td><td>143</td><td>15.2</td><td>中性(56)</td></tr><tr><td><strong>北方华创</strong> <span style="color:#999">002371</span></td>
+        <td>813.37</td><td class="up">+1.93%</td>
+        <td>92</td><td>强势多头(90.0)</td><td>106</td><td>15.0</td><td>中性(56)</td></tr><tr><td><strong>宁波东力</strong> <span style="color:#999">002164</span></td>
+        <td>11.81</td><td class="down">-2.80%</td>
+        <td>19</td><td>空头排列(25.0)</td><td>31</td><td>4.0</td><td>中性(42)</td></tr><tr><td><strong>双林股份</strong> <span style="color:#999">300100</span></td>
+        <td>27.28</td><td class="down">-4.21%</td>
+        <td>30</td><td>空头排列(25.0)</td><td>36</td><td>4.8</td><td>中性(42)</td></tr><tr><td><strong>沪电股份</strong> <span style="color:#999">002463</span></td>
+        <td>147.28</td><td class="down">-4.97%</td>
+        <td>57</td><td>多头排列(75.0)</td><td>66</td><td>17.9</td><td>偏多(60)</td></tr><tr><td><strong>华工科技</strong> <span style="color:#999">000988</span></td>
+        <td>160.94</td><td class="down">-7.28%</td>
+        <td>44</td><td>多头排列(75.0)</td><td>95</td><td>14.2</td><td>中性(51)</td></tr><tr><td><strong>中际旭创</strong> <span style="color:#999">300308</span></td>
+        <td>1253.89</td><td class="down">-5.25%</td>
+        <td>45</td><td>多头排列(75.0)</td><td>94</td><td>40.4</td><td>中性(51)</td></tr><tr><td><strong>东山精密</strong> <span style="color:#999">002384</span></td>
+        <td>260.32</td><td class="down">-5.61%</td>
+        <td>56</td><td>多头排列(75.0)</td><td>234</td><td>21.1</td><td>偏多(60)</td></tr><tr><td><strong>云南锗业</strong> <span style="color:#999">002428</span></td>
+        <td>120.48</td><td class="down">-7.39%</td>
+        <td>67</td><td>强势多头(90.0)</td><td>4130</td><td>53.6</td><td>偏多(60)</td></tr><tr><td><strong>三环集团</strong> <span style="color:#999">300408</span></td>
+        <td>160.05</td><td class="down">-2.18%</td>
+        <td>65</td><td>多头排列(75.0)</td><td>107</td><td>14.2</td><td>中性(52)</td></tr><tr><td><strong>上海贝岭</strong> <span style="color:#999">600171</span></td>
+        <td>29.90</td><td class="down">-6.42%</td>
+        <td>57</td><td>强势多头(90.0)</td><td>96</td><td>4.8</td><td>偏多(60)</td></tr><tr><td><strong>摩尔线程</strong> <span style="color:#999">688795</span></td>
+        <td>672.77</td><td class="down">-3.89%</td>
+        <td>52</td><td>强势多头(90.0)</td><td>-368</td><td>27.4</td><td>偏多(60)</td></tr></tbody></table></div>
+<div class="card"><h2>估值分布</h2>
+
+<style>
+.hbar-wrap { margin:4px 0; display:flex; align-items:center; gap:8px; }
+.hbar-label { width:80px; font-size:12px; text-align:right; flex-shrink:0; color:#666; }
+.hbar-track { flex:1; height:18px; background:#f0f0f0; border-radius:3px; overflow:hidden; }
+.hbar-fill { height:100%; border-radius:3px; transition:width .3s; display:flex; align-items:center; padding-left:6px; font-size:11px; color:#fff; font-weight:600; min-width:20px; }
+.spark-wrap { display:inline-block; vertical-align:middle; }
+.consensus-bar { height:24px; border-radius:4px; display:flex; overflow:hidden; font-size:10px; color:#fff; font-weight:600; }
+.consensus-bar .buy { background:#27ae60; }
+.consensus-bar .hold { background:#f39c12; }
+.consensus-bar .sell { background:#e74c3c; }
+.pe-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:12px 0; }
+.pe-cell { text-align:center; padding:12px 8px; border-radius:8px; }
+.pe-cell .count { font-size:24px; font-weight:700; }
+.pe-cell .label { font-size:11px; color:#888; margin-top:2px; }
+.pe-cell.c1{background:#e8f5e9;color:#27ae60}.pe-cell.c2{background:#fef9e7;color:#e67e22}
+.pe-cell.c3{background:#fde8e8;color:#e74c3c}.pe-cell.c4{background:#fadbd8;color:#c0392b}
+.kpi-card { background:#f8f9fa; border-radius:8px; padding:14px; text-align:center; }
+.kpi-card .val { font-size:22px; font-weight:700; }
+.kpi-card .lbl { font-size:11px; color:#999; margin-top:2px; }
+.kpi-card .trend { font-size:12px; margin-top:4px; }
+</style>
+<div class="pe-grid"><div class="pe-cell c1"><div class="count">1</div><div class="label"><30</div></div><div class="pe-cell c2"><div class="count">4</div><div class="label">30-50</div></div><div class="pe-cell c3"><div class="count">5</div><div class="label">50-100</div></div><div class="pe-cell c4"><div class="count">4</div><div class="label">100-200</div></div><div class="pe-cell c5"><div class="count">2</div><div class="label">>200</div></div></div>
 <p>估值洼地：三花智控, 宁波东力, 双林股份, 工业富联, 摩尔线程</p>
-</div><div class="footer">Stock-On · 数据截至2026年6月26日收盘 · 16只股票 · GitHub Pages</div></div></body></html>
+</div>
+<div class="footer">Stock-On · 数据截至2026年6月26日（周五）收盘 · 16只股票</div>
+</div></body></html>
