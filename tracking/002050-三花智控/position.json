@@ -7,9 +7,9 @@
     "shares": 4300,
     "cost": 248970,
     "current_price": 41.5,
-    "current_value": 178450,
-    "unrealized_pnl": -70520,
-    "unrealized_pnl_pct": -28.3,
+    "current_value": 178450.0,
+    "unrealized_pnl": -70520.0,
+    "unrealized_pnl_pct": -28.32,
     "max_drawdown_price": 41.5,
     "max_drawdown_date": "2026-06-26",
     "low_since_last": 41.5,
@@ -60,5 +60,5 @@
       "action": "立即全仓止损，任何延迟都会扩大损失。若已清仓则完全围观。"
     }
   },
-  "last_updated": "2026-06-26T17:45:00+08:00"
+  "last_updated": "2026-06-26T19:50:00+08:00"
 }
