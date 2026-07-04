@@ -142,6 +142,46 @@
       "market": "SZ"
     },
     {
+      "code": "600276",
+      "name": "恒瑞医药",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["创新药", "医药"],
+      "market": "SH"
+    },
+    {
+      "code": "600988",
+      "name": "赤峰黄金",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["黄金", "贵金属"],
+      "market": "SH"
+    },
+    {
+      "code": "603259",
+      "name": "药明康德",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["CXO", "医药"],
+      "market": "SH"
+    },
+    {
+      "code": "601899",
+      "name": "紫金矿业",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["黄金", "铜", "贵金属"],
+      "market": "SH"
+    },
+    {
       "code": "600171",
       "name": "上海贝岭",
       "tier": "watch",
