@@ -1,32 +1,24 @@
 {
-  "updated_at": "2026-06-23",
+  "updated_at": "2026-07-04",
   "stocks": [
     {
       "code": "002050",
       "name": "三花智控",
-      "tier": "core",
-      "tier_label": "核心持仓",
-      "scenario": "core-position",
-      "has_position": true,
-      "tags": [
-        "机器人",
-        "汽零",
-        "制冷"
-      ],
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["机器人", "汽零", "制冷"],
       "market": "SZ"
     },
     {
       "code": "603986",
       "name": "兆易创新",
-      "tier": "key",
-      "tier_label": "重点观察",
-      "scenario": "key-observation",
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "芯片",
-        "存储",
-        "MCU"
-      ],
+      "tags": ["芯片", "存储", "MCU"],
       "market": "SH"
     },
     {
@@ -36,10 +28,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "芯片",
-        "功率半导体"
-      ],
+      "tags": ["芯片", "功率半导体"],
       "market": "SZ"
     },
     {
@@ -49,10 +38,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "芯片",
-        "刻蚀设备"
-      ],
+      "tags": ["芯片", "刻蚀设备"],
       "market": "SH"
     },
     {
@@ -62,10 +48,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "芯片",
-        "设备"
-      ],
+      "tags": ["芯片", "设备"],
       "market": "SZ"
     },
     {
@@ -75,9 +58,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "传动设备"
-      ],
+      "tags": ["传动设备"],
       "market": "SZ"
     },
     {
@@ -87,9 +68,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "汽零"
-      ],
+      "tags": ["汽零"],
       "market": "SZ"
     },
     {
@@ -99,10 +78,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "PCB",
-        "AI算力"
-      ],
+      "tags": ["PCB", "AI算力"],
       "market": "SZ"
     },
     {
@@ -112,11 +88,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "光通信",
-        "激光",
-        "AI算力"
-      ],
+      "tags": ["光通信", "激光", "AI算力"],
       "market": "SZ"
     },
     {
@@ -126,30 +98,17 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "CPO",
-        "光模块",
-        "AI算力"
-      ],
+      "tags": ["CPO", "光模块", "AI算力"],
       "market": "SZ"
     },
     {
       "code": "601138",
       "name": "工业富联",
-      "tier": "key",
-      "tier_label": "重点观察",
-      "scenario": "key-observation",
-      "has_position": true,
-      "position_info": {
-        "buy_date": "2026-06-22",
-        "buy_price": 78.72,
-        "shares": 2200,
-        "cost": 173194.56
-      },
-      "tags": [
-        "AI服务器",
-        "AI算力"
-      ],
+      "tier": "watch",
+      "tier_label": "一般观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["AI服务器", "AI算力"],
       "market": "SH"
     },
     {
@@ -159,10 +118,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "PCB",
-        "AI算力"
-      ],
+      "tags": ["PCB", "AI算力"],
       "market": "SZ"
     },
     {
@@ -172,11 +128,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "稀土",
-        "锗金属",
-        "军工"
-      ],
+      "tags": ["稀土", "锗金属", "军工"],
       "market": "SZ"
     },
     {
@@ -186,10 +138,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "MLCC",
-        "电子元件"
-      ],
+      "tags": ["MLCC", "电子元件"],
       "market": "SZ"
     },
     {
@@ -199,11 +148,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "芯片",
-        "模拟芯片",
-        "主力流入"
-      ],
+      "tags": ["芯片", "模拟芯片", "主力流入"],
       "market": "SH"
     },
     {
@@ -213,11 +158,7 @@
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
       "has_position": false,
-      "tags": [
-        "GPU",
-        "AI芯片",
-        "主力流入"
-      ],
+      "tags": ["GPU", "AI芯片", "主力流入"],
       "market": "SH"
     }
   ]
