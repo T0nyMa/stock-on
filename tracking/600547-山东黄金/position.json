@@ -1,0 +1,57 @@
+{
+  "stock_code": "600547",
+  "stock_name": "山东黄金",
+  "position": {
+    "buy_date": "2026-07-06",
+    "buy_price": 27.15,
+    "shares": 0,
+    "cost": 0,
+    "current_price": 25.80,
+    "current_value": 0,
+    "unrealized_pnl": 0,
+    "unrealized_pnl_pct": -4.97,
+    "entry_reason": "黄金板块启动，MACD金叉确立，金价4000美元+，PE23合理"
+  },
+  "key_levels": {
+    "cost_basis": 27.15,
+    "resistance_2": 30.00,
+    "resistance_1": 27.33,
+    "current": 25.80,
+    "ma5": 24.50,
+    "ma10": 24.20,
+    "ma20": 25.90,
+    "support_1": 24.50,
+    "stop_loss": 24.00
+  },
+  "strategy_consensus": {
+    "buy_signals": ["MACD(65): 金叉红柱0.57扩大"],
+    "hold_signals": ["趋势分析(55): 弱势多头，MA5上穿MA10", "量价分析(50): 涨停后缩量回调正常"],
+    "sell_signals": [],
+    "verdict": "偏多",
+    "weighted_score": 57
+  },
+  "swing_plan": {
+    "status": "⚠️ 买入当日追高27.15（距最高27.33仅0.18），收盘25.80浮亏-5%。短期需等回调消化",
+    "scenario_a": {
+      "name": "继续上行",
+      "trigger": "放量站上27元且MACD红柱继续扩大",
+      "action": "持有不动，目标30元"
+    },
+    "scenario_b": {
+      "name": "横盘整理",
+      "trigger": "25-26元区间缩量震荡2-3日",
+      "action": "持有不动，等均线修复（MA5上穿MA20）"
+    },
+    "scenario_c": {
+      "name": "回落止损",
+      "trigger": "跌破MA10(24.2)且MACD红柱缩小",
+      "action": "减仓50%，跌破24元清仓止损"
+    }
+  },
+  "risk_notes": [
+    "买入点偏高：买在当日最高附近(27.33→27.15)，追高风险",
+    "PE23比紫金(12)贵一倍，估值弹性不如紫金",
+    "金价相关性极强，国际金价回调将直接打压股价"
+  ],
+  "last_updated": "2026-07-06T21:30:00+08:00"
+}
