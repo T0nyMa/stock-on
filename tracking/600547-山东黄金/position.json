@@ -10,48 +10,62 @@
     "current_value": 0,
     "unrealized_pnl": 0,
     "unrealized_pnl_pct": -4.97,
-    "entry_reason": "黄金板块启动，MACD金叉确立，金价4000美元+，PE23合理"
+    "entry_reason": "黄金板块启动，MACD金叉确立，金价4000美元+，PE23合理。长期持有，看多黄金避险逻辑+全球央行购金趋势"
   },
   "key_levels": {
     "cost_basis": 27.15,
-    "resistance_2": 30.00,
+    "long_term_target": 35.00,
+    "mid_term_target": 30.00,
     "resistance_1": 27.33,
     "current": 25.80,
     "ma5": 24.50,
     "ma10": 24.20,
     "ma20": 25.90,
     "support_1": 24.50,
-    "stop_loss": 24.00
+    "support_2": 22.70,
+    "stop_loss_fundamental": "国际金价跌破3500美元或PE>40"
+  },
+  "long_term_thesis": {
+    "gold_price_driver": "全球央行购金+美联储降息周期+地缘避险需求",
+    "company_edge": "A股第二大矿产金，全球矿山布局（阿根廷/加纳增量），矿产金纯度高弹性大",
+    "valuation": "PE23处于历史中低位，金价4000美元假设下2026年业绩有望增40%+",
+    "time_horizon": "6-12个月",
+    "exit_conditions": [
+      "国际金价跌破3500美元（技术性破位）",
+      "PE超过40（估值泡沫）",
+      "公司矿山重大事故或产量预警",
+      "全球央行转向加息周期"
+    ]
   },
   "strategy_consensus": {
     "buy_signals": ["MACD(65): 金叉红柱0.57扩大"],
     "hold_signals": ["趋势分析(55): 弱势多头，MA5上穿MA10", "量价分析(50): 涨停后缩量回调正常"],
     "sell_signals": [],
-    "verdict": "偏多",
+    "verdict": "偏多（长期持有）",
     "weighted_score": 57
   },
   "swing_plan": {
-    "status": "⚠️ 买入当日追高27.15（距最高27.33仅0.18），收盘25.80浮亏-5%。短期需等回调消化",
-    "scenario_a": {
-      "name": "继续上行",
-      "trigger": "放量站上27元且MACD红柱继续扩大",
-      "action": "持有不动，目标30元"
+    "status": "长期持有模式：忽略短期波动，关注金价趋势和公司基本面。短期浮亏-5%不影响长期逻辑",
+    "accumulation": {
+      "name": "逢低加仓",
+      "trigger": "价格回踩MA20(25.9)或MA10(24.2)缩量企稳",
+      "action": "可加仓，拉低持仓成本"
     },
-    "scenario_b": {
-      "name": "横盘整理",
-      "trigger": "25-26元区间缩量震荡2-3日",
-      "action": "持有不动，等均线修复（MA5上穿MA20）"
+    "hold": {
+      "name": "长期持有",
+      "trigger": "金价稳在3800以上+公司正常运营",
+      "action": "持有不动，每季度复盘一次"
     },
-    "scenario_c": {
-      "name": "回落止损",
-      "trigger": "跌破MA10(24.2)且MACD红柱缩小",
-      "action": "减仓50%，跌破24元清仓止损"
+    "reduce": {
+      "name": "减仓条件",
+      "trigger": "国际金价连续2周低于3700美元，或公司基本面恶化",
+      "action": "减仓30-50%"
     }
   },
   "risk_notes": [
-    "买入点偏高：买在当日最高附近(27.33→27.15)，追高风险",
-    "PE23比紫金(12)贵一倍，估值弹性不如紫金",
-    "金价相关性极强，国际金价回调将直接打压股价"
+    "短期：买入当日追高27.15，收盘25.80浮亏-5%，但不影响长期逻辑",
+    "中期：金价是核心变量，若金价跌破3500需重新评估",
+    "长期：PE23合理，全球矿山增量为成长性提供支撑"
   ],
-  "last_updated": "2026-07-06T21:30:00+08:00"
+  "last_updated": "2026-07-06T21:35:00+08:00"
 }
