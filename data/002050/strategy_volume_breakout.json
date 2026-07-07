@@ -1,0 +1,18 @@
+{
+  "strategy": "volume_breakout",
+  "display_name": "放量突破",
+  "stock_code": "002050",
+  "signal": "hold",
+  "score": 48,
+  "confidence": 0.55,
+  "reasoning": "7/3放量涨停突破MA10和MA20(量比2.52)，但随后2日回调-7%，收盘回到MA5下方。突破有效性待确认——需守住MA10(44.4)才算真突破。",
+  "key_levels": {
+    "breakout_level": 45.0,
+    "confirmation": "站稳MA10=44.4"
+  },
+  "risk_flags": [
+    "突破后快速回撤",
+    "BIAS修复但方向未定"
+  ],
+  "details": "7/3涨停突破MA10(44.1)和MA20(45.0)，量比2.52放量。但7/6-7两日回调回吐过半涨幅。真突破=3日不破MA10。若跌破44.4则突破失败。"
+}

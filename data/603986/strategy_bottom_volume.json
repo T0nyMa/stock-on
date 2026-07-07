@@ -1,0 +1,19 @@
+{
+  "strategy": "bottom_volume",
+  "display_name": "地量策略",
+  "stock_code": "603986",
+  "signal": "sell",
+  "score": 30,
+  "confidence": 0.7,
+  "reasoning": "量比0.97仍在地量阈值之上+MACD死叉加深(-29.81)+BIAS=-9.3%持续超跌，未见地量止跌信号。7/2跌停后3日成交量未明显萎缩，抛压未衰竭。",
+  "key_levels": {
+    "support": 600.0,
+    "next_support": 550.0
+  },
+  "risk_flags": [
+    "MACD死叉加速下行",
+    "PE151高估",
+    "趋势降级中"
+  ],
+  "details": "7/2跌停(-10%)后成交量仍在50-60万手，未见地量(<30万手)。BIAS=-9.3%虽然超跌，但MACD死叉-29.81加速下行说明卖压仍在。等量缩至30万手以下+MACD绿柱缩小才是止跌信号。"
+}

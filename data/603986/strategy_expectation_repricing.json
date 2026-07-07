@@ -1,0 +1,18 @@
+{
+  "strategy": "expectation_repricing",
+  "display_name": "预期重估",
+  "stock_code": "603986",
+  "signal": "hold",
+  "score": 40,
+  "confidence": 0.5,
+  "reasoning": "PE151高估+存储芯片周期可能见顶，估值有继续压缩风险。但兆易是存储+MCU双龙头，长期国产替代逻辑未破。等待PE回到100以下(对应股价~400元)才是价值区间。",
+  "key_levels": {
+    "fair_value_pe100": 400.0,
+    "current": 620.0
+  },
+  "risk_flags": [
+    "存储周期见顶风险",
+    "PE151估值压缩空间大"
+  ],
+  "details": "存储芯片周期性强，当前PE151隐含了极高的增长预期。一旦存储价格松动或需求放缓，估值可能从150压缩到80-100。当前不宜基于预期重估买入，等PE先回到100以下再说。"
+}

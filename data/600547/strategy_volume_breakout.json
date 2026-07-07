@@ -1,0 +1,17 @@
+{
+  "strategy": "volume_breakout",
+  "display_name": "放量突破",
+  "stock_code": "600547",
+  "signal": "hold",
+  "score": 52,
+  "confidence": 0.6,
+  "reasoning": "7/3放量涨停(量156万,量比1.5+)突破MA10=24.4。但随后2日缩量回调(-1.1%,-4.0%)，价格从26.08回落到24.77。突破有效性待确认：需守住MA10(24.2)才算有效突破。",
+  "key_levels": {
+    "breakout_level": 24.4,
+    "confirmation": 26.0
+  },
+  "risk_flags": [
+    "突破后回撤幅度较大(-5%)"
+  ],
+  "details": "7/3放量突破MA10=24.4。7/7回踩MA10(24.2)附近收盘24.77，如果明天能站稳MA10则突破有效，否则可能回到23-24震荡区间。"
+}
