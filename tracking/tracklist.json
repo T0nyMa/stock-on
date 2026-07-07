@@ -107,7 +107,13 @@
       "tier": "watch",
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
-      "has_position": false,
+      "has_position": true,
+      "position_info": {
+        "buy_date": "2026-06-22",
+        "buy_price": 78.72,
+        "shares": 2200,
+        "cost": 173194.56
+      },
       "tags": ["AI服务器", "AI算力"],
       "market": "SH"
     },

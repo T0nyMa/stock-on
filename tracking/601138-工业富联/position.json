@@ -3,50 +3,58 @@
   "stock_name": "工业富联",
   "position": {
     "buy_date": "2026-06-22",
-    "buy_price": 78.7248,
+    "buy_price": 78.72,
     "shares": 2200,
-    "cost": 173194.56,
-    "current_price": 70.22,
-    "current_value": 154484.0,
-    "unrealized_pnl": -18710.56,
-    "unrealized_pnl_pct": -10.80,
+    "cost": 173184,
+    "current_price": 63.78,
+    "current_value": 140316,
+    "unrealized_pnl": -32868,
+    "unrealized_pnl_pct": -18.98,
     "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
   },
   "key_levels": {
     "cost_basis": 78.72,
     "resistance_2": 84.95,
-    "resistance_1": 79.90,
-    "current": 70.22,
-    "ma5": 74.25,
-    "ma10": 74.52,
-    "ma20": 74.63,
-    "support_1": 68.00,
-    "stop_loss": 72.50
+    "resistance_1": 72.50,
+    "current": 63.78,
+    "ma5": 68.10,
+    "ma10": 71.80,
+    "ma20": 72.20,
+    "support_1": 63.00,
+    "support_2": 60.00,
+    "stop_loss": 60.00
   },
   "strategy_consensus": {
     "buy_signals": [],
-    "hold_signals": ["趋势分析(48)", "量价分析(50)"],
-    "sell_signals": ["MACD(35)"],
+    "hold_signals": ["RSI=29超卖(反弹概率高)", "PE=31全组最低非黄金股"],
+    "sell_signals": ["MACD死叉(-3.06)", "强势空头(10)", "均线全面下行"],
     "verdict": "偏空",
-    "weighted_score": 44
+    "weighted_score": 38
   },
   "swing_plan": {
-    "status": "⚠️ 已跌破止损72.50，持仓观望。等MA20企稳或反弹减仓",
+    "status": "⚠️ 深度套牢-19%，PE31合理+RSI29超卖，不建议此时割肉",
     "scenario_a": {
       "name": "超跌反弹",
-      "trigger": "放量反弹至MA5(74.3)上方",
-      "action": "减仓50%降低风险，收回部分本金"
+      "trigger": "RSI底背离(价格新低RSI不新低) + 放量站上MA5(68)",
+      "action": "反弹至68-70减仓30%，降低持仓成本"
     },
     "scenario_b": {
-      "name": "继续阴跌",
-      "trigger": "缩量跌破70元",
-      "action": "全部清仓止损，认赔约15,000-18,000元"
+      "name": "横盘筑底",
+      "trigger": "63-65区间缩量震荡3-5日+MACD绿柱缩小",
+      "action": "持有不动，等趋势反转信号"
     },
     "scenario_c": {
-      "name": "横盘筑底",
-      "trigger": "70-73区间缩量震荡3-5日",
-      "action": "持有不动，等方向选择"
+      "name": "继续下探",
+      "trigger": "放量跌破60元",
+      "action": "全部清仓止损，认赔约40,000元"
     }
   },
-  "last_updated": "2026-06-28T19:55:00+08:00"
+  "risk_notes": [
+    "从78.7跌至63.8，累计跌幅-19%，严重套牢",
+    "PE31在追踪股中最低(除亏损股)，估值有安全垫",
+    "RSI=29极度超卖，技术反弹概率大",
+    "AI服务器板块排名第5(59分)，板块尚有支撑",
+    "MACD死叉+均线空头，趋势未反转前不宜补仓"
+  ],
+  "last_updated": "2026-07-07T18:30:00+08:00"
 }
