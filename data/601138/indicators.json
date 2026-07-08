@@ -1,0 +1,51 @@
+{
+  "code": "601138",
+  "updated_at": "2026-07-08T22:02:13.805422+08:00",
+  "ma": {
+    "ma5": 64.42,
+    "ma10": 68.11,
+    "ma20": 70.93,
+    "ma60": 68.55
+  },
+  "macd": {
+    "dif": -1.64,
+    "dea": -0.35,
+    "hist": -2.58
+  },
+  "rsi": {
+    "rsi6": 41.22,
+    "rsi12": 42.65,
+    "rsi24": 47.28
+  },
+  "volume": {
+    "ma5_vol": 1446219.0,
+    "volume_ratio": 1.28,
+    "volume_status": "量能正常"
+  },
+  "bias": {
+    "bias5": 2.46,
+    "bias10": -3.08,
+    "bias20": -6.94
+  },
+  "trend": {
+    "status": "强势空头",
+    "ma_alignment": "强势空头排列，均线发散下行",
+    "trend_strength": 10.0,
+    "support_levels": [],
+    "resistance_levels": [
+      79.9
+    ]
+  },
+  "buy_signal": {
+    "signal": "观望",
+    "score": 31,
+    "reasons": [
+      "⚡ 价格略高于MA5(2.5%)，可小仓介入",
+      "⚠ 空头排列，持续下跌",
+      " RSI中性(42.6)，震荡整理中"
+    ]
+  },
+  "risk_factors": [
+    "⚠️ 强势空头，不宜做多"
+  ]
+}

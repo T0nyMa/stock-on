@@ -1,0 +1,63 @@
+{
+  "strategy": "wave_theory",
+  "display_name": "波浪理论",
+  "stock_code": "002050",
+  "signal": "hold",
+  "score": 58,
+  "reasoning": "自5月26日高点56进入ABC调整浪：A浪56→44.5(-20.5%)完成，B浪44.5→49.4(+11%)完成，C浪49.4→?进行中。当前45.36位于A浪低点44.5附近，且恰好是41.77→56.00主升浪的78.6%斐波那契回撤位(44.8)。双底+关键斐波位共振，C浪或已近末端。但若44.5失守，C浪目标42.3。",
+  "wave_structure": {
+    "primary_advance": {
+      "start": 41.77,
+      "start_date": "2026-04-07",
+      "end": 56.00,
+      "end_date": "2026-05-26",
+      "amplitude": "+34.1%",
+      "structure": "5浪推动(1-2-3-4-5)",
+      "status": "已完成"
+    },
+    "current_correction": {
+      "type": "ABC锯齿形调整",
+      "wave_a": {
+        "from": 56.00,
+        "to": 44.54,
+        "date": "5/26-6/1",
+        "pct": "-20.5%",
+        "status": "完成"
+      },
+      "wave_b": {
+        "from": 44.54,
+        "to": 49.36,
+        "date": "6/1-6/5",
+        "pct": "+10.8%",
+        "retracement_of_a": "42%",
+        "status": "完成"
+      },
+      "wave_c": {
+        "from": 49.36,
+        "in_progress": true,
+        "current_low": 45.18,
+        "structure": "内部5小浪推进中",
+        "target_min": 42.3,
+        "target_min_formula": "C=0.618×A",
+        "target_equal": 37.9,
+        "target_equal_formula": "C=A",
+        "note": "若44.5双底守住，C浪可能已结束(缩幅C浪)"
+      }
+    }
+  },
+  "fibonacci_levels": {
+    "advance": "41.77 → 56.00",
+    "retracement_382": 50.56,
+    "retracement_500": 48.89,
+    "retracement_618": 47.21,
+    "retracement_786": 44.82,
+    "current_price": 45.36,
+    "status": "价格正在78.6%回撤位(44.8)附近，此为最后防线"
+  },
+  "key_insight": "44.5是三重共振位：B浪低点+78.6%斐波+前密集成交区。守住则ABC调整结束，看新一轮推动浪上行；跌破则C浪延伸，目标42.3。",
+  "risks": [
+    "C浪可能尚未完成，若44.5跌破则跌向42.3",
+    "B浪反弹幅度仅42%，偏弱——说明多头无力",
+    "5月推动浪(41.8→56)运行仅7周，时间偏短，调整可能延续数周"
+  ]
+}

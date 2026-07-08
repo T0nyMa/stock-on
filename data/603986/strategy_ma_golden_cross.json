@@ -1,0 +1,17 @@
+{
+  "strategy": "ma_golden_cross",
+  "display_name": "均线金叉",
+  "stock_code": "603986",
+  "signal": "buy",
+  "score": 72,
+  "confidence": 0.75,
+  "reasoning": "MA5已金叉MA10多日（493>492），MA10已金叉MA20（492>482）。均线金叉已完成。但MACD尚未金叉（DIF 33.4<DEA 38.3），是唯一的缺憾。若MACD近期金叉，将是'均线金叉+MACD金叉'的双重确认，信号强度将大幅提升。",
+  "key_levels": {"support": 492, "resistance": 552, "entry": 495, "stop_loss": 475},
+  "risk_flags": ["MACD仍在死叉中，DIF(33.4)<DEA(38.3)，差4.9"],
+  "golden_cross_details": {
+    "ma5_cross_ma10": {"status": "已完成", "date": "约6/9", "current_diff": "0.61元(492.86 vs 492.25)"},
+    "ma10_cross_ma20": {"status": "已完成", "date": "约6/12", "current_diff": "10.09元(492.25 vs 482.16)"},
+    "macd_golden_cross": {"status": "未完成", "dif": 33.36, "dea": 38.28, "diff": -4.92, "est_days": "若每日涨2%，约需3-5个交易日"}
+  },
+  "details": "## 均线金叉分析\n\n### 金叉状态\n- **MA5×MA10**: 6月9日前后完成金叉，当前MA5(493)领先MA10(492)仅0.61元\n- **MA10×MA20**: 6月12日前后完成金叉，当前MA10(492)领先MA20(482)达10元\n- **MACD**: DIF 33.4 < DEA 38.3，还在死叉中，但绿柱(-9.84)在缩小\n\n### 趋势背景\n- 盘整后金叉 → 最强信号类型\n- 5月底-6月初暴跌(552→448)后均线从空头→缠绕→多头，是标准的盘整→突破结构\n\n### 量能确认\n- 金叉期间量能逐步放大\n- 今日量比1.26，放量配合良好"
+}

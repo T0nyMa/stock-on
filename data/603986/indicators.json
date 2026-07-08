@@ -1,0 +1,50 @@
+{
+  "code": "603986",
+  "updated_at": "2026-07-08T21:58:17.224212+08:00",
+  "ma": {
+    "ma5": 650.01,
+    "ma10": 722.23,
+    "ma20": 648.48,
+    "ma60": 471.34
+  },
+  "macd": {
+    "dif": 48.69,
+    "dea": 69.11,
+    "hist": -40.83
+  },
+  "rsi": {
+    "rsi6": 30.56,
+    "rsi12": 46.08,
+    "rsi24": 54.27
+  },
+  "volume": {
+    "ma5_vol": 553643.8,
+    "volume_ratio": 1.05,
+    "volume_status": "量能正常"
+  },
+  "bias": {
+    "bias5": -7.21,
+    "bias10": -16.48,
+    "bias20": -6.99
+  },
+  "trend": {
+    "status": "弱势空头",
+    "ma_alignment": "弱势空头，MA5<MA10 但 MA10≥MA20",
+    "trend_strength": 40.0,
+    "support_levels": [],
+    "resistance_levels": [
+      846.66
+    ]
+  },
+  "buy_signal": {
+    "signal": "观望",
+    "score": 39,
+    "reasons": [
+      "✓ 多头排列，持续上涨",
+      " RSI中性(46.1)，震荡整理中"
+    ]
+  },
+  "risk_factors": [
+    "⚠️ 乖离率过大(-7.2%)，可能破位"
+  ]
+}

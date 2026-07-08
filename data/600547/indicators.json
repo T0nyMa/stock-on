@@ -1,0 +1,53 @@
+{
+  "code": "600547",
+  "updated_at": "2026-07-08T22:04:00.751860+08:00",
+  "ma": {
+    "ma5": 25.1,
+    "ma10": 24.23,
+    "ma20": 25.63,
+    "ma60": 30.88
+  },
+  "macd": {
+    "dif": -1.43,
+    "dea": -1.73,
+    "hist": 0.6
+  },
+  "rsi": {
+    "rsi6": 45.8,
+    "rsi12": 41.1,
+    "rsi24": 37.05
+  },
+  "volume": {
+    "ma5_vol": 986229.6,
+    "volume_ratio": 0.61,
+    "volume_status": "缩量回调"
+  },
+  "bias": {
+    "bias5": -1.78,
+    "bias10": 1.75,
+    "bias20": -3.82
+  },
+  "trend": {
+    "status": "弱势多头",
+    "ma_alignment": "弱势多头，MA5>MA10 但 MA10≤MA20",
+    "trend_strength": 55.0,
+    "support_levels": [
+      24.23
+    ],
+    "resistance_levels": [
+      29.32
+    ]
+  },
+  "buy_signal": {
+    "signal": "买入",
+    "score": 65,
+    "reasons": [
+      "✅ 价格略低于MA5(-1.8%)，回踩买点",
+      "✅ 缩量回调，主力洗盘",
+      "✅ MA10支撑有效",
+      "⚠ 空头排列，持续下跌",
+      " RSI中性(41.1)，震荡整理中"
+    ]
+  },
+  "risk_factors": []
+}

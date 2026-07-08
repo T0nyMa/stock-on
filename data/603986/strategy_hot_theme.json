@@ -1,0 +1,43 @@
+{
+  "strategy": "hot_theme",
+  "display_name": "热点题材",
+  "stock_code": "603986",
+  "signal": "buy",
+  "score": 85,
+  "confidence": 0.85,
+  "reasoning": "存储芯片是当前A股最强主线。半导体指数今日+4.5%。核心驱动：AI需求爆发(HBM供不应求)、DRAM合约价Q2再涨58-63%、长鑫科技IPO(295亿)映射板块重估。兆易创新作为NOR Flash全球第三+MCU国内第一+DRAM布局，直接受益三重逻辑。",
+  "themes": [
+    {
+      "name": "存储芯片超级周期",
+      "stage": "扩散期(启动→加速)",
+      "relevance": "实质受益",
+      "evidence": "NOR Flash全球第三，DRAM布局中，MCU国内第一",
+      "heat_index": 90,
+      "note": "板块今日+4.5%，兆易+7.6%领涨，充分受益存储涨价周期"
+    },
+    {
+      "name": "国产替代/长鑫IPO",
+      "stage": "发酵期",
+      "relevance": "实质受益",
+      "evidence": "长鑫科技科创板IPO注册生效，募资295亿，带动存储产业链估值重估",
+      "heat_index": 75,
+      "note": "长鑫上市将提升存储板块整体关注度"
+    },
+    {
+      "name": "AI算力芯片",
+      "stage": "扩散期",
+      "relevance": "间接受益",
+      "evidence": "AI服务器DRAM用量为传统8-10倍，HBM需求拉动存储",
+      "heat_index": 80,
+      "note": "AI需求是存储周期的核心驱动力"
+    }
+  ],
+  "theme_resonance": {"status": "双热点共振(存储+AI)", "detail": "存储和AI双主线叠加，是当前最确定的主线"},
+  "catalyst_watch": [
+    {"event": "长鑫科技正式上市交易", "impact": "极高"},
+    {"event": "DRAM合约价Q3继续上涨公告", "impact": "高"},
+    {"event": "公司半年报业绩预告", "impact": "高"},
+    {"event": "海外存储巨头(三星/SK海力士)财报", "impact": "中"}
+  ],
+  "details": "存储芯片是当前A股最强主线，没有之一。兆易创新作为指数第一权重+存储龙头，是最直接受益标的。"
+}

@@ -1,0 +1,56 @@
+{
+  "strategy": "one_yang_three_yin",
+  "display_name": "一阳三阴",
+  "stock_code": "002050",
+  "signal": "hold",
+  "score": 45,
+  "confidence": 0.4,
+  "reasoning": "形态不标准：前三个交易日为6/15阳线+6/16阴线+6/17阴线，非连续三阴。6/18大阳线实体1.44(44.30→45.74)大于前两阴之和0.74，但收盘45.74未突破前三日最高价45.75(6/15)。量比1.26未达1.5强量标准。在MA5支撑位附近是加分项，但形态确认度不足，需等6/19验证。",
+  "analysis": {
+    "recent_4d_kline": [
+      {"date": "2026-06-15", "open": 45.31, "close": 45.75, "body": 0.44, "type": "阳线"},
+      {"date": "2026-06-16", "open": 45.76, "close": 45.12, "body": -0.64, "type": "阴线"},
+      {"date": "2026-06-17", "open": 44.70, "close": 44.60, "body": -0.10, "type": "阴线"},
+      {"date": "2026-06-18", "open": 44.30, "close": 45.74, "body": 1.44, "type": "大阳线"}
+    ],
+    "pattern_check": {
+      "three_consecutive_yin": false,
+      "detail": "6/15为阳线(+2.1%)，打破连续阴线序列",
+      "alternative_read": "近似'两阴后大阳反包'形态"
+    },
+    "yang_engulfment": {
+      "today_body": 1.44,
+      "prev_2yin_body_sum": 0.74,
+      "body_engulfs_2yin": true,
+      "close_vs_prev_3d_high": "45.74 < 45.75 — 差0.01未突破",
+      "assessment": "阳线力度可覆盖前两阴，但未包前三日最高价"
+    },
+    "volume_check": {
+      "volume_ratio": 1.26,
+      "vs_threshold_1.5x": "未达到",
+      "assessment": "放量但不够强量"
+    },
+    "position_check": {
+      "position_vs_ma20": "低于MA20(47.48)，在MA5(45.20)上方",
+      "position_vs_support": "在支撑44.50上方运行",
+      "assessment": "低位区域有利，排除高位诱多嫌疑"
+    },
+    "next_day_verification": {
+      "condition": "6/19不跌破阳线实体50%(45.02)",
+      "status": "待验证"
+    }
+  },
+  "risks": [
+    "形态不标准，不是经典一阳三阴",
+    "收盘差0.01未突破前三日最高价",
+    "量能未达强量标准",
+    "需次日确认有效性"
+  ],
+  "advantages": [
+    "处于低位(MA5支撑+44.50支撑)，非高位形态可靠性相对高",
+    "盘中冲至46.23(+4.4%)，上攻意愿有体现",
+    "结合地量反转+缩量回调两个策略的buy信号，多策略共振"
+  ],
+  "summary": "不构成标准一阳三阴形态(前日非三阴)，但近似'两阴后大阳反包'的变体。在低位区域+放量背景下有一定参考价值。需6/19收盘确认(不破45.02则形态有效)。",
+  "updated_at": "2026-06-18T19:30:00+08:00"
+}

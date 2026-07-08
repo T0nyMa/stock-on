@@ -1,0 +1,20 @@
+{
+  "strategy": "shrink_pullback",
+  "display_name": "缩量回调",
+  "stock_code": "600547",
+  "signal": "hold",
+  "score": 58,
+  "confidence": 0.65,
+  "reasoning": "7/3涨停后连续3日缩量回调(量比0.61)，BIAS=-1.8%紧贴MA10(24.2)。金价COMEX跌破4100但山东仅微跌-0.48%，抛压不大。等价格守住MA10(24.2)缩量企稳=加仓点。",
+  "key_levels": {
+    "support": 24.2,
+    "resistance": 25.6,
+    "entry": "24.2-24.5缩量企稳",
+    "stop_loss": 23.5
+  },
+  "risk_flags": [
+    "COMEX金价破4100",
+    "若跌破24.2则金叉失效"
+  ],
+  "details": "涨停后正常回调第3天，MA10=24.2是关键支撑。若能缩量守住24.2，MACD金叉仍在(h=0.60)，多头结构未破坏。核心风险是COMEX金价若继续跌向4000，山东将失去金价支撑。"
+}

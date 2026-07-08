@@ -1,0 +1,35 @@
+{
+  "code": "601138",
+  "name": "工业富联",
+  "strategy": "shrink_pullback",
+  "date": "2026-06-26",
+  "signal": "sell",
+  "score": 10,
+  "analysis": {
+    "step1_volume_shrink": {
+      "volume_ratio": 0.95,
+      "threshold": 0.7,
+      "met": false,
+      "detail": "量比0.95不满足<0.7缩量条件。今日成交额189亿为近3日最高，属于放量下跌而非缩量"
+    },
+    "step2_pullback": {
+      "price": 70.22,
+      "ma5": 75.39,
+      "ma10": 74.41,
+      "distance_to_ma5_pct": -6.86,
+      "distance_to_ma10_pct": -5.63,
+      "met": false,
+      "detail": "价格远低于MA5和MA10，是破位下跌而非回踩支撑"
+    },
+    "step3_stabilization": {
+      "today_kline": "大阴线（开75→收70.22，-8.79%），无任何企稳信号",
+      "met": false
+    },
+    "step4_entry_setup": {
+      "trigger": "缩量(量比<0.7)回踩MA5附近(±2%)即74-77区间，收十字星或小阳",
+      "current_state": "放量破位下跌，完全不适用",
+      "stop_loss": "N/A"
+    }
+  },
+  "reason": "策略不适用——放量破位下跌非缩量回踩，价格跌破所有短中期均线，是趋势性下跌"
+}

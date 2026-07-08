@@ -1,0 +1,41 @@
+{
+  "code": "603986",
+  "name": "兆易创新",
+  "strategy": "volume_breakout",
+  "date": "2026-06-18",
+  "signal": "hold",
+  "score": 40,
+  "analysis": {
+    "step1_resistance": {
+      "previous_resistance": 552.82,
+      "previous_breakout": "6/17涨停(586)确认突破552，今日继续上攻至629，突破有效",
+      "new_resistance": 644.64,
+      "current_price": 629.0,
+      "distance_to_new_resistance_pct": -2.42,
+      "status": "552前高已突破确认，644为新阻力，今日盘中触达后回落"
+    },
+    "step2_volume": {
+      "volume_ratio": 1.36,
+      "threshold_2x": 2.0,
+      "met": false,
+      "detail": "量比1.36温和放量，未达2倍爆发式突破标准。但连续4日放量上行（1.26→1.11→1.47→1.36），量能持续性好",
+      "volume_status": "量能正常"
+    },
+    "step3_price": {
+      "close": 629.0,
+      "open": 594.0,
+      "high": 644.64,
+      "low": 586.6,
+      "close_position_pct": 73.0,
+      "upper_shadow_pct": 2.43,
+      "detail": "收盘在上73%位置但留上影（644→629），644阻力位出现抛压。突破质量中等"
+    },
+    "step4_risk": {
+      "bias5": 14.48,
+      "rsi6": 85.87,
+      "pe": "无数据",
+      "assessment": "乖离率+RSI双极度超买，突破后追入风险极大"
+    }
+  },
+  "reasoning": "552前高于6/17涨停突破，今日继续放量上攻至629确认突破有效。但量比1.36未达2x强势突破标准，今日644新高处遇阻回落留上影。且乖离率14.48%+RSI极度超买，突破后追入=博短线，风险收益比差。等644再次放量突破或等回调至580-600再入场。"
+}

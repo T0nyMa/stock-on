@@ -1,0 +1,20 @@
+{
+  "strategy": "volume_breakout",
+  "display_name": "放量反弹",
+  "stock_code": "601138",
+  "signal": "hold",
+  "score": 55,
+  "confidence": 0.65,
+  "reasoning": "今日+3.5%放量(量比1.28)站上MA5(64.4)，MACD绿柱-3.06→-2.58收敛。AI服务器板块第一(+6.3%)共振。但均线仍空头(MA5<MA10<MA20)，反弹目标MA10=68.1，到该区域需减仓。",
+  "key_levels": {
+    "support": 64.0,
+    "resistance": 68.1,
+    "target_reduce": 68.0
+  },
+  "risk_flags": [
+    "均线仍空头排列",
+    "反弹非反转",
+    "MA10=68是强阻力"
+  ],
+  "details": "反弹质量：①量比1.28不算特别放量(真正反转需>1.5)②MACD绿柱缩小是积极信号但尚未金叉③RSI从29→41脱离超卖区。总结：技术性反弹，目标MA10=68元。68附近减仓30%，等MACD金叉再考虑回补。"
+}

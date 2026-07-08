@@ -1,0 +1,12 @@
+{
+  "regime": "bearish",
+  "confidence": 0.82,
+  "reasoning": "MA5(45.87)<MA10(48.37)<MA20(50.07)强空头排列，均线发散下行；MACD刚死叉(DIF=-0.45<DEA=0.32)，柱状转负(-1.54)；趋势强度仅10，买点评分37'观望'。价格47.51仅站上MA5但远低于MA10/MA20，属下跌趋势中的短线反弹，整体偏空。",
+  "recommended_strategies": [
+    {"name": "expectation_repricing", "priority": 10, "reason": "空头趋势下关注PE/PB历史分位，寻找超跌价值"},
+    {"name": "bottom_volume", "priority": 15, "reason": "等待成交量缩至极低后的变盘信号"},
+    {"name": "one_yang_three_yin", "priority": 18, "reason": "关注下跌末端阳线反包反转形态"},
+    {"name": "event_driven", "priority": 22, "reason": "空头市场关注催化剂事件驱动的反弹"},
+    {"name": "growth_quality", "priority": 25, "reason": "基本面筛选，在下跌中寻找被错杀的成长标的"}
+  ]
+}

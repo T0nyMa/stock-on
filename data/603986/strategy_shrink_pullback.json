@@ -1,0 +1,37 @@
+{
+  "code": "603986",
+  "name": "兆易创新",
+  "strategy": "shrink_pullback",
+  "date": "2026-06-26",
+  "signal": "wait",
+  "score": 25,
+  "analysis": {
+    "step1_volume_shrink": {
+      "volume_ratio": 0.88,
+      "threshold": 0.7,
+      "met": false,
+      "detail": "量比0.88不满足<0.7缩量条件，但较前几日(1.11-1.47)已明显缩量"
+    },
+    "step2_pullback": {
+      "price": 770.0,
+      "ma5": 716.2,
+      "ma10": 632.83,
+      "distance_to_ma5_pct": 7.51,
+      "distance_to_ma10_pct": 21.68,
+      "met": false,
+      "detail": "价格远离MA5(BIAS5=7.51%)和MA10(BIAS10=21.68%)，不在±2%回踩区间"
+    },
+    "step3_stabilization": {
+      "today_kline": "假阳线（开753→收770，+2.3%日内涨幅但日涨跌-0.67%），未确认企稳",
+      "met": false
+    },
+    "step4_entry_setup": {
+      "trigger": "缩量(量比<0.7)回踩MA5附近(±2%)即702-730区间，收十字星或小阳，bias5<5%",
+      "distance_to_trigger": "还需回调约-5%至-9%",
+      "estimated_time": "2-4个交易日",
+      "stop_loss": 632,
+      "upside_target": "779→850"
+    }
+  },
+  "reason": "当前不符合缩量回调条件——价格严重偏离均线。等待BIAS5修复到5%以下+量比缩至0.7+回踩MA5(716)附近的买点"
+}

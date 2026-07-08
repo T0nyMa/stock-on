@@ -1,0 +1,39 @@
+{
+  "code": "603986",
+  "name": "兆易创新",
+  "strategy": "bull_trend",
+  "date": "2026-06-26",
+  "signal": "hold",
+  "score": 80,
+  "analysis": {
+    "step1_ma_alignment": {
+      "status": "强势多头排列",
+      "detail": "MA5(716.2) > MA10(632.83) > MA20(559.32) > MA60(410.02)，四线发散上行，间距持续扩大",
+      "trend_strength": 90.0,
+      "score_adj": 15
+    },
+    "step2_strength": {
+      "recent_10d": "6/15(+7.6%)→6/16(+2.9%)→6/17(+10.0%)→6/18(+7.3%)→6/22(+9.7%)→6/23(-7.1%)→6/24(+10.0%)→6/25(+9.9%)→6/26(-0.7%)，7阳2阴，涨停接力",
+      "volume_pattern": "上涨放量(vol_ratio 1.11-1.47)，回调缩量(0.88)，健康量价配合",
+      "score_adj": 10
+    },
+    "step3_bias_risk": {
+      "bias5": 7.51,
+      "bias10": 21.68,
+      "bias20": 37.67,
+      "threshold": 8.0,
+      "status": "偏高但未过热",
+      "detail": "BIAS5=7.51%在5-8%强势中线持有区间，接近8%警戒。RSI6=81.56超买",
+      "rsi6": 81.56,
+      "rsi12": 78.33,
+      "score_adj": -10
+    },
+    "step4_support": {
+      "ma10_support": 632.83,
+      "ma20_support": 559.32,
+      "distance_to_ma10_pct": 21.7,
+      "assessment": "支撑位遥远，MA10距当前价-17.8%，一旦调整幅度可能较深"
+    }
+  },
+  "reason": "强势多头确认，均线发散上行+涨停接力+量价配合良好，但RSI超买(81.6)+BIAS5=7.51%接近警戒，不追高持有观望"
+}

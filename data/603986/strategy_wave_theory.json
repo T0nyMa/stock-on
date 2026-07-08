@@ -1,0 +1,31 @@
+{
+  "strategy": "wave_theory",
+  "display_name": "波浪理论",
+  "stock_code": "603986",
+  "signal": "buy",
+  "score": 65,
+  "confidence": 0.6,
+  "reasoning": "两种计数：(1)ABC调整已在6/8低点451结束，当前为新推动浪1浪或3浪，目标552→600；(2)当前为大4浪调整中的B浪反弹，C浪还会跌。无论哪种计数，451→518这段上涨结构完整，短线偏多。但股价波动极大(单日±7%常见)，波浪可靠性打折。",
+  "key_levels": {"support": 482, "resistance": 552, "entry": null, "stop_loss": 448},
+  "risk_flags": ["波动过于剧烈，波浪计数可靠性低", "若为主升3浪则可追，若为B浪反弹则追在反弹末端"],
+  "wave_structure": {
+    "primary_count": {
+      "name": "ABC调整结束+新推动浪",
+      "advance_1": {"from": 236, "to": 552, "pct": "+134%", "waves": "5浪推动(完成)"},
+      "correction_abc": {
+        "wave_a": {"from": 552.82, "to": 448.1, "pct": "-18.9%", "date": "5/27-6/2"},
+        "wave_b": {"from": 448.1, "to": 529.3, "pct": "+18.1%", "date": "6/2-6/4"},
+        "wave_c": {"from": 529.3, "to": 451.0, "pct": "-14.8%", "date": "6/4-6/8"}
+      },
+      "new_advance": {"from": 451, "status": "进行中", "wave_1_target": "518-529"}
+    },
+    "alternative_count": {
+      "name": "大4浪调整中(B浪反弹)",
+      "note": "B浪反弹至518-529区域，之后C浪目标420-440"
+    }
+  },
+  "fibonacci_levels": {
+    "236_to_552": {"382_pct": 431, "500_pct": 394, "618_pct": 357},
+    "note": "当前价格518，距552仅6.7%，突破则看618-680(161.8%延伸)"
+  }
+}
