@@ -6,28 +6,35 @@
     "buy_price": 78.72,
     "shares": 2200,
     "cost": 173184,
-    "current_price": 63.78,
+    "current_price": 66.01,
     "current_value": 140316,
     "unrealized_pnl": -32868,
-    "unrealized_pnl_pct": -18.98,
+    "unrealized_pnl_pct": -16.1,
     "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
   },
   "key_levels": {
     "cost_basis": 78.72,
     "resistance_2": 84.95,
-    "resistance_1": 72.50,
+    "resistance_1": 72.5,
     "current": 63.78,
-    "ma5": 68.10,
-    "ma10": 71.80,
-    "ma20": 72.20,
-    "support_1": 63.00,
-    "support_2": 60.00,
-    "stop_loss": 60.00
+    "ma5": 68.1,
+    "ma10": 71.8,
+    "ma20": 72.2,
+    "support_1": 63.0,
+    "support_2": 60.0,
+    "stop_loss": 60.0
   },
   "strategy_consensus": {
     "buy_signals": [],
-    "hold_signals": ["RSI=29超卖(反弹概率高)", "PE=31全组最低非黄金股"],
-    "sell_signals": ["MACD死叉(-3.06)", "强势空头(10)", "均线全面下行"],
+    "hold_signals": [
+      "RSI=29超卖(反弹概率高)",
+      "PE=31全组最低非黄金股"
+    ],
+    "sell_signals": [
+      "MACD死叉(-3.06)",
+      "强势空头(10)",
+      "均线全面下行"
+    ],
     "verdict": "偏空",
     "weighted_score": 38
   },
@@ -56,5 +63,5 @@
     "AI服务器板块排名第5(59分)，板块尚有支撑",
     "MACD死叉+均线空头，趋势未反转前不宜补仓"
   ],
-  "last_updated": "2026-07-07T18:30:00+08:00"
+  "last_updated": "2026-07-08T22:00:00+08:00"
 }

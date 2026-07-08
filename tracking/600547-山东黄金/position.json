@@ -6,23 +6,23 @@
     "buy_price": 27.15,
     "shares": 0,
     "cost": 0,
-    "current_price": 24.77,
+    "current_price": 24.65,
     "current_value": 0,
     "unrealized_pnl": 0,
-    "unrealized_pnl_pct": -8.77,
+    "unrealized_pnl_pct": -9.2,
     "entry_reason": "黄金板块启动，MACD金叉确立，金价4000美元+，PE23合理。长期持有，看多黄金避险逻辑+全球央行购金趋势"
   },
   "key_levels": {
     "cost_basis": 27.15,
-    "long_term_target": 35.00,
-    "mid_term_target": 30.00,
+    "long_term_target": 35.0,
+    "mid_term_target": 30.0,
     "resistance_1": 27.33,
-    "current": 25.80,
-    "ma5": 24.50,
-    "ma10": 24.20,
-    "ma20": 25.90,
-    "support_1": 24.50,
-    "support_2": 22.70,
+    "current": 25.8,
+    "ma5": 24.5,
+    "ma10": 24.2,
+    "ma20": 25.9,
+    "support_1": 24.5,
+    "support_2": 22.7,
     "stop_loss_fundamental": "国际金价跌破3500美元或PE>40"
   },
   "long_term_thesis": {
@@ -38,8 +38,13 @@
     ]
   },
   "strategy_consensus": {
-    "buy_signals": ["MACD(65): 金叉红柱0.57扩大"],
-    "hold_signals": ["趋势分析(55): 弱势多头，MA5上穿MA10", "量价分析(50): 涨停后缩量回调正常"],
+    "buy_signals": [
+      "MACD(65): 金叉红柱0.57扩大"
+    ],
+    "hold_signals": [
+      "趋势分析(55): 弱势多头，MA5上穿MA10",
+      "量价分析(50): 涨停后缩量回调正常"
+    ],
     "sell_signals": [],
     "verdict": "偏多（长期持有）",
     "weighted_score": 57
@@ -67,5 +72,5 @@
     "中期：金价是核心变量，若金价跌破3500需重新评估",
     "长期：PE23合理，全球矿山增量为成长性提供支撑"
   ],
-  "last_updated": "2026-07-06T21:35:00+08:00"
+  "last_updated": "2026-07-08T22:00:00+08:00"
 }
