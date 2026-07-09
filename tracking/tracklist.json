@@ -2,6 +2,16 @@
   "updated_at": "2026-07-04",
   "stocks": [
     {
+      "code": "09988",
+      "name": "阿里巴巴",
+      "tier": "key",
+      "tier_label": "核心观察",
+      "scenario": "daily-patrol",
+      "has_position": false,
+      "tags": ["互联网", "电商", "云计算", "港股"],
+      "market": "HK"
+    },
+    {
       "code": "002050",
       "name": "三花智控",
       "tier": "watch",

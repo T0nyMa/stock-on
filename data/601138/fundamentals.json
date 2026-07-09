@@ -1,15 +1,15 @@
 {
   "code": "601138",
   "name": "工业富联",
-  "pe": 32.22,
-  "pb": 7.43,
-  "market_cap": 13099.09,
+  "pe": 33.94,
+  "pb": 7.83,
+  "market_cap": 13797.6,
   "revenue": null,
   "profit": null,
   "industry": null,
-  "price": 66.01,
-  "turnover_rate": 0.91,
-  "volume_ratio": 1.28,
+  "price": 69.53,
+  "turnover_rate": 0.88,
+  "volume_ratio": 1.2,
   "source": "tencent",
-  "updated_at": "2026-07-08T22:02:27.650722+08:00"
+  "updated_at": "2026-07-09T21:42:54.723448+08:00"
 }
