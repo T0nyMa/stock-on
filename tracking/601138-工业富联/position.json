@@ -6,10 +6,10 @@
     "buy_price": 78.72,
     "shares": 2200,
     "cost": 173184,
-    "current_price": 66.01,
+    "current_price": 69.53,
     "current_value": 140316,
     "unrealized_pnl": -32868,
-    "unrealized_pnl_pct": -16.1,
+    "unrealized_pnl_pct": -11.7,
     "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
   },
   "key_levels": {
@@ -63,5 +63,5 @@
     "AI服务器板块排名第5(59分)，板块尚有支撑",
     "MACD死叉+均线空头，趋势未反转前不宜补仓"
   ],
-  "last_updated": "2026-07-08T22:00:00+08:00"
+  "last_updated": "2026-07-09T22:00:00+08:00"
 }
