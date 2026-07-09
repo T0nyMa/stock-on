@@ -20,7 +20,7 @@ Python 负责数据抓取和技术指标计算，Claude 负责所有分析决策
 | "巡检" / "观察列表" / "watchlist" | Read `references/scenarios/daily-patrol.md` |
 | "建仓分析 {code}" / "新股票" | Read `references/scenarios/first-time-setup.md` |
 | "扫描策略 {code}" / "策略分析" | Read `references/scenarios/strategy-scan.md` |
-| "日报" / "今日总结" / "daily" | 调用 `/daily-report` Skill |
+| "日报" / "今日总结" / "daily" | 深度分析报告：技术面+基本面+消息面共振，含操作判断。必须搜索最新消息 |
 | "周报" / "本周总结" / "weekly" | 调用 `/weekly-report` Skill |
 | "发布" / "deploy" | 调用 `/deploy` Skill |
 | "潜力股" / "发现股票" / "发现机会" / "discovery" | 调用 `/discovery` Skill |
