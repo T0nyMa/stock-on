@@ -19,7 +19,8 @@
       "scenario": "daily-patrol",
       "has_position": false,
       "tags": ["机器人", "汽零", "制冷"],
-      "market": "SZ"
+      "market": "SZ",
+      "hk_code": "02050"
     },
     {
       "code": "603986",
@@ -29,7 +30,8 @@
       "scenario": "daily-patrol",
       "has_position": false,
       "tags": ["芯片", "存储", "MCU"],
-      "market": "SH"
+      "market": "SH",
+      "hk_code": "03986"
     },
     {
       "code": "300373",
