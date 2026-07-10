@@ -3,22 +3,11 @@
   "name": "兆易创新",
   "price": 612.0,
   "pct_chg": -7.76,
-  "volume": 887457,
-  "amount": 5938124.0,
+  "volume": 887456,
+  "amount": 59381239201.0,
   "turnover_rate": 13.28,
-  "pe": 149.4,
-  "pb": 17.35,
-  "market_cap": 4091.17,
-  "updated_at": "2026-07-10T22:25:53.855494+08:00",
-  "_evidence": {
-    "source": "tencent",
-    "source_chain": [
-      "tencent:ok"
-    ],
-    "fetched_at": "2026-07-10T22:25:53.855525+08:00",
-    "latency_ms": 0.0,
-    "gaps": [],
-    "quality_score": 100,
-    "stale": false
-  }
+  "pe": 0.0,
+  "pb": 0.0,
+  "market_cap": 0.0,
+  "updated_at": "2026-07-10T22:59:42.420337+08:00"
 }

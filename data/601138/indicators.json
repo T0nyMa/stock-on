@@ -1,6 +1,6 @@
 {
   "code": "601138",
-  "updated_at": "2026-07-10T22:26:22.243164+08:00",
+  "updated_at": "2026-07-10T23:00:07.198580+08:00",
   "ma": {
     "ma5": 65.84,
     "ma10": 66.97,
@@ -15,7 +15,7 @@
   "rsi": {
     "rsi6": 43.77,
     "rsi12": 44.21,
-    "rsi24": 47.67
+    "rsi24": 47.72
   },
   "volume": {
     "ma5_vol": 1562619.2,
@@ -52,13 +52,11 @@
     "⚠️ 强势空头，不宜做多"
   ],
   "_evidence": {
-    "kline_source": "tencent",
-    "kline_source_chain": [
-      "tencent:ok"
-    ],
-    "kline_fetched_at": "2026-07-10T22:26:21.925170+08:00",
-    "indicators_computed_at": "2026-07-10T22:26:32.899540+08:00",
-    "indicators_latency_ms": 525,
+    "kline_source": "unknown",
+    "kline_source_chain": [],
+    "kline_fetched_at": "",
+    "indicators_computed_at": "2026-07-10T23:00:21.444778+08:00",
+    "indicators_latency_ms": 343,
     "gaps": [],
     "quality_score": 100
   }

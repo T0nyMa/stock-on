@@ -1,6 +1,6 @@
 {
   "code": "002050",
-  "updated_at": "2026-07-10T22:25:53.321066+08:00",
+  "updated_at": "2026-07-10T22:59:38.870715+08:00",
   "ma": {
     "ma5": 43.94,
     "ma10": 44.29,
@@ -15,7 +15,7 @@
   "rsi": {
     "rsi6": 43.54,
     "rsi12": 44.52,
-    "rsi24": 45.4
+    "rsi24": 45.32
   },
   "volume": {
     "ma5_vol": 1414257.0,
@@ -49,13 +49,11 @@
     "⚠️ 空头排列，不宜做多"
   ],
   "_evidence": {
-    "kline_source": "tencent",
-    "kline_source_chain": [
-      "tencent:ok"
-    ],
-    "kline_fetched_at": "2026-07-10T22:25:53.050193+08:00",
-    "indicators_computed_at": "2026-07-10T22:26:04.402142+08:00",
-    "indicators_latency_ms": 783,
+    "kline_source": "unknown",
+    "kline_source_chain": [],
+    "kline_fetched_at": "",
+    "indicators_computed_at": "2026-07-10T22:59:55.977828+08:00",
+    "indicators_latency_ms": 500,
     "gaps": [],
     "quality_score": 100
   }

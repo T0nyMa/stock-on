@@ -1,16 +1,16 @@
 {
   "code": "603986",
-  "updated_at": "2026-07-10T22:25:53.329064+08:00",
+  "updated_at": "2026-07-10T22:59:35.999651+08:00",
   "ma": {
     "ma5": 630.59,
     "ma10": 695.25,
     "ma20": 664.04,
-    "ma60": 483.74
+    "ma60": 483.83
   },
   "macd": {
-    "dif": 36.84,
-    "dea": 58.75,
-    "hist": -43.83
+    "dif": 36.82,
+    "dea": 58.73,
+    "hist": -43.82
   },
   "rsi": {
     "rsi6": 38.35,
@@ -49,13 +49,11 @@
     "⚠️ 放量下跌，注意风险"
   ],
   "_evidence": {
-    "kline_source": "tencent",
-    "kline_source_chain": [
-      "tencent:ok"
-    ],
-    "kline_fetched_at": "2026-07-10T22:25:53.057822+08:00",
-    "indicators_computed_at": "2026-07-10T22:26:05.102064+08:00",
-    "indicators_latency_ms": 666,
+    "kline_source": "unknown",
+    "kline_source_chain": [],
+    "kline_fetched_at": "",
+    "indicators_computed_at": "2026-07-10T22:59:52.343062+08:00",
+    "indicators_latency_ms": 360,
     "gaps": [],
     "quality_score": 100
   }

@@ -1,21 +1,21 @@
 {
   "code": "600547",
-  "updated_at": "2026-07-10T22:26:35.673873+08:00",
+  "updated_at": "2026-07-10T23:00:27.807973+08:00",
   "ma": {
     "ma5": 24.78,
     "ma10": 24.31,
     "ma20": 25.25,
-    "ma60": 30.19
+    "ma60": 30.15
   },
   "macd": {
-    "dif": -1.25,
-    "dea": -1.57,
+    "dif": -1.24,
+    "dea": -1.56,
     "hist": 0.65
   },
   "rsi": {
-    "rsi6": 53.6,
-    "rsi12": 45.08,
-    "rsi24": 39.89
+    "rsi6": 53.64,
+    "rsi12": 45.11,
+    "rsi24": 39.58
   },
   "volume": {
     "ma5_vol": 753837.0,
@@ -23,9 +23,9 @@
     "volume_status": "量能正常"
   },
   "bias": {
-    "bias5": 0.71,
-    "bias10": 2.67,
-    "bias20": -1.15
+    "bias5": 0.72,
+    "bias10": 2.66,
+    "bias20": -1.13
   },
   "trend": {
     "status": "弱势多头",
@@ -35,7 +35,7 @@
       24.78
     ],
     "resistance_levels": [
-      29.14
+      29.11
     ]
   },
   "buy_signal": {
@@ -50,13 +50,11 @@
   },
   "risk_factors": [],
   "_evidence": {
-    "kline_source": "tencent",
-    "kline_source_chain": [
-      "tencent:ok"
-    ],
-    "kline_fetched_at": "2026-07-10T22:26:35.061328+08:00",
-    "indicators_computed_at": "2026-07-10T22:26:45.930861+08:00",
-    "indicators_latency_ms": 519,
+    "kline_source": "unknown",
+    "kline_source_chain": [],
+    "kline_fetched_at": "",
+    "indicators_computed_at": "2026-07-10T23:00:48.990713+08:00",
+    "indicators_latency_ms": 357,
     "gaps": [],
     "quality_score": 100
   }

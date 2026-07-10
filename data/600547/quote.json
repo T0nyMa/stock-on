@@ -4,21 +4,10 @@
   "price": 24.96,
   "pct_chg": 2.8,
   "volume": 789248,
-  "amount": 196973.0,
+  "amount": 1969727409.0,
   "turnover_rate": 2.18,
-  "pe": 22.3,
-  "pb": 3.69,
-  "market_cap": 902.17,
-  "updated_at": "2026-07-10T22:26:35.873333+08:00",
-  "_evidence": {
-    "source": "tencent",
-    "source_chain": [
-      "tencent:ok"
-    ],
-    "fetched_at": "2026-07-10T22:26:35.873361+08:00",
-    "latency_ms": 0.0,
-    "gaps": [],
-    "quality_score": 100,
-    "stale": false
-  }
+  "pe": 0.0,
+  "pb": 0.0,
+  "market_cap": 0.0,
+  "updated_at": "2026-07-10T23:00:38.879587+08:00"
 }
