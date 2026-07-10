@@ -139,20 +139,20 @@ def _write_fundamentals(stock_dir: Path, code: str, name: str):
     _write_json(stock_dir, "fundamentals.json", fund)
 
 
-def fetch_stock_data(code: str, provider: str = "v1"):
+def fetch_stock_data(code: str, provider: str = "v1", days: int = 250):
     setup_env()
     config = get_config()
     stock_dir = _ensure_data_dir(code)
 
     if provider == "v2":
-        return _fetch_stock_data_v2(code, stock_dir)
+        return _fetch_stock_data_v2(code, stock_dir, days=days)
 
     fetcher = DataFetcherManager()
 
     # 1. K-line (60 days)
     logger.info("正在获取 %s K线数据...", code)
     try:
-        kline = fetcher.get_daily_data(code, days=250)
+        kline = fetcher.get_daily_data(code, days=days)
         if isinstance(kline, tuple):
             kline = kline[0]
         if kline is not None and hasattr(kline, 'empty') and not kline.empty:
@@ -206,7 +206,7 @@ def fetch_stock_data(code: str, provider: str = "v1"):
     logger.info("数据抓取完成: %s → %s", code, stock_dir)
 
 
-def _fetch_stock_data_v2(code: str, stock_dir: Path):
+def _fetch_stock_data_v2(code: str, stock_dir: Path, days: int = 250):
     """V2 路径: 使用 providers 直连腾讯/东财 HTTP API。"""
     kp = KlineProvider()
     qp = QuoteProvider()
@@ -216,7 +216,7 @@ def _fetch_stock_data_v2(code: str, stock_dir: Path):
     logger.info("[V2] 正在获取 %s K线...", code)
     name = code
     try:
-        rows, k_evidence = kp.get_daily(code, limit=250)
+        rows, k_evidence = kp.get_daily(code, limit=days)
         if rows:
             name = code  # 行情获取时更新
             kline_records = []
@@ -287,10 +287,12 @@ def main():
     parser.add_argument("--code", required=True, help="股票代码")
     parser.add_argument("--provider", default="v1", choices=["v1", "v2"],
                         help="数据源: v1=TickFlow+akshare(默认), v2=腾讯/东财直连")
+    parser.add_argument("--days", type=int, default=250,
+                        help="K线交易日数量；日常分析默认250，三年策略校准使用750")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     code = canonical_stock_code(args.code)
-    fetch_stock_data(code, provider=args.provider)
+    fetch_stock_data(code, provider=args.provider, days=args.days)
 
 
 if __name__ == "__main__":

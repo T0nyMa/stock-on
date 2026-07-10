@@ -28,3 +28,6 @@ def test_fetch_pipeline_runs_quant_analysis_and_uses_250_bars():
     text = read("scripts/fetch_all_daily.py")
     assert "limit=250" in text
     assert "run_quant_analysis.py" in text
+    fetch = read("src/fetch.py")
+    assert 'parser.add_argument("--days", type=int, default=250' in fetch
+    assert "days=args.days" in fetch
