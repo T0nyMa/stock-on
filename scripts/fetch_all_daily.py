@@ -120,7 +120,7 @@ def main():
         analyzer = StockTrendAnalyzer()
         for code, name in HK_STOCKS:
             try:
-                rows, evidence = kp.get_daily(code, limit=60)
+                rows, evidence = kp.get_daily(code, limit=250)
                 if not rows:
                     logger.warning(f"HK K-line {name}({code}): 无数据")
                     continue
@@ -131,7 +131,7 @@ def main():
                 hk_klines[code] = {
                     "name": name,
                     "count": len(rows),
-                    "kline": kline_records[-20:],
+                    "kline": kline_records,
                 }
                 # Compute indicators for HK stock
                 df = pd.DataFrame(kline_records)
@@ -218,6 +218,10 @@ def main():
     out_path = ROOT / "data" / "daily_snapshot.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(snapshot, f, ensure_ascii=False, indent=2)
+
+    logger.info("Phase 6: 量化分析产物")
+    if not run(f"cd {ROOT} && source .venv/bin/activate && python scripts/run_quant_analysis.py --date {date_str}", timeout=300):
+        logger.warning("量化分析失败；报告必须披露 data/report_context.json unavailable")
 
     logger.info(f"快照已生成: {out_path} ({len(snapshot['a_stocks'])}A股 + {len(snapshot.get('hk_stocks',{}))}港股)")
     logger.info("=== 全量数据拉取完成 ===")

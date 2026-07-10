@@ -73,6 +73,8 @@ source .venv/bin/activate && python scripts/fetch_all_daily.py
 
 ### Step 2-7: 写报告（单文件）
 
+写任何定量结论前必须读取 `data/report_context.json`。定量字段只允许来自 `market_breadth`、`multi-timeframe`、`relative_strength`、`strategy_stats`、`cross_market` 和 `portfolio_risk`。报告必须展示 ATR、entry、invalidation、targets 与 risk_reward；字段为 `unavailable` 时原样披露，不得自行补算或降级成中性判断。
+
 输出：`tracking/daily/positions/YYYY-MM-DD.md`（一份文件，不拆分）
 
 七章结构：

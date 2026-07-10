@@ -1,5 +1,7 @@
 # Analysis V2 Design Doc
 
+> 实现状态（2026-07-10）：Quantitative Analysis V2 已落地。`src/quant/` 提供确定性指标、结构、相对强弱、多周期、宽度、策略校准、A/H、跨资产和组合风险；运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD` 生成版本化 artifacts。投资人透镜仍属于叙事增强，不参与定量计算。
+
 ## 两个项目的分析哲学差异
 
 ```

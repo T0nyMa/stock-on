@@ -35,4 +35,6 @@ python src/indicators.py --code 002050
 
 ## 输出格式
 
+运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD` 可从本地 JSON 原子生成 schema version `2.0` 的量化 artifacts 与 `data/report_context.json`。该步骤不联网；缺失行情、benchmark、FX 或 driver 会记录 evidence gap，不会填零。
+
 详见 `data/{code}/` 下各 JSON 文件。Codex 直接读取这些数据文件。

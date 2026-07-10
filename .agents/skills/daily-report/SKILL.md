@@ -7,6 +7,10 @@ description: 每日追踪报告 — 生成大盘总结(含板块行情) + 全部
 
 编排每日报告生成流程。严格按步骤执行，不跳过。
 
+## Quantitative Analysis V2 证据契约
+
+先运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD` 并读取 `data/report_context.json`。所有定量陈述只能引用结构化字段：`market_breadth`、个股 `multi-timeframe` 与 `relative_strength`、ATR/ADX/OBV/MFI/CMF、`strategy_stats`、`cross_market` 和 `portfolio_risk`。actionable setup 必须包含 entry_zone、invalidation、targets、risk_reward。少于 250 根历史时校准显示 `insufficient_data`；任何字段为 `unavailable` 时必须明确披露，禁止补零或猜测。
+
 ## 用法
 
 `$daily-report` 或用户说"日报""今日总结""daily"
