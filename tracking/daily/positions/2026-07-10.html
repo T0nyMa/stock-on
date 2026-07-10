@@ -1,105 +1,413 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>持仓观察汇总 — 2026年7月10日（周五）</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
-  .container { max-width: 960px; margin:0 auto; padding:24px 16px; }
-  .header { background: linear-gradient(135deg, #1a1a2e, #16213e); color:#fff; padding:32px; border-radius:12px; margin-bottom:24px; }
-  .header h1 { font-size:24px; margin-bottom:8px; }
-  .header .date { font-size:14px; color:#8892b0; }
-  .alert { background: #fde8e8; border-left: 4px solid #e74c3c; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
-  .card { background:#fff; border-radius:10px; padding:24px; margin-bottom:16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-  .card h2 { font-size:18px; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #eee; }
-  .card.core h2 { color:#e74c3c; border-color:#fde8e8; }
-  .card.key h2 { color:#e67e22; border-color:#fef0e6; }
-  .stock-name { font-size:16px; font-weight:600; margin-bottom:12px; }
-  .meta-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px; margin-bottom:12px; }
-  .meta-item { background:#f8f9fa; padding:10px 12px; border-radius:6px; }
-  .meta-item .lbl { font-size:11px; color:#999; }
-  .meta-item .val { font-size:16px; font-weight:600; }
-  .val.up { color:#27ae60; } .val.down { color:#e74c3c; }
-  table { width:100%; border-collapse:collapse; font-size:13px; }
-  th { background:#f8f9fa; padding:8px 10px; text-align:left; font-weight:500; color:#666; }
-  td { padding:8px 10px; border-bottom:1px solid #f0f0f0; }
-  .footer { text-align:center; color:#999; font-size:12px; margin-top:24px; padding:16px; }
-</style></head><body><div class="container">
-<div class="header"><h1>持仓观察汇总</h1><div class="date">2026年7月10日（周五）</div></div>
-<div class="alert"><strong>⛔ 止损警报</strong>：山东黄金(24.96 破止损99)</div>
-
-
-<div class="card"><h2>一般观察</h2>
-<table><thead><tr><th>股票</th><th>收盘</th><th>涨跌</th><th>RSI6</th><th>趋势</th><th>PE</th><th>PB</th><th>共识</th></tr></thead><tbody>
-<tr><td><strong>三花智控</strong> <span style="color:#999">002050</span></td>
-        <td>43.20</td><td class="up">+0.82%</td>
-        <td>44</td><td>空头排列(25.0)</td><td>44</td><td>5.6</td><td>中性(47)</td></tr><tr><td><strong>兆易创新</strong> <span style="color:#999">603986</span></td>
-        <td>612.00</td><td class="down">-7.76%</td>
-        <td>38</td><td>弱势空头(40.0)</td><td>149</td><td>17.4</td><td>中性(40)</td></tr><tr><td><strong>扬杰科技</strong> <span style="color:#999">300373</span></td>
-        <td>118.67</td><td class="down">-13.14%</td>
-        <td>35</td><td>弱势空头(40.0)</td><td>47</td><td>6.7</td><td>中性(40)</td></tr><tr><td><strong>中微公司</strong> <span style="color:#999">688012</span></td>
-        <td>434.51</td><td class="down">-7.86%</td>
-        <td>55</td><td>弱势空头(40.0)</td><td>153</td><td>15.1</td><td>中性(43)</td></tr><tr><td><strong>北方华创</strong> <span style="color:#999">002371</span></td>
-        <td>801.00</td><td class="down">-8.81%</td>
-        <td>46</td><td>弱势空头(40.0)</td><td>104</td><td>15.0</td><td>中性(40)</td></tr><tr><td><strong>宁波东力</strong> <span style="color:#999">002164</span></td>
-        <td>11.32</td><td class="up">+0.89%</td>
-        <td>36</td><td>强势空头(10.0)</td><td>30</td><td>3.8</td><td>中性(43)</td></tr><tr><td><strong>双林股份</strong> <span style="color:#999">300100</span></td>
-        <td>25.37</td><td class="down">-0.59%</td>
-        <td>28</td><td>强势空头(10.0)</td><td>34</td><td>4.5</td><td>中性(42)</td></tr><tr><td><strong>沪电股份</strong> <span style="color:#999">002463</span></td>
-        <td>129.44</td><td class="down">-5.72%</td>
-        <td>42</td><td>强势空头(10.0)</td><td>58</td><td>15.7</td><td>中性(40)</td></tr><tr><td><strong>华工科技</strong> <span style="color:#999">000988</span></td>
-        <td>158.07</td><td class="down">-0.58%</td>
-        <td>49</td><td>强势空头(10.0)</td><td>94</td><td>13.9</td><td>中性(40)</td></tr><tr><td><strong>中际旭创</strong> <span style="color:#999">300308</span></td>
-        <td>1093.98</td><td class="down">-8.45%</td>
-        <td>35</td><td>强势空头(10.0)</td><td>82</td><td>35.2</td><td>中性(40)</td></tr><tr><td><strong>工业富联</strong> <span style="color:#999">601138</span></td>
-        <td>66.27</td><td class="down">-4.69%</td>
-        <td>44</td><td>强势空头(10.0)</td><td>32</td><td>7.5</td><td>中性(40)</td></tr><tr><td><strong>东山精密</strong> <span style="color:#999">002384</span></td>
-        <td>242.30</td><td class="down">-7.28%</td>
-        <td>49</td><td>空头排列(25.0)</td><td>218</td><td>19.6</td><td>中性(40)</td></tr><tr><td><strong>云南锗业</strong> <span style="color:#999">002428</span></td>
-        <td>100.26</td><td class="down">-2.64%</td>
-        <td>38</td><td>强势空头(10.0)</td><td>3437</td><td>44.8</td><td>中性(40)</td></tr><tr><td><strong>三环集团</strong> <span style="color:#999">300408</span></td>
-        <td>127.05</td><td class="down">-5.05%</td>
-        <td>26</td><td>强势空头(10.0)</td><td>88</td><td>11.7</td><td>中性(42)</td></tr><tr><td><strong>山东黄金</strong> <span style="color:#999">600547</span></td>
-        <td>24.96</td><td class="up">+2.80%</td>
-        <td>54</td><td>弱势多头(55.0)</td><td>22</td><td>3.7</td><td>中性(53)</td></tr><tr><td><strong>恒瑞医药</strong> <span style="color:#999">600276</span></td>
-        <td>55.75</td><td class="up">+0.25%</td>
-        <td>65</td><td>多头排列(75.0)</td><td>46</td><td>5.9</td><td>偏多(60)</td></tr><tr><td><strong>赤峰黄金</strong> <span style="color:#999">600988</span></td>
-        <td>32.84</td><td class="up">+4.75%</td>
-        <td>73</td><td>弱势多头(55.0)</td><td>17</td><td>4.6</td><td>中性(53)</td></tr><tr><td><strong>药明康德</strong> <span style="color:#999">603259</span></td>
-        <td>123.30</td><td class="up">+1.84%</td>
-        <td>63</td><td>弱势空头(40.0)</td><td>18</td><td>4.6</td><td>中性(49)</td></tr><tr><td><strong>紫金矿业</strong> <span style="color:#999">601899</span></td>
-        <td>27.72</td><td class="up">+0.36%</td>
-        <td>57</td><td>弱势多头(55.0)</td><td>12</td><td>3.9</td><td>中性(53)</td></tr><tr><td><strong>上海贝岭</strong> <span style="color:#999">600171</span></td>
-        <td>28.28</td><td class="down">-3.71%</td>
-        <td>41</td><td>弱势空头(40.0)</td><td>91</td><td>4.5</td><td>中性(40)</td></tr><tr><td><strong>摩尔线程</strong> <span style="color:#999">688795</span></td>
-        <td>701.01</td><td class="down">-7.64%</td>
-        <td>55</td><td>多头排列(75.0)</td><td>-384</td><td>28.6</td><td>偏多(60)</td></tr></tbody></table></div>
-<div class="card"><h2>估值分布</h2>
-
-<style>
-.hbar-wrap { margin:4px 0; display:flex; align-items:center; gap:8px; }
-.hbar-label { width:80px; font-size:12px; text-align:right; flex-shrink:0; color:#666; }
-.hbar-track { flex:1; height:18px; background:#f0f0f0; border-radius:3px; overflow:hidden; }
-.hbar-fill { height:100%; border-radius:3px; transition:width .3s; display:flex; align-items:center; padding-left:6px; font-size:11px; color:#fff; font-weight:600; min-width:20px; }
-.spark-wrap { display:inline-block; vertical-align:middle; }
-.consensus-bar { height:24px; border-radius:4px; display:flex; overflow:hidden; font-size:10px; color:#fff; font-weight:600; }
-.consensus-bar .buy { background:#27ae60; }
-.consensus-bar .hold { background:#f39c12; }
-.consensus-bar .sell { background:#e74c3c; }
-.pe-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:12px 0; }
-.pe-cell { text-align:center; padding:12px 8px; border-radius:8px; }
-.pe-cell .count { font-size:24px; font-weight:700; }
-.pe-cell .label { font-size:11px; color:#888; margin-top:2px; }
-.pe-cell.c1{background:#e8f5e9;color:#27ae60}.pe-cell.c2{background:#fef9e7;color:#e67e22}
-.pe-cell.c3{background:#fde8e8;color:#e74c3c}.pe-cell.c4{background:#fadbd8;color:#c0392b}
-.kpi-card { background:#f8f9fa; border-radius:8px; padding:14px; text-align:center; }
-.kpi-card .val { font-size:22px; font-weight:700; }
-.kpi-card .lbl { font-size:11px; color:#999; margin-top:2px; }
-.kpi-card .trend { font-size:12px; margin-top:4px; }
-</style>
-<div class="pe-grid"><div class="pe-cell c1"><div class="count">6</div><div class="label"><30</div></div><div class="pe-cell c2"><div class="count">5</div><div class="label">30-50</div></div><div class="pe-cell c3"><div class="count">5</div><div class="label">50-100</div></div><div class="pe-cell c4"><div class="count">3</div><div class="label">100-200</div></div><div class="pe-cell c5"><div class="count">2</div><div class="label">>200</div></div></div>
-<p>估值洼地：三花智控, 扬杰科技, 宁波东力, 双林股份, 工业富联, 山东黄金, 恒瑞医药, 赤峰黄金, 药明康德, 紫金矿业, 摩尔线程</p>
-</div>
-<div class="footer">Stock-On · 数据截至2026年7月10日（周五）收盘 · 21只股票</div>
-</div></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>日报 — 2026-07-10</title><style>*{box-sizing:border-box}body{margin:0;background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}.container{max-width:1120px;margin:auto;padding:24px 18px}h1,h2,h3{color:#f0f6fc}h1{padding:24px;background:linear-gradient(135deg,#161b22,#1f2937);border-radius:12px}h2{margin-top:32px;border-bottom:1px solid #30363d;padding-bottom:8px}h3{margin-top:24px}table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:14px 0 20px}th,td{padding:9px 12px;border:1px solid #30363d;white-space:nowrap}th{background:#161b22;color:#f0f6fc}tr:nth-child(even){background:#0f141b}code{background:#161b22;padding:2px 5px;border-radius:4px}blockquote{border-left:4px solid #58a6ff;margin-left:0;padding:10px 14px;background:#111820;color:#8b949e}a{color:#58a6ff}strong{color:#f0f6fc}@media(max-width:700px){.container{padding:12px}h1{font-size:21px;padding:18px}h2{font-size:18px}th,td{font-size:12px;padding:7px 9px}}</style></head><body><main class="container"><h1>日报 — 2026年7月10日（周五）· Quantitative Analysis V2 重跑版</h1>
+<blockquote>
+<p><strong>证据质量</strong>：21只A股与1只港股均已生成 schema 2.0 技术快照；A股主要来自腾讯直连，单股质量分100。全市场 benchmark、历史 breadth、HKD/CNY FX、黄金 driver 序列缺失，因此相对强弱、宽度周趋势、A/H溢价及黄金股跨资产相关性均标记 <code>unavailable</code>，不补算。</p>
+<p><strong>风险提示</strong>：以下内容是基于历史行情的决策支持，不构成投资建议。策略校准样本普遍少于30次，统一为 low confidence。</p>
+</blockquote>
+<h2>一、宏观背景</h2>
+<table>
+<thead>
+<tr>
+<th>指数</th>
+<th style="text-align: right;">收盘</th>
+<th style="text-align: right;">日涨跌</th>
+<th style="text-align: right;">5日涨跌</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上证指数</td>
+<td style="text-align: right;">3996.16</td>
+<td style="text-align: right;">-1.00%</td>
+<td style="text-align: right;">-1.12%</td>
+</tr>
+<tr>
+<td>深证成指</td>
+<td style="text-align: right;">15046.67</td>
+<td style="text-align: right;">-2.29%</td>
+<td style="text-align: right;">-2.40%</td>
+</tr>
+<tr>
+<td>创业板指</td>
+<td style="text-align: right;">3842.73</td>
+<td style="text-align: right;">-4.37%</td>
+<td style="text-align: right;">-2.69%</td>
+</tr>
+<tr>
+<td>科创50</td>
+<td style="text-align: right;">2064.98</td>
+<td style="text-align: right;">-5.53%</td>
+<td style="text-align: right;">+3.45%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>市场宽度</strong>：追踪池7涨、14跌，上涨占比33.3%，当日AD值-7；33.3%站上MA20、61.9%站上MA60。</li>
+<li><strong>市场状态</strong>：<code>risk_off</code> 33.3分，但coverage仅25%，指数趋势、波动率与流动性维度不可用，结论需降置信度。</li>
+<li><strong>板块结构</strong>：AI服务器76.5、算电协同70.8、电源65.5、液冷65.3、AIDC64.4居前；AI服务器内部明显分化，紫光股份+7.65%，工业富联-4.69%。</li>
+<li><strong>黄金</strong>：COMEX 4108.3美元/盎司，SGE Au99.99 893.3元/克。黄金driver历史序列缺失，不能量化金价与黄金股的滚动相关性。</li>
+</ul>
+<h2>二、持仓追踪</h2>
+<h3>工业富联（601138）— 当前唯一有实际股数的持仓</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">成本</th>
+<th style="text-align: right;">股数</th>
+<th style="text-align: right;">现价</th>
+<th style="text-align: right;">当前市值</th>
+<th style="text-align: right;">浮亏</th>
+<th style="text-align: right;">ATR14</th>
+<th style="text-align: right;">NATR</th>
+<th style="text-align: right;">ADX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">78.72</td>
+<td style="text-align: right;">2200</td>
+<td style="text-align: right;">66.27</td>
+<td style="text-align: right;">¥145,794</td>
+<td style="text-align: right;">-15.8%（-¥27,390）</td>
+<td style="text-align: right;">4.22</td>
+<td style="text-align: right;">6.37%</td>
+<td style="text-align: right;">19.2</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>日线空头、周线多头，<code>conflicted</code>；ADX仅19.2，当前更像弱趋势震荡而非确认反转。</li>
+<li>量价：MFI14=37.5、CMF20=+0.047，资金指标尚未形成一致方向。</li>
+<li>Quant setup：入场/观察区65.21-67.33，模型失效位65.07，目标69.44，RR=1.5。</li>
+<li>既有持仓计划仍以执行纪律为准：68-70元反弹卖出660股；放量跌破64元卖出1100股；60元为原持仓止损线。</li>
+</ul>
+<h3>持仓口径校验</h3>
+<p>山东黄金已确认为实际持仓，成本27.15元，按24.96元收盘计算浮亏-8.07%；但股数在所有Git历史中均为0且首次提交注明“待确认股数”，因此不虚构总成本、市值和金额风险。三花智控保留历史position.json，但tracklist已标记无持仓，不计入当前组合。</p>
+<p><strong>组合风险（仅工业富联）</strong>：年化历史波动率63.7%，历史最大回撤-40.8%，95%单日历史VaR约5.33%，跌至原止损60元的压力损失约¥13,794。单一持仓无法获得分散化收益。</p>
+<h2>三、核心个股深度</h2>
+<h3>1. 工业富联（601138）</h3>
+<ul>
+<li><strong>消息核验</strong>：7月9日公司披露半年度业绩预增，预计上半年归母净利234亿-244亿元，同比增长93%-101%；7月10日股价反而下跌4.69%，短期存在利好兑现压力。<a href="https://www.sse.com.cn/assortment/stock/list/info/announcement/index.shtml?productId=601138">上交所公告入口</a></li>
+<li><strong>技术面</strong>：收盘66.27，-4.69%；ATR4.22、ADX19.2，日/周周期冲突，布林百分位0.27，处于通道下半部。</li>
+<li><strong>校准</strong>：MA20突破信号未来5日胜率45.5%（11样本）、期望+0.61%，低置信度；不能据此单独加仓。</li>
+<li><strong>判断</strong>：基本面催化没有转化成趋势确认，优先执行反弹减仓和64元风险线。</li>
+</ul>
+<h3>2. 山东黄金（600547）</h3>
+<ul>
+<li><strong>持仓与消息核验</strong>：成本27.15元，现价24.96元，浮亏-8.07%，股数待补录。7月10日检索到控股子公司部分担保终止及选举王成龙为董事长，暂未形成产量或利润层面的新增催化。<a href="https://finance.sina.com.cn/roll/2026-07-10/doc-inihhkuh7200733.shtml">担保终止公告</a> · <a href="https://finance.jrj.com.cn/2026/07/10181457764363.shtml">董事长变更消息</a></li>
+<li><strong>技术面</strong>：24.96，+2.80%；ATR1.37、ADX28.0，日线与周线均为bearish，和旧指标中的“弱势多头”存在冲突，应以多周期证据谨慎处理。</li>
+<li><strong>资金面</strong>：CMF20=-0.119、MFI14=46.2，尚未确认持续资金流入。</li>
+<li><strong>setup</strong>：24.62-25.30，失效22.37，目标28.85，RR1.5。</li>
+<li><strong>校准与持仓判断</strong>：5日胜率30%（10样本）、期望-1.72%，低置信度；24.60-25.30元暂持有不补仓，站稳25.30元先看27.15元成本线，收盘跌破22.37元建议至少减仓50%。</li>
+</ul>
+<h3>3. 三花智控（002050）</h3>
+<ul>
+<li><strong>消息核验</strong>：7月6日投资者交流确认资本开支继续支持机器人、液冷等新业务，但没有披露“50亿元订单”等传闻的确定性兑现。<a href="https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12433636&amp;stockid=002050">投资者关系记录</a></li>
+<li><strong>技术面</strong>：43.20，+0.82%；ATR2.48、ADX12.4，日线/周线aligned bearish但趋势强度低，属于弱趋势整理。</li>
+<li><strong>资金面</strong>：MFI14=54.8而CMF20=-0.137，短期承接与20日资金流不一致。</li>
+<li><strong>setup</strong>：42.58-43.82，失效41.70，目标45.46，RR1.5。</li>
+<li><strong>校准</strong>：5日胜率72.7%（11样本）、期望+1.75%，但样本很小；无持仓，不以高胜率数字替代止损纪律。</li>
+</ul>
+<h3>4. 兆易创新（603986）</h3>
+<ul>
+<li><strong>风险核验</strong>：公司6月29日公告提示滚动PE约200倍并明确估值及业绩波动风险；这与当前高估值风险方向一致。<a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062902547_c.pdf">港交所公告</a></li>
+<li><strong>技术面</strong>：A股612，-7.76%；ATR58.43、NATR9.55%、ADX41.9，波动和趋势强度都高；日线neutral、周线bullish，周期冲突。</li>
+<li><strong>setup</strong>：597.39-626.61，失效589，结构目标846.66，RR8.03。高RR来自远端结构目标，不代表高成功概率。</li>
+<li><strong>校准</strong>：5日胜率66.7%（9样本）、期望+0.24%，低置信度；H股742.5港元、-21.05%，但缺dated FX，禁止计算A/H溢价。</li>
+</ul>
+<h3>5. 阿里巴巴（09988.HK）</h3>
+<ul>
+<li><strong>行情</strong>：110.20港元，+2.04%，PE18.01。</li>
+<li><strong>技术面</strong>：ATR5.20、ADX31.3，日线neutral、周线bearish，<code>conflicted</code>；布林百分位0.84，已靠近上轨。</li>
+<li><strong>资金面</strong>：MFI14=57.6、CMF20=-0.198，价格走强但20日资金流仍偏弱。</li>
+<li><strong>setup</strong>：108.90-111.50港元，失效106.10，目标116.35，RR1.5。</li>
+<li><strong>消息面</strong>：7月6日和7日分别回购约4999万美元，7月9日再回购99.66万美元，对中期估值有支撑；但日线靠近布林上轨且CMF偏负，不将回购单独作为追涨依据。<a href="https://finance.jrj.com.cn/2026/07/10184057764822.shtml">7月9日回购消息</a></li>
+</ul>
+<h2>四、A-H全面对比</h2>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>A股收盘/PE</th>
+<th>H股收盘/PE</th>
+<th>今日表现</th>
+<th>Quant结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三花智控</td>
+<td>43.20 / 44.48</td>
+<td>HK$28.10 / 26.29</td>
+<td>A+0.82%，H+1.44%</td>
+<td>HKD/CNY缺失，premium unavailable</td>
+</tr>
+<tr>
+<td>山东黄金</td>
+<td>24.96 / 22.30</td>
+<td>HK$18.37 / 16.14</td>
+<td>A+2.80%，H+1.60%</td>
+<td>HKD/CNY缺失，premium unavailable</td>
+</tr>
+<tr>
+<td>兆易创新</td>
+<td>612.00 / 149.4</td>
+<td>HK$742.50 / 285.57</td>
+<td>A-7.76%，H-21.05%</td>
+<td>HKD/CNY缺失，premium unavailable</td>
+</tr>
+<tr>
+<td>阿里巴巴</td>
+<td>—</td>
+<td>HK$110.20 / 18.01</td>
+<td>H+2.04%</td>
+<td>单一H股</td>
+</tr>
+</tbody>
+</table>
+<h2>五、其余观察股技术巡检与趋势建议</h2>
+<h3>A. 技术结构较强，优先跟踪</h3>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>趋势/强度</th>
+<th>关键价位（观察区/失效/目标）</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>摩尔线程</td>
+<td>日周多头共振，ADX22.3</td>
+<td>689.04-712.98 / 656.90 / 767.18</td>
+<td>当日-7.64%，不追涨；690附近缩量企稳才考虑小仓</td>
+</tr>
+<tr>
+<td>中微公司</td>
+<td>日线多头，ADX45.8</td>
+<td>426.10-442.92 / 392 / 500</td>
+<td>强趋势回调，观察426一带承接；跌破392回避</td>
+</tr>
+<tr>
+<td>北方华创</td>
+<td>日线多头，ADX39.0</td>
+<td>786.75-815.25 / 767.97 / 967.21</td>
+<td>高波动回调，至少等重新站回815</td>
+</tr>
+<tr>
+<td>药明康德</td>
+<td>日线多头，ADX24.6</td>
+<td>121.91-124.69 / 115.58 / 134.88</td>
+<td>站稳124.70确认转强；跌破115.58取消设置</td>
+</tr>
+<tr>
+<td>恒瑞医药</td>
+<td>日线多头，ADX24.1</td>
+<td>55.15-56.35 / 54.59 / 57.69</td>
+<td>结构偏强但空间较小，跌破54.59停止观察</td>
+</tr>
+<tr>
+<td>赤峰黄金</td>
+<td>日多周空，RSI6=72.6</td>
+<td>32.35-33.33 / 32.76 / 34.32</td>
+<td>短线接近超买，不追；跌破32.76回避</td>
+</tr>
+<tr>
+<td>紫金矿业</td>
+<td>日多周空，ADX15.5</td>
+<td>27.38-28.06 / 27.58 / 29.25</td>
+<td>趋势强度不足，等放量突破28.06</td>
+</tr>
+</tbody>
+</table>
+<h3>B. 中性震荡，等待方向确认</h3>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>趋势/强度</th>
+<th>关键价位（观察区/失效/目标）</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>阿里巴巴</td>
+<td>日中性/周空，ADX31.3</td>
+<td>HK$108.90-111.50 / 106.10 / 116.35</td>
+<td>回踩企稳后再评估，不追涨</td>
+</tr>
+<tr>
+<td>兆易创新</td>
+<td>日周中性，ADX41.9、NATR9.55%</td>
+<td>597.39-626.61 / 589 / 846.66</td>
+<td>极高波动；站稳627才转强，跌破589回避</td>
+</tr>
+<tr>
+<td>扬杰科技</td>
+<td>日周中性，ADX36.2</td>
+<td>115.63-121.71 / 94.67 / 154.68</td>
+<td>单日-13.14%，先等止跌，不接飞刀</td>
+</tr>
+<tr>
+<td>华工科技</td>
+<td>日周中性，ADX19.2</td>
+<td>155.26-160.88 / 144.43 / 178.52</td>
+<td>155附近缩量企稳可跟踪，突破161再升级</td>
+</tr>
+<tr>
+<td>东山精密</td>
+<td>日周中性，ADX25.2</td>
+<td>236.93-247.67 / 235.11 / 258.42</td>
+<td>235为风险线，未收复248前不进</td>
+</tr>
+<tr>
+<td>云南锗业</td>
+<td>日周中性，ADX24.1</td>
+<td>98.02-102.50 / 83.34 / 125.64</td>
+<td>失效位过远，风险不易控制，暂观望</td>
+</tr>
+<tr>
+<td>三环集团</td>
+<td>日周中性，ADX37.0、RSI6=26</td>
+<td>123.66-130.44 / 122.25 / 144</td>
+<td>观察122-124超卖止跌；站回130.44转强</td>
+</tr>
+<tr>
+<td>上海贝岭</td>
+<td>日中性/周空，ADX17.0</td>
+<td>27.90-28.66 / 27.45 / 30.06</td>
+<td>震荡偏弱，站稳28.66后才有短线价值</td>
+</tr>
+</tbody>
+</table>
+<h3>C. 技术偏弱，暂时回避或只做风险观察</h3>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>趋势/强度</th>
+<th>关键价位（观察区/失效/目标）</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三花智控</td>
+<td>日空/周中性，ADX12.5</td>
+<td>42.58-43.82 / 40.96 / 46.56</td>
+<td>弱势整理；突破43.82才改善，跌破40.96回避</td>
+</tr>
+<tr>
+<td>宁波东力</td>
+<td>日线空头，ADX16.4</td>
+<td>11.14-11.50 / 11.01 / 12.28</td>
+<td>站稳11.50才考虑升级观察</td>
+</tr>
+<tr>
+<td>双林股份</td>
+<td>日线空头，RSI6=28.1</td>
+<td>24.90-25.84 / 24.60 / 31.17</td>
+<td>接近超卖但未止跌，等放量阳线确认</td>
+</tr>
+<tr>
+<td>沪电股份</td>
+<td>日线空头，ADX19.5</td>
+<td>126.65-132.23 / 122.36 / 141.32</td>
+<td>未站回132.23前维持回避</td>
+</tr>
+<tr>
+<td>中际旭创</td>
+<td>日线空头，ADX23.3</td>
+<td>1074.25-1113.71 / 1076.67 / 1153.18</td>
+<td>观察区与失效位过近，当日-8.45%，不接飞刀</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>以上设置是技术决策边界，不是目标价预测。校准样本均低于30，不把历史胜率当作未来上涨概率。</p>
+</blockquote>
+<h2>六、策略信号</h2>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>当前结构</th>
+<th>MA20突破5日校准</th>
+<th>主要风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工业富联</td>
+<td>日空/周多冲突，ADX19</td>
+<td>45.5%，期望+0.61%，n=11</td>
+<td>利好兑现后无趋势确认</td>
+</tr>
+<tr>
+<td>山东黄金</td>
+<td>日周均空，ADX28</td>
+<td>30.0%，期望-1.72%，n=10</td>
+<td>金价driver unavailable</td>
+</tr>
+<tr>
+<td>三花智控</td>
+<td>日周均空，ADX12</td>
+<td>72.7%，期望+1.75%，n=11</td>
+<td>样本小、CMF偏负</td>
+</tr>
+<tr>
+<td>兆易创新</td>
+<td>日中性/周多，ADX42</td>
+<td>66.7%，期望+0.24%，n=9</td>
+<td>NATR9.55%、估值高、H股流动性</td>
+</tr>
+<tr>
+<td>阿里巴巴</td>
+<td>日中性/周空，ADX31</td>
+<td>5日校准由250根港股历史生成，低置信</td>
+<td>接近布林上轨、CMF偏负</td>
+</tr>
+</tbody>
+</table>
+<p>所有胜率均为历史事件研究，不是未来概率预测。</p>
+<h2>七、操作清单</h2>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>操作</th>
+<th>明确触发条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工业富联</td>
+<td>持有并降风险</td>
+<td>68-70元卖660股；放量跌破64元卖1100股；60元止损剩余仓位</td>
+</tr>
+<tr>
+<td>山东黄金</td>
+<td>持有、不补仓</td>
+<td>成本27.15元，现价24.96元；放量站稳25.30先看27.15，收盘跌破22.37至少减仓50%（股数待补）</td>
+</tr>
+<tr>
+<td>三花智控</td>
+<td>观察</td>
+<td>当前无持仓；40.96失效，站稳43.82后看46.56</td>
+</tr>
+<tr>
+<td>兆易创新</td>
+<td>观望</td>
+<td>589失效；高波动下不以846远端目标作为追涨理由</td>
+</tr>
+<tr>
+<td>阿里巴巴</td>
+<td>观察</td>
+<td>HK$106.10失效；回踩108.90-111.50企稳后再评估，目标116.35</td>
+</tr>
+</tbody>
+</table>
+<p><strong>新机会跟踪优先级</strong>：摩尔线程 &gt; 中微公司 ≈ 北方华创 &gt; 药明康德 &gt; 三环集团。优先等待“站回结构上沿 + ADX增强 + 量能确认”三项中至少两项，不因单日大跌直接抄底。</p>
+<hr />
+<p><em>更新时间：2026-07-10 23:10 CST · 数据：腾讯/akshare/Quantitative Analysis V2 · 消息面：easy_anysearch_skill检索后优先使用交易所/公司公告 · benchmark、FX、黄金driver及历史breadth缺失已显式披露</em></p></main></body></html>
