@@ -152,7 +152,7 @@ def fetch_stock_data(code: str, provider: str = "v1"):
     # 1. K-line (60 days)
     logger.info("正在获取 %s K线数据...", code)
     try:
-        kline = fetcher.get_daily_data(code, days=60)
+        kline = fetcher.get_daily_data(code, days=250)
         if isinstance(kline, tuple):
             kline = kline[0]
         if kline is not None and hasattr(kline, 'empty') and not kline.empty:
@@ -216,7 +216,7 @@ def _fetch_stock_data_v2(code: str, stock_dir: Path):
     logger.info("[V2] 正在获取 %s K线...", code)
     name = code
     try:
-        rows, k_evidence = kp.get_daily(code, limit=60)
+        rows, k_evidence = kp.get_daily(code, limit=250)
         if rows:
             name = code  # 行情获取时更新
             kline_records = []

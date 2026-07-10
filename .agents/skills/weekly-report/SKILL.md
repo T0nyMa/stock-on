@@ -7,6 +7,10 @@ description: 每周总结 — 汇总本周日报生成周度视角
 
 汇总本周日报，生成周度视角的报告。
 
+## Quantitative Analysis V2 周度要求
+
+周报必须包含真实 `weekly` 指标、`breadth` 周内趋势、`relative-strength` 排名变化及 `prior-call` 复盘（上周 entry/invalidation/target 是否触发）。不得把每日指标串联冒充周线计算；缺失字段显示 `unavailable`。
+
 ## 用法
 
 `$weekly-report` 或用户说"周报""本周总结""weekly"

@@ -9,6 +9,7 @@ from typing import Any
 import pandas as pd
 
 from .analytics import (
+    analyze_ah_pair,
     analyze_portfolio,
     analyze_structure,
     calibrate_signals,
@@ -94,7 +95,14 @@ def run_repository(root: str | Path, as_of=None):
     root = Path(root)
     tracklist = _read(root / "tracking/tracklist.json", {}) or {}
     stocks = tracklist.get("stocks", [])
-    snapshots = {}; frames = {}; quotes = []; positions = []
+    snapshots = {}; frames = {}; quotes = []; positions = []; cross_market = {}
+    hk_data = _read(root / "data/market/hk_klines.json", {}) or {}
+    fx_data = _read(root / "data/market/fx.json", {}) or {}
+    fx_records = fx_data.get("HKD_CNY", [])
+    fx_series = pd.Series(
+        {pd.Timestamp(item["date"]): float(item["rate"]) for item in fx_records if item.get("date") and item.get("rate") is not None},
+        dtype=float,
+    )
     for stock in stocks:
         code = str(stock["code"])
         raw = _read(root / f"data/{code}/kline.json", {}) or {}
@@ -113,6 +121,18 @@ def run_repository(root: str | Path, as_of=None):
         ma = frame.close.rolling(20).mean(); signals = [i for i in range(1, len(frame)) if pd.notna(ma.iloc[i-1]) and frame.close.iloc[i-1] <= ma.iloc[i-1] and frame.close.iloc[i] > ma.iloc[i]]
         stats = {"schema_version": SCHEMA_VERSION, "as_of": str(as_of or frame.index[-1].date()), "history": {"bars": len(frame)}, "strategies": {"ma20_breakout": calibrate_signals(frame, signals)}}
         _write_atomic(root / f"data/{code}/strategy_stats.json", stats)
+        hk_code = stock.get("hk_code")
+        if hk_code:
+            hk_key = f"hk{str(hk_code).zfill(5)}"
+            hk_raw = hk_data.get(hk_key, {})
+            hk_frame, _ = normalize_bars(hk_raw.get("kline", []))
+            if len(hk_frame) and len(fx_series):
+                ah = analyze_ah_pair(frame, hk_frame, fx_series, as_of or frame.index[-1])
+            else:
+                ah = {"schema_version": SCHEMA_VERSION, "status": "unavailable", "reason": "hk_history_or_fx_missing"}
+            ah.update({"schema_version": SCHEMA_VERSION, "pair": {"a_code": code, "h_code": hk_key}})
+            cross_market[code] = ah
+            _write_atomic(root / f"data/{code}/cross_market.json", ah)
         pos = _position(root, stock, float(frame.close.iloc[-1]))
         if pos: positions.append(pos)
     breadth = compute_breadth(quotes)
@@ -120,6 +140,6 @@ def run_repository(root: str | Path, as_of=None):
     returns = pd.concat({code: frame.close.pct_change() for code, frame in frames.items()}, axis=1) if frames else pd.DataFrame()
     portfolio = analyze_portfolio(positions, returns) if positions else {"schema_version": SCHEMA_VERSION, "status": "unavailable", "reason": "no_positions"}
     _write_atomic(root / "data/portfolio_risk.json", portfolio)
-    context = build_report_context(snapshots, breadth, None, portfolio)
+    context = build_report_context(snapshots, breadth, cross_market or None, portfolio)
     _write_atomic(root / "data/report_context.json", context)
     return {"stocks_written": len(snapshots), "positions": len(positions)}
