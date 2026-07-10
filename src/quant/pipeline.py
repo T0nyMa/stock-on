@@ -76,6 +76,8 @@ def _write_atomic(path: Path, value: Any):
 
 
 def _position(root: Path, stock: dict, price: float):
+    if not stock.get("has_position", False):
+        return None
     path = root / "tracking" / f'{stock["code"]}-{stock["name"]}' / "position.json"
     raw = _read(path, {}) or {}
     body = raw.get("position", raw)
@@ -112,6 +114,12 @@ def run_repository(root: str | Path, as_of=None):
     for stock in stocks:
         code = str(stock["code"])
         raw = _read(root / f"data/{code}/kline.json", {}) or {}
+        if stock.get("market") == "HK" and not (raw.get("kline") or raw.get("data")):
+            hk_key = f"hk{code.zfill(5)}"
+            hk_raw = hk_data.get(hk_key, {})
+            raw = {"name": hk_raw.get("name", stock.get("name", code)),
+                   "kline": hk_raw.get("kline", []),
+                   "_evidence": {"source": "tencent", "gaps": []}}
         records = raw.get("kline") or raw.get("data") or []
         if not records:
             snapshot = build_stock_snapshot(code, stock.get("name", code), [], raw.get("_evidence"), as_of)
