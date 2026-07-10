@@ -7,6 +7,10 @@ description: 每日追踪报告 — 生成大盘总结(含板块行情) + 全部
 
 编排每日报告生成流程。严格按步骤执行，不跳过。
 
+## 固定模板（强制）
+
+生成持仓与观察汇总前，必须完整读取 `references/templates/daily-report-v2.md`。以该文件为唯一汇总日报结构，保留七章顺序、持仓口径、三组观察股巡检和操作优先级。不得改用简版卡片、只列行情指标或省略观察股建议。
+
 ## Quantitative Analysis V2 证据契约
 
 先运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD` 并读取 `data/report_context.json`。所有定量陈述只能引用结构化字段：`market_breadth`、个股 `multi-timeframe` 与 `relative_strength`、ATR/ADX/OBV/MFI/CMF、`strategy_stats`、`cross_market` 和 `portfolio_risk`。actionable setup 必须包含 entry_zone、invalidation、targets、risk_reward。少于 250 根历史时校准显示 `insufficient_data`；任何字段为 `unavailable` 时必须明确披露，禁止补零或猜测。
@@ -207,14 +211,15 @@ tracking/{code}-{name}/technical-analysis-report.md ← 更新变化章节
 
 ### Phase 4: 持仓观察汇总
 
-将 Phase 2 所有单股日报汇总为四层报告：
+将 Phase 2 所有单股日报按 `references/templates/daily-report-v2.md` 汇总。第五章的观察股必须覆盖全部非核心深度股，每只只出现一次，并按技术结构分为：
 
 ```
-★ 核心持仓 — 每只 8-12 行（策略共识 + 持仓策略 + 基本面要点 + 关键价位 + 操作指令）
-★ 重点观察 — 每只 5-8 行（策略信号 + 基本面速览 + 持仓策略/买入条件）
-一般观察 — 表格式，一行一只（收盘/涨跌/量比/RSI/PE/PB/估值状态）
-基本面估值分布 — PE区间分布统计（<30/30-50/50-100/100-200/>200），标注估值洼地和高估预警
+A. 技术结构较强，优先跟踪
+B. 中性震荡，等待方向确认
+C. 技术偏弱，暂时回避或只做风险观察
 ```
+
+每只观察股必须有：多周期趋势、ADX/RSI中至少一个强度证据、entry/observation zone、invalidation、target 和一句具体建议。
 
 写入 `tracking/daily/positions/YYYY-MM-DD.md`
 
@@ -257,5 +262,7 @@ https://t0nyma.github.io/stock-on/               ← GitHub Pages 已更新
 - [ ] 全部 N 只单股日报已写入（core: 3-5策略 key: 2-3策略 watch: 1-2策略，含基本面概览）
 - [ ] **持仓股日报含持仓策略区块**（成本/现价/盈亏/止损/情景更新/操作指令）
 - [ ] 持仓观察汇总日报已写入（含基本面估值分布）
+- [ ] 已完整读取并使用 `references/templates/daily-report-v2.md`
+- [ ] 全部观察股已分入A/B/C三组，且均包含趋势强度、观察区、失效位、目标位和建议
 - [ ] **index.html 整文件重写**（非增量插入），确认无重复日期区块
 - [ ] **已部署到 GitHub Pages**（HTML 生成 + index.html 更新 + git push）
