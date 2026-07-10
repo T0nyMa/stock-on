@@ -28,6 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from src.config import get_config, setup_env
 from src.data_provider import DataFetcherManager
 from src.data_provider.base import canonical_stock_code
+from src.providers import KlineProvider, QuoteProvider, EvidenceMeta
 
 logger = logging.getLogger(__name__)
 
@@ -138,10 +139,13 @@ def _write_fundamentals(stock_dir: Path, code: str, name: str):
     _write_json(stock_dir, "fundamentals.json", fund)
 
 
-def fetch_stock_data(code: str):
+def fetch_stock_data(code: str, provider: str = "v1"):
     setup_env()
     config = get_config()
     stock_dir = _ensure_data_dir(code)
+
+    if provider == "v2":
+        return _fetch_stock_data_v2(code, stock_dir)
 
     fetcher = DataFetcherManager()
 
@@ -202,13 +206,91 @@ def fetch_stock_data(code: str):
     logger.info("数据抓取完成: %s → %s", code, stock_dir)
 
 
+def _fetch_stock_data_v2(code: str, stock_dir: Path):
+    """V2 路径: 使用 providers 直连腾讯/东财 HTTP API。"""
+    kp = KlineProvider()
+    qp = QuoteProvider()
+    market = _detect_market(code)
+
+    # 1. K-line (60 days)
+    logger.info("[V2] 正在获取 %s K线...", code)
+    name = code
+    try:
+        rows, k_evidence = kp.get_daily(code, limit=60)
+        if rows:
+            name = code  # 行情获取时更新
+            kline_records = []
+            for r in rows:
+                kline_records.append({
+                    "date": r.date,
+                    "open": r.open,
+                    "high": r.high,
+                    "low": r.low,
+                    "close": r.close,
+                    "volume": r.volume,
+                    "amount": r.amount,
+                    "pct_chg": r.pct_chg,
+                })
+            _write_json(stock_dir, "kline.json", {
+                "code": code,
+                "name": name,
+                "market": market,
+                "updated_at": _now_str(),
+                "kline": kline_records,
+                "_evidence": k_evidence.to_dict(),
+            })
+    except Exception as e:
+        logger.error("[V2] 获取K线失败 %s: %s", code, e)
+
+    # 2. Realtime quote
+    logger.info("[V2] 正在获取 %s 行情...", code)
+    try:
+        q = qp.get_realtime(code)
+        if q and q.price > 0:
+            name = q.name or name
+            _write_json(stock_dir, "quote.json", {
+                "code": code, "name": name,
+                "price": q.price,
+                "pct_chg": q.change_pct,
+                "volume": int(q.volume),
+                "amount": q.amount,
+                "turnover_rate": q.turnover_rate,
+                "pe": q.pe,
+                "pb": q.pb,
+                "market_cap": q.market_cap,
+                "updated_at": _now_str(),
+                "_evidence": EvidenceMeta(source=q.source, source_chain=q.source_chain).to_dict(),
+            })
+    except Exception as e:
+        logger.error("[V2] 获取行情失败 %s: %s", code, e)
+
+    # 3. Fundamentals
+    logger.info("[V2] 正在获取 %s 基本面...", code)
+    _write_fundamentals(stock_dir, code, name)
+
+    # 4. News (same as V1)
+    logger.info("[V2] 正在获取 %s 新闻...", code)
+    try:
+        from src.search_service import SearchService
+        search = SearchService()
+        news = search.search_stock_news(code, name)
+        if news:
+            _write_json(stock_dir, "news.json", {"code": code, "news": news, "updated_at": _now_str()})
+    except Exception as e:
+        logger.warning("[V2] 获取新闻失败 %s: %s", code, e)
+
+    logger.info("[V2] 数据抓取完成: %s → %s", code, stock_dir)
+
+
 def main():
     parser = argparse.ArgumentParser(description="股票数据抓取")
     parser.add_argument("--code", required=True, help="股票代码")
+    parser.add_argument("--provider", default="v1", choices=["v1", "v2"],
+                        help="数据源: v1=TickFlow+akshare(默认), v2=腾讯/东财直连")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     code = canonical_stock_code(args.code)
-    fetch_stock_data(code)
+    fetch_stock_data(code, provider=args.provider)
 
 
 if __name__ == "__main__":

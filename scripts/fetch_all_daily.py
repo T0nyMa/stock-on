@@ -66,33 +66,40 @@ def main():
     ok_a = sum(results.values())
     logger.info(f"A股: {ok_a}/{len(A_STOCKS)}")
 
-    # Phase 3: HK snapshot via Tencent API
-    logger.info("Phase 3: 港股快照")
-    hk_snapshot = {}
+    # Phase 3: HK snapshot via QuoteProvider
+    logger.info("Phase 3: 港股快照 (QuoteProvider)")
     try:
-        import requests, re
-        codes_str = ','.join(c for c,_ in HK_STOCKS)
-        r = requests.get(f'https://qt.gtimg.cn/q={codes_str}', timeout=10)
-        for line in r.text.strip().split('\n'):
-            m = re.search(r'v_(\w+)="(.*)"', line)
-            if m:
-                fields = m.group(2).split('~')
-                hk_snapshot[m.group(1)] = {
-                    'name': fields[1], 'price': float(fields[3]) if fields[3] else 0,
-                    'prev_close': float(fields[4]) if fields[4] else 0,
-                    'open': float(fields[5]) if fields[5] else 0,
-                    'high': float(fields[33]) if fields[33] else 0,
-                    'low': float(fields[34]) if fields[34] else 0,
-                    'pct_chg': float(fields[32]) if fields[32] else 0,
-                    'volume': float(fields[36]) if fields[36] else 0,
-                    'amount': float(fields[37]) if fields[37] else 0,
-                    'pe': float(fields[39]) if fields[39] else None,
-                    'market_cap': float(fields[45]) if fields[45] else None,
-                    'high_52w': float(fields[48]) if fields[48] else None,
-                    'low_52w': float(fields[49]) if fields[49] else None,
-                    'ytd': float(fields[61]) if fields[61] else None,
-                    'currency': 'HKD',
-                }
+        from src.providers import QuoteProvider
+        qp = QuoteProvider()
+        hk_codes = [c for c, _ in HK_STOCKS]
+        hk_snapshot = {}
+        for hk_code, hk_name in HK_STOCKS:
+            try:
+                q = qp.get_realtime(hk_code)
+                if q and q.price > 0:
+                    hk_snapshot[hk_code] = {
+                        "name": q.name or hk_name,
+                        "price": q.price,
+                        "prev_close": q.prev_close,
+                        "open": q.open,
+                        "high": q.high,
+                        "low": q.low,
+                        "pct_chg": q.change_pct,
+                        "volume": q.volume,
+                        "amount": q.amount,
+                        "pe": q.pe,
+                        "market_cap": q.market_cap,
+                        "high_52w": q.high_52w,
+                        "low_52w": q.low_52w,
+                        "ytd": q.ytd,
+                        "currency": "HKD",
+                        "_evidence": {
+                            "source": q.source,
+                            "source_chain": q.source_chain,
+                        },
+                    }
+            except Exception as e:
+                logger.warning(f"港股快照 {hk_name}({hk_code}): {e}")
         hk_path = ROOT / "data" / "market" / "hk_snapshot.json"
         hk_path.parent.mkdir(parents=True, exist_ok=True)
         with open(hk_path, "w", encoding="utf-8") as f:
@@ -101,30 +108,58 @@ def main():
     except Exception as e:
         logger.warning(f"港股快照失败: {e}")
 
-    # Phase 4: HK K-line for indicators
-    logger.info("Phase 4: 港股K线+指标")
+    # Phase 4: HK K-line + indicators via KlineProvider
+    logger.info("Phase 4: 港股K线+指标 (KlineProvider)")
     hk_klines = {}
-    for code, name in HK_STOCKS:
-        try:
-            import requests as r2
-            url = f'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={code},day,,,60,qfq'
-            resp = r2.get(url, timeout=10)
-            data = json.loads(resp.text)
-            kl = data['data'][code].get('qfqday', data['data'][code].get('day', []))
-            hk_klines[code] = {
-                'name': name,
-                'count': len(kl),
-                'kline': [{'date':k[0],'open':float(k[1]),'close':float(k[2]),
-                          'high':float(k[3]),'low':float(k[4]),'volume':float(k[5])}
-                         for k in kl[-20:]]
-            }
-        except Exception as e:
-            logger.warning(f"HK K-line {name}({code}): {e}")
+    hk_indicators = {}
+    try:
+        from src.providers import KlineProvider
+        from src.stock_analyzer import StockTrendAnalyzer
+        import pandas as pd
+        kp = KlineProvider()
+        analyzer = StockTrendAnalyzer()
+        for code, name in HK_STOCKS:
+            try:
+                rows, evidence = kp.get_daily(code, limit=60)
+                if not rows:
+                    logger.warning(f"HK K-line {name}({code}): 无数据")
+                    continue
+                kline_records = [{
+                    "date": r.date, "open": r.open, "close": r.close,
+                    "high": r.high, "low": r.low, "volume": r.volume,
+                } for r in rows]
+                hk_klines[code] = {
+                    "name": name,
+                    "count": len(rows),
+                    "kline": kline_records[-20:],
+                }
+                # Compute indicators for HK stock
+                df = pd.DataFrame(kline_records)
+                df["date"] = pd.to_datetime(df["date"])
+                df = df.sort_values("date")
+                result = analyzer.analyze(df, code)
+                hk_indicators[code] = {
+                    "name": name,
+                    "ma5": round(result.ma5, 1) if result.ma5 else None,
+                    "ma10": round(result.ma10, 1) if result.ma10 else None,
+                    "ma20": round(result.ma20, 1) if result.ma20 else None,
+                    "rsi6": round(result.rsi_6) if result.rsi_6 else None,
+                    "rsi12": round(result.rsi_12) if result.rsi_12 else None,
+                    "macd_hist": round(result.macd_bar, 2) if result.macd_bar else None,
+                    "bias5": round(result.bias_ma5, 1) if result.bias_ma5 else None,
+                    "trend": str(getattr(result.trend_status, "value", "") or result.trend_status),
+                    "trend_strength": round(getattr(result, "trend_strength", 0), 1) if getattr(result, "trend_strength", 0) else 0,
+                    "_evidence": evidence.to_dict(),
+                }
+            except Exception as e:
+                logger.warning(f"HK K-line {name}({code}): {e}")
+    except Exception as e:
+        logger.warning(f"港股K线+指标失败: {e}")
 
     hk_kl_path = ROOT / "data" / "market" / "hk_klines.json"
     with open(hk_kl_path, "w", encoding="utf-8") as f:
         json.dump(hk_klines, f, ensure_ascii=False, indent=2)
-    logger.info(f"港股K线: {len(hk_klines)}只")
+    logger.info(f"港股K线: {len(hk_klines)}只, 指标: {len(hk_indicators)}只")
 
     # Phase 5: Build daily snapshot
     logger.info("Phase 5: 生成快照")
@@ -137,6 +172,7 @@ def main():
         "sector_top5": [],
         "gold": {},
         "hk_stocks": hk_snapshot,
+        "hk_indicators": hk_indicators,
         "a_stocks": [],
     }
 

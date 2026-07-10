@@ -1,51 +1,60 @@
 {
   "code": "603986",
-  "updated_at": "2026-07-09T21:43:58.221319+08:00",
+  "updated_at": "2026-07-10T20:21:57.424653+08:00",
   "ma": {
-    "ma5": 643.74,
-    "ma10": 711.05,
-    "ma20": 657.62,
-    "ma60": 477.99
+    "ma5": 630.59,
+    "ma10": 695.25,
+    "ma20": 664.04,
+    "ma60": 483.83
   },
   "macd": {
-    "dif": 44.63,
-    "dea": 64.22,
-    "hist": -39.18
+    "dif": 36.84,
+    "dea": 58.76,
+    "hist": -43.84
   },
   "rsi": {
-    "rsi6": 48.49,
-    "rsi12": 53.58,
-    "rsi24": 58.2
+    "rsi6": 38.35,
+    "rsi12": 47.44,
+    "rsi24": 54.09
   },
   "volume": {
-    "ma5_vol": 581340.6,
-    "volume_ratio": 1.07,
-    "volume_status": "量能正常"
+    "ma5_vol": 634127.6,
+    "volume_ratio": 1.53,
+    "volume_status": "放量下跌"
   },
   "bias": {
-    "bias5": 3.07,
-    "bias10": -6.69,
-    "bias20": 0.89
+    "bias5": -2.95,
+    "bias10": -11.97,
+    "bias20": -7.84
   },
   "trend": {
     "status": "弱势空头",
     "ma_alignment": "弱势空头，MA5<MA10 但 MA10≥MA20",
     "trend_strength": 40.0,
-    "support_levels": [
-      657.62
-    ],
+    "support_levels": [],
     "resistance_levels": [
       846.66
     ]
   },
   "buy_signal": {
-    "signal": "持有",
-    "score": 45,
+    "signal": "观望",
+    "score": 41,
     "reasons": [
-      "⚡ 价格略高于MA5(3.1%)，可小仓介入",
+      "✅ 价格略低于MA5(-2.9%)，回踩买点",
       "✓ 多头排列，持续上涨",
-      " RSI中性(53.6)，震荡整理中"
+      " RSI中性(47.4)，震荡整理中"
     ]
   },
-  "risk_factors": []
+  "risk_factors": [
+    "⚠️ 放量下跌，注意风险"
+  ],
+  "_evidence": {
+    "kline_source": "unknown",
+    "kline_source_chain": [],
+    "kline_fetched_at": "",
+    "indicators_computed_at": "2026-07-10T20:22:15.086035+08:00",
+    "indicators_latency_ms": 1458,
+    "gaps": [],
+    "quality_score": 100
+  }
 }

@@ -1,49 +1,60 @@
 {
   "code": "002050",
-  "updated_at": "2026-07-09T21:43:32.536302+08:00",
+  "updated_at": "2026-07-10T20:21:56.863711+08:00",
   "ma": {
-    "ma5": 45.1,
-    "ma10": 44.12,
-    "ma20": 44.46,
-    "ma60": 46.96
+    "ma5": 43.94,
+    "ma10": 44.29,
+    "ma20": 44.34,
+    "ma60": 46.94
   },
   "macd": {
-    "dif": -0.78,
+    "dif": -0.81,
     "dea": -0.83,
-    "hist": 0.11
+    "hist": 0.03
   },
   "rsi": {
-    "rsi6": 41.23,
-    "rsi12": 43.33,
-    "rsi24": 44.73
+    "rsi6": 43.54,
+    "rsi12": 44.52,
+    "rsi24": 45.35
   },
   "volume": {
-    "ma5_vol": 1833298.0,
-    "volume_ratio": 0.46,
+    "ma5_vol": 1414257.0,
+    "volume_ratio": 0.61,
     "volume_status": "缩量上涨"
   },
   "bias": {
-    "bias5": -4.99,
-    "bias10": -2.89,
-    "bias20": -3.62
+    "bias5": -1.69,
+    "bias10": -2.47,
+    "bias20": -2.56
   },
   "trend": {
-    "status": "弱势多头",
-    "ma_alignment": "弱势多头，MA5>MA10 但 MA10≤MA20",
-    "trend_strength": 55.0,
+    "status": "空头排列",
+    "ma_alignment": "空头排列 MA5<MA10<MA20",
+    "trend_strength": 25.0,
     "support_levels": [],
     "resistance_levels": [
       49.41
     ]
   },
   "buy_signal": {
-    "signal": "持有",
-    "score": 47,
+    "signal": "观望",
+    "score": 37,
     "reasons": [
-      "✅ 价格回踩MA5(-5.0%)，观察支撑",
+      "✅ 价格略低于MA5(-1.7%)，回踩买点",
       "⚠ 空头排列，持续下跌",
-      " RSI中性(43.3)，震荡整理中"
+      " RSI中性(44.5)，震荡整理中"
     ]
   },
-  "risk_factors": []
+  "risk_factors": [
+    "⚠️ 空头排列，不宜做多"
+  ],
+  "_evidence": {
+    "kline_source": "unknown",
+    "kline_source_chain": [],
+    "kline_fetched_at": "",
+    "indicators_computed_at": "2026-07-10T20:22:15.846198+08:00",
+    "indicators_latency_ms": 630,
+    "gaps": [],
+    "quality_score": 100
+  }
 }

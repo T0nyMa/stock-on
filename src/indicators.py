@@ -15,6 +15,8 @@ import json
 import logging
 import os
 import sys
+import time
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -42,6 +44,7 @@ def _safe_list(val):
 
 def compute_indicators(code: str):
     """计算技术指标并写入 JSON"""
+    t0 = time.time()
     config = get_config()
     stock_dir = Path(config.data_dir) / code
     kline_path = stock_dir / "kline.json"
@@ -118,6 +121,20 @@ def compute_indicators(code: str):
             "reasons": list(getattr(result, "signal_reasons", []) or []),
         },
         "risk_factors": list(getattr(result, "risk_factors", []) or []),
+    }
+
+    # 证据质量元数据：从 kline.json 继承 _evidence 并追加指标计算信息
+    k_evidence = kline_data.get("_evidence", {})
+    latency_ms = round((time.time() - t0) * 1000)
+    _TZ_CN = timezone(timedelta(hours=8))
+    indicators["_evidence"] = {
+        "kline_source": k_evidence.get("source", "unknown"),
+        "kline_source_chain": k_evidence.get("source_chain", []),
+        "kline_fetched_at": k_evidence.get("fetched_at", ""),
+        "indicators_computed_at": datetime.now(_TZ_CN).isoformat(),
+        "indicators_latency_ms": latency_ms,
+        "gaps": k_evidence.get("gaps", []),
+        "quality_score": k_evidence.get("quality_score", 100),
     }
 
     output_path = stock_dir / "indicators.json"

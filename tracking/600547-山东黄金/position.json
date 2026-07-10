@@ -6,10 +6,10 @@
     "buy_price": 27.15,
     "shares": 0,
     "cost": 0,
-    "current_price": 24.28,
+    "current_price": 24.96,
     "current_value": 0,
     "unrealized_pnl": 0,
-    "unrealized_pnl_pct": -10.6,
+    "unrealized_pnl_pct": -8.1,
     "entry_reason": "黄金板块启动，MACD金叉确立，金价4000美元+，PE23合理。长期持有，看多黄金避险逻辑+全球央行购金趋势"
   },
   "key_levels": {
@@ -50,10 +50,10 @@
     "weighted_score": 57
   },
   "swing_plan": {
-    "status": "长期持有模式：忽略短期波动，关注金价趋势和公司基本面。短期浮亏-5%不影响长期逻辑",
+    "status": "长期持有模式。金价4112美元高位运行+换帅落地(王成龙)，PE22合理。浮亏收窄至-8%",
     "accumulation": {
       "name": "逢低加仓",
-      "trigger": "价格回踩MA20(25.9)或MA10(24.2)缩量企稳",
+      "trigger": "价格回踩MA20(25.1)或MA10(24.2)缩量企稳",
       "action": "可加仓，拉低持仓成本"
     },
     "hold": {
@@ -72,5 +72,6 @@
     "中期：金价是核心变量，若金价跌破3500需重新评估",
     "长期：PE23合理，全球矿山增量为成长性提供支撑"
   ],
-  "last_updated": "2026-07-09T22:00:00+08:00"
+  "last_updated": "2026-07-10T20:30:00+08:00",
+  "latest_news": "7/10选举王成龙为董事长，开展2026黄金租赁+远期交易组合业务。换帅落地消除不确定性。COMEX金价4112美元高位"
 }

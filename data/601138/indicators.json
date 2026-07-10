@@ -1,51 +1,63 @@
 {
   "code": "601138",
-  "updated_at": "2026-07-09T21:42:42.347937+08:00",
+  "updated_at": "2026-07-10T20:22:51.941849+08:00",
   "ma": {
-    "ma5": 65.53,
-    "ma10": 67.36,
-    "ma20": 70.85,
-    "ma60": 68.76
+    "ma5": 65.84,
+    "ma10": 66.97,
+    "ma20": 70.69,
+    "ma60": 68.94
   },
   "macd": {
-    "dif": -1.41,
-    "dea": -0.56,
-    "hist": -1.69
+    "dif": -1.47,
+    "dea": -0.74,
+    "hist": -1.45
   },
   "rsi": {
-    "rsi6": 56.03,
-    "rsi12": 49.72,
-    "rsi24": 50.77
+    "rsi6": 43.77,
+    "rsi12": 44.21,
+    "rsi24": 47.77
   },
   "volume": {
-    "ma5_vol": 1406401.8,
-    "volume_ratio": 1.2,
+    "ma5_vol": 1562619.2,
+    "volume_ratio": 1.48,
     "volume_status": "量能正常"
   },
   "bias": {
-    "bias5": 6.11,
-    "bias10": 3.22,
-    "bias20": -1.87
+    "bias5": 0.66,
+    "bias10": -1.04,
+    "bias20": -6.25
   },
   "trend": {
     "status": "强势空头",
     "ma_alignment": "强势空头排列，均线发散下行",
     "trend_strength": 10.0,
-    "support_levels": [],
+    "support_levels": [
+      65.84
+    ],
     "resistance_levels": [
       79.9
     ]
   },
   "buy_signal": {
-    "signal": "强烈卖出",
-    "score": 21,
+    "signal": "观望",
+    "score": 40,
     "reasons": [
+      "✅ 价格贴近MA5(0.7%)，介入好时机",
+      "✅ MA5支撑有效",
       "⚠ 空头排列，持续下跌",
-      " RSI中性(49.7)，震荡整理中"
+      " RSI中性(44.2)，震荡整理中"
     ]
   },
   "risk_factors": [
-    "⚠️ 强势空头，不宜做多",
-    "❌ 乖离率过高(6.1%>5.0%)，严禁追高！"
-  ]
+    "⚠️ 强势空头，不宜做多"
+  ],
+  "_evidence": {
+    "kline_source": "unknown",
+    "kline_source_chain": [],
+    "kline_fetched_at": "",
+    "indicators_computed_at": "2026-07-10T20:23:09.263892+08:00",
+    "indicators_latency_ms": 526,
+    "gaps": [],
+    "quality_score": 100
+  }
 }
