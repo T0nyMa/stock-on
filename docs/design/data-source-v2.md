@@ -1,5 +1,7 @@
 # Data Source V2 Design Doc
 
+> 实现状态（2026-07-10）：核心 Provider 与 250 日运行历史已接入；量化层支持 750 日校准输入。A/H 溢价严格依赖 `data/market/fx.json` 的 dated HKD/CNY，缺失时输出 unavailable。资金流、涨跌停明细和 FX 抓取源仍按 evidence gap 处理，禁止补零。
+
 ## 现状问题
 
 ### 1. 层次过多，依赖过重

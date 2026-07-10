@@ -101,11 +101,19 @@ def analyze_structure(df, bins=20):
     return json_safe({"supports":supports,"resistances":resistances,"gaps":gaps,"volume_profile":profile,"anchored_vwap":avwap,"setup":{"entry_zone":[entry-.25*atr,entry+.25*atr],"invalidation":invalid,"targets":[target],"risk_reward":rr}})
 
 
-def compute_breadth(quotes: Iterable[dict], previous_ad_line=0.0):
+def compute_breadth(quotes: Iterable[dict], previous_ad_line=0.0, index_change=None, realized_vol=None, turnover_ratios=None):
     q=list(quotes); up=sum(x.get("pct_chg",0)>0 for x in q); down=sum(x.get("pct_chg",0)<0 for x in q); flat=len(q)-up-down
     above20=sum(x.get("ma20") is not None and x.get("close",0)>x["ma20"] for x in q); above60=sum(x.get("ma60") is not None and x.get("close",0)>x["ma60"] for x in q)
     nh20=sum(x.get("high20") is not None and x.get("close")>=x["high20"] for x in q); nl20=sum(x.get("low20") is not None and x.get("close")<=x["low20"] for x in q)
-    return {"schema_version":"2.0","participation":{"advancers":up,"decliners":down,"unchanged":flat,"advance_ratio":up/len(q) if q else None,"ad_line":previous_ad_line+up-down},"moving_average_breadth":{"above_ma20":above20/len(q) if q else None,"above_ma60":above60/len(q) if q else None},"new_highs_lows":{"new_high_20":nh20,"new_low_20":nl20}}
+    advancing_turnover=sum(float(x.get("amount") or 0) for x in q if x.get("pct_chg",0)>0)
+    declining_turnover=sum(float(x.get("amount") or 0) for x in q if x.get("pct_chg",0)<0)
+    dimensions={"breadth":up/len(q)*100 if q else None,
+                "index":max(0,min(100,50+float(index_change)*10)) if index_change is not None else None,
+                "volatility":max(0,min(100,100-float(realized_vol)*200)) if realized_vol is not None else None,
+                "liquidity":max(0,min(100,float(np.mean(turnover_ratios))*50)) if turnover_ratios else None}
+    available=[v for v in dimensions.values() if v is not None]; score=float(np.mean(available)) if available else None
+    label="risk_on" if score is not None and score>=65 else ("risk_off" if score is not None and score<40 else "neutral")
+    return {"schema_version":"2.0","participation":{"advancers":up,"decliners":down,"unchanged":flat,"advance_ratio":up/len(q) if q else None,"ad_line":previous_ad_line+up-down},"limits":{"limit_up":sum(x.get("pct_chg",0)>=9.5 for x in q),"limit_down":sum(x.get("pct_chg",0)<=-9.5 for x in q),"broken_limit":None,"broken_limit_rate":None},"moving_average_breadth":{"above_ma20":above20/len(q) if q else None,"above_ma60":above60/len(q) if q else None},"new_highs_lows":{"new_high_20":nh20,"new_low_20":nl20},"liquidity":{"advancing_turnover":advancing_turnover,"declining_turnover":declining_turnover,"turnover_vs_5d":turnover_ratios[0] if turnover_ratios else None,"turnover_vs_20d":turnover_ratios[1] if turnover_ratios else None},"regime":{"label":label,"score":score,"dimensions":dimensions,"coverage":len(available)/4}}
 
 
 def calibrate_signals(df, signals, horizons=(1,3,5,10,20), min_history=250):

@@ -10,6 +10,7 @@ import pandas as pd
 
 from .analytics import (
     analyze_ah_pair,
+    analyze_cross_asset,
     analyze_portfolio,
     analyze_structure,
     calibrate_signals,
@@ -103,14 +104,31 @@ def run_repository(root: str | Path, as_of=None):
         {pd.Timestamp(item["date"]): float(item["rate"]) for item in fx_records if item.get("date") and item.get("rate") is not None},
         dtype=float,
     )
+    driver_data = _read(root / "data/market/drivers.json", {}) or {}
+    gold_driver = pd.Series(
+        {pd.Timestamp(item["date"]): float(item["value"]) for item in driver_data.get("gold_sge", []) if item.get("date") and item.get("value") is not None},
+        dtype=float,
+    )
     for stock in stocks:
         code = str(stock["code"])
         raw = _read(root / f"data/{code}/kline.json", {}) or {}
         records = raw.get("kline") or raw.get("data") or []
         if not records:
+            snapshot = build_stock_snapshot(code, stock.get("name", code), [], raw.get("_evidence"), as_of)
+            snapshots[code] = snapshot
+            _write_atomic(root / f"data/{code}/technical_snapshot.json", snapshot)
+            _write_atomic(root / f"data/{code}/strategy_stats.json", {
+                "schema_version": SCHEMA_VERSION, "as_of": str(as_of or ""),
+                "history": {"bars": 0}, "strategies": {"ma20_breakout": {"status": "insufficient_data", "source_bars": 0}},
+            })
             continue
         frame, _ = normalize_bars(records)
         snapshot = build_stock_snapshot(code, stock.get("name", raw.get("name", code)), records, raw.get("_evidence"), as_of)
+        if any(tag in {"黄金", "贵金属"} for tag in stock.get("tags", [])):
+            relationship = analyze_cross_asset(frame.close, gold_driver) if len(gold_driver) else {"status": "unavailable", "reason": "gold_driver_missing"}
+            relationship.update({"schema_version": SCHEMA_VERSION, "driver": "gold_sge"})
+            snapshot["cross_asset"] = relationship
+            _write_atomic(root / f"data/{code}/cross_asset.json", relationship)
         snapshots[code] = snapshot; frames[code] = frame
         _write_atomic(root / f"data/{code}/technical_snapshot.json", snapshot)
         ma20 = float(frame.close.tail(20).mean()) if len(frame) >= 20 else None

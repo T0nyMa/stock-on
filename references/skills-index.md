@@ -22,6 +22,10 @@
 
 ## 市场状态
 
+## Quantitative Analysis V2
+
+运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD`，生成 `technical_snapshot.json`、`strategy_stats.json`、`cross_market.json`、`cross_asset.json`、`market_breadth.json`、`portfolio_risk.json` 和 `data/report_context.json`。报告只能消费这些确定性字段；少于 250 根不发布胜率，`unavailable` 必须原样披露。
+
 | Skill | 输入 | 输出 | 说明 |
 |-------|------|------|------|
 | `market-regime {code}` | indicators.json | regime.json | 判断市场状态，推荐匹配策略 |

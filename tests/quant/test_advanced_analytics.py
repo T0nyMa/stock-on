@@ -80,3 +80,18 @@ def test_portfolio_component_risk_and_exposures():
     assert set(result["component_risk"]) == {"a", "b"}
     assert abs(sum(result["component_risk"].values()) - result["annualized_volatility"]) < 1e-9
     assert result["sector_exposure"]["AI"] == result["weights"]["a"]
+
+
+def test_breadth_regime_keeps_dimension_coverage_and_limit_structure():
+    from src.quant.analytics import compute_breadth
+    quotes = [
+        {"pct_chg": 10, "close": 11, "ma20": 10, "ma60": 9, "high20": 11, "amount": 200},
+        {"pct_chg": 2, "close": 12, "ma20": 10, "ma60": 9, "amount": 100},
+        {"pct_chg": -10, "close": 8, "ma20": 9, "ma60": 10, "low20": 8, "amount": 50},
+    ]
+    result = compute_breadth(quotes, index_change=1.0, realized_vol=0.18, turnover_ratios=(1.2, 1.1))
+
+    assert result["limits"] == {"limit_up": 1, "limit_down": 1, "broken_limit": None, "broken_limit_rate": None}
+    assert result["liquidity"]["advancing_turnover"] == 300
+    assert result["regime"]["coverage"] == 1.0
+    assert result["regime"]["label"] in {"risk_on", "neutral", "risk_off"}
