@@ -36,5 +36,8 @@ temp/
 ref-repo/
 .venv/
 
+# Isolated feature worktrees
+.worktrees/
+
 # Claude Code runtime
 .claude/scheduled_tasks.lock
