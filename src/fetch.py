@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-数据抓取入口。供 Claude Code fetch-data Skill 调用。
+数据抓取入口。供 Codex 的 fetch-data Skill 调用。
 用法: python src/fetch.py --code 600519
 输出: data/{code}/kline.json, quote.json, fundamentals.json, news.json
 """

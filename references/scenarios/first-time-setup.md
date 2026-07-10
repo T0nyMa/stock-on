@@ -21,9 +21,9 @@ source .venv/bin/activate && python src/fetch.py --code {code}
 source .venv/bin/activate && python src/indicators.py --code {code}
 ```
 
-Read `data/{code}/quote.json` → 价格、PE、PB、市值、换手率
-Read `data/{code}/fundamentals.json` → 营收、利润、行业
-Read `data/{code}/kline.json` → 近60日走势概览
+读取 `data/{code}/quote.json` → 价格、PE、PB、市值、换手率
+读取 `data/{code}/fundamentals.json` → 营收、利润、行业
+读取 `data/{code}/kline.json` → 近60日走势概览
 
 ### 2. 归因分析（方法论 Phase 1）
 
@@ -46,16 +46,16 @@ Read `data/{code}/kline.json` → 近60日走势概览
 
 ### 4. 多策略共识扫描（5-7 个，完整执行）
 
-先确定市场状态：调用 `market-regime {code}` Skill 或 Read `data/{code}/indicators.json` → `trend.status`。
+先确定市场状态：使用 `$market-regime {code}` 或 读取 `data/{code}/indicators.json` → `trend.status`。
 
-Read `references/skills-index.md` → "按市场状态选策略"表。从"优先策略"列选 5 个 + "可选"列补 2 个。
+读取 `references/skills-index.md` → "按市场状态选策略"表。从"优先策略"列选 5 个 + "可选"列补 2 个。
 
 逐个完整执行（**写 strategy JSON**）：
 
-1. Read `.claude/skills/strategy-{name}/skill.md` 获取完整分析框架
-2. Read 对应数据文件，按框架逐步分析
+1. 读取 `.agents/skills/strategy-{name}/SKILL.md` 获取完整分析框架
+2. 读取对应数据文件，按框架逐步分析
 3. 输出信号 + 评分（0-100）+ 详细分析
-4. Write `data/{code}/strategy_{name}.json`（格式参考各策略 Skill 定义的输出格式）
+4. 写入 `data/{code}/strategy_{name}.json`（格式参考各策略 Skill 定义的输出格式）
 
 构建共识矩阵：
 
@@ -99,8 +99,8 @@ mkdir tracking/{code}-{name}/
 
 C) 写入文件：
 ```
-Write tracking/{code}-{name}/technical-analysis-report.md  ← 完整报告（含策略共识矩阵）
-Write tracking/{code}-{name}/position.json                 ← 如已买入
+写入 tracking/{code}-{name}/technical-analysis-report.md  ← 完整报告（含策略共识矩阵）
+写入 tracking/{code}-{name}/position.json                 ← 如已买入
 ```
 
 D) 如已买入，写入持仓信息到 position.json

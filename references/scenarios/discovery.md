@@ -36,7 +36,7 @@ source .venv/bin/activate && python src/sector_scan.py
 
 ### Phase 4: 交叉筛选候选
 
-Read 三个 JSON，筛选 L3 候选池：
+读取 三个 JSON，筛选 L3 候选池：
 
 ```
 规则 A: L2 ≥ 70 分 → 自动进入 L3
@@ -48,20 +48,20 @@ Read 三个 JSON，筛选 L3 候选池：
 
 ### Phase 5: L3 策略验证（Agent 并行）
 
-对每只 L3 候选，用 Agent 工具 spawn 并行执行（run_in_background: true）：
+对每只 L3 候选，在任务允许并行代理时并行执行；否则顺序执行：
 
 ```
 Agent prompt:
   你是策略验证Agent。对 {code} {name} 执行 3-5 个策略分析。
 
-  1. Read data/{code}/indicators.json → 确定 market state
-  2. Read references/skills-index.md → 按市场状态选策略:
+  1. 读取 data/{code}/indicators.json → 确定 market state
+  2. 读取 references/skills-index.md → 按市场状态选策略:
      - trending_up → bull-trend, ma-golden-cross, volume-breakout, dragon-head, hot-theme
      - volatile → chan-theory, box-oscillation, wave-theory, bottom-volume
      - bearish → bottom-volume, shrink-pullback, emotion-cycle, expectation-repricing
      - sector_hot → hot-theme, dragon-head, event-driven, emotion-cycle
-  3. 对每个策略: Read .claude/skills/strategy-{name}/skill.md → 按Step执行 → 信号+评分+依据
-  4. Write data/{code}/strategy_scan.json（含共识矩阵）
+  3. 对每个策略: 读取 .agents/skills/strategy-{name}/SKILL.md → 按Step执行 → 信号+评分+依据
+  4. 写入 data/{code}/strategy_scan.json（含共识矩阵）
 
   完成后不需要汇报。
 ```
@@ -78,7 +78,7 @@ L3 评分 = L2评分 × 0.4 + 策略加权评分 × 0.4 + 板块强度归一化 
 排序 → 推荐前 3-5 只加入追踪池
 ```
 
-Write `tracking/sectors/YYYY-MM-DD-discovery.md`，包含：
+写入 `tracking/sectors/YYYY-MM-DD-discovery.md`，包含：
 - 候选排名表（L2分 + 策略共识 + 板块）
 - 推荐入池（2-4 只）
 - 建议操作（等回调/立即关注）

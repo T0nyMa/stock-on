@@ -1,6 +1,6 @@
 # src/ — Python 数据层
 
-数据抓取和技术指标计算。Claude 不直接分析原始数据，Python 只负责数据准备。
+数据抓取和技术指标计算。Codex 负责基于已准备数据进行分析，Python 只负责数据准备。
 
 ## 入口脚本
 
@@ -35,4 +35,4 @@ python src/indicators.py --code 002050
 
 ## 输出格式
 
-详见 data/{code}/ 下各 JSON 文件。Claude Agent 通过 Read 工具直接读取。
+详见 `data/{code}/` 下各 JSON 文件。Codex 直接读取这些数据文件。

@@ -35,7 +35,7 @@
 - bot/ — 机器人
 - api/ + webui — Web界面
 - apps/ — 前端/桌面端
-- agent/ — 多agent系统（由Claude Code承担）
+- agent/ — 多 Agent 系统（由 Codex 承担）
 - alert_* — 告警系统
 - backtest_* — 回测
 - portfolio_* — 持仓管理

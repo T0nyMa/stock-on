@@ -17,7 +17,7 @@ tracking/tracklist.json 中 tier = "watch" 的全部股票
 ### 1. 获取清单
 
 ```
-Read tracking/tracklist.json → 取 tier = "watch" 的 stocks[]
+读取 tracking/tracklist.json → 取 tier = "watch" 的 stocks[]
 ```
 
 ### 2. 并行抓取数据
@@ -46,7 +46,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 ### 4. 输出巡检报告
 
 ```
-Write tracking/watchlist/YYYY-MM-DD-patrol.md
+写入 tracking/watchlist/YYYY-MM-DD-patrol.md
 ```
 
 **巡检报告格式**：

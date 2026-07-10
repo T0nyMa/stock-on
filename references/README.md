@@ -1,6 +1,6 @@
 # 参考知识索引
 
-分析时的按需参考层。CLAUDE.md 路由到场景文档，场景文档引用本章节。
+分析时的按需参考层。`AGENTS.md` 路由到场景文档，场景文档引用本章节。
 
 ## 结构
 
@@ -22,7 +22,7 @@ references/
 ## 加载层级
 
 ```
-Layer 1: CLAUDE.md              → 常驻（路由）
+Layer 1: AGENTS.md              → 常驻（路由）
 Layer 2: scenarios/*.md         → 按用户意图加载（执行步骤）
 Layer 3: analysis-methodology.md → 深度分析时加载（知识框架）
          skills-index.md         → 使用Skill时加载（工具参考）

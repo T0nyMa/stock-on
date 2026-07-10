@@ -19,13 +19,13 @@ ls tracking/daily/positions/  → 取本周所有日期文件
 
 ### 2. 读取本周数据
 
-Read 本周所有 `tracking/daily/market/*.md` 文件
-Read 本周所有 `tracking/daily/positions/*.md` 文件
-Read `tracking/tracklist.json` → 获取追踪股清单
+读取 本周所有 `tracking/daily/market/*.md` 文件
+读取 本周所有 `tracking/daily/positions/*.md` 文件
+读取 `tracking/tracklist.json` → 获取追踪股清单
 
 ### 3. 生成周报
 
-Read 本周每只追踪股的最新 `tracking/{code}-{name}/technical-analysis-report.md`
+读取 本周每只追踪股的最新 `tracking/{code}-{name}/technical-analysis-report.md`
 
 输出：`tracking/weekly/YYYY-MM-DD.md`
 

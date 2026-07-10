@@ -21,7 +21,7 @@ source .venv/bin/activate && python src/fetch_market.py
 **1b. 追踪股数据（7只并行）**
 
 ```
-Read tracking/tracklist.json → 取全部 stocks[]
+读取 tracking/tracklist.json → 取全部 stocks[]
 对每只 stock 并行:
   bash: source .venv/bin/activate && python src/fetch.py --code {code}
   bash: source .venv/bin/activate && python src/indicators.py --code {code}
@@ -62,25 +62,25 @@ Read tracking/tracklist.json → 取全部 stocks[]
 **子任务 B — 核心持仓单股日报（core: 3-5 策略）**
 
 对 tier = "core" 的每只股票，按 `references/scenarios/core-position.md` 步骤执行：
-- Read 已有报告和 position.json
+- 读取 已有报告和 position.json
 - 按市场状态从 skills-index 选 3-5 个策略，轻量执行
-- Write `tracking/{code}-{name}/YYYY-MM-DD-analysis.md`
-- Write 更新 `position.json` 和 `technical-analysis-report.md`
+- 写入 `tracking/{code}-{name}/YYYY-MM-DD-analysis.md`
+- 更新 `position.json` 和 `technical-analysis-report.md`
 
 **子任务 C — 重点观察单股日报（key: 2-3 策略）**
 
 对 tier = "key" 的每只股票，按 `references/scenarios/key-observation.md` 步骤执行：
-- Read 已有报告
+- 读取 已有报告
 - 按市场状态从 skills-index 选 2-3 个策略，轻量执行
-- Write `tracking/{code}-{name}/YYYY-MM-DD-analysis.md`
-- Write 更新 `technical-analysis-report.md`
+- 写入 `tracking/{code}-{name}/YYYY-MM-DD-analysis.md`
+- 更新 `technical-analysis-report.md`
 
 **子任务 D — 一般观察单股日报（watch: 1-2 策略）**
 
 对 tier = "watch" 的每只股票：
-- Read `data/{code}/indicators.json` + `quote.json`
+- 读取 `data/{code}/indicators.json` + `quote.json`
 - 按市场状态从 skills-index 选 1-2 个策略，轻量执行
-- Write `tracking/{code}-{name}/YYYY-MM-DD-analysis.md`
+- 写入 `tracking/{code}-{name}/YYYY-MM-DD-analysis.md`
 
 **子任务 E — 持仓观察汇总**
 

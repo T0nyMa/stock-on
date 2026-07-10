@@ -17,8 +17,8 @@ references/analysis-methodology.md（侧重 Phase 3 技术面）
 ### 1. 加载背景
 
 ```
-Read tracking/{code}-{name}/technical-analysis-report.md
-Read tracking/{code}-{name}/position.json         ← 可能只有买入计划，无实际持仓
+读取 tracking/{code}-{name}/technical-analysis-report.md
+读取 tracking/{code}-{name}/position.json         ← 可能只有买入计划，无实际持仓
 ```
 
 记住：关键价位（支撑/阻力/目标入场区间）、买入条件、历史分析结论
@@ -32,21 +32,21 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 3. 策略扫描（2-3 个）
 
-先确定市场状态：Read `data/{code}/indicators.json` → `trend.status`
+先确定市场状态：读取 `data/{code}/indicators.json` → `trend.status`
 
-然后 Read `references/skills-index.md` → "按市场状态选策略"表。
+然后读取 `references/skills-index.md` → "按市场状态选策略"表。
 
 从"优先策略"列选 2 个 + "可选"列补 1 个，聚焦：趋势类 + 量价类（最直接的技术信号）。
 
 逐个执行（轻量，不写 JSON）：
 
-1. Read `.claude/skills/strategy-{name}/skill.md` 获取分析框架
-2. Read 对应数据文件，按框架判断
+1. 读取 `.agents/skills/strategy-{name}/SKILL.md` 获取分析框架
+2. 读取对应数据文件，按框架判断
 3. 记录：信号 + 评分 + 依据
 
 ### 4. 技术面快检
 
-Read `data/{code}/indicators.json`。在策略共识基础上补充细节：
+读取 `data/{code}/indicators.json`。在策略共识基础上补充细节：
 
 | 指标 | 关注点 |
 |------|--------|
@@ -83,8 +83,8 @@ Read `data/{code}/indicators.json`。在策略共识基础上补充细节：
 ### 8. 输出
 
 ```
-Write tracking/{code}-{name}/YYYY-MM-DD-analysis.md     ← 当日日报（异动时写）
-Write tracking/{code}-{name}/technical-analysis-report.md ← 更新技术面（含策略共识）和买入条件
+写入 tracking/{code}-{name}/YYYY-MM-DD-analysis.md     ← 当日日报（异动时写）
+写入 tracking/{code}-{name}/technical-analysis-report.md ← 更新技术面（含策略共识）和买入条件
 ```
 
 平盘无重大变化时，不写日报，只更新 `technical-analysis-report.md` 中的关键数据（价格、日期、策略信号）。

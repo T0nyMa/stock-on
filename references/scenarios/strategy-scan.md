@@ -16,21 +16,21 @@
 
 ### 1. 判断市场状态
 
-调用 `market-regime {code}` Skill 或直接 Read `data/{code}/regime.json`。
+使用 `$market-regime {code}` 或直接读取 `data/{code}/regime.json`。
 
-如 regime.json 不存在，则 Read `data/{code}/indicators.json` → `trend.status` 和 `trend.ma_alignment` 手动判断。
+如 regime.json 不存在，则 读取 `data/{code}/indicators.json` → `trend.status` 和 `trend.ma_alignment` 手动判断。
 
 ### 2. 选择策略
 
-Read `references/skills-index.md` → "按市场状态选策略"表。
+读取 `references/skills-index.md` → "按市场状态选策略"表。
 
 根据市场状态从"优先策略"列选 5 个，从"可选"列补 2 个，共 5-7 个。
 
 ### 3. 执行策略
 
-对每个选中的策略，读取 `.claude/skills/strategy-{name}/skill.md` 获取分析框架，然后：
+对每个选中的策略，读取 `.agents/skills/strategy-{name}/SKILL.md` 获取分析框架，然后：
 
-1. Read `data/{code}/kline.json`, `indicators.json`, `quote.json`（按策略需要）
+1. 读取 `data/{code}/kline.json`, `indicators.json`, `quote.json`（按策略需要）
 2. 按策略框架的 Step 逐步分析
 3. 输出：信号（buy/hold/sell）+ 评分（0-100）+ 关键依据（一句话）
 
@@ -73,7 +73,7 @@ sell ≥ 4   → 减仓/回避
 ### 6. 输出
 
 ```
-Write data/{code}/strategy_scan.json
+写入 data/{code}/strategy_scan.json
 ```
 
 ```json
