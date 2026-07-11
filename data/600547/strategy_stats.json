@@ -1,0 +1,13 @@
+{
+  "schema_version": "2.0",
+  "as_of": "2026-07-11",
+  "history": {
+    "bars": 100
+  },
+  "strategies": {
+    "ma20_breakout": {
+      "status": "insufficient_data",
+      "source_bars": 100
+    }
+  }
+}

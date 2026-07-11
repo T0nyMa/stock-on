@@ -1,6 +1,6 @@
 {
   "code": "603986",
-  "updated_at": "2026-07-10T22:59:35.999651+08:00",
+  "updated_at": "2026-07-11T17:02:47.642370+08:00",
   "ma": {
     "ma5": 630.59,
     "ma10": 695.25,
@@ -52,8 +52,8 @@
     "kline_source": "unknown",
     "kline_source_chain": [],
     "kline_fetched_at": "",
-    "indicators_computed_at": "2026-07-10T22:59:52.343062+08:00",
-    "indicators_latency_ms": 360,
+    "indicators_computed_at": "2026-07-11T17:03:05.460491+08:00",
+    "indicators_latency_ms": 1754,
     "gaps": [],
     "quality_score": 100
   }

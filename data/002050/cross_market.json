@@ -1,0 +1,9 @@
+{
+  "schema_version": "2.0",
+  "status": "unavailable",
+  "reason": "hk_history_or_fx_missing",
+  "pair": {
+    "a_code": "002050",
+    "h_code": "hk02050"
+  }
+}

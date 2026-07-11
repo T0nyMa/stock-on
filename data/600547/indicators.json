@@ -1,6 +1,6 @@
 {
   "code": "600547",
-  "updated_at": "2026-07-10T23:00:27.807973+08:00",
+  "updated_at": "2026-07-11T17:02:57.126544+08:00",
   "ma": {
     "ma5": 24.78,
     "ma10": 24.31,
@@ -13,7 +13,7 @@
     "hist": 0.65
   },
   "rsi": {
-    "rsi6": 53.64,
+    "rsi6": 53.63,
     "rsi12": 45.11,
     "rsi24": 39.58
   },
@@ -25,7 +25,7 @@
   "bias": {
     "bias5": 0.72,
     "bias10": 2.66,
-    "bias20": -1.13
+    "bias20": -1.14
   },
   "trend": {
     "status": "弱势多头",
@@ -53,8 +53,8 @@
     "kline_source": "unknown",
     "kline_source_chain": [],
     "kline_fetched_at": "",
-    "indicators_computed_at": "2026-07-10T23:00:48.990713+08:00",
-    "indicators_latency_ms": 357,
+    "indicators_computed_at": "2026-07-11T17:03:17.328959+08:00",
+    "indicators_latency_ms": 529,
     "gaps": [],
     "quality_score": 100
   }

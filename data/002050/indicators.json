@@ -1,6 +1,6 @@
 {
   "code": "002050",
-  "updated_at": "2026-07-10T22:59:38.870715+08:00",
+  "updated_at": "2026-07-11T17:02:50.275646+08:00",
   "ma": {
     "ma5": 43.94,
     "ma10": 44.29,
@@ -52,8 +52,8 @@
     "kline_source": "unknown",
     "kline_source_chain": [],
     "kline_fetched_at": "",
-    "indicators_computed_at": "2026-07-10T22:59:55.977828+08:00",
-    "indicators_latency_ms": 500,
+    "indicators_computed_at": "2026-07-11T17:03:10.067492+08:00",
+    "indicators_latency_ms": 599,
     "gaps": [],
     "quality_score": 100
   }
