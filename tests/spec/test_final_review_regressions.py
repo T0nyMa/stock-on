@@ -75,19 +75,59 @@ def test_every_core_capability_has_an_inspect_route(intent, workflow, capsys):
 def test_mandatory_evaluators_accept_structured_success_facts(check, tmp_path):
     registry = _single_gate_registry(tmp_path, check)
     facts = {
-        "source_verification": {"entities": ["002050"], "evidence": [_evidence("c1", "002050")]},
+        "source_verification": {"evidence": [_evidence("c1", "002050")]},
         "decision_fields": {"decisions": [{"entity": "002050", "price": "20-21", "shares": 100, "trigger": "close above 20", "invalidation": "below 18"}]},
         "test_verification": {"commands": [{"command": "pytest", "exit_status": 0, "test_count": 3}], "timestamp": "2026-07-12T10:00:00+08:00", "commit": "abc123"},
     }
+    context = {check: facts[check], "required_entities": ["002050"],
+               "claim_manifest": [{"claim_id": "c1", "entity": "002050", "material": True}]}
     report = check_workflow("sample", "completion", registry, tmp_path,
-                            now=datetime.fromisoformat("2026-07-12T11:00:00+08:00"), facts={check: facts[check]})
+                            now=datetime.fromisoformat("2026-07-12T11:00:00+08:00"), facts=context)
     assert report.ok, report.to_dict()
 
 
 def test_evidence_requires_dated_verified_coverage_for_each_entity(tmp_path):
     registry = _single_gate_registry(tmp_path, "source_links")
-    partial = {"entities": ["A", "B"], "evidence": [_evidence("c1", "A")]}
-    result = check_workflow("sample", "completion", registry, tmp_path, facts={"source_links": partial})
+    partial = {"evidence": [_evidence("c1", "A")]}
+    facts = {"required_entities": ["A", "B"], "claim_manifest": [
+        {"claim_id": "c1", "entity": "A", "material": True},
+        {"claim_id": "c2", "entity": "B", "material": True}], "source_links": partial}
+    result = check_workflow("sample", "completion", registry, tmp_path, facts=facts)
+    assert not result.ok
+    assert "B" in result.results[0].actual
+    assert "c2" in result.results[0].actual
+
+
+def test_evidence_rejects_missing_independent_manifest(tmp_path):
+    registry = _single_gate_registry(tmp_path, "source_verification")
+    facts = {"required_entities": ["A"], "source_verification": {"evidence": [_evidence("c1", "A")]}}
+    result = check_workflow("sample", "completion", registry, tmp_path, facts=facts)
+    assert not result.ok
+    assert "claim_manifest" in result.results[0].actual
+
+
+@pytest.mark.parametrize("field,value", [
+    ("entity", True), ("entity", ""), ("trigger", []), ("invalidation", {}),
+    ("shares", True), ("shares", 0), ("shares", -1),
+    ("price", True), ("price", 0), ("price", -1), ("price", float("nan")),
+    ("price", float("inf")), ("price", []), ("price", {}),
+    ("price", "2-1"), ("price", "0-2"), ("price", "one-two"),
+])
+def test_decision_fields_rejects_exact_invalid_boundaries(tmp_path, field, value):
+    registry = _single_gate_registry(tmp_path, "decision_fields")
+    decision = {"entity": "A", "price": "1-2", "shares": 1,
+                "trigger": "go", "invalidation": "stop"}
+    decision[field] = value
+    facts = {"required_entities": ["A"], "decision_fields": {"decisions": [decision]}}
+    assert not check_workflow("sample", "completion", registry, tmp_path, facts=facts).ok
+
+
+def test_decision_fields_requires_independent_entity_coverage(tmp_path):
+    registry = _single_gate_registry(tmp_path, "decision_fields")
+    decision = {"entity": "A", "price": 1.5, "shares": 1,
+                "trigger": "go", "invalidation": "stop"}
+    facts = {"required_entities": ["A", "B"], "decision_fields": {"decisions": [decision]}}
+    result = check_workflow("sample", "completion", registry, tmp_path, facts=facts)
     assert not result.ok
     assert "B" in result.results[0].actual
 
@@ -118,6 +158,25 @@ def test_loader_rejects_bad_scalar_elements_and_unknown_keys(tmp_path, mutation,
     spec = _base_spec(tmp_path)
     route = "id: r\nintents: [ok]\nworkflow: sample\npriority: 1\n" + mutation + "\n"
     (spec / "routes.yaml").write_text(route)
+    with pytest.raises(SpecLoadError, match=error):
+        load_registry(spec)
+
+
+@pytest.mark.parametrize("yaml,error", [
+    ('timezone: []', "timezone"),
+    ('timezone: Not/AZone', "timezone"),
+    ('principles: wrong', "principles"),
+    ('principles: [ok, 1]', "principles"),
+    ('runtime: wrong', "runtime"),
+    ('runtime: {unknown: x}', "runtime unknown key"),
+    ('runtime: {python: 3}', "runtime.python"),
+    ('ownership: wrong', "ownership"),
+    ('ownership: {src/: ""}', "ownership"),
+    ('owners: {spec/: 1}', "owners"),
+])
+def test_project_optional_fields_have_strict_nested_schema(tmp_path, yaml, error):
+    spec = _base_spec(tmp_path)
+    (spec / "project.yaml").write_text(f'schema_version: "1.0"\nproject: x\n{yaml}\n')
     with pytest.raises(SpecLoadError, match=error):
         load_registry(spec)
 

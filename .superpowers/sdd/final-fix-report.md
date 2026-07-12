@@ -65,3 +65,33 @@ The repository's Skill validator is exercised by the full suite through `tests/t
 ## Concerns
 
 No release-blocking concern remains. Event-relative freshness callers must supply `freshness.<artifact_id>.current_version` and `latest_version`; this is intentional evidence, not an implicit filesystem-age fallback. Daily/weekly/deploy completion callers must likewise supply structured deployment and position facts.
+
+## Re-review remediation
+
+The updated re-review identified three additional false-pass boundaries. They are closed as follows:
+
+- Evidence completeness targets now come only from independent top-level run facts: non-empty `required_entities` and non-empty `claim_manifest`. The gate-local payload accepts only `evidence` records and cannot redefine or under-report its target. Every material manifest claim and required entity must be covered.
+- Decision completeness uses the same independent `required_entities`. Entity, trigger, and invalidation are non-empty strings; shares are positive integers excluding booleans; price is either a positive finite number or a positive finite ordered two-number range. Containers, booleans, NaN, infinity, zero, negatives, reversed ranges, and nonnumeric ranges block.
+- Every allowed optional `project.yaml` field has an explicit shape. Timezones must resolve through `ZoneInfo`; principles are lists of non-empty strings; runtime is a closed mapping of `python`, `virtualenv`, and `test_command` to non-empty strings; ownership/owners are string-to-non-empty-string mappings. Unknown top-level and runtime keys block.
+
+Re-review RED evidence:
+
+```text
+pytest tests/spec/test_final_review_regressions.py -q
+25 failed, 21 passed
+```
+
+Re-review GREEN evidence:
+
+```text
+pytest tests/spec -q
+156 passed in 8.62s
+
+pytest -q
+254 passed in 18.73s
+
+scripts/check_project_spec.py
+specification valid
+generated documentation current
+11 workflows registered
+```

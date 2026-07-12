@@ -5,7 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 import json
+import math
 from pathlib import Path
+import re
 from string import Formatter
 import sqlite3
 import subprocess
@@ -240,14 +242,37 @@ def _evidence(gate: GateSpec, ctx: _Context, require_first_party=False) -> tuple
     value = _fact(ctx, gate)
     if not isinstance(value, Mapping) or not isinstance(value.get("evidence"), list):
         return False, "structured evidence", "missing evidence list"
-    entities = {str(x) for x in value.get("entities", [])}
-    material_claims = {str(x) for x in value.get("material_claims", [])}
+    if set(value) != {"evidence"}:
+        return False, "evidence payload containing records only", "unknown evidence payload fields"
+    required_entities = ctx.facts.get("required_entities")
+    claim_manifest = ctx.facts.get("claim_manifest")
+    if (
+        not isinstance(required_entities, list)
+        or not required_entities
+        or any(not isinstance(item, str) or not item.strip() for item in required_entities)
+    ):
+        return False, "independent completeness target", "missing or invalid required_entities"
+    if not isinstance(claim_manifest, list) or not claim_manifest:
+        return False, "independent completeness target", "missing or empty claim_manifest"
+    entities = set(required_entities)
+    material_claims: set[str] = set()
+    for index, claim in enumerate(claim_manifest):
+        if (
+            not isinstance(claim, Mapping)
+            or not isinstance(claim.get("claim_id"), str)
+            or not claim["claim_id"].strip()
+            or claim.get("material") is not True
+        ):
+            return False, "valid material claim manifest", f"claim_manifest[{index}] malformed"
+        material_claims.add(claim["claim_id"])
+    if not material_claims:
+        return False, "non-empty material claim manifest", "claim_manifest has no material claims"
     covered_entities: set[str] = set()
     covered_claims: set[str] = set()
     errors = []
     for i, item in enumerate(value["evidence"]):
         required = {"claim_id", "entity", "material", "url", "publication_date", "source_tier", "verification_status"}
-        if not isinstance(item, Mapping) or required - item.keys():
+        if not isinstance(item, Mapping) or set(item) != required:
             errors.append(f"evidence[{i}] malformed")
             continue
         try:
@@ -286,16 +311,48 @@ def _decision_fields(gate, ctx):
     decisions = value.get("decisions") if isinstance(value, Mapping) else None
     if not isinstance(decisions, list) or not decisions:
         return False, "decisions with price shares trigger invalidation", "missing decisions"
-    fields = ("entity", "price", "shares", "trigger", "invalidation")
-    missing = [
-        f"decision[{i}]"
-        for i, decision in enumerate(decisions)
-        if not isinstance(decision, Mapping)
-        or any(decision.get(key) in (None, "") for key in fields)
-        or type(decision.get("shares")) is not int
-        or decision["shares"] <= 0
-    ]
-    return not missing, "complete concrete decisions", ", ".join(missing) or f"{len(decisions)} complete"
+    required_entities = ctx.facts.get("required_entities")
+    if (
+        not isinstance(required_entities, list)
+        or not required_entities
+        or any(not isinstance(item, str) or not item.strip() for item in required_entities)
+    ):
+        return False, "independent required entity list", "missing or invalid required_entities"
+    invalid = []
+    covered = set()
+    for index, decision in enumerate(decisions):
+        if not isinstance(decision, Mapping):
+            invalid.append(f"decision[{index}] invalid mapping")
+            continue
+        strings_valid = all(
+            isinstance(decision.get(key), str) and decision[key].strip()
+            for key in ("entity", "trigger", "invalidation")
+        )
+        shares_valid = type(decision.get("shares")) is int and decision["shares"] > 0
+        price_valid = _valid_price(decision.get("price"))
+        if not strings_valid or not shares_valid or not price_valid:
+            invalid.append(f"decision[{index}] invalid fields")
+            continue
+        covered.add(decision["entity"])
+    uncovered = sorted(set(required_entities) - covered)
+    if uncovered:
+        invalid.append("uncovered entities: " + ", ".join(uncovered))
+    return not invalid, "typed concrete decisions covering required entities", "; ".join(invalid) or f"{len(decisions)} complete"
+
+
+def _valid_price(value: Any) -> bool:
+    if type(value) in {int, float}:
+        return math.isfinite(float(value)) and value > 0
+    if not isinstance(value, str):
+        return False
+    match = re.fullmatch(
+        r"\s*([+]?(?:\d+(?:\.\d*)?|\.\d+))\s*[-–—]\s*([+]?(?:\d+(?:\.\d*)?|\.\d+))\s*",
+        value,
+    )
+    if match is None:
+        return False
+    low, high = (float(part) for part in match.groups())
+    return math.isfinite(low) and math.isfinite(high) and 0 < low <= high
 
 
 def _test_verification(gate, ctx):

@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Any, Callable, TypeVar
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import yaml
 
@@ -71,6 +72,49 @@ def _integer(record, key, source):
     if type(value) is not int:
         raise SpecLoadError(f"expected integer for {key} in {source}")
     return value
+
+
+def _validate_project(project: dict[str, Any], source: Path) -> None:
+    optional = ("timezone", "principles", "runtime", "ownership", "owners")
+    _schema(project, ("schema_version", "project"), optional, source)
+    _string(project, "schema_version", source)
+    _string(project, "project", source)
+    if "timezone" in project:
+        timezone = _string(project, "timezone", source)
+        try:
+            ZoneInfo(timezone)
+        except ZoneInfoNotFoundError as exc:
+            raise SpecLoadError(f"invalid timezone in {source}: {timezone}") from exc
+    if "principles" in project:
+        value = project["principles"]
+        if (
+            not isinstance(value, list)
+            or any(not isinstance(item, str) or not item.strip() for item in value)
+        ):
+            raise SpecLoadError(f"expected list of non-empty strings for principles in {source}")
+    if "runtime" in project:
+        runtime = project["runtime"]
+        if not isinstance(runtime, dict):
+            raise SpecLoadError(f"expected mapping for runtime in {source}")
+        allowed = {"python", "virtualenv", "test_command"}
+        unknown = sorted(set(runtime) - allowed)
+        if unknown:
+            raise SpecLoadError(f"runtime unknown key: {unknown[0]} in {source}")
+        for key, value in runtime.items():
+            if not isinstance(value, str) or not value.strip():
+                raise SpecLoadError(f"expected non-empty string for runtime.{key} in {source}")
+    for key in ("ownership", "owners"):
+        if key not in project:
+            continue
+        value = project[key]
+        if not isinstance(value, dict) or any(
+            not isinstance(item_key, str)
+            or not item_key.strip()
+            or not isinstance(item_value, str)
+            or not item_value.strip()
+            for item_key, item_value in value.items()
+        ):
+            raise SpecLoadError(f"expected string-to-non-empty-string mapping for {key} in {source}")
 
 
 def _tuple(record: dict[str, Any], key: str, source: Path) -> tuple[str, ...]:
@@ -206,8 +250,7 @@ def load_registry(root: Path) -> SpecRegistry:
     root = Path(root)
     project_path = root / "project.yaml"
     project = _mapping(_read_yaml(project_path), project_path)
-    _schema(project, ("schema_version", "project"), ("timezone", "principles", "runtime", "ownership"), project_path)
-    _string(project, "schema_version", project_path); _string(project, "project", project_path)
+    _validate_project(project, project_path)
     policies, gates = _load_policies(root / "policies")
     return SpecRegistry(
         root=root,

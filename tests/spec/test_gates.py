@@ -237,7 +237,9 @@ def test_path_json_markdown_and_source_evaluators(tmp_path):
 
     source_report = check_workflow(
         "sample", "preflight", _gate_registry("source_links"), tmp_path,
-        facts={"source_links": {"entities": ["sample"], "evidence": [{
+        facts={"required_entities": ["sample"],
+               "claim_manifest": [{"claim_id": "claim-1", "entity": "sample", "material": True}],
+               "source_links": {"evidence": [{
             "claim_id": "claim-1", "entity": "sample", "material": True,
             "url": "https://example.test/source", "publication_date": "2026-07-12",
             "source_tier": "authoritative", "verification_status": "verified",
