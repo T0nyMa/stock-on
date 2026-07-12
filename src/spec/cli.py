@@ -8,6 +8,7 @@ from typing import Sequence
 
 from .loader import load_registry
 from .generator import GeneratedSectionError, generate_documents
+from .gates import check_workflow
 from .router import AmbiguousRouteError, resolve_intent
 from .validator import has_blocking_issues, validate_registry
 
@@ -22,6 +23,11 @@ def _parser() -> argparse.ArgumentParser:
     inspect.add_argument("--intent", required=True)
     generate = commands.add_parser("generate")
     generate.add_argument("--check", action="store_true")
+    check = commands.add_parser("check")
+    check.add_argument("--workflow", required=True)
+    check.add_argument("--phase", required=True, choices=("preflight", "completion"))
+    check.add_argument("--facts", type=Path)
+    check.add_argument("--format", choices=("json", "text"), default="json")
     return parser
 
 
@@ -79,4 +85,22 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
         _emit({"changed": [str(path) for path in changed]})
         return 0
+    if args.command == "check":
+        try:
+            facts = json.loads(args.facts.read_text()) if args.facts else {}
+            report = check_workflow(
+                args.workflow, args.phase, load_registry(args.spec_root), args.repo_root,
+                facts=facts,
+            )
+        except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+            _emit({"error": str(exc)})
+            return 1
+        if args.format == "json":
+            _emit(report.to_dict())
+        else:
+            print(f"{report.workflow} {report.phase}: {'PASS' if report.ok else 'BLOCKED'}")
+            for item in report.results:
+                status = "PASS" if item.passed else item.severity.upper()
+                print(f"[{status}] {item.rule_id}: expected {item.expected}; actual {item.actual}; remediation: {item.remediation}")
+        return 0 if report.ok else 1
     return _inspect(args.spec_root, args.intent)
