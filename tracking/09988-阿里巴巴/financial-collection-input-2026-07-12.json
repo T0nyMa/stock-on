@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-12",
+  "company": {"code": "HK09988", "name": "阿里巴巴", "market": "HK/NYSE", "latest_period": "FY2026"},
+  "requirements": [
+    {"id":"latest_official_report","status":"complete"},
+    {"id":"report_version","status":"complete"},
+    {"id":"currency_unit","status":"complete"},
+    {"id":"core_statement_reconciliation","status":"complete"},
+    {"id":"critical_notes","status":"complete"},
+    {"id":"segments","status":"complete"},
+    {"id":"latest_call","status":"complete"},
+    {"id":"recent_estimates","status":"complete"},
+    {"id":"recent_regulation","status":"complete"},
+    {"id":"authoritative_media","status":"complete"},
+    {"id":"peers","status":"complete"}
+  ],
+  "sources": [
+    {"title":"FY2026 Form 20-F","category":"latest_official_report","event_date":"2026-05-20","published_at":"2026-05-20","retrieved_at":"2026-07-12","evidence_class":"confirmed_fact","quality":"primary","verification_status":"verified","url":"https://www.sec.gov/Archives/edgar/data/1577552/000119312526231755/baba-20260331.htm"},
+    {"title":"FY2026港股年报","category":"latest_official_report","event_date":"2026-06-18","published_at":"2026-06-18","retrieved_at":"2026-07-12","evidence_class":"confirmed_fact","quality":"primary","verification_status":"verified","url":"https://www.hkexnews.hk/listedco/listconews/sehk/2026/0618/2026061800844.pdf"},
+    {"title":"FY2026业绩及电话会","category":"latest_call","event_date":"2026-05-13","published_at":"2026-05-13","retrieved_at":"2026-07-12","evidence_class":"management_assumption","quality":"primary","verification_status":"verified","url":"https://www.alibabagroup.com/zh-HK/document-1991237455038119936"},
+    {"title":"第一财经FY2027Q1前瞻","category":"recent_estimates","event_date":"2026-07-08","published_at":"2026-07-08","retrieved_at":"2026-07-12","evidence_class":"third_party_data","quality":"authoritative","verification_status":"corroborated","url":"https://www.yicai.com/news/103265659.html"},
+    {"title":"SCMP瑞银/杰富瑞前瞻","category":"recent_estimates","event_date":"2026-07-08","published_at":"2026-07-08","retrieved_at":"2026-07-12","evidence_class":"third_party_data","quality":"secondary","verification_status":"corroborated","url":"https://www.scmp.com/tech/article/3359878/alibaba-shares-spike-12-hong-kong-t-head-chips-ai-revenue-fuel-earnings-optimism"},
+    {"title":"美国司法部非起诉协议","category":"recent_regulation","event_date":"2026-07-01","published_at":"2026-07-01","retrieved_at":"2026-07-12","evidence_class":"confirmed_fact","quality":"primary","verification_status":"verified","url":"https://www.justice.gov/opa/pr/alibaba-group-and-aus-merchant-services-agree-pay-600-million-resolve-allegations-they"},
+    {"title":"五角大楼名单诉讼","category":"recent_regulation","event_date":"2026-06-24","published_at":"2026-06-24","retrieved_at":"2026-07-12","evidence_class":"confirmed_fact","quality":"authoritative","verification_status":"verified","url":"https://apnews.com/article/83a7ae81c37a1340dc51ef446d9d7485"},
+    {"title":"同行最新季度对比：腾讯/京东/美团","category":"peers","event_date":"2026-05-13","published_at":"2026-05-13","retrieved_at":"2026-07-12","evidence_class":"third_party_data","quality":"authoritative","verification_status":"partial","url":"https://apnews.com/article/e83a76c7188e27f69c9c3d7e4f8d9d83"}
+  ],
+  "conflicts": [],
+  "collection_notes": ["EasyAnySearch于2026-07-12执行但代理探测后未返回搜索结果；使用联网搜索及一手来源补位", "45%云增长和11.5%云EBITA率为机构预测，不是公司正式业绩"]
+}
