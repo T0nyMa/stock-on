@@ -1,91 +1,27 @@
 ---
 name: deploy
-description: 发布日报/周报到 GitHub Pages — 生成HTML + 更新首页索引 + 推送
+description: 将登记的日报、周报或发现报告生成 HTML，更新 GitHub Pages 索引并推送
 ---
 
 # 发布到 GitHub Pages
 
-将追踪报告发布到 `https://t0nyma.github.io/stock-on/`。
+执行 `deploy` 工作流。`$deploy {date}` 发布指定日期；不传日期时发布最新登记报告。
 
-## 用法
+## 输入
 
-`$deploy {date}` — 例如 `$deploy 2026-06-19`
+- 日报：`artifact.daily_report`，即 `tracking/daily/positions/{date}.md`。
+- 周报和发现报告仅在本次工作流适用时作为可选登记输入。
 
-不传 date 则发布最新日期。
+日报 HTML 必须只从 `artifact.daily_report` 生成，不读取独立大盘或逐股日报作为内容源。七章内的大盘、板块、核心个股、观察股和操作清单应完整保留。
 
 ## 流程
 
-### 1. 确认待发布文件
+1. 检查输入文件存在且日期匹配；缺失登记输入时停止。
+2. 从 Markdown 生成自包含、移动端适配的 HTML。保留表格、来源链接、风险警示和 A 股涨跌配色。
+3. 整文件重写 `index.html`：扫描已登记报告路径，按日期倒序，每个日期只出现一次，链接指向对应 HTML；禁止增量插入造成重复。
+4. 提交报告 HTML 与索引，执行 `git push`。
+5. 打开 GitHub Pages 对应页面，验证可访问且日期、七章导航和链接正确。
 
-```
-ls tracking/daily/market/{date}.md          ← 大盘总结
-ls tracking/daily/positions/{date}.md       ← 持仓观察汇总
-ls tracking/daily/positions/{date}.html     ← 可能已有或需生成
-ls tracking/{code}-{name}/*-analysis.md     ← 单股日报
-ls tracking/weekly/{date}.md                ← 周报（如有）
-```
+## 输出与完成门禁
 
-### 2. 生成 HTML
-
-对需要 HTML 展示的报告，从 MD 生成 HTML 文件：
-
-**大盘总结** → `tracking/daily/market/{date}.html`
-
-格式：暗色主题卡片式，指数表格 + 特征标签。
-
-**持仓观察汇总** → `tracking/daily/positions/{date}.html`
-
-格式：三层卡片（core红/key橙/watch蓝），策略共识矩阵，关键价位标签。CSS 内联。
-
-**周报** → `tracking/weekly/{date}.html`（如有）
-
-格式：暗色主题，大盘+板块+持仓周评 + 下周关注。
-
-HTML 生成原则：
-- 全部 CSS 内联（一个 HTML 文件自包含）
-- 手机端适配（max-width 960px + 响应式）
-- 涨绿跌红（A股习惯），超买/风险用红色警示
-- 中文友好（PingFang SC / Microsoft YaHei）
-
-### 3. 更新首页索引
-
-**整文件重写 index.html**（禁止增量插入，防止重复区块累积）:
-
-```python
-# 重写逻辑:
-1. 扫描 tracking/daily/market/*.md 和 tracking/daily/positions/*.md
-2. 提取所有日期，按日期倒序排列
-3. 读取当日单股报告（tracking/{code}-{name}/YYYY-MM-DD-analysis.md）获取一句话概述
-4. 重新生成完整 index.html（保留样式 + 固定结构），确保:
-   - 每个日期只出现一次
-   - 所有链接指向正确的 YYYY-MM-DD 文件
-   - 单股分析链接到最近交易日
-   - footer 日期更新为最新
-```
-
-禁止行为：读取 后 `insert` 新块、不删旧块。
-
-### 4. 提交推送
-
-```bash
-git add tracking/daily/ tracking/weekly/ tracking/{code}-{name}/ index.html
-git commit -m "deploy: {date} daily + weekly reports"
-git push
-```
-
-## 输出
-
-```
-https://t0nyma.github.io/stock-on/                           ← 首页
-https://t0nyma.github.io/stock-on/tracking/daily/market/{date}.html     ← 大盘
-https://t0nyma.github.io/stock-on/tracking/daily/positions/{date}.html  ← 持仓
-https://t0nyma.github.io/stock-on/tracking/weekly/{date}.html           ← 周报
-
-GitHub 自动渲染的 MD 文件也可直接访问。
-```
-
-## 完成标志
-
-- [ ] 大盘/持仓/周报 HTML 已生成
-- [ ] index.html 已更新（含新日期入口）
-- [ ] git push 成功
+输出是 `artifact.published_html`，路径由 `spec/artifacts.yaml` 登记。只有 HTML 已生成、索引已更新、push 成功且线上页面验证通过，才满足 `PUBLISH.PUSHED`；失败时重试或停止，不得声称发布完成。

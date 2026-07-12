@@ -24,3 +24,13 @@ Completed documentation migration to the project specification registry.
 
 - The task worktree has no local `.venv`; verification used the repository root virtual environment at `/Users/majiang/Work/tools/stock-on/.venv`.
 - Historical implementation plans may still mention deleted scenario paths. They are archival documents, not live routes, Skills, or scenario guidance, and were intentionally preserved.
+
+## Review follow-up
+
+- Migrated `$daily-report` to one authoritative `artifact.daily_report` Markdown file while preserving all seven sections, named core-company depth, all-observation coverage, evidence rules, position updates, and automatic HTML deployment.
+- Migrated `$deploy` so daily HTML is generated only from the registered daily report; removed independent market and per-stock report dependencies.
+- Migrated `$market-regime` to consume `snapshot.indicators` and return an in-workflow classification without a sidecar.
+- Migrated `$decision-agent` to consume the registered strategy aggregate, SQLite/report context, research, financial-quality, and discovery artifacts; it now only updates registered position-decision outputs when authorized.
+- Replaced absolute strategy vote counts with normalized ratios plus weighted-score thresholds, and fixed discovery recommendation counts with evidence/score thresholds and tracking-capacity language.
+- Restored stable `core` / `key` / `watch` semantics in `tracking/README.md`.
+- Expanded the regression scan to every project Skill and added focused assertions for the four reviewed behaviors. The review RED run failed all four original behavior tests (plus the explicit registered-input assertion before implementation); the final focused run passed all five.

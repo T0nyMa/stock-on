@@ -82,16 +82,11 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 8. 输出
 
-```
-写入 tracking/{code}-{name}/YYYY-MM-DD-analysis.md     ← 当日日报（异动时写）
-写入 tracking/{code}-{name}/technical-analysis-report.md ← 更新技术面（含策略共识）和买入条件
-```
-
-平盘无重大变化时，不写日报，只更新 `technical-analysis-report.md` 中的关键数据（价格、日期、策略信号）。
+呈现本次 Markdown 决策仪表盘。仅在用户授权状态变更时更新登记的 `artifact.tracklist` 或适用的 `artifact.position`。若分析发生在日报工作流中，将内容写入 `artifact.daily_report` 对应章节，不另建单股日报。平盘且无重大变化时可只报告“无变化”，不得为了留痕覆盖历史研究文件。
 
 ## 完成标志
 
 - [ ] 匹配策略已通过 `strategy-analysis` 执行，结果引用 `artifact.strategy_scan`
 - [ ] 关键价位和买入条件已检查
-- [ ] technical-analysis-report.md 数据已刷新（含策略信号）
+- [ ] 策略变化已在决策仪表盘或 `artifact.daily_report` 中披露
 - [ ] 若触发买入信号，已具体写明操作建议

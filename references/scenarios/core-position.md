@@ -113,51 +113,11 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 10. 输出
 
-```
-写入 tracking/{code}-{name}/YYYY-MM-DD-analysis.md     ← 当日日报
-写入 tracking/{code}-{name}/position.json               ← 更新 current_price, pnl, today_note, swing_plan
-写入 tracking/{code}-{name}/technical-analysis-report.md ← 更新变化章节（行情、技术面（含策略共识）、情景概率）
-```
-
-## 日报格式
-
-```markdown
-# {name}（{code}）每日分析 — YYYY年MM月DD日
-
-## 今日走势
-| 开盘 | 最高 | 最低 | 收盘 | 涨跌 | 量比 | 换手 |
-
-## 策略共识
-| 策略 | 类型 | 信号 | 评分 | 依据 |
-|------|------|------|------|------|
-
-## 与昨日对比
-| 指标 | 昨日 | 今日 | 方向 | 解读 |
-
-## 关键价位评估
-- [ ] 止损线 (Y元) — 是否触及
-- [ ] 支撑位 (Y元) — 是否守住
-- [ ] 阻力位 (Y元) — 是否突破
-
-## 情景判断
-| 情景 | 概率 | 变化 | 依据 |
-
-## 操作建议
-**操作：[减仓/持有/加仓/止损]**
-
-1. 理由
-2. 具体指令（如有）
-3. 下次关注点
-
----
-*分析时间：YYYY-MM-DD HH:MM*
-*关键变化：一句话总结*
-```
+呈现本次 Markdown 决策仪表盘。仅在用户授权状态变更时更新登记的 `artifact.position`（current_price、pnl、today_note、swing_plan）。若分析发生在日报工作流中，将深度内容写入 `artifact.daily_report` 对应章节，不另建单股日报或覆盖历史研究文件。
 
 ## 完成标志
 
 - [ ] 匹配策略已通过 `strategy-analysis` 执行，结果引用 `artifact.strategy_scan`
-- [ ] 日报已写入 tracking/
-- [ ] position.json 已更新
-- [ ] technical-analysis-report.md 关键数据已刷新（含策略共识矩阵）
+- [ ] 决策仪表盘已呈现，或已写入 `artifact.daily_report` 对应章节
+- [ ] 用户授权时 `artifact.position` 已更新
 - [ ] 操作建议具体到价位和股数

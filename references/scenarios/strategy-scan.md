@@ -59,14 +59,16 @@
 
 ### 5. 共识判断
 
+先计算 `buy_ratio = buy_count / strategy_count`、`sell_ratio = sell_count / strategy_count`，再结合加权评分判断：
+
 ```
-buy ≥ 5    → 强买入
-buy 4      → 偏多
-buy ≤ 3 且 sell ≤ 2 → 震荡/观望
-sell ≥ 4   → 减仓/回避
+buy_ratio ≥ 0.70 且 weighted_score ≥ 70 → 强偏多
+buy_ratio ≥ 0.55 且 weighted_score ≥ 60 → 偏多
+sell_ratio ≥ 0.55 或 weighted_score < 40 → 偏空/回避
+其余                                  → 分歧/观望
 ```
 
-加权评分 = Σ(score × weight) / Σ(weight)
+加权评分 `weighted_score = Σ(score × weight) / Σ(weight)`。比例阈值不依赖策略数量；样本过少时降低置信度并披露，不通过绝对票数放大结论。
 
 ### 6. 输出
 
@@ -80,7 +82,7 @@ sell ≥ 4   → 减仓/回避
   "updated_at": "...",
   "market_regime": "bearish",
   "strategies_used": ["shrink-pullback", "bottom-volume", "emotion-cycle", ...],
-  "consensus": {"buy": 3, "hold": 4, "sell": 0},
+  "consensus": {"buy_ratio": 0.43, "hold_ratio": 0.57, "sell_ratio": 0.0},
   "verdict": "偏多",
   "weighted_score": 62,
   "details": "共识矩阵 Markdown"
