@@ -1,15 +1,14 @@
 """Tests for src/indicators.py"""
-import json, os, sys
+import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from unittest import mock
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
 import pytest
 
 from src.indicators import compute_indicators, _safe_float, _safe_list
-from src.config import Config
+from src.data_access import load_indicators
+from src.storage import MarketDataStore
 
 
 def _make_mock_kline(num_days=60):
@@ -54,54 +53,44 @@ class TestSafeHelpers:
 class TestComputeIndicators:
     @pytest.fixture(autouse=True)
     def setup(self, tmp_path):
-        self.tmp = tmp_path
-        self.stock_dir = tmp_path / "600519"
-        self.stock_dir.mkdir(parents=True)
+        self.store = MarketDataStore(tmp_path / "market.db")
         kline_data = _make_mock_kline(60)
-        with open(self.stock_dir / "kline.json", "w") as f:
-            json.dump(kline_data, f, ensure_ascii=False)
-
-    def _set_data_dir(self, path: Path):
-        os.environ["DATA_DIR"] = str(path)
-        Config.reset_instance()
+        self.store.upsert_bars(
+            "600519", "贵州茅台", "SH", kline_data["kline"], source="fixture"
+        )
 
     def test_kline_not_found(self):
-        self._set_data_dir(self.tmp.parent / "nonexistent")
-        result = compute_indicators("600519")
+        empty = MarketDataStore(self.store.path.parent / "empty.db")
+        result = compute_indicators("600519", store=empty)
         assert result is False
 
     def test_produces_output(self):
-        self._set_data_dir(self.tmp)
-        result = compute_indicators("600519")
+        result = compute_indicators("600519", store=self.store)
         assert result is True
-        data = json.loads((self.stock_dir / "indicators.json").read_text())
+        data = load_indicators("600519", store=self.store)
         for key in ["code", "ma", "macd", "rsi", "volume", "bias", "trend", "buy_signal", "risk_factors"]:
             assert key in data, f"Missing key: {key}"
 
     def test_ma_fields(self):
-        self._set_data_dir(self.tmp)
-        compute_indicators("600519")
-        data = json.loads((self.stock_dir / "indicators.json").read_text())
+        compute_indicators("600519", store=self.store)
+        data = load_indicators("600519", store=self.store)
         ma = data["ma"]
         assert ma["ma5"] is not None and ma["ma10"] is not None
 
     def test_macd_fields(self):
-        self._set_data_dir(self.tmp)
-        compute_indicators("600519")
-        data = json.loads((self.stock_dir / "indicators.json").read_text())
+        compute_indicators("600519", store=self.store)
+        data = load_indicators("600519", store=self.store)
         macd = data["macd"]
         assert macd["dif"] is not None
 
     def test_rsi_fields(self):
-        self._set_data_dir(self.tmp)
-        compute_indicators("600519")
-        data = json.loads((self.stock_dir / "indicators.json").read_text())
+        compute_indicators("600519", store=self.store)
+        data = load_indicators("600519", store=self.store)
         rsi = data["rsi"]
         assert rsi["rsi6"] is not None
 
     def test_buy_signal(self):
-        self._set_data_dir(self.tmp)
-        compute_indicators("600519")
-        data = json.loads((self.stock_dir / "indicators.json").read_text())
+        compute_indicators("600519", store=self.store)
+        data = load_indicators("600519", store=self.store)
         buy = data["buy_signal"]
         assert 0 <= buy["score"] <= 100

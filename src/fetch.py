@@ -2,7 +2,7 @@
 """
 数据抓取入口。供 Codex 的 fetch-data Skill 调用。
 用法: python src/fetch.py --code 600519
-输出: data/{code}/kline.json, quote.json, fundamentals.json, news.json
+输出: SQLite（默认 data/stock_analysis.db）
 """
 
 # Bypass macOS system proxy BEFORE any HTTP library import
@@ -16,12 +16,10 @@ except ImportError:
     pass
 
 import argparse
-import json
 import logging
 import os
 import sys
 from datetime import datetime, timezone, timedelta
-from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -29,6 +27,8 @@ from src.config import get_config, setup_env
 from src.data_provider import DataFetcherManager
 from src.data_provider.base import canonical_stock_code
 from src.providers import KlineProvider, QuoteProvider, EvidenceMeta
+from src.data_access import incremental_days, load_fundamentals
+from src.storage import MarketDataStore, get_market_store
 
 logger = logging.getLogger(__name__)
 
@@ -37,20 +37,6 @@ _TZ_CN = timezone(timedelta(hours=8))
 
 def _now_str() -> str:
     return datetime.now(_TZ_CN).isoformat()
-
-
-def _ensure_data_dir(code: str) -> Path:
-    config = get_config()
-    stock_dir = Path(config.data_dir) / code
-    stock_dir.mkdir(parents=True, exist_ok=True)
-    return stock_dir
-
-
-def _write_json(stock_dir: Path, filename: str, data: dict):
-    path = stock_dir / filename
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2, default=str)
-    logger.info("已写入: %s", path)
 
 
 def _detect_market(code: str) -> str:
@@ -77,8 +63,8 @@ def _convert_dates(records: list) -> list:
     return records
 
 
-def _write_fundamentals(stock_dir: Path, code: str, name: str):
-    """写入基本面数据，优先保留已有有效数据，空值从腾讯接口补充。"""
+def _write_fundamentals(store: MarketDataStore, code: str, name: str, market: str):
+    """写入基本面快照，空值保留数据库中的已有有效数据。"""
     import urllib.request, ssl
     ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -123,49 +109,57 @@ def _write_fundamentals(stock_dir: Path, code: str, name: str):
         except Exception as e:
             logger.debug("[基本面] 腾讯接口补充失败 %s: %s", code, e)
 
-    # 3. Merge with existing file — don't overwrite valid data with null
-    existing_path = stock_dir / "fundamentals.json"
-    if existing_path.exists():
-        try:
-            with open(existing_path, "r", encoding="utf-8") as f:
-                existing = json.load(f)
-            for k in ["pe", "pb", "market_cap", "revenue", "profit", "roe", "eps", "industry"]:
-                if fund.get(k) is None and existing.get(k) is not None:
-                    fund[k] = existing[k]
-        except Exception:
-            pass
+    existing = load_fundamentals(code, store=store) or {}
+    for k in ["pe", "pb", "market_cap", "revenue", "profit", "roe", "eps", "industry"]:
+        if fund.get(k) is None and existing.get(k) is not None:
+            fund[k] = existing[k]
 
     fund["updated_at"] = _now_str()
-    _write_json(stock_dir, "fundamentals.json", fund)
+    store.save_snapshot(code, name, market, "fundamentals", fund)
+    return fund
 
 
-def fetch_stock_data(code: str, provider: str = "v1", days: int = 250):
+def fetch_stock_data(
+    code: str,
+    provider: str = "v1",
+    days: int = 500,
+    *,
+    store: MarketDataStore | None = None,
+    include_context: bool = True,
+    full_refresh: bool = False,
+):
     setup_env()
-    config = get_config()
-    stock_dir = _ensure_data_dir(code)
+    store = store or get_market_store()
+    requested_days = days if full_refresh else incremental_days(
+        code, full_days=days, overlap=5, store=store
+    )
 
     if provider == "v2":
-        return _fetch_stock_data_v2(code, stock_dir, days=days)
+        return _fetch_stock_data_v2(
+            code, store, days=requested_days, include_context=include_context
+        )
 
     fetcher = DataFetcherManager()
+    market = _detect_market(code)
+    name = code
+    rows_received = 0
 
-    # 1. K-line (60 days)
+    # 1. K-line
     logger.info("正在获取 %s K线数据...", code)
     try:
-        kline = fetcher.get_daily_data(code, days=days)
+        kline = fetcher.get_daily_data(code, days=requested_days)
         if isinstance(kline, tuple):
             kline = kline[0]
         if kline is not None and hasattr(kline, 'empty') and not kline.empty:
             records = kline.to_dict(orient="records")
-            _write_json(stock_dir, "kline.json", {
-                "code": code,
-                "name": fetcher.get_stock_name(code),
-                "market": _detect_market(code),
-                "updated_at": _now_str(),
-                "kline": _convert_dates(records),
-            })
+            name = fetcher.get_stock_name(code) or code
+            rows_received = len(records)
+            store.upsert_bars(code, name, market, _convert_dates(records), source="v1")
     except Exception as e:
         logger.error("获取K线失败 %s: %s", code, e)
+        store.record_fetch_run(code=code, provider="v1", requested_days=requested_days,
+                               rows_received=0, status="failed", error=str(e))
+        raise
 
     # 2. Realtime quote
     logger.info("正在获取 %s 实时行情...", code)
@@ -173,7 +167,7 @@ def fetch_stock_data(code: str, provider: str = "v1", days: int = 250):
         quote = fetcher.get_realtime_quote(code)
         if quote:
             name = getattr(quote, "name", "") or fetcher.get_stock_name(code)
-            _write_json(stock_dir, "quote.json", {
+            payload = {
                 "code": code, "name": name,
                 "price": float(getattr(quote, "price", 0) or 0),
                 "pct_chg": float(getattr(quote, "change_pct", 0) or 0),
@@ -184,37 +178,48 @@ def fetch_stock_data(code: str, provider: str = "v1", days: int = 250):
                 "pb": float(getattr(quote, "pb", 0) or 0),
                 "market_cap": float(getattr(quote, "market_cap", 0) or 0),
                 "updated_at": _now_str(),
-            })
+            }
+            store.save_snapshot(code, name, market, "quote", payload)
     except Exception as e:
         logger.error("获取行情失败 %s: %s", code, e)
 
     # 3. Fundamentals — preserve existing valid data, supplement with Tencent API
-    logger.info("正在获取 %s 基本面...", code)
-    _write_fundamentals(stock_dir, code, name or code)
+    if include_context:
+        logger.info("正在获取 %s 基本面...", code)
+        _write_fundamentals(store, code, name or code, market)
 
     # 4. News
-    logger.info("正在获取 %s 新闻...", code)
-    try:
-        from src.search_service import SearchService
-        search = SearchService()
-        news = search.search_stock_news(code, name or code)
-        if news:
-            _write_json(stock_dir, "news.json", {"code": code, "news": news, "updated_at": _now_str()})
-    except Exception as e:
-        logger.warning("获取新闻失败 %s: %s", code, e)
+        logger.info("正在获取 %s 新闻...", code)
+        try:
+            from src.search_service import SearchService
+            search = SearchService()
+            news = search.search_stock_news(code, name or code)
+            if news:
+                store.save_snapshot(code, name, market, "news", {"code": code, "news": news, "updated_at": _now_str()})
+        except Exception as e:
+            logger.warning("获取新闻失败 %s: %s", code, e)
 
-    logger.info("数据抓取完成: %s → %s", code, stock_dir)
+    store.record_fetch_run(code=code, provider="v1", requested_days=requested_days,
+                           rows_received=rows_received, status="success")
+    logger.info("数据抓取完成: %s → SQLite", code)
 
 
-def _fetch_stock_data_v2(code: str, stock_dir: Path, days: int = 250):
+def _fetch_stock_data_v2(
+    code: str,
+    store: MarketDataStore,
+    days: int = 500,
+    *,
+    include_context: bool = True,
+):
     """V2 路径: 使用 providers 直连腾讯/东财 HTTP API。"""
     kp = KlineProvider()
     qp = QuoteProvider()
     market = _detect_market(code)
 
-    # 1. K-line (60 days)
+    # 1. K-line
     logger.info("[V2] 正在获取 %s K线...", code)
     name = code
+    rows_received = 0
     try:
         rows, k_evidence = kp.get_daily(code, limit=days)
         if rows:
@@ -231,16 +236,14 @@ def _fetch_stock_data_v2(code: str, stock_dir: Path, days: int = 250):
                     "amount": r.amount,
                     "pct_chg": r.pct_chg,
                 })
-            _write_json(stock_dir, "kline.json", {
-                "code": code,
-                "name": name,
-                "market": market,
-                "updated_at": _now_str(),
-                "kline": kline_records,
-                "_evidence": k_evidence.to_dict(),
-            })
+            rows_received = len(kline_records)
+            source = getattr(k_evidence, "source", "v2")
+            store.upsert_bars(code, name, market, kline_records, source=source)
     except Exception as e:
         logger.error("[V2] 获取K线失败 %s: %s", code, e)
+        store.record_fetch_run(code=code, provider="v2", requested_days=days,
+                               rows_received=0, status="failed", error=str(e))
+        raise
 
     # 2. Realtime quote
     logger.info("[V2] 正在获取 %s 行情...", code)
@@ -248,7 +251,7 @@ def _fetch_stock_data_v2(code: str, stock_dir: Path, days: int = 250):
         q = qp.get_realtime(code)
         if q and q.price > 0:
             name = q.name or name
-            _write_json(stock_dir, "quote.json", {
+            payload = {
                 "code": code, "name": name,
                 "price": q.price,
                 "pct_chg": q.change_pct,
@@ -260,26 +263,30 @@ def _fetch_stock_data_v2(code: str, stock_dir: Path, days: int = 250):
                 "market_cap": q.market_cap,
                 "updated_at": _now_str(),
                 "_evidence": EvidenceMeta(source=q.source, source_chain=q.source_chain).to_dict(),
-            })
+            }
+            store.save_snapshot(code, name, market, "quote", payload)
     except Exception as e:
         logger.error("[V2] 获取行情失败 %s: %s", code, e)
 
     # 3. Fundamentals
-    logger.info("[V2] 正在获取 %s 基本面...", code)
-    _write_fundamentals(stock_dir, code, name)
+    if include_context:
+        logger.info("[V2] 正在获取 %s 基本面...", code)
+        _write_fundamentals(store, code, name, market)
 
     # 4. News (same as V1)
-    logger.info("[V2] 正在获取 %s 新闻...", code)
-    try:
-        from src.search_service import SearchService
-        search = SearchService()
-        news = search.search_stock_news(code, name)
-        if news:
-            _write_json(stock_dir, "news.json", {"code": code, "news": news, "updated_at": _now_str()})
-    except Exception as e:
-        logger.warning("[V2] 获取新闻失败 %s: %s", code, e)
+        logger.info("[V2] 正在获取 %s 新闻...", code)
+        try:
+            from src.search_service import SearchService
+            search = SearchService()
+            news = search.search_stock_news(code, name)
+            if news:
+                store.save_snapshot(code, name, market, "news", {"code": code, "news": news, "updated_at": _now_str()})
+        except Exception as e:
+            logger.warning("[V2] 获取新闻失败 %s: %s", code, e)
 
-    logger.info("[V2] 数据抓取完成: %s → %s", code, stock_dir)
+    store.record_fetch_run(code=code, provider="v2", requested_days=days,
+                           rows_received=rows_received, status="success")
+    logger.info("[V2] 数据抓取完成: %s → SQLite", code)
 
 
 def main():
@@ -287,12 +294,14 @@ def main():
     parser.add_argument("--code", required=True, help="股票代码")
     parser.add_argument("--provider", default="v1", choices=["v1", "v2"],
                         help="数据源: v1=TickFlow+akshare(默认), v2=腾讯/东财直连")
-    parser.add_argument("--days", type=int, default=250,
-                        help="K线交易日数量；日常分析默认250，三年策略校准使用750")
+    parser.add_argument("--days", type=int, default=500,
+                        help="首次初始化K线交易日数量，默认500")
+    parser.add_argument("--full-refresh", action="store_true",
+                        help="强制请求完整窗口；默认仅增量补最近数据")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     code = canonical_stock_code(args.code)
-    fetch_stock_data(code, provider=args.provider, days=args.days)
+    fetch_stock_data(code, provider=args.provider, days=args.days, full_refresh=args.full_refresh)
 
 
 if __name__ == "__main__":

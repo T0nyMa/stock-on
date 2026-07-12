@@ -3,25 +3,23 @@
 技术指标计算入口。供 Claude Code tech-indicators Skill 调用。
 
 用法: python src/indicators.py --code 600519
-输入: data/{code}/kline.json
-输出: data/{code}/indicators.json
+输入/输出: SQLite（通过 src.data_access / src.storage）
 
 依赖: StockTrendAnalyzer.analyze(df, code) → TrendAnalysisResult
 字段映射参见 ref-repo/src/stock_analyzer.py:135-168 TrendAnalysisResult.to_dict()
 """
 
 import argparse
-import json
 import logging
 import os
 import sys
 import time
 from datetime import datetime, timezone, timedelta
-from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from src.config import get_config
+from src.data_access import load_bars
+from src.storage import MarketDataStore, get_market_store
 from src.stock_analyzer import StockTrendAnalyzer
 
 logger = logging.getLogger(__name__)
@@ -42,19 +40,14 @@ def _safe_list(val):
     return [round(float(v), 2) if v else 0 for v in val]
 
 
-def compute_indicators(code: str):
-    """计算技术指标并写入 JSON"""
+def compute_indicators(code: str, store: MarketDataStore | None = None):
+    """计算技术指标并写入 SQLite 最新快照。"""
     t0 = time.time()
-    config = get_config()
-    stock_dir = Path(config.data_dir) / code
-    kline_path = stock_dir / "kline.json"
-
-    if not kline_path.exists():
-        logger.error("K线数据不存在: %s", kline_path)
+    store = store or get_market_store()
+    kline_data = load_bars(code, store=store)
+    if not kline_data.get("kline"):
+        logger.error("SQLite 中不存在K线数据: %s", code)
         return False
-
-    with open(kline_path, "r", encoding="utf-8") as f:
-        kline_data = json.load(f)
 
     import pandas as pd
     df = pd.DataFrame(kline_data["kline"])
@@ -137,10 +130,8 @@ def compute_indicators(code: str):
         "quality_score": k_evidence.get("quality_score", 100),
     }
 
-    output_path = stock_dir / "indicators.json"
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(indicators, f, ensure_ascii=False, indent=2, default=str)
-    logger.info("技术指标已写入: %s", output_path)
+    store.save_snapshot(code, kline_data.get("name", code), "", "indicators", indicators)
+    logger.info("技术指标已写入 SQLite: %s", code)
     return True
 
 
