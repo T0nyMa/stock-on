@@ -62,7 +62,9 @@ def validate_registry(
                     or previous_intent.startswith(normalized + " ")
                     or (normalized == previous_intent and raw != previous_raw)
                 )
-                if exact_equal_priority or template_overlap:
+                if exact_equal_priority or (
+                    route.priority == previous_priority and template_overlap
+                ):
                     add(
                         "ROUTE.AMBIGUOUS",
                         f"intent {intent!r} overlaps route {previous_id}",

@@ -27,13 +27,27 @@ def test_duplicate_intent_at_same_priority_is_error():
     registry = load_registry(FIXTURE)
     routes = dict(registry.routes)
     routes["route.duplicate"] = RouteSpec(
-        "route.duplicate", ("sample {stock}",), "sample", "sample-skill", 10
+        "route.duplicate", ("sample {stock}",), "sample", "skill.sample", 1
     )
     bad = replace(registry, routes=routes)
     assert any(
         issue.code == "ROUTE.AMBIGUOUS"
         for issue in validate_registry(bad, FIXTURE)
     )
+
+
+def test_overlapping_intents_at_different_priorities_are_not_ambiguous():
+    registry = load_registry(FIXTURE)
+    routes = dict(registry.routes)
+    routes["route.more-specific"] = RouteSpec(
+        "route.more-specific", ("sample {stock}",), "sample", "skill.sample", 10
+    )
+    issues = validate_registry(replace(registry, routes=routes), FIXTURE)
+    assert not any(issue.code == "ROUTE.AMBIGUOUS" for issue in issues)
+
+
+def test_minimal_fixture_has_no_blocking_issues():
+    assert not has_blocking_issues(validate_registry(load_registry(FIXTURE), FIXTURE))
 
 
 def test_workflow_references_and_artifact_contracts_are_validated():
