@@ -15,7 +15,7 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 
 ## Phase 0–10
 
-**Stage A（强制，只收集）**：读取 `references/collection-protocol.md`。先建立信息包和 `financial_collection_status`；用 EasyAnySearch 执行中英文检索矩阵，覆盖最近电话会、券商前瞻/预测调整、权威媒体、股价异动、监管、行业和同行。门禁未评估前不得评分或分析。
+**Stage A（强制，只收集）**：读取 `references/collection-protocol.md` 和 `references/research-package.md`。先建立带稳定证据编号的独立研究资料包和 `financial_collection_status`；用 EasyAnySearch 执行中英文检索矩阵，覆盖最近电话会、券商前瞻/预测调整、权威媒体、股价异动、监管、行业和同行。门禁未评估前不得评分或分析。只有链接而没有提取事实、结构化数据和适用性说明，不算完成采集。
 
 **Stage B（门禁后分析）**：`pass` 才能完整分析；`partial` 只能给阶段性判断；`blocked` 只能报告采集结果与缺口。
 
@@ -29,7 +29,7 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 7. 做利润—现金—资产三表闭环，判断增长如何融资、利润能否转成可分配现金。
 8. 检查硬门槛并进行十五维、100 分财务质量评分，禁止重复扣分。
 9. 为重大问题生成 P0/P1/P2/P3 问题卡，并对严重结论做反方审查。
-**Phase 10**：按报告模板写入 `tracking/{code}-{name}/financial-analysis-YYYY-MM-DD.md`，保存两个 SQLite 快照。
+**Phase 10**：按报告模板写入 `tracking/{code}-{name}/financial-analysis-YYYY-MM-DD.md`，保存两个 SQLite 快照。完成前运行研究资料包校验器；核心章节必须展示数据、计算、管理层解释、外部预测、独立分析、反方和验证指标，禁止只列结论。
 
 ## 四项验证
 
@@ -49,6 +49,7 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 
 - 数据与证据：`references/evidence-schema.md`、`references/normalization-contract.md`
 - 信息采集：`references/collection-protocol.md`
+- 资料归档：`references/research-package.md`
 - 方法：`references/accounting-comparability.md`、`references/deterministic-rules.md`、`references/scoring-system.md`
 - 风控：`references/issue-card-playbook.md`、`references/risk-control.md`
 - 适配与报告：`references/market-adapters.md`、`references/industry-adapters.md`、`references/report-template.md`
