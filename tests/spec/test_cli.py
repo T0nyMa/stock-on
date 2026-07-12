@@ -50,3 +50,38 @@ def test_check_emits_deterministic_diagnostics_and_blocks_unknown_evaluator(caps
     payload = json.loads(capsys.readouterr().out)
     assert payload["ok"] is False
     assert payload["results"][0]["actual"] == "unknown evaluator: output exists"
+
+
+def test_check_loads_facts_file(tmp_path, capsys, monkeypatch):
+    facts_path = tmp_path / "facts.json"
+    facts_path.write_text('{"deployment_url":"https://example.test"}')
+    captured = {}
+
+    class Report:
+        ok = True
+        def to_dict(self):
+            return {"ok": True, "results": []}
+
+    def fake_check(*args, **kwargs):
+        captured.update(kwargs["facts"])
+        return Report()
+
+    monkeypatch.setattr("src.spec.cli.check_workflow", fake_check)
+    result = main([
+        "--spec-root", str(FIXTURE), "check", "--workflow", "sample",
+        "--phase", "preflight", "--facts", str(facts_path),
+    ])
+    assert result == 0
+    assert captured == {"deployment_url": "https://example.test"}
+    assert json.loads(capsys.readouterr().out)["ok"] is True
+
+
+def test_check_reports_invalid_facts_json(tmp_path, capsys):
+    facts_path = tmp_path / "facts.json"
+    facts_path.write_text("not-json")
+    result = main([
+        "--spec-root", str(FIXTURE), "check", "--workflow", "sample",
+        "--phase", "preflight", "--facts", str(facts_path),
+    ])
+    assert result == 1
+    assert "error" in json.loads(capsys.readouterr().out)

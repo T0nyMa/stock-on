@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import datetime
 import json
 from pathlib import Path
 import re
 import sqlite3
 import subprocess
 from typing import Any, Callable, Mapping
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .models import ArtifactSpec, GateSpec, SpecRegistry
 
@@ -57,6 +58,7 @@ class _Context:
     root: Path
     now: datetime
     facts: Mapping[str, Any]
+    timezone: ZoneInfo
 
 
 def _fact(ctx: _Context, gate: GateSpec) -> Any:
@@ -68,8 +70,9 @@ def _fact(ctx: _Context, gate: GateSpec) -> Any:
 
 def _boolean(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
     value = _fact(ctx, gate)
-    passed = bool(value)
-    return passed, "truthy runtime fact", json.dumps(value, ensure_ascii=False, default=str)
+    if type(value) is not bool:
+        return False, "JSON boolean", f"invalid boolean fact: {type(value).__name__}"
+    return value, "true", json.dumps(value)
 
 
 def _path_exists(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
@@ -107,29 +110,69 @@ def _format_path(artifact: ArtifactSpec, ctx: _Context) -> Path:
     return ctx.root / raw
 
 
+def _required_codes(ctx: _Context) -> list[str]:
+    codes = ctx.facts.get("codes")
+    if isinstance(codes, list):
+        return list(dict.fromkeys(str(code) for code in codes))
+    params = ctx.facts.get("params")
+    if isinstance(params, Mapping) and params.get("code") is not None:
+        return [str(params["code"])]
+    return []
+
+
+def _lookup_codes(code: str) -> list[str]:
+    """Mirror MarketDataStore's public code-resolution semantics without writes."""
+    value = str(code or "").strip().upper()
+    if value.startswith("HK"):
+        return [value]
+    if value.isdigit() and len(value) == 5:
+        return [value, f"HK{value}"]
+    return [value]
+
+
 def _sqlite_artifact(artifact: ArtifactSpec, path: Path, ctx: _Context) -> tuple[bool, str]:
     if not path.is_file():
         return False, "database missing"
     table, column = ("stock_daily", "date") if artifact.kind == "bars" else ("stock_snapshots", "updated_at")
-    where, args = ("", []) if artifact.kind == "bars" else (" where kind = ?", [artifact.kind])
-    codes = ctx.facts.get("codes")
-    if codes and isinstance(codes, list):
-        marks = ",".join("?" for _ in codes)
-        where += (" and" if where else " where") + f" code in ({marks})"
-        args.extend(str(code) for code in codes)
+    base_where, base_args = ("", []) if artifact.kind == "bars" else (" where kind = ?", [artifact.kind])
+    codes = _required_codes(ctx)
     try:
         with sqlite3.connect(path) as connection:
-            row = connection.execute(f"select max({column}) from {table}{where}", args).fetchone()
+            if codes:
+                found: dict[str, str | None] = {}
+                for code in codes:
+                    candidates = _lookup_codes(code)
+                    marks = ",".join("?" for _ in candidates)
+                    where = base_where + (" and" if base_where else " where") + f" code in ({marks})"
+                    row = connection.execute(
+                        f"select max({column}) from {table}{where}", [*base_args, *candidates]
+                    ).fetchone()
+                    found[code] = str(row[0]) if row and row[0] else None
+            else:
+                row = connection.execute(
+                    f"select max({column}) from {table}{base_where}", base_args
+                ).fetchone()
+                found = {"*": str(row[0]) if row and row[0] else None}
     except sqlite3.Error as exc:
         return False, f"snapshot unavailable: {exc}"
-    return bool(row and row[0]), str(row[0]) if row and row[0] else f"no {artifact.kind} record"
+    failures = {
+        code: timestamp for code, timestamp in found.items()
+        if timestamp is None or not _is_current(artifact, timestamp, ctx)
+    }
+    actual = ", ".join(
+        f"{code}={timestamp or 'missing'}" for code, timestamp in sorted(found.items())
+    )
+    return not failures, actual
 
 
 def _is_current(artifact: ArtifactSpec, timestamp: str, ctx: _Context) -> bool:
     if artifact.freshness not in {"daily", "trading_day", "current_search", "report_publish"}:
         return True
     try:
-        return date.fromisoformat(timestamp[:10]) == ctx.now.date()
+        parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=ctx.timezone)
+        return parsed.astimezone(ctx.timezone).date() == ctx.now.astimezone(ctx.timezone).date()
     except ValueError:
         return False
 
@@ -138,10 +181,10 @@ def _artifact_result(artifact: ArtifactSpec, ctx: _Context) -> tuple[bool, str, 
     path = _format_path(artifact, ctx)
     if artifact.storage == "sqlite_data_access":
         exists, actual = _sqlite_artifact(artifact, path, ctx)
-        passed = exists and _is_current(artifact, actual, ctx)
+        passed = exists
     else:
         exists = path.exists()
-        actual = (datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).date().isoformat()
+        actual = (datetime.fromtimestamp(path.stat().st_mtime, ctx.timezone).isoformat()
                   if exists else "missing")
         passed = exists and _is_current(artifact, actual, ctx)
     return passed, f"{artifact.id} exists and freshness={artifact.freshness}", actual
@@ -173,8 +216,6 @@ def _source_links(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
 
 def _git_commit_contains(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
     value = _fact(ctx, gate)
-    if isinstance(value, bool):
-        return _boolean(gate, ctx)
     if not isinstance(value, Mapping) or not value.get("path"):
         return False, "committed path and optional content", "missing path fact"
     target = f"{value.get('ref', 'HEAD')}:{value['path']}"
@@ -189,22 +230,78 @@ def _git_commit_contains(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]
 
 def _git_pushed(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
     value = _fact(ctx, gate)
-    if value is not None:
-        return _boolean(gate, ctx)
-    run = subprocess.run(
-        ["git", "rev-list", "--count", "@{upstream}..HEAD"],
-        cwd=ctx.root, text=True, capture_output=True, check=False,
-    )
-    actual = run.stdout.strip() if run.returncode == 0 else run.stderr.strip()
-    passed = run.returncode == 0 and actual == "0"
-    return passed, "zero unpushed commits", actual or "unavailable"
+    if value is not None and not isinstance(value, (bool, Mapping)):
+        return False, "local Git publication proof", f"invalid boolean fact: {type(value).__name__}"
+    paths: list[str] = []
+    if isinstance(value, Mapping):
+        raw_paths = value.get("paths", [])
+        if not isinstance(raw_paths, list):
+            return False, "publication paths list", "invalid paths fact"
+        paths.extend(str(path) for path in raw_paths)
+    workflow = ctx.registry.workflows[ctx.workflow]
+    for artifact_id in workflow.outputs:
+        artifact = ctx.registry.artifacts.get(artifact_id)
+        if artifact and artifact.storage == "filesystem":
+            try:
+                paths.append(str(_format_path(artifact, ctx).relative_to(ctx.root)))
+            except ValueError:
+                paths.append(artifact.path)
+    paths = sorted(set(paths))
+    suffix = ["--", *paths] if paths else []
+    try:
+        status = subprocess.run(
+            ["git", "status", "--porcelain", "--untracked-files=all", *suffix],
+            cwd=ctx.root, text=True, capture_output=True, check=False,
+        )
+        missing = []
+        for path in paths:
+            committed = subprocess.run(
+                ["git", "cat-file", "-e", f"HEAD:{path}"], cwd=ctx.root,
+                text=True, capture_output=True, check=False,
+            )
+            if committed.returncode:
+                missing.append(path)
+        ahead = subprocess.run(
+            ["git", "rev-list", "--count", "@{upstream}..HEAD"],
+            cwd=ctx.root, text=True, capture_output=True, check=False,
+        )
+    except OSError as exc:
+        return False, "clean committed publication paths and zero unpushed commits", f"git unavailable: {exc}"
+    problems = []
+    if value is False:
+        problems.append("external fact is false")
+    if status.returncode or status.stdout.strip():
+        problems.append("dirty: " + (status.stdout.strip() or status.stderr.strip()))
+    if missing:
+        problems.append("not committed: " + ", ".join(missing))
+    if ahead.returncode or ahead.stdout.strip() != "0":
+        problems.append("unpushed: " + (ahead.stdout.strip() or ahead.stderr.strip()))
+    return not problems, "clean committed publication paths and zero unpushed commits", "; ".join(problems) or "pushed"
 
 
 def _generated_docs_clean(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
     value = _fact(ctx, gate)
-    if value is not None: return _boolean(gate, ctx)
-    run = subprocess.run(["git", "diff", "--exit-code", "--", "AGENTS.md", "references"], cwd=ctx.root, capture_output=True)
-    return run.returncode == 0, "generated documents unchanged", "clean" if run.returncode == 0 else "generated documents differ"
+    if value is not None and not isinstance(value, Mapping):
+        return False, "generated paths clean", f"invalid paths fact: {type(value).__name__}"
+    paths = ["AGENTS.md", "references/skills-index.md", "references/generated/workflows.md"]
+    if isinstance(value, Mapping):
+        raw = value.get("paths", [])
+        if not isinstance(raw, list):
+            return False, "generated paths clean", "invalid paths fact"
+        paths = [str(path) for path in raw]
+    commands = (
+        ["git", "diff", "--name-only", "--", *paths],
+        ["git", "diff", "--cached", "--name-only", "--", *paths],
+        ["git", "ls-files", "--others", "--exclude-standard", "--", *paths],
+    )
+    try:
+        runs = [subprocess.run(command, cwd=ctx.root, text=True, capture_output=True, check=False) for command in commands]
+    except OSError as exc:
+        return False, "generated paths clean", f"git unavailable: {exc}"
+    changed = sorted({line for run in runs for line in run.stdout.splitlines() if line})
+    errors = [run.stderr.strip() for run in runs if run.returncode]
+    passed = not changed and not errors
+    return passed, "no unstaged, staged, or untracked generated documents", ", ".join(changed or errors) or "clean"
 
 
 _EVALUATORS: dict[str, Callable[[GateSpec, _Context], tuple[bool, str, str]]] = {
@@ -220,8 +317,18 @@ _EVALUATORS: dict[str, Callable[[GateSpec, _Context], tuple[bool, str, str]]] = 
 def check_workflow(workflow_id: str, phase: str, registry: SpecRegistry, repo_root: Path,
                    now: datetime | None = None, facts: Mapping[str, Any] | None = None) -> CheckReport:
     if phase not in {"preflight", "completion"}: raise ValueError(f"unknown phase: {phase}")
+    if facts is not None and not isinstance(facts, Mapping):
+        raise ValueError("facts must be a JSON object")
     workflow = registry.workflows[workflow_id]
-    ctx = _Context(workflow_id, phase, registry, Path(repo_root), now or datetime.now(), facts or {})
+    timezone_name = str(registry.project.get("timezone", "Asia/Shanghai"))
+    try:
+        project_timezone = ZoneInfo(timezone_name)
+    except ZoneInfoNotFoundError as exc:
+        raise ValueError(f"unknown project timezone: {timezone_name}") from exc
+    current = now or datetime.now(project_timezone)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=project_timezone)
+    ctx = _Context(workflow_id, phase, registry, Path(repo_root), current, facts or {}, project_timezone)
     entries = workflow.preflight if phase == "preflight" else workflow.completion
     results: list[GateResult] = []
     for entry in entries:
@@ -237,7 +344,10 @@ def check_workflow(workflow_id: str, phase: str, registry: SpecRegistry, repo_ro
                 passed, expected, actual = False, "registered evaluator", f"unknown evaluator: {gate.check}"
                 severity = "block"
             else:
-                passed, expected, actual = evaluator(gate, ctx)
+                try:
+                    passed, expected, actual = evaluator(gate, ctx)
+                except Exception as exc:  # evaluator failures are deterministic diagnostics
+                    passed, expected, actual = False, "successful evaluator", f"evaluation error: {type(exc).__name__}: {exc}"
                 severity = gate.severity
             remediation = gate.remediation
         results.append(GateResult(entry, severity, passed, expected, actual, remediation))

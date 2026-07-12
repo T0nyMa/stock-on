@@ -35,3 +35,35 @@ git diff --check
 
 The worktree does not expose its own `.venv` symlink, so verification used the
 repository's shared virtual environment by absolute path.
+
+## Review remediation
+
+- `git_pushed` now proves three local Git conditions without mutation: every
+  expected publication path is clean across worktree/index/untracked state,
+  every expected path exists in `HEAD`, and `HEAD` has zero commits ahead of its
+  upstream. Expected paths come from workflow output artifacts plus optional
+  structured facts.
+- `generated_docs_clean` separately inspects unstaged, staged, and untracked
+  state for the three registered generated documents. Runtime facts may narrow
+  the path list but cannot assert a truthy bypass.
+- SQLite data-access freshness evaluates every required `facts.codes` entry (or
+  `facts.params.code`) for the artifact's exact kind and reports each code's
+  timestamp or missing state. Code lookup mirrors `MarketDataStore`'s HK alias
+  behavior.
+- Boolean runtime facts now require the JSON boolean type. Git evidence remains
+  grounded in local read-only inspection; a `true` value cannot bypass it, while
+  explicit false evidence blocks the gate.
+- Filesystem mtimes, SQLite timestamps, and injected `now` values are normalized
+  to the project timezone, defaulting to `Asia/Shanghai`; a UTC-day boundary
+  regression test protects this contract.
+- Evaluator exceptions are converted into deterministic blocking diagnostics.
+  Tests now cover all eight evaluators, warn/info semantics, phase selection,
+  CLI facts loading and malformed facts, and the reviewed false-pass cases.
+
+Fresh post-review verification:
+
+```text
+tests/spec: 92 passed in 4.97s
+full suite: 190 passed in 11.69s
+git diff --check: clean
+```
