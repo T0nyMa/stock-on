@@ -1,5 +1,5 @@
 - id: route.sample
-  intents: [sample]
+  intents: ["sample {stock}"]
   workflow: sample
   skill: skill.sample
   priority: 1
