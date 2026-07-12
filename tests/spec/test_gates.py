@@ -280,3 +280,33 @@ def test_evaluator_exception_becomes_blocking_diagnostic(tmp_path, monkeypatch):
     result = check_workflow("sample", "preflight", registry, tmp_path).results[0]
     assert result.passed is False
     assert "evaluation error: ZeroDivisionError" in result.actual
+
+
+def test_warn_and_info_evaluator_exceptions_force_block_severity(tmp_path, monkeypatch):
+    import src.spec.gates as gates
+    monkeypatch.setitem(gates._EVALUATORS, "path_exists", lambda gate, ctx: 1 / 0)
+    for severity in ("warn", "info"):
+        report = check_workflow(
+            "sample", "preflight", _gate_registry("path_exists", severity=severity), tmp_path
+        )
+        assert report.results[0].severity == "block"
+        assert report.ok is False
+
+
+def test_generated_docs_facts_paths_cannot_narrow_registered_defaults(tmp_path):
+    _git(tmp_path, "init")
+    _git(tmp_path, "config", "user.email", "test@example.com")
+    _git(tmp_path, "config", "user.name", "Test")
+    (tmp_path / "AGENTS.md").write_text("base")
+    (tmp_path / "extra.md").write_text("base")
+    _git(tmp_path, "add", "AGENTS.md", "extra.md")
+    _git(tmp_path, "commit", "-m", "base")
+    (tmp_path / "AGENTS.md").write_text("dirty default")
+    registry = _gate_registry("generated_docs_clean")
+    for supplied in ([], ["extra.md"]):
+        report = check_workflow(
+            "sample", "preflight", registry, tmp_path,
+            facts={"generated_docs_clean": {"paths": supplied}},
+        )
+        assert report.ok is False
+        assert "AGENTS.md" in report.results[0].actual

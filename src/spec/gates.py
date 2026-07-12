@@ -288,7 +288,8 @@ def _generated_docs_clean(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str
         raw = value.get("paths", [])
         if not isinstance(raw, list):
             return False, "generated paths clean", "invalid paths fact"
-        paths = [str(path) for path in raw]
+        paths.extend(str(path) for path in raw)
+    paths = sorted(set(paths))
     commands = (
         ["git", "diff", "--name-only", "--", *paths],
         ["git", "diff", "--cached", "--name-only", "--", *paths],
@@ -344,11 +345,12 @@ def check_workflow(workflow_id: str, phase: str, registry: SpecRegistry, repo_ro
                 passed, expected, actual = False, "registered evaluator", f"unknown evaluator: {gate.check}"
                 severity = "block"
             else:
+                severity = gate.severity
                 try:
                     passed, expected, actual = evaluator(gate, ctx)
                 except Exception as exc:  # evaluator failures are deterministic diagnostics
                     passed, expected, actual = False, "successful evaluator", f"evaluation error: {type(exc).__name__}: {exc}"
-                severity = gate.severity
+                    severity = "block"
             remediation = gate.remediation
         results.append(GateResult(entry, severity, passed, expected, actual, remediation))
     return CheckReport(workflow_id, phase, tuple(results))

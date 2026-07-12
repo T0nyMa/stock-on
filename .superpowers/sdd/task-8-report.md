@@ -67,3 +67,21 @@ tests/spec: 92 passed in 4.97s
 full suite: 190 passed in 11.69s
 git diff --check: clean
 ```
+
+## Final review remediation
+
+- Any evaluator exception now forces a blocking result even when the configured
+  gate severity is `warn` or `info`; both severities have regression coverage
+  proving `CheckReport.ok` becomes false.
+- `generated_docs_clean` treats fact-provided paths as additions to the fixed
+  registered generated-document set. Empty or narrowly scoped path lists can no
+  longer hide a dirty default generated document.
+
+Final fresh verification:
+
+```text
+focused gate/CLI tests: 20 passed in 2.71s
+tests/spec: 94 passed in 7.45s
+full suite: 192 passed in 15.83s
+git diff --check and py_compile: clean
+```
