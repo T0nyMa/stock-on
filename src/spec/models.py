@@ -29,6 +29,8 @@ class ArtifactSpec:
     consumers: tuple[str, ...]
     freshness: str
     missing: str
+    storage: str = "filesystem"
+    kind: str | None = None
 
 
 @dataclass(frozen=True)

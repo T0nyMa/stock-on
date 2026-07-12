@@ -108,6 +108,26 @@ def test_artifact_dependency_cycle_is_reported():
     assert any(issue.code == "WORKFLOW.DEPENDENCY_CYCLE" for issue in validate_registry(bad, FIXTURE))
 
 
+def test_artifact_workflow_references_are_deferred_only_for_empty_registry():
+    registry = load_registry(FIXTURE)
+    future = ArtifactSpec(
+        "artifact.future", "future", "future-producer", ("future-consumer",),
+        "daily", "block"
+    )
+
+    staged = replace(registry, artifacts={future.id: future}, workflows={})
+    staged_codes = {issue.code for issue in validate_registry(staged, FIXTURE)}
+    assert "ARTIFACT.UNKNOWN_PRODUCER" not in staged_codes
+    assert "ARTIFACT.UNKNOWN_CONSUMER" not in staged_codes
+
+    active = replace(
+        staged,
+        workflows={"sample": registry.workflows["sample"]},
+    )
+    active_codes = {issue.code for issue in validate_registry(active, FIXTURE)}
+    assert {"ARTIFACT.UNKNOWN_PRODUCER", "ARTIFACT.UNKNOWN_CONSUMER"} <= active_codes
+
+
 def test_schema_markers_and_legacy_references_are_validated(tmp_path):
     registry = replace(load_registry(FIXTURE), project={"schema_version": "2.0", "project": "x"})
     (tmp_path / "AGENTS.md").write_text(

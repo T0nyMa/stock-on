@@ -94,6 +94,8 @@ def _load_artifacts(path: Path) -> dict[str, ArtifactSpec]:
                 consumers=_tuple(record, "consumers", path),
                 freshness=record["freshness"],
                 missing=record["missing"],
+                storage=record.get("storage", "filesystem"),
+                kind=record.get("kind"),
             )
         )
     return _index(artifacts, lambda artifact: artifact.id)
