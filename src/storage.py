@@ -2664,6 +2664,15 @@ class MarketDataStore:
         frame["date"] = pd.to_datetime(frame["date"], format="mixed").dt.date
         return self.db.save_daily_data(frame, code, source)
 
+    @staticmethod
+    def _lookup_codes(code: str) -> List[str]:
+        value = str(code or "").strip().upper()
+        if value.startswith("HK"):
+            return [value]
+        if value.isdigit() and len(value) == 5:
+            return [value, f"HK{value}"]
+        return [value]
+
     def load_bars(
         self,
         code: str,
@@ -2673,7 +2682,15 @@ class MarketDataStore:
         end: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         with self.db.get_session() as session:
-            query = select(StockDaily).where(StockDaily.code == code)
+            resolved = self._lookup_codes(code)[0]
+            for candidate in self._lookup_codes(code):
+                exists = session.execute(
+                    select(StockDaily.id).where(StockDaily.code == candidate).limit(1)
+                ).scalar_one_or_none()
+                if exists is not None:
+                    resolved = candidate
+                    break
+            query = select(StockDaily).where(StockDaily.code == resolved)
             if start:
                 query = query.where(StockDaily.date >= date.fromisoformat(start[:10]))
             if end:
@@ -2695,9 +2712,13 @@ class MarketDataStore:
 
     def latest_bar_date(self, code: str) -> Optional[str]:
         with self.db.get_session() as session:
-            value = session.execute(
-                select(func.max(StockDaily.date)).where(StockDaily.code == code)
-            ).scalar_one_or_none()
+            value = None
+            for candidate in self._lookup_codes(code):
+                value = session.execute(
+                    select(func.max(StockDaily.date)).where(StockDaily.code == candidate)
+                ).scalar_one_or_none()
+                if value:
+                    break
         return value.isoformat() if value else None
 
     def save_snapshot(
@@ -2736,11 +2757,15 @@ class MarketDataStore:
 
     def load_snapshot(self, code: str, kind: str) -> Optional[Dict[str, Any]]:
         with self.db.get_session() as session:
-            payload = session.execute(
-                select(StockSnapshot.payload).where(
-                    and_(StockSnapshot.code == code, StockSnapshot.kind == kind)
-                )
-            ).scalar_one_or_none()
+            payload = None
+            for candidate in self._lookup_codes(code):
+                payload = session.execute(
+                    select(StockSnapshot.payload).where(
+                        and_(StockSnapshot.code == candidate, StockSnapshot.kind == kind)
+                    )
+                ).scalar_one_or_none()
+                if payload:
+                    break
         return json.loads(payload) if payload else None
 
     def record_fetch_run(

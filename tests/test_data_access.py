@@ -56,3 +56,15 @@ def test_incremental_days_overlaps_recent_history_and_catches_up_gaps(tmp_path):
         [{"date": "2026-06-26", "close": 43.2}],
     )
     assert incremental_days("002050", store=old_store, overlap=5, as_of=date(2026, 7, 12)) == 15
+
+
+def test_bare_hong_kong_code_resolves_to_canonical_storage_code(tmp_path):
+    store = MarketDataStore(tmp_path / "market.db")
+    store.upsert_bars(
+        "HK09988", "阿里巴巴", "HK",
+        [{"date": "2026-07-10", "close": 110.2}],
+    )
+    store.save_snapshot("HK09988", "阿里巴巴", "HK", "quote", {"price": 110.2})
+
+    assert load_bars("09988", store=store)["kline"][0]["close"] == 110.2
+    assert load_quote("09988", store=store) == {"price": 110.2}
