@@ -1,6 +1,6 @@
 ---
 name: tech-indicators
-description: 计算股票技术指标，写入 data/{code}/indicators.json。Phase 1 数据准备第二步。
+description: 计算股票技术指标，写入 SQLite 指标快照（`python -m src.data_access --code {code} --kind indicators`）。Phase 1 数据准备第二步。
 ---
 
 # tech-indicators
@@ -21,7 +21,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ## 输出
 
-写入 `data/{code}/indicators.json`，包含：
+写入 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`），包含：
 
 | 指标组 | 字段 |
 |--------|------|
@@ -36,4 +36,4 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ## 验证
 
-确认 `data/{code}/indicators.json` 存在。
+确认 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） 存在。

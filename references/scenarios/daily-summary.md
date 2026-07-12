@@ -78,7 +78,7 @@ source .venv/bin/activate && python src/fetch_market.py
 **子任务 D — 一般观察单股日报（watch: 1-2 策略）**
 
 对 tier = "watch" 的每只股票：
-- 读取 `data/{code}/indicators.json` + `quote.json`
+- 读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） + `SQLite 行情快照`
 - 按市场状态从 skills-index 选 1-2 个策略，轻量执行
 - 写入 `tracking/{code}-{name}/YYYY-MM-DD-analysis.md`
 

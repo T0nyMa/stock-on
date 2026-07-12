@@ -13,7 +13,7 @@ description: 情绪周期策略 — 市场情绪阶段判断。对应 strategies
 
 ## 输入
 
-读 `data/{code}/` 下 kline.json, indicators.json, quote.json, news.json
+读 `data/{code}/` 下 SQLite 日K查询结果, SQLite 指标快照, SQLite 行情快照, SQLite 新闻快照
 
 ## 分析框架
 
@@ -24,7 +24,7 @@ description: 情绪周期策略 — 市场情绪阶段判断。对应 strategies
 ### Step 2: 换手率分析
 - 低换手 < 1% → 冰点特征
 - 高换手 > 10% → 情绪高涨
-- quote.json → turnover_rate
+- SQLite 行情快照 → turnover_rate
 
 ### Step 3: 涨跌停判断
 - 涨停多、跌停少 → 启动/高潮

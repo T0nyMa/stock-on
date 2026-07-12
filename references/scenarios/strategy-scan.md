@@ -18,7 +18,7 @@
 
 使用 `$market-regime {code}` 或直接读取 `data/{code}/regime.json`。
 
-如 regime.json 不存在，则 读取 `data/{code}/indicators.json` → `trend.status` 和 `trend.ma_alignment` 手动判断。
+如 regime.json 不存在，则 读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status` 和 `trend.ma_alignment` 手动判断。
 
 ### 2. 选择策略
 
@@ -30,7 +30,7 @@
 
 对每个选中的策略，读取 `.agents/skills/strategy-{name}/SKILL.md` 获取分析框架，然后：
 
-1. 读取 `data/{code}/kline.json`, `indicators.json`, `quote.json`（按策略需要）
+1. 读取 SQLite 日K（运行 `python -m src.data_access --code {code} --kind bars`）, `SQLite 指标快照`, `SQLite 行情快照`（按策略需要）
 2. 按策略框架的 Step 逐步分析
 3. 输出：信号（buy/hold/sell）+ 评分（0-100）+ 关键依据（一句话）
 

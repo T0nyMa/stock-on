@@ -13,13 +13,13 @@ description: 波浪理论策略 — 艾略特 5浪上涨/3浪下跌。对应 str
 
 ## 输入
 
-读 `data/{code}/` 下 kline.json (近60日), indicators.json
+读 `data/{code}/` 下 SQLite 日K查询结果 (近60日), SQLite 指标快照
 
 ## 分析框架
 
 ### Step 1: 浪型识别
 - 推动浪 1-2-3-4-5 或调整浪 A-B-C
-- 从 kline.json 的 highs/lows 序列识别
+- 从 SQLite 日K查询结果 的 highs/lows 序列识别
 
 ### Step 2: 当前浪位
 - 3 浪中期 → 最强主升浪

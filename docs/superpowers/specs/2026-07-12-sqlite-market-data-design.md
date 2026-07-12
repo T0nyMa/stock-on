@@ -14,21 +14,17 @@ Replace per-stock runtime JSON files with one SQLite database that preserves imm
 
 ## Architecture
 
-`src/storage.py` owns schema creation, transactions, upserts, and typed dictionary reads. `src/data_access.py` exposes stable application-level loaders so analysis code does not depend on SQL. Fetchers write directly to SQLite; indicator calculation reads bars and writes the latest indicator snapshot to SQLite. Reports, screeners, and quantitative pipelines use `data_access`.
+The existing SQLAlchemy-backed `src/storage.py` owns schema creation, transactions, upserts, and typed dictionary reads. `src/data_access.py` exposes stable application-level loaders so analysis code does not depend on SQL. Fetchers write directly to SQLite; indicator calculation reads bars and writes the latest indicator snapshot to SQLite. Reports, screeners, and quantitative pipelines use `data_access`.
 
-The database defaults to `data/market.db` and can be overridden with `STOCK_DATA_DB`. SQLite uses WAL mode, foreign keys, busy timeout, and explicit transactions. The database is not committed to Git; reproducible reports remain committed.
+The database remains the project's existing `data/stock_analysis.db` and can be overridden with `DATABASE_PATH`. SQLite uses WAL mode, busy timeout, write-lock retries, and explicit transactions. The database is not committed to Git; reproducible reports remain committed.
 
 ## Data Model
 
-- `securities`: canonical identity, display code, name, market, timestamps.
-- `daily_bars`: OHLCV, amount, percent change, adjustment mode, source metadata; unique on `(security_id, trade_date, adjustment)`.
-- `quotes`: one latest snapshot per security.
-- `fundamentals`: one latest snapshot per security.
-- `news`: deduplicated by `(security_id, url_hash)` with publication and fetch timestamps.
-- `indicators`: one latest JSON payload per security, including evidence metadata.
-- `fetch_runs`: audit trail for provider, requested window, rows received, status, and errors.
+- `stock_daily`: normalized OHLCV, amount, percent change, calculated moving averages, and source metadata; unique on `(code, date)`.
+- `stock_snapshots`: one latest JSON payload per `(code, kind)` for quote, fundamentals, news, and indicators.
+- `market_fetch_runs`: audit trail for provider, requested window, rows received, status, and errors.
 
-Flexible snapshot payloads stay as JSON text inside SQLite where their shape changes frequently. Daily bars use normalized columns for range queries, deduplication, and cross-sectional analysis.
+Flexible snapshot payloads stay as JSON text inside SQLite where their shape changes frequently. Daily bars use normalized columns for range queries, deduplication, and cross-sectional analysis. Existing analysis-history and operational tables remain in the same database.
 
 ## Incremental Update Rules
 
@@ -49,4 +45,3 @@ All Python consumers that currently read `kline.json`, `quote.json`, `fundamenta
 - Indicator tests prove SQLite input/output.
 - Existing quantitative and report tests run unchanged or with database fixtures.
 - A live 002050 fetch proves an initial 500-row load followed by an idempotent incremental refresh.
-

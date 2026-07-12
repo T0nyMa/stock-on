@@ -6,13 +6,13 @@
 
 | 脚本 | 用法 | 输入 | 输出 |
 |------|------|------|------|
-| `fetch.py` | `python src/fetch.py --code {code}` | — | data/{code}/kline.json, quote.json, fundamentals.json, news.json |
-| `indicators.py` | `python src/indicators.py --code {code}` | data/{code}/kline.json | data/{code}/indicators.json |
+| `fetch.py` | `python src/fetch.py --code {code}` | — | SQLite 日K（`python -m src.data_access --code {code} --kind bars`）, SQLite 行情快照, SQLite 基本面快照, SQLite 新闻快照 |
+| `indicators.py` | `python src/indicators.py --code {code}` | SQLite 日K（`python -m src.data_access --code {code} --kind bars`） | SQLite 指标快照（`python -m src.data_access --code {code} --kind indicators`） |
 
 ## 依赖链
 
 ```
-fetch.py → config.py → data_provider/ → data/, utils/
+fetch.py → config.py → data_provider/ → SQLite, utils/
                     → search_service.py (新闻，国内网络可能不可用)
 
 indicators.py → config.py → stock_analyzer.py → enums.py
@@ -35,6 +35,6 @@ python src/indicators.py --code 002050
 
 ## 输出格式
 
-运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD` 可从本地 JSON 原子生成 schema version `2.0` 的量化 artifacts 与 `data/report_context.json`。该步骤不联网；缺失行情、benchmark、FX 或 driver 会记录 evidence gap，不会填零。
+运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD` 可从 SQLite 日K原子生成 schema version `2.0` 的量化 artifacts 与 `data/report_context.json`。该步骤不联网；缺失行情、benchmark、FX 或 driver 会记录 evidence gap，不会填零。
 
-详见 `data/{code}/` 下各 JSON 文件。Codex 直接读取这些数据文件。
+数据库默认位于 `data/stock_analysis.db`。Codex 使用 `python -m src.data_access --code {code} --kind bars|quote|fundamentals|news|indicators` 查询。

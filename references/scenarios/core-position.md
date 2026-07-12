@@ -32,7 +32,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 3. 策略快速扫描（3-5 个）
 
-先确定市场状态：读取 `data/{code}/indicators.json` → `trend.status`
+先确定市场状态：读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status`
 
 然后读取 `references/skills-index.md` → "按市场状态选策略"表，从"优先策略"列选 3-4 个 + "可选"列补 1 个。
 
@@ -46,7 +46,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 4. 归因（方法论 Phase 1）
 
-读取 `data/{code}/quote.json`，获取涨跌幅。
+读取 SQLite 行情快照（运行 `python -m src.data_access --code {code} --kind quote`），获取涨跌幅。
 
 对比三个层级：
 - 大盘：上证/深证/创业板当日涨跌
@@ -68,7 +68,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 6. 技术面细节（补充策略扫描）
 
-读取 `data/{code}/indicators.json`。在策略扫描共识基础上，补充细节：
+读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`）。在策略扫描共识基础上，补充细节：
 
 | 指标 | 来源 | 对比项 |
 |------|------|--------|

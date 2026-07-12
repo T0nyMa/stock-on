@@ -13,17 +13,17 @@ description: 地量策略 — 成交量缩至极低时的变盘信号。对应 s
 
 ## 输入
 
-读 `data/{code}/` 下 kline.json, indicators.json
+读 `data/{code}/` 下 SQLite 日K查询结果, SQLite 指标快照
 
 ## 分析框架
 
 ### Step 1: 地量判断
 - 成交量 < 20 日均量的 50%
 - 或近 60 日最低成交量
-- indicators.json → volume.ma5_vol 与 kline.json 最新日量对比
+- SQLite 指标快照 → volume.ma5_vol 与 SQLite 日K查询结果 最新日量对比
 
 ### Step 2: 价格企稳
-- 连续 3 日涨跌 < 2%（从 kline.json → pct_chg 近3日）
+- 连续 3 日涨跌 < 2%（从 SQLite 日K查询结果 → pct_chg 近3日）
 - K 线实体缩小（|close - open| / open < 1%）
 
 ### Step 3: 变盘信号

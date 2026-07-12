@@ -31,8 +31,8 @@ description: 每日追踪报告 — 生成大盘总结(含板块行情) + 全部
    - 如果 _data_date ≠ 今天 → 强制重跑: bash: source .venv/bin/activate && python src/fetch_market.py
    - 如果文件不存在 _data_date 字段 → 旧版脚本输出，强制重跑
    - 只有 _data_date = 今天 才能跳过
-2. 抽样检查 3 只股票的 fundamentals.json (core + key 各一只):
-   读取 data/{code}/fundamentals.json → 检查 pe 和 pb 是否非 null
+2. 抽样检查 3 只股票的 SQLite 基本面快照 (core + key 各一只):
+   读取 SQLite 基本面快照（`python -m src.data_access --code {code} --kind fundamentals`） → 检查 pe 和 pb 是否非 null
    - 如果 pe/pb 为 null → 腾讯接口补充
 ```
 
@@ -61,7 +61,7 @@ source .venv/bin/activate && python src/sector_scan.py
 **策略分析方法（内联，不调用外部 Skill）：**
 
 ```
-1. 读取 data/{code}/indicators.json → 从 trend.status 确定市场状态
+1. 读取 SQLite 指标快照（`python -m src.data_access --code {code} --kind indicators`） → 从 trend.status 确定市场状态
 2. 读取 references/skills-index.md → "按市场状态选策略"表
 3. 根据市场状态从"优先策略"列选对应数量:
    - core: 优先列选 3-4 + 可选列补 1 = 共 3-5 个
@@ -78,10 +78,10 @@ source .venv/bin/activate && python src/sector_scan.py
 **基本面分析方法（全部股票必做，不跳过）：**
 
 ```
-1. 读取 data/{code}/fundamentals.json → 获取 PE、PB、市值、ROE
-   - 如果 fundamentals.json 中 pe/pb 为 null，先通过腾讯财经接口补充：
+1. 读取 SQLite 基本面快照（`python -m src.data_access --code {code} --kind fundamentals`） → 获取 PE、PB、市值、ROE
+   - 如果 SQLite 基本面快照 中 pe/pb 为 null，先通过腾讯财经接口补充：
      bash: python3 -c "from urllib.request import urlopen,Request; import json,time; prefix='sh' if '{code}'.startswith('6') else 'sz'; url=f'https://qt.gtimg.cn/q={prefix}{code}'; req=Request(url,headers={'User-Agent':'Mozilla/5.0','Referer':'https://finance.qq.com/'}); raw=urlopen(req,timeout=10).read().decode('gbk'); fields=raw.split('=\"')[1].rstrip('\";\n').split('~') if '=\"' in raw else raw.split('=')[1].split('~'); d={'code':'{code}','name':fields[1],'price':float(fields[3]) if fields[3] else None,'pe':float(fields[39]) if fields[39] else None,'pb':float(fields[46]) if fields[46] else None,'market_cap_yi':float(fields[45]) if fields[45] else None,'circ_mv_yi':float(fields[44]) if fields[44] else None,'turnover_rate':float(fields[38]) if fields[38] else None,'volume_ratio':float(fields[49]) if fields[49] else None,'source':'tencent','updated_at':time.strftime('%Y-%m-%dT%H:%M:%S+08:00')}; print(json.dumps(d,ensure_ascii=False))"
-     然后将输出写入 data/{code}/fundamentals.json
+     然后将输出写入 SQLite 基本面快照（`python -m src.data_access --code {code} --kind fundamentals`）
 2. 写入日报基本面概览区块（PE/PB/市值/ROE + 一句话估值判断）
 ```
 
@@ -246,18 +246,18 @@ tracking/daily/positions/YYYY-MM-DD.md           ← 持仓观察汇总（含基
 tracking/daily/positions/YYYY-MM-DD.html         ← 持仓观察汇总 (HTML，含估值矩阵)
 tracking/{code}-{name}/YYYY-MM-DD-analysis.md    ← 全部 N 只单股日报（含基本面 + 持仓策略）
 tracking/sectors/YYYY-MM-DD-sector-scan.md       ← 板块扫描报告
-data/{code}/fundamentals.json                    ← 全部 N 只基本面数据（PE/PB/市值/ROE）
+SQLite 基本面快照（`python -m src.data_access --code {code} --kind fundamentals`）                    ← 全部 N 只基本面数据（PE/PB/市值/ROE）
 data/market/sector_scan.json                     ← 板块扫描 JSON
 https://t0nyma.github.io/stock-on/               ← GitHub Pages 已更新
 ```
 
 ## 完成标志
 
-- [ ] **Phase 0 校验通过**：market/index.json 日期=今天，fundamentals.json PE/PB非空
+- [ ] **Phase 0 校验通过**：market/index.json 日期=今天，SQLite 基本面快照 PE/PB非空
 - [ ] fetch_market.py 已执行（如需要）
 - [ ] **sector_scan.py 已执行**（20板块排名数据）
 - [ ] 全部追踪股 fetch + indicators 已完成
-- [ ] **全部追踪股 fundamentals.json 已更新**（PE/PB/市值/ROE 非空）
+- [ ] **全部追踪股 SQLite 基本面快照 已更新**（PE/PB/市值/ROE 非空）
 - [ ] 大盘总结已写入（含 **20板块排名 + 板块分化分析**）
 - [ ] 全部 N 只单股日报已写入（core: 3-5策略 key: 2-3策略 watch: 1-2策略，含基本面概览）
 - [ ] **持仓股日报含持仓策略区块**（成本/现价/盈亏/止损/情景更新/操作指令）

@@ -21,9 +21,9 @@ source .venv/bin/activate && python src/fetch.py --code {code}
 source .venv/bin/activate && python src/indicators.py --code {code}
 ```
 
-读取 `data/{code}/quote.json` → 价格、PE、PB、市值、换手率
-读取 `data/{code}/fundamentals.json` → 营收、利润、行业
-读取 `data/{code}/kline.json` → 近60日走势概览
+读取 SQLite 行情快照（运行 `python -m src.data_access --code {code} --kind quote`） → 价格、PE、PB、市值、换手率
+读取 SQLite 基本面快照（运行 `python -m src.data_access --code {code} --kind fundamentals`） → 营收、利润、行业
+读取 SQLite 日K（运行 `python -m src.data_access --code {code} --kind bars`） → 近60日走势概览
 
 ### 2. 归因分析（方法论 Phase 1）
 
@@ -46,7 +46,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 4. 多策略共识扫描（5-7 个，完整执行）
 
-先确定市场状态：使用 `$market-regime {code}` 或 读取 `data/{code}/indicators.json` → `trend.status`。
+先确定市场状态：使用 `$market-regime {code}` 或 读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status`。
 
 读取 `references/skills-index.md` → "按市场状态选策略"表。从"优先策略"列选 5 个 + "可选"列补 2 个。
 
@@ -71,7 +71,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 5. 关键价位识别
 
-从 kline.json 提取：
+从 SQLite 日K查询结果 提取：
 
 - 近20日高/低点 → 短期箱体
 - 近60日高/低点 → 中期区间

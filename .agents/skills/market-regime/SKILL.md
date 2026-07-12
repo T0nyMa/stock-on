@@ -15,7 +15,7 @@ description: 读取技术指标，判断市场状态，推荐分析策略。Phas
 
 ## 输入
 
-读取 `data/{code}/indicators.json`
+读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`）
 
 ## 分析方法
 

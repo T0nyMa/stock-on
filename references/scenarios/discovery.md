@@ -54,7 +54,7 @@ source .venv/bin/activate && python src/sector_scan.py
 Agent prompt:
   你是策略验证Agent。对 {code} {name} 执行 3-5 个策略分析。
 
-  1. 读取 data/{code}/indicators.json → 确定 market state
+  1. 读取 SQLite 指标快照（`python -m src.data_access --code {code} --kind indicators`） → 确定 market state
   2. 读取 references/skills-index.md → 按市场状态选策略:
      - trending_up → bull-trend, ma-golden-cross, volume-breakout, dragon-head, hot-theme
      - volatile → chan-theory, box-oscillation, wave-theory, bottom-volume

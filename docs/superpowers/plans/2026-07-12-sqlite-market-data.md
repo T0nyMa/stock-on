@@ -10,8 +10,8 @@
 
 ## Global Constraints
 
-- Default database path is `data/market.db`; `STOCK_DATA_DB` overrides it.
-- Historical bar uniqueness is `(security_id, trade_date, adjustment)`.
+- Default database path is the existing `data/stock_analysis.db`; `DATABASE_PATH` overrides it.
+- Historical bar uniqueness is `(code, date)`.
 - Initial history defaults to 500 trading days; incremental refresh overlaps five trading days.
 - Existing data is never deleted on an empty or failed provider response.
 - Tracking configuration, market-wide artifacts, and human-readable reports remain files.
@@ -116,4 +116,3 @@
 - [ ] Run the complete pytest suite.
 - [ ] Fetch 002050 with 500 initial days, rerun incrementally, recompute indicators, and verify row count and uniqueness in SQLite.
 - [ ] Run the daily report data preparation smoke check without publishing.
-

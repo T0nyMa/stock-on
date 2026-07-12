@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import argparse
+import json
 from datetime import date, timedelta
 from typing import Any, Dict, Optional
 
@@ -64,3 +66,35 @@ def incremental_days(
     first_missing = date.fromisoformat(latest) + timedelta(days=1)
     gap_sessions = len(pd.bdate_range(first_missing, end)) if first_missing <= end else 0
     return min(full_days, max(overlap, gap_sessions + overlap))
+
+
+def query_payload(code: str, kind: str, *, limit: Optional[int] = None, store=None):
+    loaders = {
+        "bars": lambda: load_bars(code, limit=limit, store=store),
+        "quote": lambda: load_quote(code, store=store),
+        "fundamentals": lambda: load_fundamentals(code, store=store),
+        "news": lambda: load_news(code, store=store),
+        "indicators": lambda: load_indicators(code, store=store),
+    }
+    return loaders[kind]()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Read per-stock data from SQLite")
+    parser.add_argument("--code", required=True)
+    parser.add_argument(
+        "--kind",
+        required=True,
+        choices=["bars", "quote", "fundamentals", "news", "indicators"],
+    )
+    parser.add_argument("--limit", type=int)
+    args = parser.parse_args()
+    payload = query_payload(args.code, args.kind, limit=args.limit)
+    if payload is None:
+        return 1
+    print(json.dumps(payload, ensure_ascii=False, indent=2, default=str))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

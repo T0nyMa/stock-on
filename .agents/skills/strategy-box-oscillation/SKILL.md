@@ -13,22 +13,22 @@ description: 箱体震荡策略 — 箱体内高抛低吸交易。对应 strateg
 
 ## 输入
 
-读 `data/{code}/` 下 kline.json, indicators.json
+读 `data/{code}/` 下 SQLite 日K查询结果, SQLite 指标快照
 
 ## 分析框架
 
 ### Step 1: 箱体识别
-- 20 日高/低点作为上下轨（从 kline.json 找近20日最高最低 close）
+- 20 日高/低点作为上下轨（从 SQLite 日K查询结果 找近20日最高最低 close）
 - 箱体宽度 > 3%（足够交易空间）
 
 ### Step 2: 触碰判断
 - 价格接近上轨（±1%）→ 卖出区域
 - 价格接近下轨（±1%）→ 买入区域
-- 对比 quote.json → price 与箱体上下轨
+- 对比 SQLite 行情快照 → price 与箱体上下轨
 
 ### Step 3: 量能配合
 - 下轨缩量 → 好买点，上轨放量突破 → 真突破
-- indicators.json → volume.volume_ratio
+- SQLite 指标快照 → volume.volume_ratio
 
 ### Step 4: 突破/跌破处理
 - 突破上轨 > 3% 站稳 2 日 → 转为趋势跟踪

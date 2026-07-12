@@ -52,7 +52,7 @@ source .venv/bin/activate && python src/sector_scan.py
 ```
 你是L3策略验证Agent。对 {name}({code}) 执行策略分析。
 
-1. 读取 data/{code}/indicators.json → 判断 trend.status
+1. 读取 SQLite 指标快照（`python -m src.data_access --code {code} --kind indicators`） → 判断 trend.status
 2. 读取 references/skills-index.md → 按市场状态选 3-5 个策略
 3. 对每个选中策略：
    a. 读取 .agents/skills/strategy-{name}/SKILL.md

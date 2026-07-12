@@ -31,7 +31,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 3. 异动筛查
 
-读取每只股票的 `data/{code}/quote.json` 和 `indicators.json`，检查：
+读取每只股票的 SQLite 行情快照（运行 `python -m src.data_access --code {code} --kind quote`） 和 `SQLite 指标快照`，检查：
 
 | 触发条件 | 阈值 | 含义 |
 |----------|------|------|

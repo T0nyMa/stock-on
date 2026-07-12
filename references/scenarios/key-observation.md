@@ -32,7 +32,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 3. 策略扫描（2-3 个）
 
-先确定市场状态：读取 `data/{code}/indicators.json` → `trend.status`
+先确定市场状态：读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status`
 
 然后读取 `references/skills-index.md` → "按市场状态选策略"表。
 
@@ -46,7 +46,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ### 4. 技术面快检
 
-读取 `data/{code}/indicators.json`。在策略共识基础上补充细节：
+读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`）。在策略共识基础上补充细节：
 
 | 指标 | 关注点 |
 |------|--------|
