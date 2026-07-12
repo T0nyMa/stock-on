@@ -1,0 +1,11 @@
+id: deploy
+inputs: [artifact.daily_report, artifact.weekly_report, artifact.discovery_report]
+outputs: [artifact.published_html]
+policies: [PUBLISH.COMPLETE]
+skills: [deploy]
+steps:
+  - render available registered reports to HTML and update the site index
+  - commit and push publication changes
+  - verify the published GitHub Pages content
+preflight: []
+completion: [PUBLISH.PUSHED]

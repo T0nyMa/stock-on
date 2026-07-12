@@ -1,0 +1,11 @@
+id: quant-analysis
+inputs: [database.stock_analysis, snapshot.bars, snapshot.quote]
+outputs: [snapshot.indicators, artifact.report_context]
+policies: [DATA.QUALITY]
+skills: [tech-indicators, market-regime]
+steps:
+  - run python src/indicators.py --code {code}
+  - derive market breadth, multi-timeframe, relative strength, strategy stats, cross-market, and portfolio risk context
+  - persist indicators and data/report_context.json with unavailable values preserved
+preflight: [database.stock_analysis, snapshot.bars, snapshot.quote]
+completion: [DATA.REGISTERED_CURRENT]

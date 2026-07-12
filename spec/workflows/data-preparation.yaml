@@ -1,0 +1,11 @@
+id: data-preparation
+inputs: []
+outputs: [database.stock_analysis, snapshot.bars, snapshot.quote, snapshot.fundamentals, snapshot.news]
+policies: [DATA.QUALITY, SEARCH.PRIORITY]
+skills: [fetch-data]
+steps:
+  - run python src/fetch.py --code {code}
+  - persist normalized bars, quote, fundamentals, and current-news snapshots in SQLite
+  - record unavailable upstream fields without fabrication
+preflight: []
+completion: [DATA.REGISTERED_CURRENT, SEARCH.MATERIAL_FACT_VERIFIED]

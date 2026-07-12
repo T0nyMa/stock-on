@@ -1,0 +1,11 @@
+id: discovery
+inputs: [snapshot.indicators, artifact.strategy_analysis]
+outputs: [artifact.discovery_report]
+policies: [DATA.QUALITY, RESEARCH.EVIDENCE]
+skills: [discovery]
+steps:
+  - scan the market and sectors using current registered indicator data
+  - score candidates through snapshot, scoring, and strategy-validation stages
+  - persist candidates, evidence, risks, and falsification conditions
+preflight: [snapshot.indicators]
+completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND]

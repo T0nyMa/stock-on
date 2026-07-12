@@ -118,3 +118,18 @@
   consumers: []
   freshness: report_publish
   missing: block
+- id: artifact.verified_change
+  path: .
+  storage: filesystem
+  producer: development
+  consumers: []
+  freshness: change
+  missing: block
+- id: artifact.strategy_analysis
+  path: data/stock_analysis.db
+  storage: sqlite_data_access
+  kind: strategy_analysis
+  producer: strategy-analysis
+  consumers: [position-decision, daily-report, discovery]
+  freshness: trading_day
+  missing: unavailable

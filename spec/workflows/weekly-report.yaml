@@ -1,0 +1,12 @@
+id: weekly-report
+inputs: [snapshot.indicators, artifact.report_context, artifact.tracklist, artifact.position, artifact.research_summary, artifact.financial_collection_status, artifact.daily_report]
+outputs: [artifact.weekly_report]
+policies: [DATA.QUALITY, RESEARCH.EVIDENCE, DECISION.SEPARATION, PUBLISH.COMPLETE]
+skills: [weekly-report, deploy]
+steps:
+  - aggregate the week's registered daily reports and current context
+  - identify thesis, strategy, portfolio, and risk changes with evidence
+  - render the weekly report and update required position context
+  - commit, push, deploy, and verify the published report
+preflight: [artifact.daily_report, artifact.report_context, artifact.tracklist, artifact.position]
+completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC, PUBLISH.PUSHED]

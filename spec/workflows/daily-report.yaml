@@ -1,0 +1,14 @@
+id: daily-report
+inputs: [snapshot.quote, snapshot.news, snapshot.indicators, artifact.report_context, artifact.tracklist, artifact.position, artifact.research_summary, artifact.financial_collection_status, artifact.strategy_analysis]
+outputs: [artifact.daily_report]
+policies: [DATA.QUALITY, SEARCH.PRIORITY, RESEARCH.EVIDENCE, DECISION.SEPARATION, PUBLISH.COMPLETE]
+skills: [daily-report, deploy]
+steps:
+  - run scripts/fetch_all_daily.py and read current data/report_context.json before quantitative conclusions
+  - verify current announcements and news for every position and core observation with dated source links
+  - render the complete seven-section daily report from references/templates/daily-report-v2.md
+  - update every applicable position.json current price and loss fields
+  - commit and push the report and position updates
+  - run the deploy workflow and verify the published page
+preflight: [snapshot.quote, snapshot.news, snapshot.indicators, artifact.report_context, artifact.tracklist, artifact.position, SEARCH.MATERIAL_FACT_VERIFIED]
+completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC, PUBLISH.PUSHED]

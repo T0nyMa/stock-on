@@ -1,0 +1,13 @@
+id: position-decision
+inputs: [snapshot.indicators, artifact.report_context, artifact.research_summary, artifact.financial_quality_summary, artifact.discovery_report, artifact.strategy_analysis]
+outputs: [artifact.tracklist, artifact.position]
+policies: [DATA.QUALITY, RESEARCH.EVIDENCE, DECISION.SEPARATION]
+skills: [decision-agent]
+steps:
+  - read existing tracking reports, tracklist, and position context before deciding
+  - consume current research and financial quality summaries before timing or sizing
+  - combine registered quantitative, strategy, and discovery evidence
+  - produce price, shares, trigger, and invalidation instructions with targets and risk reward
+  - update tracking/tracklist.json and the applicable position.json
+preflight: [snapshot.indicators, artifact.report_context, artifact.research_summary, artifact.financial_quality_summary]
+completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC]

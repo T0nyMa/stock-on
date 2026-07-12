@@ -1,0 +1,12 @@
+id: financial-report
+inputs: [snapshot.fundamentals, snapshot.news]
+outputs: [artifact.financial_collection_status, artifact.financial_quality_summary]
+policies: [DATA.QUALITY, SEARCH.PRIORITY, RESEARCH.EVIDENCE, DECISION.SEPARATION]
+skills: [financial-report-analysis]
+steps:
+  - collect and verify the latest listed-company financial disclosures
+  - analyze accounting comparability, earnings, assets, cash flow, and related parties
+  - persist collection status and financial quality summary only
+  - exclude valuation, position sizing, entry timing, and trading advice
+preflight: [snapshot.fundamentals, snapshot.news, SEARCH.MATERIAL_FACT_VERIFIED]
+completion: [RESEARCH.SOURCES_BOUND]

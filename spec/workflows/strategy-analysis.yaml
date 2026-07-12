@@ -1,0 +1,11 @@
+id: strategy-analysis
+inputs: [snapshot.indicators]
+outputs: [artifact.strategy_analysis]
+policies: [DATA.QUALITY]
+skills: [strategy-executor]
+steps:
+  - select strategies from the registered market regime
+  - execute each selected strategy against the current indicator snapshot
+  - persist signal, score, evidence, and invalidation in strategy_analysis
+preflight: [snapshot.indicators]
+completion: [DATA.REGISTERED_CURRENT]

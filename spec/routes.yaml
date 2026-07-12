@@ -1,2 +1,40 @@
-[]
-
+- id: deep-research
+  intents: ["深度分析 {code}", "深研 {code}"]
+  workflow: deep-research
+  skill: deep-stock-analysis
+  priority: 100
+- id: financial-report
+  intents: ["财报分析 {code}", "财报深度解析 {code}", "财报排雷 {code}", "财务质量 {code}"]
+  workflow: financial-report
+  skill: financial-report-analysis
+  priority: 100
+- id: position-decision
+  intents: ["建仓分析 {code}", "新股票 {code}", "分析三花", "今日002050", "分析兆易创新", "603986怎么样"]
+  workflow: position-decision
+  skill: decision-agent
+  priority: 90
+- id: strategy-analysis
+  intents: ["扫描策略 {code}", "策略分析 {code}"]
+  workflow: strategy-analysis
+  skill: strategy-executor
+  priority: 80
+- id: daily-report
+  intents: ["日报", "今日总结", "daily"]
+  workflow: daily-report
+  skill: daily-report
+  priority: 70
+- id: weekly-report
+  intents: ["周报", "本周总结", "weekly"]
+  workflow: weekly-report
+  skill: weekly-report
+  priority: 70
+- id: discovery
+  intents: ["潜力股", "发现股票", "发现机会", "discovery", "筛选", "热门股", "板块扫描", "板块排名", "热点板块"]
+  workflow: discovery
+  skill: discovery
+  priority: 60
+- id: deploy
+  intents: ["发布", "deploy"]
+  workflow: deploy
+  skill: deploy
+  priority: 50

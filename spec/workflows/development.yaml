@@ -1,0 +1,12 @@
+id: development
+inputs: []
+outputs: [artifact.verified_change]
+policies: [DEV.CHANGE]
+skills: []
+steps:
+  - inspect repository contracts and existing user changes
+  - write a failing regression or feature test before implementation
+  - implement the smallest compatible change
+  - run focused and risk-proportionate full verification
+preflight: []
+completion: [DEV.TESTS_VERIFIED]
