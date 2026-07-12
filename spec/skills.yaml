@@ -1,0 +1,29 @@
+- {id: daily-report, path: .agents/skills/daily-report/SKILL.md, category: reporting, workflows: [], excludes: []}
+- {id: decision-agent, path: .agents/skills/decision-agent/SKILL.md, category: decision, workflows: [], excludes: []}
+- {id: deep-stock-analysis, path: .agents/skills/deep-stock-analysis/SKILL.md, category: research, workflows: [], excludes: [trading_advice]}
+- {id: deploy, path: .agents/skills/deploy/SKILL.md, category: publishing, workflows: [], excludes: []}
+- {id: discovery, path: .agents/skills/discovery/SKILL.md, category: discovery, workflows: [], excludes: []}
+- {id: fetch-data, path: .agents/skills/fetch-data/SKILL.md, category: data, workflows: [], excludes: []}
+- {id: financial-report-analysis, path: .agents/skills/financial-report-analysis/SKILL.md, category: research, workflows: [], excludes: [valuation, trading_advice]}
+- {id: market-regime, path: .agents/skills/market-regime/SKILL.md, category: analysis, workflows: [], excludes: []}
+- {id: screener, path: .agents/skills/screener/SKILL.md, category: discovery, workflows: [], excludes: []}
+- {id: sector-scan, path: .agents/skills/sector-scan/SKILL.md, category: discovery, workflows: [], excludes: []}
+- {id: strategy-bottom-volume, path: .agents/skills/strategy-bottom-volume/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-box-oscillation, path: .agents/skills/strategy-box-oscillation/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-bull-trend, path: .agents/skills/strategy-bull-trend/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-chan-theory, path: .agents/skills/strategy-chan-theory/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-dragon-head, path: .agents/skills/strategy-dragon-head/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-emotion-cycle, path: .agents/skills/strategy-emotion-cycle/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-event-driven, path: .agents/skills/strategy-event-driven/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-executor, path: .agents/skills/strategy-executor/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-expectation-repricing, path: .agents/skills/strategy-expectation-repricing/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-growth-quality, path: .agents/skills/strategy-growth-quality/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-hot-theme, path: .agents/skills/strategy-hot-theme/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-ma-golden-cross, path: .agents/skills/strategy-ma-golden-cross/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-one-yang-three-yin, path: .agents/skills/strategy-one-yang-three-yin/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-shrink-pullback, path: .agents/skills/strategy-shrink-pullback/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-volume-breakout, path: .agents/skills/strategy-volume-breakout/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: strategy-wave-theory, path: .agents/skills/strategy-wave-theory/SKILL.md, category: strategy, workflows: [], excludes: []}
+- {id: tech-indicators, path: .agents/skills/tech-indicators/SKILL.md, category: data, workflows: [], excludes: []}
+- {id: weekly-report, path: .agents/skills/weekly-report/SKILL.md, category: reporting, workflows: [], excludes: []}
+

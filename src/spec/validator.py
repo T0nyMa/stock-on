@@ -109,27 +109,38 @@ def validate_registry(
             if gate_id not in registry.gates and gate_id not in registry.artifacts:
                 add("WORKFLOW.UNKNOWN_GATE", f"unknown gate: {gate_id}", location)
 
-    for artifact in registry.artifacts.values():
-        location = f"artifacts.yaml:{artifact.id}"
-        producer = registry.workflows.get(artifact.producer)
-        if producer is None:
-            add("ARTIFACT.UNKNOWN_PRODUCER", f"unknown producer: {artifact.producer}", location)
-        elif artifact.id not in producer.outputs:
-            add(
-                "ARTIFACT.PRODUCER_MISMATCH",
-                f"producer {artifact.producer} does not declare output {artifact.id}",
-                location,
-            )
-        for consumer_id in artifact.consumers:
-            consumer = registry.workflows.get(consumer_id)
-            if consumer is None:
-                add("ARTIFACT.UNKNOWN_CONSUMER", f"unknown consumer: {consumer_id}", location)
-            elif artifact.id not in consumer.inputs:
+    # Artifact names may be registered one milestone before workflows. Once the
+    # first workflow exists, enforce the complete bidirectional contract.
+    if registry.workflows:
+        for artifact in registry.artifacts.values():
+            location = f"artifacts.yaml:{artifact.id}"
+            producer = registry.workflows.get(artifact.producer)
+            if producer is None:
                 add(
-                    "ARTIFACT.CONSUMER_MISMATCH",
-                    f"consumer {consumer_id} does not declare input {artifact.id}",
+                    "ARTIFACT.UNKNOWN_PRODUCER",
+                    f"unknown producer: {artifact.producer}",
                     location,
                 )
+            elif artifact.id not in producer.outputs:
+                add(
+                    "ARTIFACT.PRODUCER_MISMATCH",
+                    f"producer {artifact.producer} does not declare output {artifact.id}",
+                    location,
+                )
+            for consumer_id in artifact.consumers:
+                consumer = registry.workflows.get(consumer_id)
+                if consumer is None:
+                    add(
+                        "ARTIFACT.UNKNOWN_CONSUMER",
+                        f"unknown consumer: {consumer_id}",
+                        location,
+                    )
+                elif artifact.id not in consumer.inputs:
+                    add(
+                        "ARTIFACT.CONSUMER_MISMATCH",
+                        f"consumer {consumer_id} does not declare input {artifact.id}",
+                        location,
+                    )
 
     # Also enforce the workflow side of artifact producer/consumer contracts.
     for workflow in registry.workflows.values():

@@ -1,0 +1,96 @@
+- id: database.stock_analysis
+  path: data/stock_analysis.db
+  producer: data-preparation
+  consumers: [quant-analysis]
+  freshness: incremental
+  missing: block
+- id: snapshot.bars
+  path: data/stock_analysis.db
+  producer: data-preparation
+  consumers: [quant-analysis]
+  freshness: trading_day
+  missing: block
+- id: snapshot.quote
+  path: data/daily_snapshot.json
+  producer: data-preparation
+  consumers: [quant-analysis, daily-report]
+  freshness: trading_day
+  missing: block
+- id: snapshot.fundamentals
+  path: data/stock_analysis.db
+  producer: data-preparation
+  consumers: [deep-research, financial-report]
+  freshness: latest_disclosure
+  missing: unavailable
+- id: snapshot.news
+  path: data/news_snapshot.json
+  producer: data-preparation
+  consumers: [deep-research, financial-report, daily-report]
+  freshness: current_search
+  missing: block
+- id: snapshot.indicators
+  path: data/stock_analysis.db
+  producer: quant-analysis
+  consumers: [strategy-analysis, position-decision, daily-report, weekly-report, discovery]
+  freshness: trading_day
+  missing: block
+- id: artifact.report_context
+  path: data/report_context.json
+  producer: quant-analysis
+  consumers: [position-decision, daily-report, weekly-report]
+  freshness: trading_day
+  missing: block
+- id: artifact.tracklist
+  path: tracking/tracklist.json
+  producer: position-decision
+  consumers: [daily-report, weekly-report]
+  freshness: current
+  missing: block
+- id: artifact.position
+  path: position.json
+  producer: position-decision
+  consumers: [daily-report, weekly-report]
+  freshness: current
+  missing: block
+- id: artifact.research_summary
+  path: tracking/research/{code}.md
+  producer: deep-research
+  consumers: [position-decision]
+  freshness: thesis_change
+  missing: block
+- id: artifact.financial_collection_status
+  path: tracking/financial/{code}/collection-status.json
+  producer: financial-report
+  consumers: []
+  freshness: latest_disclosure
+  missing: block
+- id: artifact.financial_quality_summary
+  path: tracking/financial/{code}/quality-summary.md
+  producer: financial-report
+  consumers: [position-decision]
+  freshness: latest_disclosure
+  missing: block
+- id: artifact.daily_report
+  path: tracking/daily/positions/{date}.md
+  producer: daily-report
+  consumers: [weekly-report, deploy]
+  freshness: trading_day
+  missing: block
+- id: artifact.weekly_report
+  path: tracking/weekly/{week}.md
+  producer: weekly-report
+  consumers: [deploy]
+  freshness: weekly
+  missing: block
+- id: artifact.discovery_report
+  path: tracking/discovery/{date}.md
+  producer: discovery
+  consumers: [position-decision, deploy]
+  freshness: trading_day
+  missing: block
+- id: artifact.published_html
+  path: docs/index.html
+  producer: deploy
+  consumers: []
+  freshness: report_publish
+  missing: block

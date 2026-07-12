@@ -1,0 +1,9 @@
+id: DATA.QUALITY
+description: Quantitative conclusions must use registered current artifacts and preserve unavailable values without invented calculations.
+gates:
+  - id: DATA.REGISTERED_CURRENT
+    severity: block
+    check: artifact_freshness
+    message: Required registered data artifacts must exist and satisfy freshness contracts.
+    remediation: Run the registered data preparation and quantitative analysis workflows.
+

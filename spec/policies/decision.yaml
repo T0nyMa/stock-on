@@ -1,0 +1,9 @@
+id: DECISION.SEPARATION
+description: Research and financial analysis remain separate from trading decisions; decisions must specify price, shares, trigger, and invalidation.
+gates:
+  - id: DECISION.ACTION_SPECIFIC
+    severity: block
+    check: decision_fields
+    message: Trading decisions require concrete price, share, trigger, and invalidation fields.
+    remediation: Complete all required decision fields using registered evidence.
+

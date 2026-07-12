@@ -1,0 +1,9 @@
+id: RESEARCH.EVIDENCE
+description: Research conclusions must distinguish facts, inference, uncertainty, and falsifiable scenarios while retaining source evidence.
+gates:
+  - id: RESEARCH.SOURCES_BOUND
+    severity: block
+    check: source_links
+    message: Material research claims require traceable evidence.
+    remediation: Bind each material claim to a dated authoritative source.
+

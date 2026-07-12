@@ -1,0 +1,8 @@
+id: PUBLISH.COMPLETE
+description: Daily and weekly reports are complete only after rendering, commit, push, and publication verification.
+gates:
+  - id: PUBLISH.PUSHED
+    severity: block
+    check: git_pushed
+    message: The rendered report must be committed and pushed before completion.
+    remediation: Run the deploy workflow and verify the pushed publication.

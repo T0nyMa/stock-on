@@ -1,0 +1,9 @@
+id: SEARCH.PRIORITY
+description: "Use AnySearch first; use EasyAnySearch after quota exhaustion, service failure, or inadequate results; verify material facts against first-party sources."
+gates:
+  - id: SEARCH.MATERIAL_FACT_VERIFIED
+    severity: block
+    check: source_verification
+    message: Material current facts require dated first-party or authoritative corroboration.
+    remediation: Re-run search and bind each material fact to a dated source URL.
+

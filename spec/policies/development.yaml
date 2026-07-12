@@ -1,0 +1,9 @@
+id: DEV.CHANGE
+description: Development changes require risk-proportionate tests, full verification, and explicit database migration compatibility.
+gates:
+  - id: DEV.TESTS_VERIFIED
+    severity: block
+    check: test_verification
+    message: Development changes require fresh test evidence.
+    remediation: Run focused tests and the full relevant verification suite.
+
