@@ -43,32 +43,35 @@ FORBIDDEN_CONTRACTS = (
 )
 
 
-def _live_documents() -> tuple[Path, ...]:
+def _live_documents(repo_root: Path) -> tuple[Path, ...]:
     fixed = (
-        ROOT / "AGENTS.md",
-        ROOT / "tracking/README.md",
-        ROOT / "strategies/README.md",
-        ROOT / "src/README.md",
-        ROOT / "references/README.md",
+        repo_root / "AGENTS.md",
+        repo_root / "tracking/README.md",
+        repo_root / "strategies/README.md",
+        repo_root / "src/README.md",
+        repo_root / "references/README.md",
     )
-    scenarios = tuple(sorted((ROOT / "references/scenarios").glob("*.md")))
-    skills = tuple(sorted((ROOT / ".agents/skills").glob("*/SKILL.md")))
+    scenarios = tuple(sorted((repo_root / "references/scenarios").glob("*.md")))
+    skills = tuple(sorted((repo_root / ".agents/skills").glob("*/SKILL.md")))
     return fixed + scenarios + skills
 
 
-def _legacy_contract_hits() -> tuple[str, ...]:
+def _legacy_contract_hits(repo_root: Path) -> tuple[str, ...]:
     hits = []
-    for path in _live_documents():
+    for path in _live_documents(repo_root):
         text = path.read_text(encoding="utf-8")
         for phrase in FORBIDDEN_CONTRACTS:
             if phrase in text:
-                hits.append(f"{path.relative_to(ROOT)}: forbidden contract {phrase!r}")
+                hits.append(
+                    f"{path.relative_to(repo_root)}: forbidden contract {phrase!r}"
+                )
     return tuple(hits)
 
 
-def _unregistered_skills(registry) -> tuple[str, ...]:
+def _unregistered_skills(registry, repo_root: Path) -> tuple[str, ...]:
     actual = {
-        path.parent.name for path in (ROOT / ".agents/skills").glob("*/SKILL.md")
+        path.parent.name
+        for path in (repo_root / ".agents/skills").glob("*/SKILL.md")
     }
     return tuple(sorted(actual.symmetric_difference(registry.skills)))
 
@@ -92,12 +95,13 @@ def _incomplete_workflows(registry) -> tuple[str, ...]:
     return tuple(sorted(incomplete))
 
 
-def main() -> int:
+def main(repo_root: Path = ROOT) -> int:
+    repo_root = Path(repo_root).resolve()
     try:
-        registry = load_registry(ROOT / "spec")
-        issues = validate_registry(registry, ROOT)
-        skill_mismatches = _unregistered_skills(registry)
-        legacy_hits = _legacy_contract_hits()
+        registry = load_registry(repo_root / "spec")
+        issues = validate_registry(registry, repo_root)
+        skill_mismatches = _unregistered_skills(registry, repo_root)
+        legacy_hits = _legacy_contract_hits(repo_root)
         workflow_mismatches = set(registry.workflows) != REQUIRED_WORKFLOWS
         incomplete_workflows = _incomplete_workflows(registry)
         if (
@@ -127,11 +131,11 @@ def main() -> int:
             for workflow_id in incomplete_workflows:
                 print(f"incomplete workflow contract: {workflow_id}", file=sys.stderr)
             return 1
+
+        generate_documents(registry, repo_root, check=True)
+
         print("specification valid")
-
-        generate_documents(registry, ROOT, check=True)
         print("generated documentation current")
-
         print("11 workflows registered")
         return 0
     except (GeneratedSectionError, SpecLoadError, OSError, UnicodeError) as exc:
