@@ -10,6 +10,7 @@ from .models import (
     SpecRegistry,
     WorkflowSpec,
 )
+from .validator import ValidationIssue, has_blocking_issues, validate_registry
 
 __all__ = [
     "ArtifactSpec",
@@ -20,5 +21,8 @@ __all__ = [
     "SpecLoadError",
     "SpecRegistry",
     "WorkflowSpec",
+    "ValidationIssue",
+    "has_blocking_issues",
     "load_registry",
+    "validate_registry",
 ]
