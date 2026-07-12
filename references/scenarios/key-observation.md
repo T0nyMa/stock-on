@@ -30,19 +30,19 @@ source .venv/bin/activate && python src/fetch.py --code {code}
 source .venv/bin/activate && python src/indicators.py --code {code}
 ```
 
-### 3. 策略扫描（2-3 个）
+### 3. 策略扫描
 
 先确定市场状态：读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status`
 
 然后读取 `references/skills-index.md` → "按市场状态选策略"表。
 
-从"优先策略"列选 2 个 + "可选"列补 1 个，聚焦：趋势类 + 量价类（最直接的技术信号）。
+选择足以覆盖趋势与量价证据的策略；数量由当前状态和可用证据决定。
 
-逐个执行（轻量，不写 JSON）：
+通过 `$strategy-executor` 执行 `strategy-analysis` 工作流：
 
 1. 读取 `.agents/skills/strategy-{name}/SKILL.md` 获取分析框架
 2. 读取对应数据文件，按框架判断
-3. 记录：信号 + 评分 + 依据
+3. 记录信号、评分、依据和失效条件，并聚合为 `artifact.strategy_scan`
 
 ### 4. 技术面快检
 
@@ -91,7 +91,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ## 完成标志
 
-- [ ] 2-3 个优先策略已执行（轻量，结果写入报告）
+- [ ] 匹配策略已通过 `strategy-analysis` 执行，结果引用 `artifact.strategy_scan`
 - [ ] 关键价位和买入条件已检查
 - [ ] technical-analysis-report.md 数据已刷新（含策略信号）
 - [ ] 若触发买入信号，已具体写明操作建议

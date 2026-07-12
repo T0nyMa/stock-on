@@ -34,17 +34,17 @@ source .venv/bin/activate && python src/fetch.py --code {code}
 source .venv/bin/activate && python src/indicators.py --code {code}
 ```
 
-### 3. 策略快速扫描（3-5 个）
+### 3. 策略扫描
 
 先确定市场状态：读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status`
 
-然后读取 `references/skills-index.md` → "按市场状态选策略"表，从"优先策略"列选 3-4 个 + "可选"列补 1 个。
+然后读取 `references/skills-index.md` 的市场状态映射，选择足以覆盖主要证据维度的策略。
 
-逐个执行（轻量，不写 strategy JSON，结果直接写入日报）：
+通过 `$strategy-executor` 执行 `strategy-analysis` 工作流：
 
 1. 读取 `.agents/skills/strategy-{name}/SKILL.md` 获取分析框架
 2. 读取对应数据文件，按框架判断
-3. 记录：信号 + 评分 + 关键依据
+3. 记录信号、评分、关键依据和失效条件，并聚合为 `artifact.strategy_scan`
 
 将策略扫描结果写入日报"技术面"章节的共识矩阵。
 
@@ -127,7 +127,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 ## 今日走势
 | 开盘 | 最高 | 最低 | 收盘 | 涨跌 | 量比 | 换手 |
 
-## 策略共识 (3-5 策略)
+## 策略共识
 | 策略 | 类型 | 信号 | 评分 | 依据 |
 |------|------|------|------|------|
 
@@ -156,7 +156,7 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 ## 完成标志
 
-- [ ] 3-5 个匹配策略已执行（轻量，结果写入日报）
+- [ ] 匹配策略已通过 `strategy-analysis` 执行，结果引用 `artifact.strategy_scan`
 - [ ] 日报已写入 tracking/
 - [ ] position.json 已更新
 - [ ] technical-analysis-report.md 关键数据已刷新（含策略共识矩阵）

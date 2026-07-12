@@ -1,41 +1,27 @@
 # 参考知识索引
 
-分析时的按需参考层。`AGENTS.md` 路由到场景文档，场景文档引用本章节。
+`spec/` 是路由、工作流、策略、工件和门禁的机器可读事实源；本目录保存方法论、模板、补充场景和生成参考。
 
-## 结构
+## 首选入口
 
-```
-references/
-  README.md                       ← 本文件
-  analysis-methodology.md         ← 完整四阶段方法论（Phase 1-4）
-  screening-methodology.md        ← 三层筛选方法论（L1快照→L2指标→L3策略）
-  skills-index.md                 ← 19个Skill用途 + 分类 + 参数
-  gap-analysis.md                 ← 功能差距分析（开发阶段遗留）
-  templates/
-    daily-report-v2.md            ← 日报七章固定模板
-  scenarios/                      ← 场景执行文档
-    core-position.md              ← 核心持仓每日深度分析
-    key-observation.md            ← 重点观察股分析
-    daily-patrol.md               ← 每日批量巡检
-    first-time-setup.md           ← 首次建仓分析
-    strategy-scan.md              ← 多策略共识扫描
-```
+- `references/generated/workflows.md`：各 Workflow 的 Skills、输入、输出、Policy 和完成门禁。
+- `spec/artifacts.yaml`：稳定 Artifact ID、路径、存储、新鲜度和缺失语义。
+- `references/templates/daily-report-v2.md`：`artifact.daily_report` 的单文件七章模板。
+- `references/analysis-methodology.md`：研究与决策方法论。
+- `references/screening-methodology.md`：候选筛选的专业判断框架。
+- `references/skills-index.md`：Skill 与策略选择参考。
 
-## 加载层级
+## 场景文档
 
-```
-Layer 1: AGENTS.md              → 常驻（路由）
-Layer 2: scenarios/*.md         → 按用户意图加载（执行步骤）
-Layer 3: analysis-methodology.md → 深度分析时加载（知识框架）
-         skills-index.md         → 使用Skill时加载（工具参考）
-```
+`scenarios/` 只补充专业判断和用户场景，不重复定义工作流工件契约。当前保留：
 
-## 何时读哪个
+- `core-position.md`、`key-observation.md`、`first-time-setup.md`：持仓与建仓判断补充，受 `position-decision` 工作流约束。
+- `strategy-scan.md`：策略选择与共识解释，受 `strategy-analysis` 工作流约束。
+- `daily-patrol.md`：观察清单异动巡检补充。
+- `discovery.md`：`$discovery` 使用的筛选判断补充，受 `discovery` 工作流约束。
 
-| 情况 | 读 |
-|------|-----|
-| 不知道怎么分析 | analysis-methodology.md |
-| 不知道该用哪个Skill | skills-index.md |
-| 场景步骤不清楚 | 对应 scenarios/*.md |
-| 想看功能还缺什么 | gap-analysis.md |
-| 生成日报 | templates/daily-report-v2.md |
+日报和周报不再维护平行场景流程，直接按注册工作流、Skill 和模板执行。
+
+## 加载顺序
+
+先由 `AGENTS.md` 的生成路由定位 `spec/workflows/{workflow}.yaml`，再读取其 Policy、Artifact 和 Skill；仅在需要专业判断时加载对应方法论或场景。发生冲突时，注册工作流和稳定 ID 优先于场景中的说明性文字。

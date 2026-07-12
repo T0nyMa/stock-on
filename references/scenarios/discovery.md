@@ -16,7 +16,7 @@
 source .venv/bin/activate && python src/screener.py
 ```
 
-输出：`data/market/screener.json`（三类 10 维度，~200 只）
+候选快照仅作为 `discovery` 工作流的中间证据；登记输入、输出与门禁见 `references/generated/workflows.md`。
 
 ### Phase 2: L2 技术指标评分
 
@@ -24,7 +24,7 @@ source .venv/bin/activate && python src/screener.py
 source .venv/bin/activate && python src/screener.py --l2
 ```
 
-输出：`data/market/screener_l2.json`（100 分制评分，约 20-30 只 ≥55 分）
+形成技术评分候选集；候选规模由当日数据决定，不固定数量。
 
 ### Phase 3: 板块扫描（并行）
 
@@ -32,18 +32,18 @@ source .venv/bin/activate && python src/screener.py --l2
 source .venv/bin/activate && python src/sector_scan.py
 ```
 
-输出：`data/market/sector_scan.json`（20 板块排名）
+形成板块强度证据；覆盖范围由当前配置决定。
 
 ### Phase 4: 交叉筛选候选
 
-读取 三个 JSON，筛选 L3 候选池：
+读取当前扫描证据，筛选 L3 候选池：
 
 ```
 规则 A: L2 ≥ 70 分 → 自动进入 L3
 规则 B: 板块前 5 领头羊 ∩ L2 ≥ 55 分 → 进入 L3
-规则 C: L2 可关注(55-69) ∩ 涨幅 < 8% ∩ 成交 > 100亿 → 择优选 3-5 只
+规则 C: L2 可关注(55-69) ∩ 涨幅 < 8% ∩ 成交 > 100亿 → 按证据强度择优
 
-去重 → 预计 10-15 只进入 L3
+去重后进入 L3；不得为凑固定数量降低证据门槛。
 ```
 
 ### Phase 5: L3 策略验证（Agent 并行）
@@ -52,7 +52,7 @@ source .venv/bin/activate && python src/sector_scan.py
 
 ```
 Agent prompt:
-  你是策略验证Agent。对 {code} {name} 执行 3-5 个策略分析。
+  你是策略验证Agent。对 {code} {name} 执行覆盖主要证据维度的策略分析。
 
   1. 读取 SQLite 指标快照（`python -m src.data_access --code {code} --kind indicators`） → 确定 market state
   2. 读取 references/skills-index.md → 按市场状态选策略:
@@ -61,7 +61,7 @@ Agent prompt:
      - bearish → bottom-volume, shrink-pullback, emotion-cycle, expectation-repricing
      - sector_hot → hot-theme, dragon-head, event-driven, emotion-cycle
   3. 对每个策略: 读取 .agents/skills/strategy-{name}/SKILL.md → 按Step执行 → 信号+评分+依据
-  4. 写入 data/{code}/strategy_scan.json（含共识矩阵）
+  4. 通过 `strategy-analysis` 产出已登记的 `artifact.strategy_scan`（含共识矩阵）
 
   完成后不需要汇报。
 ```
@@ -75,30 +75,26 @@ Agent prompt:
 ```
 L3 评分 = L2评分 × 0.4 + 策略加权评分 × 0.4 + 板块强度归一化 × 0.2
 
-排序 → 推荐前 3-5 只加入追踪池
+排序后推荐满足门槛的候选加入追踪池
 ```
 
-写入 `tracking/sectors/YYYY-MM-DD-discovery.md`，包含：
+写入 `artifact.discovery_report`，实际路径由 `spec/artifacts.yaml` 登记，包含：
 - 候选排名表（L2分 + 策略共识 + 板块）
 - 推荐入池（2-4 只）
 - 建议操作（等回调/立即关注）
 
 ## 输出
 
-```
-data/market/screener.json              ← L1
-data/market/screener_l2.json           ← L2
-data/market/sector_scan.json           ← 板块扫描
-data/{code}/strategy_scan.json         ← L3 策略验证（每只候选）
-tracking/sectors/YYYY-MM-DD-discovery.md ← 发现报告
-```
+- `snapshot.indicators`：登记的当前指标输入
+- `artifact.strategy_scan`：L3 策略验证证据
+- `artifact.discovery_report`：最终发现报告
 
 ## 完成标志
 
 - [ ] L1 全市场扫描完成
 - [ ] L2 技术评分完成
 - [ ] 板块扫描完成
-- [ ] L3 候选已筛选（10-15只）
-- [ ] L3 策略验证完成（每只 3-5 策略，Agent 并行）
+- [ ] L3 候选已按证据门槛筛选
+- [ ] L3 策略验证完成（覆盖主要证据维度；任务允许时并行）
 - [ ] 发现报告已写入
 - [ ] 推荐 2-4 只加入追踪池（更新 tracklist.json）

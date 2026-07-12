@@ -48,18 +48,18 @@ source .venv/bin/activate && python src/indicators.py --code {code}
 
 写入 `tracking/{code}-{name}/technical-analysis-report.md` 第二章。
 
-### 4. 多策略共识扫描（5-7 个，完整执行）
+### 4. 多策略共识扫描
 
 先确定市场状态：使用 `$market-regime {code}` 或 读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status`。
 
-读取 `references/skills-index.md` → "按市场状态选策略"表。从"优先策略"列选 5 个 + "可选"列补 2 个。
+读取 `references/skills-index.md` 的市场状态映射，选择足以覆盖主要证据维度的策略；不把策略数量写成运行时契约。
 
-逐个完整执行（**写 strategy JSON**）：
+通过 `$strategy-executor` 执行 `strategy-analysis` 工作流：
 
 1. 读取 `.agents/skills/strategy-{name}/SKILL.md` 获取完整分析框架
 2. 读取对应数据文件，按框架逐步分析
-3. 输出信号 + 评分（0-100）+ 详细分析
-4. 写入 `data/{code}/strategy_{name}.json`（格式参考各策略 Skill 定义的输出格式）
+3. 输出信号、评分、证据和失效条件
+4. 聚合保存为已登记的 `artifact.strategy_scan`；路径与缺失语义见 `spec/artifacts.yaml`
 
 构建共识矩阵：
 
@@ -138,7 +138,7 @@ D) 如已买入，写入持仓信息到 position.json
 
 ## 完成标志
 
-- [ ] 市场状态已确定，5-7 个匹配策略已完整执行（JSON 已写入 data/）
+- [ ] 市场状态已确定，匹配策略已通过 `strategy-analysis` 执行并形成 `artifact.strategy_scan`
 - [ ] 共识矩阵已构建
 - [ ] 完整报告已写入 tracking/{code}-{name}/
 - [ ] 已加入 tracking/tracklist.json

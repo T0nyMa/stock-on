@@ -10,21 +10,19 @@
 
 ## 前置
 
-需先执行 fetch + indicators
+执行 `strategy-analysis` 工作流；前置数据和完成门禁见 `references/generated/workflows.md`。
 
 ## 步骤
 
 ### 1. 判断市场状态
 
-使用 `$market-regime {code}` 或直接读取 `data/{code}/regime.json`。
-
-如 regime.json 不存在，则 读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`） → `trend.status` 和 `trend.ma_alignment` 手动判断。
+读取已登记的 `snapshot.indicators`（运行 `python -m src.data_access --code {code} --kind indicators`），用 `trend.status` 和 `trend.ma_alignment` 判断状态。缺失字段按 `DATA.QUALITY` 披露，不使用未登记的旁路文件降级。
 
 ### 2. 选择策略
 
 读取 `references/skills-index.md` → "按市场状态选策略"表。
 
-根据市场状态从"优先策略"列选 5 个，从"可选"列补 2 个，共 5-7 个。
+根据市场状态选择足以覆盖主要证据维度的策略；数量由当前状态和可用数据决定。
 
 ### 3. 执行策略
 
@@ -73,7 +71,7 @@ sell ≥ 4   → 减仓/回避
 ### 6. 输出
 
 ```
-写入 data/{code}/strategy_scan.json
+写入 `artifact.strategy_scan`；实际路径与缺失语义以 `spec/artifacts.yaml` 为准。
 ```
 
 ```json
@@ -93,7 +91,7 @@ sell ≥ 4   → 减仓/回避
 
 ## 完成标志
 
-- [ ] 市场状态已确定（优先读 regime.json）
-- [ ] 5-7 个匹配策略已执行（从 skills-index 映射表选择）
+- [ ] 市场状态已由当日 `snapshot.indicators` 确定，或缺失已明确披露
+- [ ] 匹配策略已按 skills-index 映射执行
 - [ ] 共识矩阵已构建
-- [ ] strategy_scan.json 已写入
+- [ ] `artifact.strategy_scan` 已写入或按缺失语义披露

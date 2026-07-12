@@ -1,99 +1,19 @@
-# tracking/ — 追踪报告层
+# tracking/ — 追踪与报告层
 
-## 职责
+本目录保存人类可读报告以及当前追踪、持仓状态。机器可读路径、生产者、消费者和新鲜度以 `spec/artifacts.yaml` 为准；工作流摘要见 `references/generated/workflows.md`。
 
-存放所有追踪股票的 **人类可读分析报告**，是 Claude 分析的输入和输出。同时维护追踪清单（tracklist.json），作为股票注册的单一数据源。
+## 已登记工件
 
-## 追踪清单
+- `artifact.tracklist`：`tracking/tracklist.json`，当前追踪清单；股票数量和分层始终从文件读取，不在文档中固定。
+- `artifact.position`：`tracking/{code}-{name}/position.json`，适用股票的持仓与决策上下文。
+- `artifact.daily_report`：`tracking/daily/positions/{date}.md`，单文件、完整七章日报，结构使用 `references/templates/daily-report-v2.md`。
+- `artifact.weekly_report`：`tracking/weekly/{week}.md`。
+- `artifact.discovery_report`：`tracking/discovery/{date}.md`。
 
-`tracklist.json` — 所有追踪股票的注册表。新增/移除股票时修改此文件。
+单股目录可保留研究和历史分析 Markdown；这些用户文件不是结构化数据源，不应被批量覆盖或删除。
 
-分层逻辑：
-- **core（核心持仓）**：实盘持有，每日深度分析
-- **key（重点观察）**：候选买入，每日跟踪
-- **watch（一般观察）**：板块联动或异动跟踪，异动时深研
+## 执行入口
 
-## 目录结构
+日报和周报分别执行登记的 `daily-report`、`weekly-report` 工作流，并在完成后执行 `deploy`。日报不得拆成大盘与持仓两个交付物，也不得另行生成固定数量的单股日报。七章内容、数据前置、持仓更新、提交、推送和发布门禁以 `spec/workflows/*.yaml` 为准。
 
-```
-tracking/
-  tracklist.json                  ← 追踪清单（新增/移除股票改这个）
-  README.md                       ← 本文件
-  {code}-{name}/                  ← 单股追踪目录
-    position.json                 ← 持仓快照（core专用）
-    technical-analysis-report.md  ← 总报告（基本面 + 技术面 + 情景 + 买入方案）
-    YYYY-MM-DD-analysis.md        ← 每日分析日报
-  daily/
-    market/YYYY-MM-DD.md          ← 大盘日报
-    positions/YYYY-MM-DD.md       ← 持仓观察日报（三层）
-  weekly/
-    YYYY-MM-DD.md                 ← 周度总结
-```
-
-## 每日报告
-
-由 `references/scenarios/daily-summary.md` 编排，生成两份日报：
-
-1. **大盘总结** — 4大指数表现 + 风格定性 + 量能判断
-2. **持仓观察** — 三层格式（core 详写 / key 中等 / watch 表格）
-
-```bash
-# 数据准备
-python src/fetch_market.py                              # 大盘指数
-python src/fetch.py --code {code} && python src/indicators.py --code {code}  # 追踪股（并行）
-```
-
-## 周度报告
-
-由 `references/scenarios/weekly-summary.md` 编排，汇总本周日报生成周度视角。
-
-## 文件协议
-
-### tracklist.json
-
-```json
-{
-  "updated_at": "2026-06-19",
-  "stocks": [
-    {
-      "code": "002050",
-      "name": "三花智控",
-      "tier": "core",
-      "scenario": "core-position",
-      "has_position": true
-    }
-  ]
-}
-```
-
-### position.json（仅 core）
-
-```json
-{
-  "buy_price": 57.90,
-  "shares": 4300,
-  "cost": 248970,
-  "current_price": 45.74,
-  "unrealized_pnl": -52288,
-  "stop_loss": 43.50,
-  "key_levels": { "support_1": 44.50, "resistance_1": 47.48 },
-  "swing_plan": { "scenario_a": {...} }
-}
-```
-
-### technical-analysis-report.md
-
-每只股票的总报告。首次建仓分析时创建，后续每日/异动时更新变化章节。
-
-核心章节：基本信息 → 基本面PE锚定 → 技术面趋势（含策略共识矩阵） → 情景分析 → 买入/持仓方案。
-
-### YYYY-MM-DD-analysis.md
-
-单日分析。按对应场景文档格式输出。core 每日必写，key 每日必写，watch 异动时写。
-
-## 分析流程
-
-1. `python src/fetch.py --code {code}` + `python src/indicators.py --code {code}`
-2. Read `tracking/{code}-{name}/` 下已有报告
-3. 按 `references/scenarios/{scenario}.md` 步骤执行
-4. Write 更新报告文件
+分析或决策前先读现有报告、`artifact.tracklist` 和适用的 `artifact.position`。需要定量结论时使用已登记的 SQLite 快照与 `artifact.report_context`；缺失值按 `DATA.QUALITY` 保留为 `unavailable`。
