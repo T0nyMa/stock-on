@@ -16,8 +16,8 @@ build/
 logs/
 *.log
 
-# Data
-data/
+# Runtime data (anchor at repository root; do not ignore src/data package)
+/data/
 
 # IDE
 .idea/
