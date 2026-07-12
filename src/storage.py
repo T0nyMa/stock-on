@@ -767,6 +767,39 @@ class AlertCooldownRecord(Base):
     )
 
 
+class StockSnapshot(Base):
+    """Latest flexible per-stock payload such as quote or indicators."""
+
+    __tablename__ = 'stock_snapshots'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    code = Column(String(16), nullable=False, index=True)
+    kind = Column(String(32), nullable=False, index=True)
+    name = Column(String(100))
+    market = Column(String(8))
+    payload = Column(Text, nullable=False)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now, index=True)
+
+    __table_args__ = (
+        UniqueConstraint('code', 'kind', name='uix_stock_snapshot_code_kind'),
+    )
+
+
+class MarketFetchRun(Base):
+    """Audit row for one per-stock market-data fetch."""
+
+    __tablename__ = 'market_fetch_runs'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    code = Column(String(16), nullable=False, index=True)
+    provider = Column(String(64), nullable=False)
+    requested_days = Column(Integer, nullable=False)
+    rows_received = Column(Integer, nullable=False, default=0)
+    status = Column(String(16), nullable=False, index=True)
+    error = Column(Text)
+    created_at = Column(DateTime, default=datetime.now, index=True)
+
+
 class _DatabaseManagerMeta(type):
     """Serialize DatabaseManager construction across __new__ and __init__."""
 
@@ -809,15 +842,15 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
         created_engine = None
 
         try:
-            config = get_config()
+            config = get_config() if db_url is None else None
             if db_url is None:
                 db_url = config.get_db_url()
 
             self._db_url = db_url
-            self._sqlite_wal_enabled = config.sqlite_wal_enabled
-            self._sqlite_busy_timeout_ms = config.sqlite_busy_timeout_ms
-            self._sqlite_write_retry_max = config.sqlite_write_retry_max
-            self._sqlite_write_retry_base_delay = config.sqlite_write_retry_base_delay
+            self._sqlite_wal_enabled = config.sqlite_wal_enabled if config else True
+            self._sqlite_busy_timeout_ms = config.sqlite_busy_timeout_ms if config else 5000
+            self._sqlite_write_retry_max = config.sqlite_write_retry_max if config else 3
+            self._sqlite_write_retry_base_delay = config.sqlite_write_retry_base_delay if config else 0.1
 
             engine_kwargs = {
                 "echo": False,
@@ -2588,6 +2621,157 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
 def get_db() -> DatabaseManager:
     """获取数据库管理器实例的快捷方式"""
     return DatabaseManager.get_instance()
+
+
+class MarketDataStore:
+    """Small market-data facade over the project's existing database manager.
+
+    Passing a path creates an isolated database, primarily for migrations and
+    tests. Production callers should use :func:`get_market_store` so the
+    configured application database and connection pool are reused.
+    """
+
+    def __init__(self, path: Union[str, "os.PathLike[str]"]):
+        from pathlib import Path
+
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        DatabaseManager.reset_instance()
+        self.db = DatabaseManager(f"sqlite:///{self.path}")
+
+    @classmethod
+    def from_manager(cls, manager: DatabaseManager) -> "MarketDataStore":
+        obj = cls.__new__(cls)
+        obj.db = manager
+        database = manager._engine.url.database
+        from pathlib import Path
+        obj.path = Path(database) if database else Path(":memory:")
+        return obj
+
+    def upsert_bars(
+        self,
+        code: str,
+        name: str,
+        market: str,
+        records: List[Dict[str, Any]],
+        *,
+        source: str = "unknown",
+    ) -> int:
+        del name, market
+        if not records:
+            return 0
+        frame = pd.DataFrame(records)
+        frame["date"] = pd.to_datetime(frame["date"], format="mixed").dt.date
+        return self.db.save_daily_data(frame, code, source)
+
+    def load_bars(
+        self,
+        code: str,
+        *,
+        limit: Optional[int] = None,
+        start: Optional[str] = None,
+        end: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        with self.db.get_session() as session:
+            query = select(StockDaily).where(StockDaily.code == code)
+            if start:
+                query = query.where(StockDaily.date >= date.fromisoformat(start[:10]))
+            if end:
+                query = query.where(StockDaily.date <= date.fromisoformat(end[:10]))
+            if limit:
+                rows = session.execute(
+                    query.order_by(desc(StockDaily.date)).limit(limit)
+                ).scalars().all()
+                rows = list(reversed(rows))
+            else:
+                rows = session.execute(query.order_by(StockDaily.date)).scalars().all()
+            return [
+                {
+                    **row.to_dict(),
+                    "date": row.date.isoformat(),
+                }
+                for row in rows
+            ]
+
+    def latest_bar_date(self, code: str) -> Optional[str]:
+        with self.db.get_session() as session:
+            value = session.execute(
+                select(func.max(StockDaily.date)).where(StockDaily.code == code)
+            ).scalar_one_or_none()
+        return value.isoformat() if value else None
+
+    def save_snapshot(
+        self,
+        code: str,
+        name: str,
+        market: str,
+        kind: str,
+        payload: Dict[str, Any],
+    ) -> None:
+        encoded = json.dumps(payload, ensure_ascii=False, default=str)
+        now = datetime.now()
+
+        def _write(session: Session) -> None:
+            stmt = sqlite_insert(StockSnapshot).values(
+                code=code,
+                kind=kind,
+                name=name,
+                market=market,
+                payload=encoded,
+                updated_at=now,
+            )
+            session.execute(
+                stmt.on_conflict_do_update(
+                    index_elements=["code", "kind"],
+                    set_={
+                        "name": stmt.excluded.name,
+                        "market": stmt.excluded.market,
+                        "payload": stmt.excluded.payload,
+                        "updated_at": stmt.excluded.updated_at,
+                    },
+                )
+            )
+
+        self.db._run_write_transaction(f"save_snapshot[{code}:{kind}]", _write)
+
+    def load_snapshot(self, code: str, kind: str) -> Optional[Dict[str, Any]]:
+        with self.db.get_session() as session:
+            payload = session.execute(
+                select(StockSnapshot.payload).where(
+                    and_(StockSnapshot.code == code, StockSnapshot.kind == kind)
+                )
+            ).scalar_one_or_none()
+        return json.loads(payload) if payload else None
+
+    def record_fetch_run(
+        self,
+        *,
+        code: str,
+        provider: str,
+        requested_days: int,
+        rows_received: int,
+        status: str,
+        error: Optional[str] = None,
+    ) -> int:
+        def _write(session: Session) -> int:
+            row = MarketFetchRun(
+                code=code,
+                provider=provider,
+                requested_days=requested_days,
+                rows_received=rows_received,
+                status=status,
+                error=error,
+            )
+            session.add(row)
+            session.flush()
+            return int(row.id)
+
+        return self.db._run_write_transaction(f"record_fetch_run[{code}]", _write)
+
+
+def get_market_store() -> MarketDataStore:
+    """Return the market-data facade backed by the configured application DB."""
+    return MarketDataStore.from_manager(get_db())
 
 
 def persist_llm_usage(
