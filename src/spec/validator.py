@@ -8,6 +8,9 @@ from .models import SpecRegistry
 
 
 SUPPORTED_SCHEMA_VERSIONS = frozenset({"1.0"})
+SUPPORTED_ARTIFACT_STORAGE = frozenset(
+    {"filesystem", "sqlite_database", "sqlite_data_access"}
+)
 _MARKER = re.compile(r"<!--\s*(BEGIN|END) GENERATED:\s*([^>]+?)\s*-->")
 
 
@@ -108,6 +111,21 @@ def validate_registry(
         for gate_id in (*workflow.preflight, *workflow.completion):
             if gate_id not in registry.gates and gate_id not in registry.artifacts:
                 add("WORKFLOW.UNKNOWN_GATE", f"unknown gate: {gate_id}", location)
+
+    for artifact in registry.artifacts.values():
+        location = f"artifacts.yaml:{artifact.id}"
+        if artifact.storage not in SUPPORTED_ARTIFACT_STORAGE:
+            add(
+                "ARTIFACT.UNKNOWN_STORAGE",
+                f"unknown artifact storage: {artifact.storage}",
+                location,
+            )
+        if artifact.storage == "sqlite_data_access" and not artifact.kind:
+            add(
+                "ARTIFACT.KIND_REQUIRED",
+                "sqlite_data_access artifacts require a kind",
+                location,
+            )
 
     # Artifact names may be registered one milestone before workflows. Once the
     # first workflow exists, enforce the complete bidirectional contract.

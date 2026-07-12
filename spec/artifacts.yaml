@@ -71,7 +71,7 @@
   storage: sqlite_data_access
   kind: research_summary
   producer: deep-research
-  consumers: [position-decision]
+  consumers: [position-decision, daily-report, weekly-report]
   freshness: thesis_change
   missing: block
 - id: artifact.financial_collection_status
@@ -79,7 +79,7 @@
   storage: sqlite_data_access
   kind: financial_collection_status
   producer: financial-report
-  consumers: []
+  consumers: [deep-research, daily-report, weekly-report]
   freshness: latest_disclosure
   missing: block
 - id: artifact.financial_quality_summary
@@ -87,7 +87,7 @@
   storage: sqlite_data_access
   kind: financial_quality_summary
   producer: financial-report
-  consumers: [position-decision]
+  consumers: [deep-research, position-decision]
   freshness: latest_disclosure
   missing: block
 - id: artifact.daily_report

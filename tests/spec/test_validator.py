@@ -128,6 +128,34 @@ def test_artifact_workflow_references_are_deferred_only_for_empty_registry():
     assert {"ARTIFACT.UNKNOWN_PRODUCER", "ARTIFACT.UNKNOWN_CONSUMER"} <= active_codes
 
 
+def test_artifact_storage_discriminator_is_validated():
+    registry = load_registry(FIXTURE)
+    artifact = registry.artifacts["artifact.output"]
+
+    invalid_storage = replace(
+        registry,
+        artifacts={artifact.id: replace(artifact, storage="flat_file")},
+    )
+    assert "ARTIFACT.UNKNOWN_STORAGE" in {
+        issue.code for issue in validate_registry(invalid_storage, FIXTURE)
+    }
+
+    missing_kind = replace(
+        registry,
+        artifacts={
+            artifact.id: replace(
+                artifact,
+                path="data/stock_analysis.db",
+                storage="sqlite_data_access",
+                kind=None,
+            )
+        },
+    )
+    assert "ARTIFACT.KIND_REQUIRED" in {
+        issue.code for issue in validate_registry(missing_kind, FIXTURE)
+    }
+
+
 def test_schema_markers_and_legacy_references_are_validated(tmp_path):
     registry = replace(load_registry(FIXTURE), project={"schema_version": "2.0", "project": "x"})
     (tmp_path / "AGENTS.md").write_text(

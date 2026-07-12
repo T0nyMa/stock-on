@@ -61,3 +61,18 @@ def test_artifact_storage_matches_repository_contracts():
         assert artifact.kind == kind
 
     assert registry.artifacts["artifact.published_html"].path == "index.html"
+
+    assert set(registry.artifacts["artifact.research_summary"].consumers) == {
+        "position-decision",
+        "daily-report",
+        "weekly-report",
+    }
+    assert set(registry.artifacts["artifact.financial_collection_status"].consumers) == {
+        "deep-research",
+        "daily-report",
+        "weekly-report",
+    }
+    assert set(registry.artifacts["artifact.financial_quality_summary"].consumers) == {
+        "deep-research",
+        "position-decision",
+    }

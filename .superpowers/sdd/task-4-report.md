@@ -55,3 +55,20 @@ Task 5.
   documented the existing narrow behavior without requiring a validator change.
 - Focused suite: 15 passed in 0.55s; static validation exited 0 with `[]`.
 - Full spec suite: 22 passed in 1.08s.
+
+## Consumer-contract correction
+
+- Aligned formal SQLite artifact consumers with current Skill requirements:
+  `research_summary` is consumed by position decision, daily report, and weekly
+  report; `financial_collection_status` by deep research, daily report, and weekly
+  report; `financial_quality_summary` by deep research and position decision.
+- Added exact-set registry assertions so missing or invented consumers fail tests.
+- Strengthened static validation with supported `storage` discriminator values and
+  a required non-empty `kind` for `sqlite_data_access` artifacts.
+
+### Consumer-contract TDD evidence
+
+- RED: focused tests failed on the missing research-summary consumers and absent
+  `ARTIFACT.UNKNOWN_STORAGE` validation.
+- GREEN: focused project-registry and validator suite passed 14 tests in 0.48s;
+  static validation exited 0 with `[]`.
