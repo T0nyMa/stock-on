@@ -50,7 +50,7 @@
     },
     {
       "id": "peers",
-      "status": "complete"
+      "status": "missing"
     }
   ],
   "sources": [
@@ -156,8 +156,10 @@
     "EasyAnySearch于2026-07-12执行但代理探测后未返回搜索结果；使用联网搜索及一手来源补位",
     "45%云增长和11.5%云EBITA率为机构预测，不是公司正式业绩"
   ],
-  "gaps": [],
-  "coverage_score": 100,
-  "gate_status": "pass",
-  "allowed_output": "full_analysis"
+  "gaps": [
+    "peers"
+  ],
+  "coverage_score": 91,
+  "gate_status": "partial",
+  "allowed_output": "stage_assessment"
 }

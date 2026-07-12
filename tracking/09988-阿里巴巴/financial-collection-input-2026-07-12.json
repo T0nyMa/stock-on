@@ -13,7 +13,7 @@
     {"id":"recent_estimates","status":"complete"},
     {"id":"recent_regulation","status":"complete"},
     {"id":"authoritative_media","status":"complete"},
-    {"id":"peers","status":"complete"}
+    {"id":"peers","status":"missing"}
   ],
   "sources": [
     {"title":"FY2026 Form 20-F","category":"latest_official_report","event_date":"2026-05-20","published_at":"2026-05-20","retrieved_at":"2026-07-12","evidence_class":"confirmed_fact","quality":"primary","verification_status":"verified","url":"https://www.sec.gov/Archives/edgar/data/1577552/000119312526231755/baba-20260331.htm"},
