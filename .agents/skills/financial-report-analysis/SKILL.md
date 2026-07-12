@@ -5,6 +5,13 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 
 # 财报深度解析
 
+## Project contract
+
+- workflow: financial-report
+- consumes: `snapshot.fundamentals`, `snapshot.news`
+- produces: `artifact.financial_collection_status`, `artifact.financial_quality_summary`
+- policies: `DATA.QUALITY`, `SEARCH.PRIORITY`, `RESEARCH.EVIDENCE`, `DECISION.SEPARATION`
+
 判断财报是否可信到值得继续研究。默认读取最近五年年报和最新一期季报/中报；周期、并购、重资产或存在多年异常时扩展至十年。
 
 ## 边界

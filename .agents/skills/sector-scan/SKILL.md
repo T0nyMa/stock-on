@@ -5,6 +5,13 @@ description: 板块强度扫描 — 20个AI/科技细分赛道排名，发现最
 
 # 板块强度扫描
 
+## Project contract
+
+- workflow: discovery
+- consumes: `snapshot.indicators`, `artifact.strategy_scan`
+- produces: `artifact.discovery_report`
+- policies: `DATA.QUALITY`, `RESEARCH.EVIDENCE`
+
 对 20 个 AI/科技细分赛道的 78 只代表股做批量行情分析，计算板块强度排名。
 
 ## 用法

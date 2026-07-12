@@ -5,6 +5,13 @@ description: 将登记的日报、周报或发现报告生成 HTML，更新 GitH
 
 # 发布到 GitHub Pages
 
+## Project contract
+
+- workflow: deploy
+- consumes: `artifact.daily_report`; optional `artifact.weekly_report`, `artifact.discovery_report`
+- produces: `artifact.published_html`
+- policies: `PUBLISH.COMPLETE`
+
 执行 `deploy` 工作流。`$deploy {date}` 发布指定日期；不传日期时发布最新登记报告。
 
 ## 输入

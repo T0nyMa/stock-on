@@ -5,6 +5,13 @@ description: 计算股票技术指标，写入 SQLite 指标快照（`python -m 
 
 # tech-indicators
 
+## Project contract
+
+- workflow: quant-analysis
+- consumes: `database.stock_analysis`, `snapshot.bars`, `snapshot.quote`
+- produces: `snapshot.indicators`, `artifact.report_context`
+- policies: `DATA.QUALITY`
+
 基于 K 线数据计算技术指标。
 
 ## 用法
