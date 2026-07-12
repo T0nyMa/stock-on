@@ -1,5 +1,6 @@
 from dataclasses import replace
 from pathlib import Path
+import re
 
 import pytest
 
@@ -21,6 +22,11 @@ CONTRACT_SKILLS = {
     "decision-agent",
 }
 FIELDS = ("Workflow", "Policies", "Consumes", "Produces")
+DIRECT_EASYANYSEARCH_MANDATES = (
+    re.compile(r"必须使用\s*EasyAnySearch", re.IGNORECASE),
+    re.compile(r"EasyAnySearch\s*负责(?:检索|搜索)", re.IGNORECASE),
+    re.compile(r"(?:使用|用)\s*EasyAnySearch\s*(?:执行|检索|搜索)", re.IGNORECASE),
+)
 
 
 def parse_project_contract(text: str) -> dict[str, tuple[str, ...] | str]:
@@ -101,3 +107,13 @@ def test_contract_validation_rejects_wrong_reverse_link():
     }
     with pytest.raises(AssertionError, match="reverse link"):
         assert_contract_matches_registry("daily-report", contract, registry)
+
+
+def test_all_skill_markdown_has_no_direct_easyanysearch_mandate():
+    conflicts = []
+    for path in sorted((ROOT / ".agents/skills").glob("**/*.md")):
+        text = path.read_text(encoding="utf-8")
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            if any(pattern.search(line) for pattern in DIRECT_EASYANYSEARCH_MANDATES):
+                conflicts.append(f"{path.relative_to(ROOT)}:{line_number}: {line.strip()}")
+    assert not conflicts, "direct EasyAnySearch mandates conflict with SEARCH.PRIORITY:\n" + "\n".join(conflicts)

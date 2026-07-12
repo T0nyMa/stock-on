@@ -4,7 +4,7 @@
 
 先按 `research-package.md` 建立独立来源目录、来源索引、提取数据表、主张映射和 `financial_collection_status`，不得评分。强制收集最近正式财报及版本、关键附注、分部、最近电话会和问答、90天内业绩预告/券商前瞻/预测调整、监管与会计事件、至少两家权威媒体、3—5家同行及重大股价异动原因。
 
-必须使用 EasyAnySearch 分别执行中英文查询，覆盖 `earnings call/transcript/Q&A`、`earnings preview/estimate revision`、媒体/渠道、监管/诉讼、行业/同行和股价异动。搜索结果只是线索；尽量回到公司、交易所、SEC、监管、券商原文或第二独立来源核验。
+按 `SEARCH.PRIORITY` 分别执行中英文查询：AnySearch 为主，仅在配额耗尽、服务失败或结果不足时使用 EasyAnySearch。查询矩阵覆盖 `earnings call/transcript/Q&A`、`earnings preview/estimate revision`、媒体/渠道、监管/诉讼、行业/同行和股价异动。搜索结果只是线索；重大事实必须回到有日期的公司、交易所、SEC、监管或其他一手来源核验。
 
 ## 新鲜度
 

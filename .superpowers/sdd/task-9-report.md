@@ -33,3 +33,10 @@ The worktree does not contain its own `.venv`; verification used `/Users/majiang
 - Follow-up Skill validation: all `28` project Skills valid.
 - Follow-up spec suite: `100 passed`.
 - Follow-up full suite: `198 passed`.
+
+## Final review follow-up
+
+- Updated the deep-research integration contract and financial collection protocol to defer to `SEARCH.PRIORITY`, with AnySearch primary, EasyAnySearch limited to the registered fallback conditions, and dated first-party verification required for material facts.
+- Added a recursive regression scan over every `.agents/skills/**/*.md` file for direct EasyAnySearch mandate patterns while allowing conditional fallback mentions.
+- Final focused suites: `26 passed`.
+- Final Skill validation: all `28` project Skills valid.
