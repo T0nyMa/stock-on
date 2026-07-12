@@ -1,0 +1,6 @@
+interface:
+  display_name: "财报深度解析"
+  short_description: "多年财报三表穿透、会计口径核验与财务质量风险排查分析"
+  default_prompt: "Use $financial-report-analysis to audit a listed company financial reports and produce an evidence-backed financial quality report."
+policy:
+  allow_implicit_invocation: true

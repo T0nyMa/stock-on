@@ -6,5 +6,6 @@
 - 消息：EasyAnySearch 负责检索，最终报告必须回到公告、交易所、公司官网或权威数据源核验。
 - 决策：不调用 `decision-agent`；建仓与持仓场景消费 `research_summary` 后自行叠加时机与仓位规则。
 - 报告：日报/周报读取最近 summary，仅在重大业绩/监管/并购/核心假设变化或季度刷新时触发完整深研。
+- 财报：读取 `financial_quality_summary`；年报、重大更正、非标审计、重大并购或监管认定触发完整财报解析，普通季报只做增量比较。
 
 快照 `research_evidence` 保存证据清单；`research_summary` 保存 `company_type/thesis/falsification/confidence/source_report`。schema_version 当前为 1。

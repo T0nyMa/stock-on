@@ -32,11 +32,11 @@
 **Interfaces:**
 - Produces: discoverable `$financial-report-analysis` package and reference contract.
 
-- [ ] Write a failing static test requiring the package, Phase 0–10, five-year default, consolidated/parent separation, evidence classes, comparability states, four-test issue cards, 15 domains, no-trade boundary, and every reference named in the design.
-- [ ] Run `pytest -q tests/test_financial_report_analysis_skill.py`; expect missing-package failures.
-- [ ] Initialize the package with Skill Creator using `--resources scripts,references` and valid UI metadata.
-- [ ] Write concise orchestration in `SKILL.md`; put schemas, comparability, rules, scoring, issue cards, adapters, risk control, report structure, and gaps in focused references.
-- [ ] Run the focused test and Skill Creator `quick_validate.py`; expect pass.
+- [x] Write a failing static test requiring the package, Phase 0–10, five-year default, consolidated/parent separation, evidence classes, comparability states, four-test issue cards, 15 domains, no-trade boundary, and every reference named in the design.
+- [x] Run `pytest -q tests/test_financial_report_analysis_skill.py`; expect missing-package failures.
+- [x] Initialize the package with Skill Creator using `--resources scripts,references` and valid UI metadata.
+- [x] Write concise orchestration in `SKILL.md`; put schemas, comparability, rules, scoring, issue cards, adapters, risk control, report structure, and gaps in focused references.
+- [x] Run the focused test and Skill Creator `quick_validate.py`; expect pass.
 
 ### Task 2: Normalized Financial Analyzer
 
@@ -48,12 +48,12 @@
 - Consumes: normalized JSON with `schema_version`, `company`, `periods`, `consolidated`, `parent`, `segments`, `nonfinancial_kpis`, `accounting_changes`, `audit_events`, `governance_events`, `sources`.
 - Produces: `analyze(payload: dict) -> dict` containing `calculations`, `rules`, `clusters`, `gaps`, and `metadata`.
 
-- [ ] Write failing tests for schema/unit/scope validation and chronological period normalization.
-- [ ] Write failing tests proving missing values return `unavailable`, never zero or a false trigger.
-- [ ] Write failing tests for receivables-vs-revenue, inventory-vs-revenue, cash-plus-debt, OCF-vs-profit, goodwill-vs-equity, capex-effectiveness, and rule clusters.
-- [ ] Implement minimal pure functions `validate_payload`, `safe_ratio`, `growth`, `evaluate_rules`, `group_clusters`, and `analyze`, plus `--input/--output` CLI.
-- [ ] Add industry override behavior that returns `not_applicable` for generic industrial rules when `industry_adapter=financial`.
-- [ ] Run `pytest -q tests/test_financial_analyzer.py`; expect pass.
+- [x] Write failing tests for schema/unit/scope validation and chronological period normalization.
+- [x] Write failing tests proving missing values return `unavailable`, never zero or a false trigger.
+- [x] Write failing tests for receivables-vs-revenue, inventory-vs-revenue, cash-plus-debt, OCF-vs-profit, goodwill-vs-equity, capex-effectiveness, and rule clusters.
+- [x] Implement minimal pure functions `validate_payload`, `safe_ratio`, `growth`, `evaluate_rules`, `group_clusters`, and `analyze`, plus `--input/--output` CLI.
+- [x] Add industry override behavior that returns `not_applicable` for generic industrial rules when `industry_adapter=financial`.
+- [x] Run `pytest -q tests/test_financial_analyzer.py`; expect pass.
 
 ### Task 3: Financial Snapshot Persistence
 
@@ -67,10 +67,10 @@
 - Produces snapshot kinds `financial_report_evidence` and `financial_quality_summary`.
 - Produces loaders `load_financial_report_evidence` and `load_financial_quality_summary`.
 
-- [ ] Write failing tests for valid round trips, malformed evidence, malformed summary, invalid rating/severity/evidence class/comparability, and bare HK code lookup.
-- [ ] Implement strict validation and a CLI matching the existing research snapshot writer pattern.
-- [ ] Add both kinds to `src.data_access.query_payload` and CLI choices.
-- [ ] Run focused snapshot and data-access tests; expect pass.
+- [x] Write failing tests for valid round trips, malformed evidence, malformed summary, invalid rating/severity/evidence class/comparability, and bare HK code lookup.
+- [x] Implement strict validation and a CLI matching the existing research snapshot writer pattern.
+- [x] Add both kinds to `src.data_access.query_payload` and CLI choices.
+- [x] Run focused snapshot and data-access tests; expect pass.
 
 ### Task 4: Integrate with Deep Research and Scenarios
 
@@ -86,11 +86,11 @@
 **Interfaces:**
 - Consumes: latest `financial_quality_summary` in deep research Phase 4 and Phase 10.
 
-- [ ] Add a failing integration-contract test for intent routing, deep-research consumption, material-event refresh, and incremental quarterly review.
-- [ ] Add routes for “财报分析”, “财报深度解析”, “财报排雷”, and “财务质量”.
-- [ ] Require deep research to load the summary and avoid repeating the five-year audit unless missing, stale, or materially invalidated.
-- [ ] Make setup/reports refresh after annual reports, corrections, non-standard opinions, major M&A, regulatory findings, or material accounting changes; ordinary quarterlies use incremental comparison.
-- [ ] Run focused tests; expect pass.
+- [x] Add a failing integration-contract test for intent routing, deep-research consumption, material-event refresh, and incremental quarterly review.
+- [x] Add routes for “财报分析”, “财报深度解析”, “财报排雷”, and “财务质量”.
+- [x] Require deep research to load the summary and avoid repeating the five-year audit unless missing, stale, or materially invalidated.
+- [x] Make setup/reports refresh after annual reports, corrections, non-standard opinions, major M&A, regulatory findings, or material accounting changes; ordinary quarterlies use incremental comparison.
+- [x] Run focused tests; expect pass.
 
 ### Task 5: Forward Validation and Regression
 
@@ -101,9 +101,9 @@
 **Interfaces:**
 - Validates transfer across resource, manufacturing/technology, healthcare, and platform companies.
 
-- [ ] Exercise fixtures or normalized samples for 山东黄金, 工业富联, 恒瑞医药, and 阿里巴巴; verify distinct account questions and adapters.
-- [ ] Confirm no output contains trading actions or unsupported fraud allegations.
-- [ ] Run Skill Creator validation, focused tests, `pytest -q`, and `git diff --check`.
-- [ ] Mark every plan checkbox complete, inspect status, and ensure `.codex/` is unstaged.
-- [ ] Commit with `feat: add financial report analysis skill`.
+- [x] Exercise fixtures or normalized samples for 山东黄金, 工业富联, 恒瑞医药, and 阿里巴巴; verify distinct account questions and adapters.
+- [x] Confirm no output contains trading actions or unsupported fraud allegations.
+- [x] Run Skill Creator validation, focused tests, `pytest -q`, and `git diff --check`.
+- [x] Mark every plan checkbox complete, inspect status, and ensure `.codex/` is unstaged.
+- [x] Commit with `feat: add financial report analysis skill`.
 
