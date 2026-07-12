@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {"id":"C-001","text":"FY2026收入增长掩盖经营利润和自由现金流显著恶化","evidence_type":"calculated_fact","evidence_ids":["E-001","E-003","E-004","E-005","E-006"],"counter_case":"投入具有明确战略去向且可能形成后续回报","validation_event":"FY2027季度经营利润和FCF"},
+    {"id":"C-002","text":"云增长加速已确认，但利润率和资本回报尚未同步证明","evidence_type":"interpretation","evidence_ids":["E-003","E-004","E-005","E-006","E-007"],"counter_case":"9%左右利润率稳定可能反映主动再投资而非无杠杆","validation_event":"FY2027Q1云EBITA率与资本开支"},
+    {"id":"C-003","text":"中国电商核心变现尚有韧性，但闪购投入重写集团利润结构","evidence_type":"interpretation","evidence_ids":["E-003","E-004","E-005","E-006","E-014","E-015"],"counter_case":"竞争投入可能换来更高频入口并在UE转正后释放利润","validation_event":"营销率、中国电商EBITA、闪购UE"},
+    {"id":"C-004","text":"7月市场交易的是云增长/利润率与闪购减亏的双拐点预期，尚未确认","evidence_type":"third_party_data","evidence_ids":["E-008","E-009","E-010","E-016"],"counter_case":"预测可能存在口径混用或选择性渠道信息","validation_event":"FY2027Q1正式财报"},
+    {"id":"C-005","text":"净利润不能代表FY2026核心经营质量","evidence_type":"calculated_fact","evidence_ids":["E-001","E-006"],"counter_case":"投资收益有真实资产基础并非虚构利润","validation_event":"投资收益占税前利润和核心经营利润"}
+  ]
+}

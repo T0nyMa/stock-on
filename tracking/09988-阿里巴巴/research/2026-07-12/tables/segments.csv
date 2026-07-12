@@ -1,0 +1,21 @@
+period,segment,revenue,yoy,adjusted_ebita,margin,source_ids
+FY2025Q4,China E-commerce,115348,unavailable,39742,34.5%,E-006
+FY2025Q4,AIDC,33579,unavailable,-3574,-10.6%,E-006
+FY2025Q4,Cloud Intelligence,30127,unavailable,2420,8.0%,E-006
+FY2025Q4,All others,83276,unavailable,-3413,-4.1%,E-006
+FY2026Q1,China E-commerce,140072,10%,38389,27.4%,E-003
+FY2026Q1,AIDC,34741,19%,-59,-0.2%,E-003
+FY2026Q1,Cloud Intelligence,33398,26%,2954,8.8%,E-003
+FY2026Q1,All others,58599,-28%,-1415,-2.4%,E-003
+FY2026Q2,China E-commerce,132578,16%,10497,7.9%,E-004
+FY2026Q2,AIDC,34799,10%,162,0.5%,E-004
+FY2026Q2,Cloud Intelligence,39824,34%,3604,9.1%,E-004
+FY2026Q2,All others,62969,-25%,-3370,-5.4%,E-004
+FY2026Q3,China E-commerce,159347,6%,34613,21.7%,E-005
+FY2026Q3,AIDC,39201,4%,-2016,-5.1%,E-005
+FY2026Q3,Cloud Intelligence,43284,36%,3911,9.0%,E-005
+FY2026Q3,All others,67340,-25%,-9792,-14.5%,E-005
+FY2026Q4,China E-commerce,122220,6%,24010,19.6%,E-006
+FY2026Q4,AIDC,35429,6%,-138,-0.4%,E-006
+FY2026Q4,Cloud Intelligence,41626,38%,3796,9.1%,E-006
+FY2026Q4,All others,65459,-21%,-21160,-32.3%,E-006

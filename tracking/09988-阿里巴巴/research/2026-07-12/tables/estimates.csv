@@ -1,0 +1,6 @@
+institution,date,period,metric,old_estimate,new_estimate,basis,validation_event,source_ids
+Citi-secondary,2026-07-08,FY2027Q1,group revenue,unavailable,"269800 / +8.9%","cloud acceleration and disposal base","FY2027Q1 official results",E-009
+Citi-secondary,2026-07-08,FY2027Q1,non-GAAP net income,unavailable,27100,"cloud profit and quick-commerce loss reduction","FY2027Q1 official results",E-009
+Citi-secondary,2026-07-08,FY2027Q1,cloud revenue growth,40%,45%,"AI demand and external commercialization","FY2027Q1 Cloud revenue",E-009
+Citi-secondary,2026-07-08,FY2027Q1,cloud adjusted EBITA margin,9.9%,11.5%,"utilization and product mix","FY2027Q1 Cloud adjusted EBITA",E-009
+DBS,2026-05-14,FY2027/FY2028,cloud revenue growth,"40% / 40%","45% / 42%","external cloud acceleration and AI mix","FY2027/FY2028 official results",E-010

@@ -1,0 +1,9 @@
+company,period,metric,value,comparability,source_ids
+Alibaba,FY2026,China E-commerce adjusted EBITA margin,19.4%,adjusted segment metric,E-001
+Alibaba,FY2026,Cloud adjusted EBITA margin,9.0%,adjusted segment metric,E-001
+Tencent,FY2025,FinTech and Business Services revenue growth,single-digit,not_comparable-cloud-not-separated,E-013
+Tencent,FY2025,FinTech and Business Services gross profit growth,faster-than-revenue,not_comparable-value-not-extracted,E-013
+JD.com,FY2025,JD Retail operating margin,4.6%,not_comparable-first-party-retail,E-014
+JD.com,FY2025,consolidated operating income,2800,comparable-group-GAAP,E-014
+Meituan,FY2025,Core Local Commerce operating income,-6900,not_comparable-includes-in-store-hotel,E-015
+Meituan,FY2025,consolidated operating income,-17000,comparable-group-operating-result,E-015
