@@ -255,25 +255,42 @@ def _evidence(gate: GateSpec, ctx: _Context, require_first_party=False) -> tuple
     if not isinstance(claim_manifest, list) or not claim_manifest:
         return False, "independent completeness target", "missing or empty claim_manifest"
     entities = set(required_entities)
-    material_claims: set[str] = set()
+    required_pairs: set[tuple[str, str]] = set()
+    claim_ids: set[str] = set()
     for index, claim in enumerate(claim_manifest):
         if (
             not isinstance(claim, Mapping)
+            or set(claim) != {"claim_id", "entity", "material"}
             or not isinstance(claim.get("claim_id"), str)
             or not claim["claim_id"].strip()
+            or not isinstance(claim.get("entity"), str)
+            or not claim["entity"].strip()
             or claim.get("material") is not True
         ):
             return False, "valid material claim manifest", f"claim_manifest[{index}] malformed"
-        material_claims.add(claim["claim_id"])
-    if not material_claims:
+        claim_id = claim["claim_id"]
+        entity = claim["entity"]
+        if entity not in entities:
+            return False, "manifest entities drawn from required_entities", f"claim_manifest[{index}] entity outside required_entities: {entity}"
+        if claim_id in claim_ids:
+            return False, "unique claim IDs", f"duplicate claim_id: {claim_id}"
+        pair = (claim_id, entity)
+        if pair in required_pairs:
+            return False, "unique claim/entity pairs", f"duplicate manifest pair: {claim_id}/{entity}"
+        claim_ids.add(claim_id)
+        required_pairs.add(pair)
+    if not required_pairs:
         return False, "non-empty material claim manifest", "claim_manifest has no material claims"
-    covered_entities: set[str] = set()
-    covered_claims: set[str] = set()
+    covered_pairs: set[tuple[str, str]] = set()
     errors = []
     for i, item in enumerate(value["evidence"]):
         required = {"claim_id", "entity", "material", "url", "publication_date", "source_tier", "verification_status"}
         if not isinstance(item, Mapping) or set(item) != required:
             errors.append(f"evidence[{i}] malformed")
+            continue
+        pair = (str(item["claim_id"]), str(item["entity"]))
+        if pair not in required_pairs:
+            errors.append(f"evidence[{i}] unmanifested evidence pair: {pair[0]}/{pair[1]}")
             continue
         try:
             datetime.fromisoformat(str(item["publication_date"]))
@@ -283,18 +300,20 @@ def _evidence(gate: GateSpec, ctx: _Context, require_first_party=False) -> tuple
         valid = str(item["url"]).startswith(("http://", "https://")) and item["verification_status"] == "verified"
         if require_first_party: valid = valid and item["source_tier"] in {"first_party", "authoritative"}
         if item["material"] is True and valid:
-            covered_entities.add(str(item["entity"]))
-            covered_claims.add(str(item["claim_id"]))
+            covered_pairs.add(pair)
         elif item["material"] is True:
             errors.append(f"evidence[{i}] unverified")
+    covered_entities = {entity for _, entity in covered_pairs}
     missing_entities = sorted(entities - covered_entities)
-    missing_claims = sorted(material_claims - covered_claims)
+    missing_pairs = sorted(required_pairs - covered_pairs)
     if missing_entities:
         errors.append("uncovered entities: " + ", ".join(missing_entities))
-    if missing_claims:
-        errors.append("uncovered claims: " + ", ".join(missing_claims))
-    passed = not errors and bool(covered_claims)
-    actual = "; ".join(errors) or f"covered claims: {', '.join(sorted(covered_claims))}"
+    if missing_pairs:
+        errors.append("uncovered claim/entity pairs: " + ", ".join(f"{claim}/{entity}" for claim, entity in missing_pairs))
+    passed = not errors and bool(covered_pairs)
+    actual = "; ".join(errors) or "covered pairs: " + ", ".join(
+        f"{claim}/{entity}" for claim, entity in sorted(covered_pairs)
+    )
     return passed, "all material claims and entities covered by dated verified evidence", actual
 
 

@@ -95,3 +95,43 @@ specification valid
 generated documentation current
 11 workflows registered
 ```
+
+## I2-R2 exact claim/entity binding
+
+The evidence gate now treats each manifest entry as an exact `(claim_id, entity)` requirement. Every entry must contain exactly a non-empty claim ID, a non-empty entity drawn from `required_entities`, and `material: true`. Claim IDs are globally unique, so duplicate pairs and conflicting entity assignments are rejected. Evidence for any pair absent from the manifest blocks, and completion requires every exact manifest pair to be covered.
+
+RED fault injection:
+
+```text
+pytest tests/spec/test_final_review_regressions.py -q
+6 failed, 47 passed
+```
+
+This reproduced the A/B cross-wire, duplicate/conflicting claim IDs, invalid manifest entities, and unmanifested evidence false passes.
+
+GREEN verification:
+
+```text
+pytest tests/spec/test_final_review_regressions.py -q
+53 passed
+
+pytest tests/spec -q
+163 passed in 10.70s
+
+pytest -q
+261 passed in 18.81s
+
+scripts/check_project_spec.py
+specification valid
+generated documentation current
+11 workflows registered
+
+python -m src.spec validate
+[]
+
+python -m src.spec generate --check
+{"changed": []}
+
+git diff --check
+(no output)
+```

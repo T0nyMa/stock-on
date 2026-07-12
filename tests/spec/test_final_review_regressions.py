@@ -106,6 +106,53 @@ def test_evidence_rejects_missing_independent_manifest(tmp_path):
     assert "claim_manifest" in result.results[0].actual
 
 
+def test_evidence_rejects_cross_wired_claim_entity_pairs(tmp_path):
+    registry = _single_gate_registry(tmp_path, "source_verification")
+    facts = {"required_entities": ["A", "B"], "claim_manifest": [
+        {"claim_id": "c1", "entity": "A", "material": True},
+        {"claim_id": "c2", "entity": "B", "material": True}],
+        "source_verification": {"evidence": [_evidence("c1", "B"), _evidence("c2", "A")]}}
+    result = check_workflow("sample", "completion", registry, tmp_path, facts=facts)
+    assert not result.ok
+    assert "unmanifested evidence pair" in result.results[0].actual
+
+
+@pytest.mark.parametrize("manifest,diagnostic", [
+    ([{"claim_id": "c1", "entity": "A", "material": True},
+      {"claim_id": "c1", "entity": "A", "material": True}], "duplicate claim_id"),
+    ([{"claim_id": "c1", "entity": "A", "material": True},
+      {"claim_id": "c1", "entity": "B", "material": True}], "duplicate claim_id"),
+    ([{"claim_id": "c1", "entity": "C", "material": True}], "outside required_entities"),
+    ([{"claim_id": "c1", "entity": "", "material": True}], "malformed"),
+])
+def test_evidence_rejects_duplicate_conflicting_or_invalid_manifest(tmp_path, manifest, diagnostic):
+    registry = _single_gate_registry(tmp_path, "source_links")
+    facts = {"required_entities": ["A", "B"], "claim_manifest": manifest,
+             "source_links": {"evidence": [_evidence("c1", "A")]}}
+    result = check_workflow("sample", "completion", registry, tmp_path, facts=facts)
+    assert not result.ok
+    assert diagnostic in result.results[0].actual
+
+
+def test_evidence_rejects_unmanifested_evidence_pair(tmp_path):
+    registry = _single_gate_registry(tmp_path, "source_links")
+    facts = {"required_entities": ["A"], "claim_manifest": [
+        {"claim_id": "c1", "entity": "A", "material": True}],
+        "source_links": {"evidence": [_evidence("c1", "A"), _evidence("extra", "A")]}}
+    result = check_workflow("sample", "completion", registry, tmp_path, facts=facts)
+    assert not result.ok
+    assert "unmanifested evidence pair" in result.results[0].actual
+
+
+def test_evidence_accepts_exact_multi_entity_pairs(tmp_path):
+    registry = _single_gate_registry(tmp_path, "source_verification")
+    facts = {"required_entities": ["A", "B"], "claim_manifest": [
+        {"claim_id": "c1", "entity": "A", "material": True},
+        {"claim_id": "c2", "entity": "B", "material": True}],
+        "source_verification": {"evidence": [_evidence("c1", "A"), _evidence("c2", "B")]}}
+    assert check_workflow("sample", "completion", registry, tmp_path, facts=facts).ok
+
+
 @pytest.mark.parametrize("field,value", [
     ("entity", True), ("entity", ""), ("trigger", []), ("invalidation", {}),
     ("shares", True), ("shares", 0), ("shares", -1),
