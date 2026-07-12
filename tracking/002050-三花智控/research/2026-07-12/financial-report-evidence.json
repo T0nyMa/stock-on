@@ -1,0 +1,4 @@
+{"schema_version":1,"as_of":"2026-07-12","items":[
+{"id":"E-001","type":"confirmed_fact","claim":"2025收入310.12亿、归母净利40.63亿、OCF50.91亿","source":"2025年年报"},
+{"id":"E-002","type":"confirmed_fact","claim":"2026Q1收入77.74亿、合并净利9.51亿、OCF11.06亿","source":"2026Q1三表"},
+{"id":"C-002","type":"interpretation","claim":"2026Q1增长降档，汽车热管理弥补传统制冷下滑","source":"E-002,E-006"}]}

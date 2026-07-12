@@ -1,0 +1,4 @@
+institution,date,period,metric,old_estimate,new_estimate,basis,validation_event,source_ids
+国信证券,2026-04-03,2026FY,attributable_net_profit,8208000000,9817000000,金价与项目进展,2026年报,E-006
+太平洋证券,2026-05-22,2026FY,attributable_net_profit,6110000000,8390000000,金价上涨及未来产量,2026半年报,E-007
+预测统计,2026-06-03,2026FY,attributable_net_profit,unavailable,9220090000,11家机构统计,2026年报,E-008

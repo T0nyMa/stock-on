@@ -1,0 +1,1 @@
+{"schema_version":1,"as_of":"2026-07-12","items":[{"id":"E-001","type":"confirmed_fact","claim":"2025收入92.03亿、归母16.48亿、OCF21.29亿","source":"2025年报"},{"id":"E-003","type":"confirmed_fact","claim":"2026Q1收入41.88亿、归母14.61亿","source":"2026Q1"},{"id":"C-002","type":"interpretation","claim":"高存货同时是备货机会和周期风险","source":"E-001,E-004,E-005"}]}

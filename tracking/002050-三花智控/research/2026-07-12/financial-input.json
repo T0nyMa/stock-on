@@ -1,0 +1,8 @@
+{"schema_version":1,"company":{"code":"002050","name":"三花智控","industry_adapter":"manufacturing"},"periods":["2021FY","2022FY","2023FY","2024FY","2025FY"],"consolidated":{
+"revenue":{"2021FY":16020810000,"2022FY":21347550000,"2023FY":24557800000,"2024FY":27947164515.93,"2025FY":31011744510.27},
+"net_profit":{"2021FY":1684040000,"2022FY":2573340000,"2023FY":2920990000,"2024FY":3099165128.06,"2025FY":4062891412.10},
+"operating_cash_flow":{"2021FY":1555820000,"2022FY":2509670000,"2023FY":3723960000,"2024FY":4366630948.36,"2025FY":5090762717.98},
+"receivables":{"2021FY":null,"2022FY":null,"2023FY":null,"2024FY":6951066861.07,"2025FY":7370056178.44},
+"inventory":{"2021FY":null,"2022FY":null,"2023FY":null,"2024FY":5280441824.48,"2025FY":5639792228.25},
+"cash":{"2021FY":null,"2022FY":null,"2023FY":null,"2024FY":5248567646.21,"2025FY":14911985101.2},
+"interest_bearing_debt":{"2021FY":null,"2022FY":null,"2023FY":null,"2024FY":null,"2025FY":null}},"parent":{},"segments":[],"nonfinancial_kpis":[],"accounting_changes":[],"audit_events":[],"governance_events":[],"sources":["E-001","E-003"]}

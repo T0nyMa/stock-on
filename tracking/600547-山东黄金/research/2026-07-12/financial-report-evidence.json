@@ -1,0 +1,1 @@
+{"schema_version":1,"as_of":"2026-07-12","items":[{"id":"E-001","type":"confirmed_fact","claim":"2025收入1042.87亿、归母47.39亿、OCF214.93亿","source":"2025年报"},{"id":"E-003","type":"confirmed_fact","claim":"2026Q1归母14.46亿，普通股股东净利13.23亿","source":"2026Q1"},{"id":"C-003","type":"interpretation","claim":"Q1量跌价涨，利润高增不等于运营全面改善","source":"E-003,E-007"}]}

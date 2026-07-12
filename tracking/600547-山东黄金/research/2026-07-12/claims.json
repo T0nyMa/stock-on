@@ -1,0 +1,4 @@
+{"claims":[
+{"id":"C-001","text":"2025年利润增长有现金支持，但OCF受购销业务营运资本放大","evidence_class":"interpretation","evidence_ids":["E-001","E-003"],"countercase":"高金价下购销现金净流入可持续","validation_event":"自由现金流与购销业务现金拆分"},
+{"id":"C-002","text":"普通股股东获利低于合并净利润，应扣除少数股东和永续债利息","evidence_class":"calculated_fact","evidence_ids":["E-001","E-003"],"countercase":"少数股东资产扩张也提升集团平台价值","validation_event":"普通股口径净利和权益产量"},
+{"id":"C-003","text":"2026Q1量跌价涨，盈利高增不等于运营指标全面改善","evidence_class":"interpretation","evidence_ids":["E-003","E-007"],"countercase":"Q1产量下降为阶段性外因","validation_event":"2026H1产量、销量、单位成本"}]}

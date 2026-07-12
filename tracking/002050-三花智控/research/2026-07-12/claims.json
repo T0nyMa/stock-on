@@ -1,0 +1,5 @@
+{"claims":[
+  {"id":"C-001","text":"2025年利润增长有毛利率和现金流支撑，但ROE受H股募资扩大净资产影响下降","evidence_class":"interpretation","evidence_ids":["E-001","E-002"],"countercase":"现金增加可能尚未投入，后续产能与研发或提高回报","validation_event":"2026年报的募资资金使用与ROIC"},
+  {"id":"C-002","text":"2026Q1增长明显降速，汽车热管理弥补传统制冷下滑","evidence_class":"calculated_fact","evidence_ids":["E-002","E-006"],"countercase":"Q1季节性和补贴退坡可能使单季度不具代表性","validation_event":"2026半年报分部收入与利润"},
+  {"id":"C-003","text":"液冷已有收入和部分批量供货，机器人仍主要是技术与客户验证，均不应按成熟利润中心处理","evidence_class":"interpretation","evidence_ids":["E-004","E-007","E-008"],"countercase":"大客户定点转量产可能很快，定期报告有滞后","validation_event":"新业务独立收入、订单或产能披露"}
+]}

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-12",
+  "company": {
+    "code": "002050",
+    "name": "三花智控",
+    "market": "A+H"
+  },
+  "requirements": [
+    {
+      "id": "latest_official_report",
+      "status": "complete"
+    },
+    {
+      "id": "report_version",
+      "status": "complete"
+    },
+    {
+      "id": "currency_unit",
+      "status": "complete"
+    },
+    {
+      "id": "core_statement_reconciliation",
+      "status": "complete"
+    },
+    {
+      "id": "critical_notes",
+      "status": "complete"
+    },
+    {
+      "id": "segments",
+      "status": "complete"
+    },
+    {
+      "id": "latest_call",
+      "status": "complete"
+    },
+    {
+      "id": "recent_estimates",
+      "status": "complete"
+    },
+    {
+      "id": "recent_regulation",
+      "status": "complete"
+    },
+    {
+      "id": "authoritative_media",
+      "status": "complete"
+    },
+    {
+      "id": "peers",
+      "status": "complete"
+    }
+  ],
+  "sources": [
+    {
+      "id": "E-001",
+      "event_date": "2026-03-24",
+      "freshness": "historical"
+    },
+    {
+      "id": "E-002",
+      "event_date": "2026-04-30",
+      "freshness": "recent"
+    },
+    {
+      "id": "E-004",
+      "event_date": "2026-05-26",
+      "freshness": "recent"
+    },
+    {
+      "id": "E-008",
+      "event_date": "2026-06-30",
+      "freshness": "current"
+    }
+  ],
+  "gaps": [],
+  "coverage_score": 100,
+  "gate_status": "pass",
+  "allowed_output": "full_analysis"
+}

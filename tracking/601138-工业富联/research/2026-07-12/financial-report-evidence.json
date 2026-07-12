@@ -1,0 +1,1 @@
+{"schema_version":1,"as_of":"2026-07-12","items":[{"id":"E-001","type":"confirmed_fact","claim":"2025收入9028.87亿、归母352.86亿、OCF52.38亿","source":"2025年报"},{"id":"E-003","type":"confirmed_fact","claim":"2026Q1归母105.95亿、OCF250.24亿","source":"2026Q1"},{"id":"C-001","type":"interpretation","claim":"2025利润强但现金转换弱，存货是主要去向","source":"E-001,E-002"}]}

@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "periods": [
+      "2021FY",
+      "2022FY",
+      "2023FY",
+      "2024FY",
+      "2025FY"
+    ]
+  },
+  "calculations": {
+    "ocf_profit": [
+      0.9238616659936819,
+      0.9752578361195956,
+      1.2748965248083697,
+      1.4089700832086356,
+      1.252990100306107
+    ]
+  },
+  "rules": [
+    {
+      "id": "T001",
+      "status": "unavailable"
+    },
+    {
+      "id": "T005",
+      "status": "unavailable"
+    },
+    {
+      "id": "T013",
+      "status": "not_triggered"
+    },
+    {
+      "id": "T010",
+      "status": "unavailable"
+    }
+  ],
+  "clusters": [],
+  "gaps": []
+}
