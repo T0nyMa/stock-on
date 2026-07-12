@@ -22,6 +22,10 @@
 
 日报和周报不再维护平行场景流程，直接按注册工作流、Skill 和模板执行。
 
+## 开发提交前检查
+
+所有开发变更提交前必须在项目根目录执行 `.venv/bin/python scripts/check_project_spec.py`；该命令使用项目 Python 库统一检查规范、生成文档、Skill 注册、旧契约和全部核心 Workflow。
+
 ## 加载顺序
 
 先由 `AGENTS.md` 的生成路由定位 `spec/workflows/{workflow}.yaml`，再读取其 Policy、Artifact 和 Skill；仅在需要专业判断时加载对应方法论或场景。发生冲突时，注册工作流和稳定 ID 优先于场景中的说明性文字。
