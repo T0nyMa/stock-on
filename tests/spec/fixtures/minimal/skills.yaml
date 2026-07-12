@@ -1,0 +1,5 @@
+- id: skill.sample
+  path: .agents/skills/sample/SKILL.md
+  category: test
+  workflows: [sample]
+  excludes: []

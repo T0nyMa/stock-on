@@ -1,0 +1,5 @@
+- id: route.sample
+  intents: [sample]
+  workflow: sample
+  skill: skill.sample
+  priority: 1

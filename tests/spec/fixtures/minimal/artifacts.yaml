@@ -1,0 +1,6 @@
+- id: artifact.output
+  path: output/sample.md
+  producer: sample
+  consumers: []
+  freshness: daily
+  missing: block
