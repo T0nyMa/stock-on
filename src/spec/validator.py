@@ -5,12 +5,14 @@ from pathlib import Path
 import re
 
 from .models import SpecRegistry
+from .gates import registered_evaluators
 
 
 SUPPORTED_SCHEMA_VERSIONS = frozenset({"1.0"})
 SUPPORTED_ARTIFACT_STORAGE = frozenset(
     {"filesystem", "sqlite_database", "sqlite_data_access"}
 )
+SUPPORTED_FRESHNESS = frozenset({"daily", "trading_day", "current_search", "report_publish", "latest_disclosure", "thesis_change", "weekly", "change", "current", "incremental"})
 _MARKER = re.compile(r"<!--\s*(BEGIN|END) GENERATED:\s*([^>]+?)\s*-->")
 
 
@@ -49,6 +51,10 @@ def validate_registry(
             add("ROUTE.UNKNOWN_WORKFLOW", f"unknown workflow: {route.workflow}", location)
         if route.skill is not None and route.skill not in registry.skills:
             add("ROUTE.UNKNOWN_SKILL", f"unknown skill: {route.skill}", location)
+
+    for gate in registry.gates.values():
+        if gate.check not in registered_evaluators():
+            add("GATE.UNKNOWN_EVALUATOR", f"unknown evaluator: {gate.check}", f"policies:{gate.id}")
 
     seen_intents: list[tuple[str, str, int, str]] = []
     for route in registry.routes.values():
@@ -133,6 +139,8 @@ def validate_registry(
                 f"unknown artifact storage: {artifact.storage}",
                 location,
             )
+        if artifact.freshness not in SUPPORTED_FRESHNESS:
+            add("ARTIFACT.UNKNOWN_FRESHNESS", f"unknown artifact freshness: {artifact.freshness}", location)
         if artifact.storage == "sqlite_data_access" and not artifact.kind:
             add(
                 "ARTIFACT.KIND_REQUIRED",

@@ -25,7 +25,7 @@ def _parser() -> argparse.ArgumentParser:
     generate.add_argument("--check", action="store_true")
     check = commands.add_parser("check")
     check.add_argument("--workflow", required=True)
-    check.add_argument("--phase", required=True, choices=("preflight", "completion"))
+    check.add_argument("--phase", default="all", choices=("all", "preflight", "completion"))
     check.add_argument("--facts", type=Path)
     check.add_argument("--format", choices=("json", "text"), default="json")
     return parser

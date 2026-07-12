@@ -19,6 +19,8 @@ class SpecLoadError(ValueError):
 
 
 T = TypeVar("T")
+ARTIFACT_STORAGE = {"filesystem", "sqlite_database", "sqlite_data_access"}
+ARTIFACT_FRESHNESS = {"daily", "trading_day", "current_search", "report_publish", "latest_disclosure", "thesis_change", "weekly", "change", "current", "incremental"}
 
 
 def _read_yaml(path: Path) -> Any:
@@ -48,10 +50,35 @@ def _required(record: dict[str, Any], keys: tuple[str, ...], source: Path) -> No
         raise SpecLoadError(f"missing required key: {missing[0]} in {source}")
 
 
+def _schema(record, required, optional, source):
+    _required(record, required, source)
+    unknown = sorted(set(record) - set(required) - set(optional))
+    if unknown:
+        raise SpecLoadError(f"unknown key: {unknown[0]} in {source}")
+
+
+def _string(record, key, source, optional=False):
+    value = record.get(key)
+    if optional and value is None:
+        return None
+    if not isinstance(value, str) or not value.strip():
+        raise SpecLoadError(f"expected non-empty string for {key} in {source}")
+    return value
+
+
+def _integer(record, key, source):
+    value = record.get(key)
+    if type(value) is not int:
+        raise SpecLoadError(f"expected integer for {key} in {source}")
+    return value
+
+
 def _tuple(record: dict[str, Any], key: str, source: Path) -> tuple[str, ...]:
     value = record[key]
     if not isinstance(value, (list, tuple)):
         raise SpecLoadError(f"expected list for {key} in {source}")
+    if any(not isinstance(item, str) or not item.strip() for item in value):
+        raise SpecLoadError(f"expected string element for {key} in {source}")
     return tuple(value)
 
 
@@ -68,14 +95,14 @@ def _index(records: list[T], get_id: Callable[[T], str]) -> dict[str, T]:
 def _load_routes(path: Path) -> dict[str, RouteSpec]:
     routes = []
     for record in _records(_read_yaml(path), path):
-        _required(record, ("id", "intents", "workflow", "priority"), path)
+        _schema(record, ("id", "intents", "workflow", "priority"), ("skill",), path)
         routes.append(
             RouteSpec(
-                id=record["id"],
+                id=_string(record, "id", path),
                 intents=_tuple(record, "intents", path),
-                workflow=record["workflow"],
-                skill=record.get("skill"),
-                priority=record["priority"],
+                workflow=_string(record, "workflow", path),
+                skill=_string(record, "skill", path, optional=True),
+                priority=_integer(record, "priority", path),
             )
         )
     return _index(routes, lambda route: route.id)
@@ -85,17 +112,20 @@ def _load_artifacts(path: Path) -> dict[str, ArtifactSpec]:
     artifacts = []
     keys = ("id", "path", "producer", "consumers", "freshness", "missing")
     for record in _records(_read_yaml(path), path):
-        _required(record, keys, path)
+        _schema(record, keys, ("storage", "kind"), path)
+        missing = _string(record, "missing", path)
+        if missing not in {"block", "unavailable"}: raise SpecLoadError(f"unknown missing behavior: {missing}")
+        storage = _string(record, "storage", path) if "storage" in record else "filesystem"
+        freshness = _string(record, "freshness", path)
+        if storage not in ARTIFACT_STORAGE: raise SpecLoadError(f"unknown artifact storage: {storage}")
+        if freshness not in ARTIFACT_FRESHNESS: raise SpecLoadError(f"unknown artifact freshness: {freshness}")
         artifacts.append(
             ArtifactSpec(
-                id=record["id"],
-                path=record["path"],
-                producer=record["producer"],
+                id=_string(record, "id", path), path=_string(record, "path", path),
+                producer=_string(record, "producer", path),
                 consumers=_tuple(record, "consumers", path),
-                freshness=record["freshness"],
-                missing=record["missing"],
-                storage=record.get("storage", "filesystem"),
-                kind=record.get("kind"),
+                freshness=freshness, missing=missing, storage=storage,
+                kind=_string(record, "kind", path, optional=True),
             )
         )
     return _index(artifacts, lambda artifact: artifact.id)
@@ -105,12 +135,11 @@ def _load_skills(path: Path) -> dict[str, SkillSpec]:
     skills = []
     keys = ("id", "path", "category", "workflows", "excludes")
     for record in _records(_read_yaml(path), path):
-        _required(record, keys, path)
+        _schema(record, keys, (), path)
         skills.append(
             SkillSpec(
-                id=record["id"],
-                path=record["path"],
-                category=record["category"],
+                id=_string(record, "id", path), path=_string(record, "path", path),
+                category=_string(record, "category", path),
                 workflows=_tuple(record, "workflows", path),
                 excludes=_tuple(record, "excludes", path),
             )
@@ -124,10 +153,11 @@ def _load_policies(directory: Path) -> tuple[dict[str, PolicySpec], dict[str, Ga
     gate_keys = ("id", "severity", "check", "message", "remediation")
     for path in sorted(directory.glob("*.yaml")):
         for record in _records(_read_yaml(path), path):
-            _required(record, ("id", "description", "gates"), path)
+            _schema(record, ("id", "description", "gates"), (), path)
             policy_gates = []
             for gate_record in _records(record["gates"], path):
-                _required(gate_record, gate_keys, path)
+                _schema(gate_record, gate_keys, (), path)
+                for key in gate_keys: _string(gate_record, key, path)
                 severity = gate_record["severity"]
                 if severity not in {"block", "warn", "info"}:
                     raise SpecLoadError(f"unknown gate severity: {severity}")
@@ -136,8 +166,7 @@ def _load_policies(directory: Path) -> tuple[dict[str, PolicySpec], dict[str, Ga
                 gates.append(gate)
             policies.append(
                 PolicySpec(
-                    id=record["id"],
-                    description=record["description"],
+                    id=_string(record, "id", path), description=_string(record, "description", path),
                     gates=tuple(policy_gates),
                 )
             )
@@ -162,10 +191,10 @@ def _load_workflows(directory: Path) -> dict[str, WorkflowSpec]:
     )
     for path in sorted(directory.glob("*.yaml")):
         for record in _records(_read_yaml(path), path):
-            _required(record, ("id", *tuple_keys), path)
+            _schema(record, ("id", *tuple_keys), (), path)
             workflows.append(
                 WorkflowSpec(
-                    id=record["id"],
+                    id=_string(record, "id", path),
                     **{key: _tuple(record, key, path) for key in tuple_keys},
                 )
             )
@@ -177,7 +206,8 @@ def load_registry(root: Path) -> SpecRegistry:
     root = Path(root)
     project_path = root / "project.yaml"
     project = _mapping(_read_yaml(project_path), project_path)
-    _required(project, ("schema_version", "project"), project_path)
+    _schema(project, ("schema_version", "project"), ("timezone", "principles", "runtime", "ownership"), project_path)
+    _string(project, "schema_version", project_path); _string(project, "project", project_path)
     policies, gates = _load_policies(root / "policies")
     return SpecRegistry(
         root=root,

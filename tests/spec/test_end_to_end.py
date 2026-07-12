@@ -123,3 +123,9 @@ def test_project_check_rejects_missing_core_workflow_without_success_leakage(
 ):
     (isolated_repo / "spec/workflows/deploy.yaml").unlink()
     assert_check_fails(isolated_repo, capsys, "workflow registration mismatch")
+
+
+def test_project_check_rejects_unknown_gate_evaluator(isolated_repo, capsys):
+    policy = isolated_repo / "spec/policies/development.yaml"
+    policy.write_text(policy.read_text().replace("test_verification", "not_implemented"))
+    assert_check_fails(isolated_repo, capsys, "GATE.UNKNOWN_EVALUATOR")

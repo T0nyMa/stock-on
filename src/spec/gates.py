@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime
 import json
 from pathlib import Path
-import re
+from string import Formatter
 import sqlite3
 import subprocess
 from typing import Any, Callable, Mapping
@@ -98,15 +98,18 @@ def _json_field(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
     return actual == expected, json.dumps(expected, ensure_ascii=False), json.dumps(actual, ensure_ascii=False, default=str)
 
 
-def _format_path(artifact: ArtifactSpec, ctx: _Context) -> Path:
+def _format_path(artifact: ArtifactSpec, ctx: _Context, extra: Mapping[str, Any] | None = None) -> Path:
     values = {"date": ctx.now.date().isoformat(), "week": ctx.now.strftime("%G-W%V")}
     params = ctx.facts.get("params", {})
     if isinstance(params, Mapping):
         values.update({str(k): str(v) for k, v in params.items()})
-    try:
-        raw = artifact.path.format_map(values)
-    except KeyError:
-        raw = artifact.path
+    if extra:
+        values.update({str(k): str(v) for k, v in extra.items()})
+    required = {field for _, field, _, _ in Formatter().parse(artifact.path) if field}
+    missing = sorted(required - values.keys())
+    if missing:
+        raise ValueError("unresolved template parameters: " + ", ".join(missing))
+    raw = artifact.path.format_map(values)
     return ctx.root / raw
 
 
@@ -166,19 +169,45 @@ def _sqlite_artifact(artifact: ArtifactSpec, path: Path, ctx: _Context) -> tuple
 
 
 def _is_current(artifact: ArtifactSpec, timestamp: str, ctx: _Context) -> bool:
-    if artifact.freshness not in {"daily", "trading_day", "current_search", "report_publish"}:
+    if artifact.freshness in {"current", "incremental"}:
         return True
+    if artifact.freshness in {"latest_disclosure", "thesis_change", "change"}:
+        versions = ctx.facts.get("freshness", {})
+        item = versions.get(artifact.id) if isinstance(versions, Mapping) else None
+        return (
+            isinstance(item, Mapping)
+            and bool(item.get("current_version"))
+            and item.get("current_version") == item.get("latest_version")
+        )
     try:
         parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
         if parsed.tzinfo is None:
             parsed = parsed.replace(tzinfo=ctx.timezone)
-        return parsed.astimezone(ctx.timezone).date() == ctx.now.astimezone(ctx.timezone).date()
+        date = parsed.astimezone(ctx.timezone).date()
+        today = ctx.now.astimezone(ctx.timezone).date()
+        if artifact.freshness == "weekly":
+            return date.isocalendar()[:2] == today.isocalendar()[:2]
+        return date == today
     except ValueError:
         return False
 
 
 def _artifact_result(artifact: ArtifactSpec, ctx: _Context) -> tuple[bool, str, str]:
-    path = _format_path(artifact, ctx)
+    positions = ctx.facts.get("positions")
+    if positions is not None and "{" in artifact.path:
+        if not isinstance(positions, list) or not positions:
+            return False, "position paths", "missing positions fact"
+        results = [_artifact_result_at(artifact, ctx, item) for item in positions if isinstance(item, Mapping)]
+        failed = [actual for passed, _, actual in results if not passed]
+        return not failed and len(results) == len(positions), f"all {artifact.id} instances current", "; ".join(failed) or f"{len(results)} current"
+    return _artifact_result_at(artifact, ctx)
+
+
+def _artifact_result_at(artifact: ArtifactSpec, ctx: _Context, extra=None) -> tuple[bool, str, str]:
+    try:
+        path = _format_path(artifact, ctx, extra)
+    except ValueError as exc:
+        return False, f"resolved path for {artifact.id}", str(exc)
     if artifact.storage == "sqlite_data_access":
         exists, actual = _sqlite_artifact(artifact, path, ctx)
         passed = exists
@@ -207,11 +236,90 @@ def _markdown_sections(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
     return not missing, "all required markdown sections", "missing: " + ", ".join(missing) if missing else "all present"
 
 
-def _source_links(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
+def _evidence(gate: GateSpec, ctx: _Context, require_first_party=False) -> tuple[bool, str, str]:
     value = _fact(ctx, gate)
-    text = json.dumps(value, ensure_ascii=False, default=str)
-    links = sorted(set(re.findall(r"https?://[^\s\]\)\"']+", text)))
-    return bool(links), "at least one traceable source URL", ", ".join(links) if links else "no source URL"
+    if not isinstance(value, Mapping) or not isinstance(value.get("evidence"), list):
+        return False, "structured evidence", "missing evidence list"
+    entities = {str(x) for x in value.get("entities", [])}
+    material_claims = {str(x) for x in value.get("material_claims", [])}
+    covered_entities: set[str] = set()
+    covered_claims: set[str] = set()
+    errors = []
+    for i, item in enumerate(value["evidence"]):
+        required = {"claim_id", "entity", "material", "url", "publication_date", "source_tier", "verification_status"}
+        if not isinstance(item, Mapping) or required - item.keys():
+            errors.append(f"evidence[{i}] malformed")
+            continue
+        try:
+            datetime.fromisoformat(str(item["publication_date"]))
+        except ValueError:
+            errors.append(f"evidence[{i}] undated")
+            continue
+        valid = str(item["url"]).startswith(("http://", "https://")) and item["verification_status"] == "verified"
+        if require_first_party: valid = valid and item["source_tier"] in {"first_party", "authoritative"}
+        if item["material"] is True and valid:
+            covered_entities.add(str(item["entity"]))
+            covered_claims.add(str(item["claim_id"]))
+        elif item["material"] is True:
+            errors.append(f"evidence[{i}] unverified")
+    missing_entities = sorted(entities - covered_entities)
+    missing_claims = sorted(material_claims - covered_claims)
+    if missing_entities:
+        errors.append("uncovered entities: " + ", ".join(missing_entities))
+    if missing_claims:
+        errors.append("uncovered claims: " + ", ".join(missing_claims))
+    passed = not errors and bool(covered_claims)
+    actual = "; ".join(errors) or f"covered claims: {', '.join(sorted(covered_claims))}"
+    return passed, "all material claims and entities covered by dated verified evidence", actual
+
+
+def _source_links(gate, ctx):
+    return _evidence(gate, ctx)
+
+
+def _source_verification(gate, ctx):
+    return _evidence(gate, ctx, True)
+
+
+def _decision_fields(gate, ctx):
+    value = _fact(ctx, gate)
+    decisions = value.get("decisions") if isinstance(value, Mapping) else None
+    if not isinstance(decisions, list) or not decisions:
+        return False, "decisions with price shares trigger invalidation", "missing decisions"
+    fields = ("entity", "price", "shares", "trigger", "invalidation")
+    missing = [
+        f"decision[{i}]"
+        for i, decision in enumerate(decisions)
+        if not isinstance(decision, Mapping)
+        or any(decision.get(key) in (None, "") for key in fields)
+        or type(decision.get("shares")) is not int
+        or decision["shares"] <= 0
+    ]
+    return not missing, "complete concrete decisions", ", ".join(missing) or f"{len(decisions)} complete"
+
+
+def _test_verification(gate, ctx):
+    value = _fact(ctx, gate)
+    if not isinstance(value, Mapping):
+        return False, "fresh successful commands and commit identity", "missing verification mapping"
+    commands = value.get("commands")
+    missing = [key for key in ("timestamp", "commit") if not value.get(key)]
+    try:
+        stamp = datetime.fromisoformat(str(value.get("timestamp", "")))
+    except ValueError:
+        stamp = None
+    fresh = stamp is not None and abs(
+        (ctx.now - stamp.astimezone(ctx.now.tzinfo)).total_seconds()
+    ) <= 86400
+    successful = isinstance(commands, list) and bool(commands) and all(
+        isinstance(command, Mapping)
+        and command.get("command")
+        and command.get("exit_status") == 0
+        and type(command.get("test_count")) is int
+        for command in commands
+    )
+    passed = not missing and fresh and successful
+    return passed, "fresh successful test commands with counts and commit", "verified" if passed else "invalid verification evidence"
 
 
 def _git_commit_contains(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
@@ -238,6 +346,12 @@ def _git_pushed(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
         if not isinstance(raw_paths, list):
             return False, "publication paths list", "invalid paths fact"
         paths.extend(str(path) for path in raw_paths)
+    if ctx.workflow in {"daily-report", "weekly-report", "deploy"}:
+        if not isinstance(value, Mapping) or not isinstance(value.get("deployment"), Mapping):
+            return False, "committed remote publication and verified deployment", "missing deployment evidence"
+        deployment = value["deployment"]
+        if not str(deployment.get("url", "")).startswith("https://") or deployment.get("verified") is not True:
+            return False, "HTTPS publication URL verified true", "invalid deployment evidence"
     workflow = ctx.registry.workflows[ctx.workflow]
     for artifact_id in workflow.outputs:
         artifact = ctx.registry.artifacts.get(artifact_id)
@@ -246,6 +360,13 @@ def _git_pushed(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
                 paths.append(str(_format_path(artifact, ctx).relative_to(ctx.root)))
             except ValueError:
                 paths.append(artifact.path)
+    positions = ctx.facts.get("positions", [])
+    position_artifact = ctx.registry.artifacts.get("artifact.position")
+    if position_artifact and isinstance(positions, list):
+        for position in positions:
+            if isinstance(position, Mapping):
+                try: paths.append(str(_format_path(position_artifact, ctx, position).relative_to(ctx.root)))
+                except (ValueError, KeyError): pass
     paths = sorted(set(paths))
     suffix = ["--", *paths] if paths else []
     try:
@@ -265,6 +386,7 @@ def _git_pushed(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
             ["git", "rev-list", "--count", "@{upstream}..HEAD"],
             cwd=ctx.root, text=True, capture_output=True, check=False,
         )
+        ancestor = subprocess.run(["git", "merge-base", "--is-ancestor", "HEAD", "@{upstream}"], cwd=ctx.root, text=True, capture_output=True, check=False)
     except OSError as exc:
         return False, "clean committed publication paths and zero unpushed commits", f"git unavailable: {exc}"
     problems = []
@@ -276,6 +398,8 @@ def _git_pushed(gate: GateSpec, ctx: _Context) -> tuple[bool, str, str]:
         problems.append("not committed: " + ", ".join(missing))
     if ahead.returncode or ahead.stdout.strip() != "0":
         problems.append("unpushed: " + (ahead.stdout.strip() or ahead.stderr.strip()))
+    if ancestor.returncode:
+        problems.append("HEAD is not on expected remote branch")
     return not problems, "clean committed publication paths and zero unpushed commits", "; ".join(problems) or "pushed"
 
 
@@ -309,14 +433,24 @@ _EVALUATORS: dict[str, Callable[[GateSpec, _Context], tuple[bool, str, str]]] = 
     "path_exists": _path_exists, "json_field": _json_field,
     "artifact_freshness": _artifact_freshness, "markdown_sections": _markdown_sections,
     "source_links": _source_links,
+    "source_verification": _source_verification, "decision_fields": _decision_fields,
+    "test_verification": _test_verification,
     "git_commit_contains": _git_commit_contains,
     "git_pushed": _git_pushed,
     "generated_docs_clean": _generated_docs_clean,
 }
 
 
+def registered_evaluators() -> frozenset[str]:
+    return frozenset(_EVALUATORS)
+
+
 def check_workflow(workflow_id: str, phase: str, registry: SpecRegistry, repo_root: Path,
                    now: datetime | None = None, facts: Mapping[str, Any] | None = None) -> CheckReport:
+    if phase == "all":
+        first = check_workflow(workflow_id, "preflight", registry, repo_root, now, facts)
+        second = check_workflow(workflow_id, "completion", registry, repo_root, now, facts)
+        return CheckReport(workflow_id, "all", first.results + second.results)
     if phase not in {"preflight", "completion"}: raise ValueError(f"unknown phase: {phase}")
     if facts is not None and not isinstance(facts, Mapping):
         raise ValueError("facts must be a JSON object")

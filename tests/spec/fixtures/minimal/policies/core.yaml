@@ -3,6 +3,6 @@ description: Minimal test policy
 gates:
   - id: SAMPLE.READY
     severity: block
-    check: output exists
+    check: path_exists
     message: Sample output is required
     remediation: Generate the sample output

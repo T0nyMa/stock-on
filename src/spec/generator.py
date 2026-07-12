@@ -60,15 +60,15 @@ def render_skills(registry: SpecRegistry) -> str:
 
 def render_workflows(registry: SpecRegistry) -> str:
     lines = [
-        "| Workflow ID | Skills | Inputs | Outputs | Policies | 完成门禁 |",
-        "|---|---|---|---|---|---|",
+        "| Workflow ID | Skills | Inputs | Optional inputs | Outputs | Policies | Preflight | Steps | Completion | On failure |",
+        "|---|---|---|---|---|---|---|---|---|---|",
     ]
     for workflow_id in sorted(registry.workflows):
         workflow = registry.workflows[workflow_id]
         lines.append(
-            f"| `{workflow.id}` | {_cell(workflow.skills)} | {_cell(workflow.inputs)} | "
-            f"{_cell(workflow.outputs)} | {_cell(workflow.policies)} | "
-            f"{_cell(workflow.completion)} |"
+            f"| `{workflow.id}` | {_cell(workflow.skills)} | {_cell(workflow.inputs)} | {_cell(workflow.optional_inputs)} | "
+            f"{_cell(workflow.outputs)} | {_cell(workflow.policies)} | {_cell(workflow.preflight)} | "
+            f"{_cell(workflow.steps)} | {_cell(workflow.completion)} | {_cell(workflow.on_failure)} |"
         )
     return "\n".join(lines) + "\n"
 

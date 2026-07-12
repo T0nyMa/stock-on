@@ -26,10 +26,10 @@ def test_gate_result_serializes_required_diagnostics():
     assert result.to_dict() == {"rule_id":"DATA.CURRENT","severity":"block","passed":False,"expected":"today","actual":"yesterday","remediation":"run fetch"}
 
 
-def test_unknown_evaluator_is_a_blocking_configuration_error():
+def test_missing_path_fact_is_blocking():
     report = check_workflow("sample", "preflight", load_registry(FIXTURE), Path("."))
     result = report.results[0]
-    assert (report.ok, result.severity, result.actual) == (False, "block", "unknown evaluator: output exists")
+    assert (report.ok, result.severity, result.actual) == (False, "block", "missing path fact")
 
 
 def test_artifact_freshness_requires_specific_sqlite_snapshot_kind(tmp_path):
@@ -237,7 +237,11 @@ def test_path_json_markdown_and_source_evaluators(tmp_path):
 
     source_report = check_workflow(
         "sample", "preflight", _gate_registry("source_links"), tmp_path,
-        facts={"source_links": [{"url": "https://example.test/source"}]},
+        facts={"source_links": {"entities": ["sample"], "evidence": [{
+            "claim_id": "claim-1", "entity": "sample", "material": True,
+            "url": "https://example.test/source", "publication_date": "2026-07-12",
+            "source_tier": "authoritative", "verification_status": "verified",
+        }]}},
     )
     assert source_report.ok is True
 

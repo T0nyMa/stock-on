@@ -44,12 +44,12 @@ def test_validate_returns_one_on_blocking_issues(tmp_path, capsys):
     assert any(issue["code"] == "SKILL.PATH_MISSING" for issue in issues)
 
 
-def test_check_emits_deterministic_diagnostics_and_blocks_unknown_evaluator(capsys):
+def test_check_emits_deterministic_diagnostics_for_missing_fact(capsys):
     result = main(["--spec-root", str(FIXTURE), "check", "--workflow", "sample", "--phase", "preflight"])
     assert result == 1
     payload = json.loads(capsys.readouterr().out)
     assert payload["ok"] is False
-    assert payload["results"][0]["actual"] == "unknown evaluator: output exists"
+    assert payload["results"][0]["actual"] == "missing path fact"
 
 
 def test_check_loads_facts_file(tmp_path, capsys, monkeypatch):

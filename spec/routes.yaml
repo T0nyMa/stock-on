@@ -48,3 +48,17 @@
   workflow: deploy
   skill: deploy
   priority: 50
+- id: development
+  intents: ["开发 {task}", "修复 {task}"]
+  workflow: development
+  priority: 110
+- id: data-preparation
+  intents: ["准备数据 {code}", "抓取数据 {code}"]
+  workflow: data-preparation
+  skill: fetch-data
+  priority: 105
+- id: quant-analysis
+  intents: ["量化分析 {code}", "计算指标 {code}"]
+  workflow: quant-analysis
+  skill: tech-indicators
+  priority: 105

@@ -12,5 +12,5 @@ steps:
   - commit and push the report and position updates
   - run the deploy workflow and verify the published page
 preflight: [snapshot.quote, snapshot.news, snapshot.indicators, artifact.report_context, artifact.tracklist, artifact.position, SEARCH.MATERIAL_FACT_VERIFIED]
-completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC, PUBLISH.PUSHED]
+completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC, artifact.position, artifact.published_html, PUBLISH.PUSHED]
 on_failure: [retry failed data or publication steps, fallback only by preserving explicit unavailable fields, stop until commit push and deploy verification succeed]

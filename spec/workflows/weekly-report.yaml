@@ -10,5 +10,5 @@ steps:
   - render the weekly report and update required position context
   - commit, push, deploy, and verify the published report
 preflight: [artifact.daily_report, artifact.report_context, artifact.tracklist, artifact.position]
-completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC, PUBLISH.PUSHED]
+completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC, artifact.position, artifact.published_html, PUBLISH.PUSHED]
 on_failure: [retry failed aggregation or publication steps, stop until required weekly evidence and publication verification succeed]
