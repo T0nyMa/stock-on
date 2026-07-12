@@ -7,10 +7,10 @@ description: 计算股票技术指标，写入 SQLite 指标快照（`python -m 
 
 ## Project contract
 
-- workflow: quant-analysis
-- consumes: `database.stock_analysis`, `snapshot.bars`, `snapshot.quote`
-- produces: `snapshot.indicators`, `artifact.report_context`
-- policies: `DATA.QUALITY`
+- Workflow: `quant-analysis`
+- Policies: `DATA.QUALITY`
+- Consumes: `database.stock_analysis`, `snapshot.bars`, `snapshot.quote`
+- Produces: `snapshot.indicators`, `artifact.report_context`
 
 基于 K 线数据计算技术指标。
 

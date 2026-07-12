@@ -7,10 +7,10 @@ description: 将登记的日报、周报或发现报告生成 HTML，更新 GitH
 
 ## Project contract
 
-- workflow: deploy
-- consumes: `artifact.daily_report`; optional `artifact.weekly_report`, `artifact.discovery_report`
-- produces: `artifact.published_html`
-- policies: `PUBLISH.COMPLETE`
+- Workflow: `deploy`
+- Policies: `PUBLISH.COMPLETE`
+- Consumes: `artifact.daily_report`
+- Produces: `artifact.published_html`
 
 执行 `deploy` 工作流。`$deploy {date}` 发布指定日期；不传日期时发布最新登记报告。
 

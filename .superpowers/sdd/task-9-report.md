@@ -21,3 +21,15 @@
 - `git diff --check`: clean.
 
 The worktree does not contain its own `.venv`; verification used `/Users/majiang/Work/tools/stock-on/.venv/bin/python` against this worktree.
+
+## Review follow-up
+
+- Replaced provider-conflicting EasyAnySearch mandates in the deep-research and financial-report Skills with the registered `SEARCH.PRIORITY` behavior: AnySearch first; EasyAnySearch only after quota exhaustion, service failure, or inadequate results; material facts verified against dated first-party sources.
+- Scanned every live project Skill; no other EasyAnySearch mandates were present.
+- Standardized contract blocks as ordered `Workflow`, `Policies`, `Consumes`, and `Produces` fields.
+- Replaced phrase-presence assertions with a deterministic parser that loads `spec/` through `load_registry`, compares exact workflow policies/required inputs/outputs, and verifies both Skill-to-Workflow and Workflow-to-Skill registration links.
+- Added negative coverage for extra/missing/swapped IDs and a broken reverse link.
+- Follow-up focused suites: `25 passed`.
+- Follow-up Skill validation: all `28` project Skills valid.
+- Follow-up spec suite: `100 passed`.
+- Follow-up full suite: `198 passed`.

@@ -7,10 +7,10 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 
 ## Project contract
 
-- workflow: financial-report
-- consumes: `snapshot.fundamentals`, `snapshot.news`
-- produces: `artifact.financial_collection_status`, `artifact.financial_quality_summary`
-- policies: `DATA.QUALITY`, `SEARCH.PRIORITY`, `RESEARCH.EVIDENCE`, `DECISION.SEPARATION`
+- Workflow: `financial-report`
+- Policies: `DATA.QUALITY`, `SEARCH.PRIORITY`, `RESEARCH.EVIDENCE`, `DECISION.SEPARATION`
+- Consumes: `snapshot.fundamentals`, `snapshot.news`
+- Produces: `artifact.financial_collection_status`, `artifact.financial_quality_summary`
 
 判断财报是否可信到值得继续研究。默认读取最近五年年报和最新一期季报/中报；周期、并购、重资产或存在多年异常时扩展至十年。
 
@@ -22,7 +22,7 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 
 ## Phase 0–10
 
-**Stage A（强制，只收集）**：读取 `references/collection-protocol.md` 和 `references/research-package.md`。先建立带稳定证据编号的独立研究资料包和 `financial_collection_status`；用 EasyAnySearch 执行中英文检索矩阵，覆盖最近电话会、券商前瞻/预测调整、权威媒体、股价异动、监管、行业和同行。门禁未评估前不得评分或分析。只有链接而没有提取事实、结构化数据和适用性说明，不算完成采集。
+**Stage A（强制，只收集）**：读取 `references/collection-protocol.md` 和 `references/research-package.md`。先建立带稳定证据编号的独立研究资料包和 `financial_collection_status`；按 `SEARCH.PRIORITY` 执行中英文检索矩阵，AnySearch 优先，仅在配额耗尽、服务失败或结果不足时使用 EasyAnySearch，覆盖最近电话会、券商前瞻/预测调整、权威媒体、股价异动、监管、行业和同行。重大事实必须回到有日期的一手来源核验。门禁未评估前不得评分或分析。只有链接而没有提取事实、结构化数据和适用性说明，不算完成采集。
 
 **Stage B（门禁后分析）**：`pass` 才能完整分析；`partial` 只能给阶段性判断；`blocked` 只能报告采集结果与缺口。
 
