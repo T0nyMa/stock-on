@@ -1,0 +1,6 @@
+interface:
+  display_name: "股票深度分析"
+  short_description: "融合基本面、周期、估值、技术与证据链的研究级公司分析"
+  default_prompt: "Use $deep-stock-analysis to produce an evidence-backed deep research report on a stock without trading advice."
+policy:
+  allow_implicit_invocation: true

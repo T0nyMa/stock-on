@@ -13,6 +13,8 @@ description: 读取技术指标，判断市场状态，推荐分析策略。Phas
 
 前置条件：`$tech-indicators {code}` 必须先执行。
 
+在 `$deep-stock-analysis` 的 **research mode** 中，本 Skill 只负责技术环境分类和策略路由。输出用于解释市场预期、趋势和不确定性，不得升级为企业质量判断或交易动作；后续策略统一调用 `$strategy-executor ... mode=research`。
+
 ## 输入
 
 读取 SQLite 指标快照（运行 `python -m src.data_access --code {code} --kind indicators`）
