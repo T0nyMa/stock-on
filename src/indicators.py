@@ -116,7 +116,7 @@ def compute_indicators(code: str, store: MarketDataStore | None = None):
         "risk_factors": list(getattr(result, "risk_factors", []) or []),
     }
 
-    # 证据质量元数据：从 kline.json 继承 _evidence 并追加指标计算信息
+    # 证据质量元数据：从 SQLite 日K载荷继承并追加指标计算信息
     k_evidence = kline_data.get("_evidence", {})
     latency_ms = round((time.time() - t0) * 1000)
     _TZ_CN = timezone(timedelta(hours=8))

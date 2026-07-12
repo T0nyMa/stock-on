@@ -161,19 +161,14 @@ def batch_fetch(codes, workers=8):
     return succeeded
 
 
-def score_l2(code):
+def score_l2(code, store=None):
     """对单只股票执行技术指标评分，返回 (score, detail) 或 (None, None)"""
-    project = Path(__file__).parent.parent
-    ind_path = project / "data" / code / "indicators.json"
-    kline_path = project / "data" / code / "kline.json"
+    from src.data_access import load_bars, load_indicators
 
-    if not ind_path.exists() or not kline_path.exists():
+    ind = load_indicators(code, store=store)
+    kl = load_bars(code, store=store)
+    if not ind or not kl.get("kline"):
         return None, None
-
-    with open(ind_path) as f:
-        ind = json.load(f)
-    with open(kline_path) as f:
-        kl = json.load(f)
 
     ma = ind.get("ma", {})
     macd = ind.get("macd", {})

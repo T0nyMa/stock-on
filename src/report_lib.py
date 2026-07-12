@@ -4,6 +4,9 @@ import os
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
+from src.data_access import load_fundamentals, load_indicators, load_quote
+from src.storage import MarketDataStore
+
 _TZ_CN = timezone(timedelta(hours=8))
 ROOT = Path(__file__).parent.parent
 
@@ -25,22 +28,22 @@ def load_sector_scan():
         return load_json("data", "market", "sector_scan.json")
     return None
 
-def load_stock_data(code):
+def load_stock_data(code, store: MarketDataStore | None = None):
     """Return (indicators, quote, fundamentals) or (None,None,None)."""
     try:
-        ind = load_json("data", code, "indicators.json")
-        q = load_json("data", code, "quote.json")
-        fund = load_json("data", code, "fundamentals.json")
+        ind = load_indicators(code, store=store)
+        q = load_quote(code, store=store)
+        fund = load_fundamentals(code, store=store)
         return ind, q, fund
     except Exception:
         return None, None, None
 
-def load_all_stocks():
+def load_all_stocks(store: MarketDataStore | None = None):
     """Return list of dicts with merged stock data."""
     tl = load_tracklist()
     result = []
     for s in tl["stocks"]:
-        ind, q, fund = load_stock_data(s["code"])
+        ind, q, fund = load_stock_data(s["code"], store=store)
         if not ind or not q:
             continue
         result.append({

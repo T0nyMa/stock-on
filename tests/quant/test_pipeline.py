@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 
 from src.quant.pipeline import build_report_context, build_stock_snapshot, run_repository
+from src.storage import MarketDataStore
 
 
 def records(n=300):
@@ -40,8 +41,9 @@ def test_repository_runner_writes_stock_market_strategy_and_portfolio_artifacts(
     (tmp_path / "tracking/600000-浦发银行").mkdir(parents=True)
     (tmp_path / "tracking/600001-邯郸钢铁").mkdir(parents=True)
     (tmp_path / "tracking").mkdir(exist_ok=True)
+    store = MarketDataStore(tmp_path / "data/stock_analysis.db")
     for code in ("600000", "600001"):
-        (tmp_path / f"data/{code}/kline.json").write_text(json.dumps({"code": code, "name": code, "kline": records(), "_evidence": {"source": "fixture"}}))
+        store.upsert_bars(code, code, "SH", records(), source="fixture")
     (tmp_path / "tracking/tracklist.json").write_text(json.dumps({"stocks": [
         {"code": "600000", "name": "浦发银行", "tier": "core", "tags": ["银行"], "hk_code": "06000", "has_position": True},
         {"code": "600001", "name": "邯郸钢铁", "tier": "watch", "tags": ["黄金"]},
@@ -60,7 +62,7 @@ def test_repository_runner_writes_stock_market_strategy_and_portfolio_artifacts(
     drivers = [{"date": row["date"], "value": 100+i*.2} for i, row in enumerate(records())]
     (tmp_path / "data/market/drivers.json").write_text(json.dumps({"gold_sge": drivers}))
 
-    result = run_repository(tmp_path, as_of="2026-07-10")
+    result = run_repository(tmp_path, as_of="2026-07-10", store=store)
 
     assert result["stocks_written"] == 4
     assert result["positions"] == 1

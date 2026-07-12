@@ -8,6 +8,9 @@ from typing import Any
 
 import pandas as pd
 
+from src.data_access import load_bars
+from src.storage import MarketDataStore, get_market_store
+
 from .analytics import (
     analyze_ah_pair,
     analyze_cross_asset,
@@ -94,8 +97,9 @@ def _position(root: Path, stock: dict, price: float):
             "theme": (stock.get("tags") or ["unknown"])[-1]}
 
 
-def run_repository(root: str | Path, as_of=None):
+def run_repository(root: str | Path, as_of=None, store: MarketDataStore | None = None):
     root = Path(root)
+    store = store or get_market_store()
     tracklist = _read(root / "tracking/tracklist.json", {}) or {}
     stocks = tracklist.get("stocks", [])
     snapshots = {}; frames = {}; quotes = []; positions = []; cross_market = {}
@@ -113,7 +117,7 @@ def run_repository(root: str | Path, as_of=None):
     )
     for stock in stocks:
         code = str(stock["code"])
-        raw = _read(root / f"data/{code}/kline.json", {}) or {}
+        raw = load_bars(code, store=store)
         if stock.get("market") == "HK" and not (raw.get("kline") or raw.get("data")):
             hk_key = f"hk{code.zfill(5)}"
             hk_raw = hk_data.get(hk_key, {})

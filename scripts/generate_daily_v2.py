@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Generate the Quantitative Analysis V2 daily report from local artifacts."""
-import json, math
+import json, math, sys
 from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from src.data_access import load_fundamentals, load_quote
 DATE = "2026-07-11"
 TL = json.loads((ROOT/'tracking/tracklist.json').read_text())['stocks']
 CTX = json.loads((ROOT/'data/report_context.json').read_text())
@@ -15,8 +17,8 @@ def load_json(p):
     try: return json.loads(p.read_text())
     except Exception: return {}
 
-def q(code): return load_json(ROOT/'data'/code/'quote.json')
-def fund(code): return load_json(ROOT/'data'/code/'fundamentals.json')
+def q(code): return load_quote(code) or {}
+def fund(code): return load_fundamentals(code) or {}
 def cctx(code): return CTX['stocks'].get(code, {})
 def f(x, n=2): return 'unavailable' if x is None else f'{x:.{n}f}'
 def pct(x): return 'unavailable' if x is None else f'{x*100:.1f}%'

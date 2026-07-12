@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Generate position observation summary for 2026-06-24."""
-import json, os, math
+import json, os, math, sys
+from pathlib import Path
 
 REPORT_DATE = "2026-06-24"
-BASE = "/Users/majiang/Work/tools/stock-on"
+BASE = str(Path(__file__).resolve().parents[1])
+sys.path.insert(0, BASE)
+from src.data_access import load_bars, load_fundamentals, load_indicators
 
 def load_json(path):
     with open(path) as f:
@@ -15,9 +18,9 @@ def load_all_stocks():
     for s in tracklist["stocks"]:
         code = s["code"]
         try:
-            fund = load_json(f"{BASE}/data/{code}/fundamentals.json")
-            ind = load_json(f"{BASE}/data/{code}/indicators.json")
-            kline = load_json(f"{BASE}/data/{code}/kline.json")
+            fund = load_fundamentals(code) or {}
+            ind = load_indicators(code) or {}
+            kline = load_bars(code)
             last = kline["kline"][-1]
             pos_path = f"{BASE}/tracking/{code}-{s['name']}/position.json"
             pos = load_json(pos_path) if os.path.exists(pos_path) else None

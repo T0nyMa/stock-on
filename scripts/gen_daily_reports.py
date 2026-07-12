@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Generate single-stock daily reports for all tracked stocks."""
-import json, os
+import json, os, sys
+from pathlib import Path
 
 REPORT_DATE = "2026-06-24"
-BASE = "/Users/majiang/Work/tools/stock-on"
+BASE = str(Path(__file__).resolve().parents[1])
+sys.path.insert(0, BASE)
+from src.data_access import load_bars, load_fundamentals, load_indicators
 
 # Market regime → strategy selection
 STRATEGY_MAP = {
@@ -23,9 +26,9 @@ def load_all_stocks():
     for s in tracklist["stocks"]:
         code = s["code"]
         try:
-            kline = load_json(f"{BASE}/data/{code}/kline.json")
-            fund = load_json(f"{BASE}/data/{code}/fundamentals.json")
-            ind = load_json(f"{BASE}/data/{code}/indicators.json")
+            kline = load_bars(code)
+            fund = load_fundamentals(code) or {}
+            ind = load_indicators(code) or {}
             last = kline["kline"][-1]
             stocks.append({
                 "code": code, "name": s["name"], "tier": s["tier"],

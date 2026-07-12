@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
+from src.data_access import load_fundamentals
 _TZ_CN = timezone(timedelta(hours=8))
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -31,7 +32,7 @@ def validate_data(date_str):
     # Spot-check fundamentals
     for code in ["002050", "601138"]:
         try:
-            fund = json.load(open(ROOT / "data" / code / "fundamentals.json"))
+            fund = load_fundamentals(code) or {}
             if fund.get("pe") is None or fund.get("pb") is None:
                 errors.append(f"{code} PE/PB is null")
         except Exception as e:
