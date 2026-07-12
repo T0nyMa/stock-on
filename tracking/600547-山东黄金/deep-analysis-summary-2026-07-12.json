@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-12",
+  "company_type": {"primary": "resource-cycle", "secondary": null},
+  "thesis": ["资源与海外产量平台增强，2025及2026Q1基本面确有改善", "利润仍高度受金价支配，研究关键是同金价下权益产量、单位成本和自由现金流"],
+  "falsification": ["同金价下自产金利润率连续恶化", "2026产量明显低于49吨且无可信补产路径", "海外项目连续延期或超支", "自由现金流持续弱于普通股利润"],
+  "confidence": "medium",
+  "source_report": "tracking/600547-山东黄金/deep-analysis-2026-07-12.md"
+}

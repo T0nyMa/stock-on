@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-12",
+  "company_type": {"primary": "manufacturing", "secondary": "technology-growth"},
+  "thesis": ["AI算力转型已由故事进入连续财务兑现阶段", "长期价值取决于高基数下的客户资本开支、产品结构、利润率和现金转换，而非单期业绩增速"],
+  "falsification": ["云计算收入增速显著落后行业", "AI产品增长但净利率或现金转换持续下降", "库存与应收连续快于收入", "主要客户资本开支下调或平台量产连续延期"],
+  "confidence": "medium",
+  "source_report": "tracking/601138-工业富联/deep-analysis-2026-07-12.md"
+}

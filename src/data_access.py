@@ -50,6 +50,14 @@ def load_indicators(code: str, *, store: Optional[MarketDataStore] = None):
     return _store(store).load_snapshot(code, "indicators")
 
 
+def load_research_evidence(code: str, *, store: Optional[MarketDataStore] = None):
+    return _store(store).load_snapshot(code, "research_evidence")
+
+
+def load_research_summary(code: str, *, store: Optional[MarketDataStore] = None):
+    return _store(store).load_snapshot(code, "research_summary")
+
+
 def incremental_days(
     code: str,
     *,
@@ -75,6 +83,8 @@ def query_payload(code: str, kind: str, *, limit: Optional[int] = None, store=No
         "fundamentals": lambda: load_fundamentals(code, store=store),
         "news": lambda: load_news(code, store=store),
         "indicators": lambda: load_indicators(code, store=store),
+        "research_evidence": lambda: load_research_evidence(code, store=store),
+        "research_summary": lambda: load_research_summary(code, store=store),
     }
     return loaders[kind]()
 
@@ -85,7 +95,10 @@ def main() -> int:
     parser.add_argument(
         "--kind",
         required=True,
-        choices=["bars", "quote", "fundamentals", "news", "indicators"],
+        choices=[
+            "bars", "quote", "fundamentals", "news", "indicators",
+            "research_evidence", "research_summary",
+        ],
     )
     parser.add_argument("--limit", type=int)
     args = parser.parse_args()

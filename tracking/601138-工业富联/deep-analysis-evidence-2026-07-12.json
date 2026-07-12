@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-12",
+  "items": [
+    {"claim":"2025年营业收入9028.87亿元，同比增长48.22%","value":"9028.87亿元","period":"2025FY","source_type":"annual_report","source":"工业富联2025年年度报告","published_at":"2026-03-11","url":"https://static.cninfo.com.cn/finalpage/2026-03-11/1225004420.PDF","quality":"primary","status":"verified"},
+    {"claim":"2025年云计算收入6026.79亿元，同比增长88.70%","value":"6026.79亿元","period":"2025FY","source_type":"annual_report","source":"工业富联2025年年度报告","published_at":"2026-03-11","url":"https://static.cninfo.com.cn/finalpage/2026-03-11/1225004420.PDF","quality":"primary","status":"verified"},
+    {"claim":"2026Q1归母净利润105.95亿元，同比增长102.55%","value":"105.95亿元","period":"2026Q1","source_type":"quarterly_report","source":"工业富联2026年第一季度报告","published_at":"2026-04-29","url":"https://static.cninfo.com.cn/finalpage/2026-04-29/1225231598.PDF","quality":"primary","status":"verified"},
+    {"claim":"2026H1归母净利润预计234至244亿元，同比增长93%至101%","value":"234-244亿元","period":"2026H1","source_type":"earnings_preannouncement","source":"工业富联2026年半年度业绩预增公告","published_at":"2026-07-09","url":"https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12438274&stockid=601138","quality":"primary","status":"verified"},
+    {"claim":"2026-07-10收盘66.27元，PE约32.35倍","value":"66.27元/32.35x","period":"2026-07-10","source_type":"market_snapshot","source":"stock-on SQLite/tencent","published_at":"2026-07-12","url":"https://qt.gtimg.cn/q=sh601138","quality":"authoritative","status":"verified"}
+  ]
+}

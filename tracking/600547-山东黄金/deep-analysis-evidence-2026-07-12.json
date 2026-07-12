@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-12",
+  "items": [
+    {"claim":"2025年矿产金产量48.89吨，同比增长5.89%","value":"48.89吨","period":"2025FY","source_type":"annual_report","source":"山东黄金2025年年度报告","published_at":"2026-03-26","url":"https://www.hkexnews.hk/listedco/listconews/sehk/2026/0326/2026032603288_c.pdf","quality":"primary","status":"verified"},
+    {"claim":"2025年归母净利润47.39亿元，同比增长60.57%","value":"47.39亿元","period":"2025FY","source_type":"annual_report","source":"山东黄金2025年年度报告","published_at":"2026-03-26","url":"https://www.hkexnews.hk/listedco/listconews/sehk/2026/0326/2026032603288_c.pdf","quality":"primary","status":"verified"},
+    {"claim":"2026Q1归母净利润14.46亿元，同比增长40.87%","value":"14.46亿元","period":"2026Q1","source_type":"quarterly_report","source":"山东黄金2026年第一季度报告","published_at":"2026-04-29","url":"https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0429/2026042905783_c.pdf","quality":"primary","status":"verified"},
+    {"claim":"2026年黄金产量指导计划49吨","value":"49吨","period":"2026FY","source_type":"quarterly_report","source":"山东黄金2026年第一季度报告","published_at":"2026-04-29","url":"https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0429/2026042905783_c.pdf","quality":"primary","status":"verified"},
+    {"claim":"2026-07-10收盘24.96元，PE约22.3倍","value":"24.96元/22.3x","period":"2026-07-10","source_type":"market_snapshot","source":"stock-on SQLite/tencent","published_at":"2026-07-12","url":"https://qt.gtimg.cn/q=sh600547","quality":"authoritative","status":"verified"}
+  ]
+}
