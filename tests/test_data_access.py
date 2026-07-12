@@ -8,6 +8,7 @@ from src.data_access import (
     load_quote,
     load_research_evidence,
     load_research_summary,
+    load_financial_collection_status,
     query_payload,
 )
 from src.storage import MarketDataStore
@@ -46,6 +47,12 @@ def test_research_snapshot_loaders_are_available_to_report_workflows(tmp_path):
     assert load_research_evidence("002050", store=store) == evidence
     assert query_payload("002050", "research_summary", store=store) == summary
     assert query_payload("002050", "research_evidence", store=store) == evidence
+
+def test_financial_collection_status_is_available_to_downstream_workflows(tmp_path):
+    store=MarketDataStore(tmp_path/"market.db"); payload={"gate_status":"pass","coverage_score":100}
+    store.save_snapshot("HK09988","阿里巴巴","HK","financial_collection_status",payload)
+    assert load_financial_collection_status("09988",store=store)==payload
+    assert query_payload("09988","financial_collection_status",store=store)==payload
 
 
 def test_incremental_days_uses_full_backfill_for_empty_store(tmp_path):

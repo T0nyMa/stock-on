@@ -7,7 +7,7 @@ description: 每日追踪报告 — 生成大盘总结(含板块行情) + 全部
 
 ## 深度研究复用
 
-核心个股分析前读取 SQLite 最新 `research_summary`，在日报中只更新论点与证伪条件的变化。仅当重大业绩/监管/并购/核心假设变化或跨财报季度时重跑 `$deep-stock-analysis`；不得每天重复整份深研。此规则不改变七章结构和完成后自动 `$deploy`。
+核心个股分析前读取 SQLite 最新 `research_summary`，在日报中只更新论点与证伪条件的变化。同时读取 `financial_collection_status` 中的 current/recent 来源和待验证预测事件；不得用 stale 信息描述当前状态，`partial|blocked` 必须标注。仅当重大业绩/监管/并购/核心假设变化或跨财报季度时重跑 `$deep-stock-analysis`；不得每天重复整份深研。此规则不改变七章结构和完成后自动 `$deploy`。
 
 编排每日报告生成流程。严格按步骤执行，不跳过。
 

@@ -7,7 +7,7 @@ description: 每周总结 — 汇总本周日报生成周度视角
 
 ## 深度研究复用
 
-读取核心股票最新 `research_summary`，汇总本周 thesis、falsification 与 confidence 的变化。只有重大业绩/监管/并购/核心假设变化或季度刷新才触发 `$deep-stock-analysis`，并保持周报完成后自动 `$deploy`。
+读取核心股票最新 `research_summary`，汇总本周 thesis、falsification 与 confidence 的变化。读取 `financial_collection_status`，汇总本周新增电话会、预估调整、监管/媒体信息及其正式验证事件；不得把第三方前瞻写成已实现业绩。只有重大业绩/监管/并购/核心假设变化或季度刷新才触发 `$deep-stock-analysis`，并保持周报完成后自动 `$deploy`。
 
 汇总本周日报，生成周度视角的报告。
 

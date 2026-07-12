@@ -9,3 +9,8 @@ def test_package_contract():
 def test_integration_routes():
     assert '$financial-report-analysis' in (ROOT/'AGENTS.md').read_text()
     assert 'financial_quality_summary' in (ROOT/'.agents/skills/deep-stock-analysis/SKILL.md').read_text()
+
+def test_recent_first_collection_contract():
+    text=(SK/'SKILL.md').read_text()+(SK/'references/collection-protocol.md').read_text()
+    for phrase in ('Stage A','EasyAnySearch','中英文','financial_collection_status','门禁未评估前不得评分','stage_assessment'):
+        assert phrase in text

@@ -15,7 +15,11 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 
 ## Phase 0–10
 
-**Phase 0**：确认主体、市场、财年、币种、会计与审计准则，读取已有 tracking 和快照。
+**Stage A（强制，只收集）**：读取 `references/collection-protocol.md`。先建立信息包和 `financial_collection_status`；用 EasyAnySearch 执行中英文检索矩阵，覆盖最近电话会、券商前瞻/预测调整、权威媒体、股价异动、监管、行业和同行。门禁未评估前不得评分或分析。
+
+**Stage B（门禁后分析）**：`pass` 才能完整分析；`partial` 只能给阶段性判断；`blocked` 只能报告采集结果与缺口。
+
+**Phase 0**：确认主体、市场、财年、币种、会计与审计准则，读取已有 tracking 和快照。最近正式披露→最近电话会→最近预告/前瞻→最近监管事件→五年历史趋势；来源权威性始终高于新鲜度。
 1. 收集正式财报、审计报告、附注、问询回复、修订、更正、处罚和重大公告。
 2. 先理解产品、客户、供应商、地区、量价、产能和行业周期。
 3. 分别标准化合并报表与母公司报表，并与 SQLite 结构化数据核对。
@@ -39,9 +43,12 @@ description: Use when analyzing listed-company annual reports, interim reports, 
 
 读取 `references/report-template.md`。保存 `financial_report_evidence` 与 `financial_quality_summary`；后者供 `$deep-stock-analysis` 使用。评级只能是 A/B/C/D/E，结论使用“可继续研究/需加强核验/信息不足/因财务质量原则排除”。
 
+报告开头必须展示采集截止日、最新报告期、覆盖分数、`pass|partial|blocked`、近期来源、缺失信息和 `full_analysis|stage_assessment|collection_report`。近期预测必须标记证据类别并绑定正式验证事件。
+
 ## 参考文件
 
 - 数据与证据：`references/evidence-schema.md`、`references/normalization-contract.md`
+- 信息采集：`references/collection-protocol.md`
 - 方法：`references/accounting-comparability.md`、`references/deterministic-rules.md`、`references/scoring-system.md`
 - 风控：`references/issue-card-playbook.md`、`references/risk-control.md`
 - 适配与报告：`references/market-adapters.md`、`references/industry-adapters.md`、`references/report-template.md`
