@@ -37,4 +37,4 @@ description: 情绪周期策略 — 市场情绪阶段判断。对应 strategies
 
 ## 输出
 
-用 写入 工具写入 `data/{code}/strategy_emotion_cycle.json`
+将以下结构化结果返回给 `$strategy-executor`；本 Skill 不写文件，由执行器统一持久化 `artifact.strategy_scan`。

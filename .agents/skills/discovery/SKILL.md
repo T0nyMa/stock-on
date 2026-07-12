@@ -1,109 +1,51 @@
 ---
 name: discovery
-description: 潜力股发现 — L1快照→L2评分→L3策略验证，完整三层筛选
+description: 潜力股发现 — L1 快照、L2 评分、L3 策略验证与证据门槛筛选
 ---
 
 # 潜力股发现
 
-从 5000+ A 股中系统化发现值得追踪的股票。三层筛选 + 策略验证。
+执行 `discovery` 工作流，并使用 `references/scenarios/discovery.md` 的三层判断框架。
 
-## 用法
-
-`$discovery` 或用户说"潜力股""发现股票""发现机会""有什么好股票"
-
-## 流程
-
-严格按 `references/scenarios/discovery.md` 执行。
-
-### Phase 1: L1 快照
+## 数据准备
 
 ```bash
 source .venv/bin/activate && python src/screener.py
-```
-
-### Phase 2: L2 评分
-
-```bash
 source .venv/bin/activate && python src/screener.py --l2
-```
-
-### Phase 3: 板块扫描
-
-```bash
 source .venv/bin/activate && python src/sector_scan.py
 ```
 
-### Phase 4: 确定 L3 候选
+输入必须是当日登记的 `snapshot.indicators` 及可用扫描证据。缺失关键指标的股票排除，不以补零方式保留。
 
-读取三个 JSON 文件，按规则筛选 10-15 只：
+## L3 候选门槛
 
-```
-规则 A: L2 ≥ 70 分 → 自动进入
-规则 B: 板块前5领头羊 ∩ L2 ≥ 55 分
-规则 C: L2 55-69分 ∩ 涨幅<8% ∩ 成交>100亿 → 择优选 3-5 只
-```
+候选按证据规则进入 L3，而不是凑固定池规模：
 
-### Phase 5: L3 策略验证
+- L2 ≥ 70：满足基础技术评分门槛。
+- L2 ≥ 55 且位于当前强势板块：满足板块共振门槛。
+- L2 55–69、涨幅 < 8%、成交额 > 100 亿元：可按流动性、风险和证据完整度择优。
 
-在任务允许并行代理时，为每只候选分配独立子任务并行执行；否则逐只执行。
+去重并排除证据过期、重大事实未核验或关键字段 unavailable 的候选。候选数量由当日证据决定，允许为空。
 
-**Agent 标准 prompt（必须原样使用）：**
+## L3 策略验证
 
-```
-你是L3策略验证Agent。对 {name}({code}) 执行策略分析。
+对每只候选读取 `snapshot.indicators` 判断市场状态，并通过 `$strategy-executor` 选择足以覆盖主要证据维度的策略。单策略 Skill 只返回内存结果；执行器统一形成并持久化 `artifact.strategy_scan`，其中包含归一化 buy/hold/sell 比例、weighted_score、证据和失效条件。
 
-1. 读取 SQLite 指标快照（`python -m src.data_access --code {code} --kind indicators`） → 判断 trend.status
-2. 读取 references/skills-index.md → 按市场状态选 3-5 个策略
-3. 对每个选中策略：
-   a. 读取 .agents/skills/strategy-{name}/SKILL.md
-   b. 按 Step 1→2→3→4 逐步执行，引用具体数据
-   c. 输出 JSON: {"name":"strategy-xxx","signal":"buy|hold|sell","score":0-100,"reason":"一句话"}
-4. 汇总写入 data/{code}/strategy_scan.json（code 为纯数字，不加 SZ/SH 前缀）：
+任务允许时可并行验证不同股票，但不得因并行便利改变评分门槛。
 
-{
-  "code": "002463",
-  "name": "沪电股份",
-  "market_regime": "trending_up",
-  "strategies": [
-    {"name":"strategy-bull-trend","signal":"hold","score":72,"reason":"..."},
-    ...
-  ],
-  "consensus": {"buy":0,"hold":5,"sell":0},
-  "verdict": "偏多",
-  "weighted_score": 57
-}
-
-策略名格式: strategy-xxx-xxx（小写+连字符，禁止下划线）
-信号: buy/hold/sell（小写英文）
-路径: data/{code}/strategy_scan.json（纯数字code，不加SZ/SH）
-```
-
-等全部完成后，汇总各候选得分。
-
-### Phase 6: 最终评分和报告
+## 最终评分与推荐
 
 ```
-综合分 = L2评分 × 0.4 + 策略加权 × 0.4 + 板块强度 × 0.2
-
-排序 → 推荐前 3-5 只加入追踪池
+综合分 = L2评分 × 0.4 + 策略加权评分 × 0.4 + 板块强度归一化 × 0.2
 ```
 
-写入 `tracking/sectors/YYYY-MM-DD-discovery.md`
+只有综合分达到评分门槛、关键事实有来源、风险与证伪条件完整的候选才可推荐。推荐还必须受当前 `artifact.tracklist` 的追踪容量约束：容量不足时保留最高证据强度者，其余进入候补；没有合格候选时输出空推荐，不降低门槛。
 
-更新 `tracking/tracklist.json` 加入推荐股票（tier: watch）
-
-## 输出
-
-- `data/market/screener.json`
-- `data/market/screener_l2.json`
-- `data/market/sector_scan.json`
-- `data/{code}/strategy_scan.json`（每只 L3 候选）
-- `tracking/sectors/YYYY-MM-DD-discovery.md`
-- `tracking/tracklist.json`（更新）
+最终写入登记的 `artifact.discovery_report`。仅在用户授权且追踪容量允许时更新 `artifact.tracklist`，新增项使用 `tier: watch`。
 
 ## 完成标志
 
-- [ ] L1+L2+板块扫描 已完成
-- [ ] L3 策略验证完成（Agent 并行，每只 3-5 策略）
-- [ ] 发现报告已写入
-- [ ] 追踪清单已更新
+- L1、L2 与板块证据为当前数据。
+- L3 候选全部通过明确证据门槛，策略验证引用 `artifact.strategy_scan`。
+- 推荐满足评分门槛、来源与证伪要求，并遵守追踪容量。
+- 报告已写入 `artifact.discovery_report`；状态变更仅在授权时写入 `artifact.tracklist`。

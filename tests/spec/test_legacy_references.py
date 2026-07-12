@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).parents[2]
@@ -73,3 +74,35 @@ def test_regime_and_decision_skills_only_consume_registered_inputs():
     ):
         assert artifact in decision
     assert "decision.json" not in decision
+
+
+def test_strategy_skills_return_results_without_sidecars():
+    sidecar = re.compile(r"data/\{code\}/strategy_(?!scan\.json)[a-z0-9_]+\.json")
+    hits = [
+        (str(path), match.group())
+        for path in (ROOT / ".agents/skills").glob("*/SKILL.md")
+        for match in sidecar.finditer(path.read_text(encoding="utf-8"))
+    ]
+    for path in (ROOT / ".agents/skills").glob("strategy-*/SKILL.md"):
+        text = path.read_text(encoding="utf-8")
+        if path.name == "SKILL.md" and path.parent.name != "strategy-executor":
+            assert "返回给 `$strategy-executor`" in text
+    assert hits == []
+
+
+def test_routed_reporting_and_discovery_skills_have_scalable_contracts():
+    weekly = (ROOT / ".agents/skills/weekly-report/SKILL.md").read_text(encoding="utf-8")
+    discovery = (ROOT / ".agents/skills/discovery/SKILL.md").read_text(encoding="utf-8")
+    executor = (ROOT / ".agents/skills/strategy-executor/SKILL.md").read_text(encoding="utf-8")
+    assert "tracking/daily/positions/" in weekly
+    split_daily = re.compile(r"tracking/daily/(?:market|[^\s`]+(?:market|positions)/)")
+    assert not split_daily.search(weekly)
+    assert "YYYY-MM-DD-analysis" not in weekly
+    assert not re.search(r"(?:10\s*[-—]\s*15|3\s*[-—]\s*5)\s*只", discovery)
+    assert not re.search(r"(?:推荐|候选|进入).*?(?:前\s*)?\d+\s*[-—]\s*\d+\s*只", discovery)
+    assert "评分门槛" in discovery and "追踪容量" in discovery
+    for ratio in ("buy_ratio", "hold_ratio", "sell_ratio"):
+        assert ratio in executor
+    assert "weighted_score" in executor
+    assert "buy_count" not in executor and "sell_count" not in executor
+    assert not re.search(r"\b(?:buy|sell)\s*(?:>=|≥|>|≤|<)\s*\d+", executor)

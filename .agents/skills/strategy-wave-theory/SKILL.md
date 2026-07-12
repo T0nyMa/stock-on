@@ -37,4 +37,4 @@ description: 波浪理论策略 — 艾略特 5浪上涨/3浪下跌。对应 str
 
 ## 输出
 
-用 写入 工具写入 `data/{code}/strategy_wave_theory.json`
+将以下结构化结果返回给 `$strategy-executor`；本 Skill 不写文件，由执行器统一持久化 `artifact.strategy_scan`。

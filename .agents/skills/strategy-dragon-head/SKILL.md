@@ -38,4 +38,4 @@ description: 龙头股策略 — 板块龙头放量突破判断。对应 strateg
 
 ## 输出
 
-用 写入 工具写入 `data/{code}/strategy_dragon_head.json`
+将以下结构化结果返回给 `$strategy-executor`；本 Skill 不写文件，由执行器统一持久化 `artifact.strategy_scan`。

@@ -37,4 +37,4 @@ description: 地量策略 — 成交量缩至极低时的变盘信号。对应 s
 
 ## 输出
 
-用 写入 工具写入 `data/{code}/strategy_bottom_volume.json`
+将以下结构化结果返回给 `$strategy-executor`；本 Skill 不写文件，由执行器统一持久化 `artifact.strategy_scan`。

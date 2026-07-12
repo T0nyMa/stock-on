@@ -35,4 +35,4 @@ description: 成长质量策略 — 基本面筛选成长标的。对应 strateg
 
 ## 输出
 
-用 写入 工具写入 `data/{code}/strategy_growth_quality.json`
+将以下结构化结果返回给 `$strategy-executor`；本 Skill 不写文件，由执行器统一持久化 `artifact.strategy_scan`。

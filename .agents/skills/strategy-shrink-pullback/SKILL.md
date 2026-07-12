@@ -36,4 +36,4 @@ description: 缩量回调策略 — 缩量回踩 MA5/MA10 支撑。对应 strate
 
 ## 输出
 
-用 写入 工具写入 `data/{code}/strategy_shrink_pullback.json`
+将以下结构化结果返回给 `$strategy-executor`；本 Skill 不写文件，由执行器统一持久化 `artifact.strategy_scan`。

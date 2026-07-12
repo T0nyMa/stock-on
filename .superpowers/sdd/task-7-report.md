@@ -34,3 +34,11 @@ Completed documentation migration to the project specification registry.
 - Replaced absolute strategy vote counts with normalized ratios plus weighted-score thresholds, and fixed discovery recommendation counts with evidence/score thresholds and tracking-capacity language.
 - Restored stable `core` / `key` / `watch` semantics in `tracking/README.md`.
 - Expanded the regression scan to every project Skill and added focused assertions for the four reviewed behaviors. The review RED run failed all four original behavior tests (plus the explicit registered-input assertion before implementation); the final focused run passed all five.
+
+## Routed-Skill follow-up
+
+- Migrated every `strategy-*` Skill from per-strategy sidecar writes to structured in-memory returns; analytical steps and result schemas remain intact. `$strategy-executor` is now the sole writer of `artifact.strategy_scan`.
+- Added normalized buy/hold/sell ratios, weighted-score calculation, and variable-count verdict thresholds to `$strategy-executor`; raw counts are diagnostic only.
+- Migrated `$discovery` from fixed L3/recommendation counts to evidence and score gates plus current tracking capacity, including valid empty recommendations.
+- Migrated `$weekly-report` to consume only the week's registered single-file daily reports and current registered summaries.
+- Strengthened regex/glob-aware regression coverage across every project Skill for unregistered strategy sidecars, split daily sources, fixed candidate counts, and raw-count-only verdict rules. The focused RED run failed on strategy sidecars and weekly split inputs before migration; the GREEN run passed all seven checks.

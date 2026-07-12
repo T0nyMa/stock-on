@@ -36,4 +36,4 @@ description: 预期重估策略 — PE/PB 历史分位与业绩预期。对应 s
 
 ## 输出
 
-用 写入 工具写入 `data/{code}/strategy_expectation_repricing.json`
+将以下结构化结果返回给 `$strategy-executor`；本 Skill 不写文件，由执行器统一持久化 `artifact.strategy_scan`。
