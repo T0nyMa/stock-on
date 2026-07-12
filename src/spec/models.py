@@ -53,12 +53,14 @@ class PolicySpec:
 class WorkflowSpec:
     id: str
     inputs: tuple[str, ...]
+    optional_inputs: tuple[str, ...]
     outputs: tuple[str, ...]
     policies: tuple[str, ...]
     skills: tuple[str, ...]
     steps: tuple[str, ...]
     preflight: tuple[str, ...]
     completion: tuple[str, ...]
+    on_failure: tuple[str, ...]
 
 
 @dataclass(frozen=True)

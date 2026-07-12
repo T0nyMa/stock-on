@@ -1,5 +1,6 @@
 id: data-preparation
 inputs: []
+optional_inputs: []
 outputs: [database.stock_analysis, snapshot.bars, snapshot.quote, snapshot.fundamentals, snapshot.news]
 policies: [DATA.QUALITY, SEARCH.PRIORITY]
 skills: [fetch-data]
@@ -9,3 +10,4 @@ steps:
   - record unavailable upstream fields without fabrication
 preflight: []
 completion: [DATA.REGISTERED_CURRENT, SEARCH.MATERIAL_FACT_VERIFIED]
+on_failure: [retry transient source failures, fallback to registered alternate source with provenance, stop when required current data remains unavailable]

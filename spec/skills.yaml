@@ -6,8 +6,8 @@
 - {id: fetch-data, path: .agents/skills/fetch-data/SKILL.md, category: data, workflows: [data-preparation], excludes: []}
 - {id: financial-report-analysis, path: .agents/skills/financial-report-analysis/SKILL.md, category: research, workflows: [financial-report], excludes: [valuation, trading_advice]}
 - {id: market-regime, path: .agents/skills/market-regime/SKILL.md, category: analysis, workflows: [quant-analysis], excludes: []}
-- {id: screener, path: .agents/skills/screener/SKILL.md, category: discovery, workflows: [], excludes: []}
-- {id: sector-scan, path: .agents/skills/sector-scan/SKILL.md, category: discovery, workflows: [], excludes: []}
+- {id: screener, path: .agents/skills/screener/SKILL.md, category: discovery, workflows: [discovery], excludes: []}
+- {id: sector-scan, path: .agents/skills/sector-scan/SKILL.md, category: discovery, workflows: [discovery], excludes: []}
 - {id: strategy-bottom-volume, path: .agents/skills/strategy-bottom-volume/SKILL.md, category: strategy, workflows: [], excludes: []}
 - {id: strategy-box-oscillation, path: .agents/skills/strategy-box-oscillation/SKILL.md, category: strategy, workflows: [], excludes: []}
 - {id: strategy-bull-trend, path: .agents/skills/strategy-bull-trend/SKILL.md, category: strategy, workflows: [], excludes: []}

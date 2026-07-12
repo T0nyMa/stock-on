@@ -118,17 +118,18 @@
   consumers: []
   freshness: report_publish
   missing: block
-- id: artifact.verified_change
-  path: .
+- id: artifact.verification_record
+  path: data/spec/verification.json
   storage: filesystem
+  kind: verification_record
   producer: development
   consumers: []
   freshness: change
   missing: block
-- id: artifact.strategy_analysis
-  path: data/stock_analysis.db
-  storage: sqlite_data_access
-  kind: strategy_analysis
+- id: artifact.strategy_scan
+  path: data/{code}/strategy_scan.json
+  storage: filesystem
+  kind: strategy_scan
   producer: strategy-analysis
   consumers: [position-decision, daily-report, discovery]
   freshness: trading_day

@@ -50,6 +50,22 @@ def test_minimal_fixture_has_no_blocking_issues():
     assert not has_blocking_issues(validate_registry(load_registry(FIXTURE), FIXTURE))
 
 
+def test_empty_or_unknown_failure_behavior_is_blocking():
+    registry = load_registry(FIXTURE)
+    workflow = registry.workflows["sample"]
+    empty = replace(registry, workflows={"sample": replace(workflow, on_failure=())})
+    assert "WORKFLOW.MISSING_FAILURE_BEHAVIOR" in {
+        issue.code for issue in validate_registry(empty, FIXTURE)
+    }
+    unknown = replace(
+        registry,
+        workflows={"sample": replace(workflow, on_failure=("ignore error",))},
+    )
+    assert "WORKFLOW.UNKNOWN_FAILURE_BEHAVIOR" in {
+        issue.code for issue in validate_registry(unknown, FIXTURE)
+    }
+
+
 def test_workflow_references_and_artifact_contracts_are_validated():
     registry = load_registry(FIXTURE)
     workflow = replace(
@@ -97,8 +113,8 @@ def test_artifact_dependency_cycle_is_reported():
     registry = load_registry(FIXTURE)
     one = ArtifactSpec("artifact.one", "one", "one", ("two",), "daily", "block")
     two = ArtifactSpec("artifact.two", "two", "two", ("one",), "daily", "block")
-    workflow_one = WorkflowSpec("one", ("artifact.two",), ("artifact.one",), (), (), (), (), ())
-    workflow_two = WorkflowSpec("two", ("artifact.one",), ("artifact.two",), (), (), (), (), ())
+    workflow_one = WorkflowSpec("one", ("artifact.two",), (), ("artifact.one",), (), (), (), (), (), ("stop",))
+    workflow_two = WorkflowSpec("two", ("artifact.one",), (), ("artifact.two",), (), (), (), (), (), ("stop",))
     bad = replace(
         registry,
         artifacts={one.id: one, two.id: two},

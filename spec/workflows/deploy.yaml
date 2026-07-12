@@ -1,5 +1,6 @@
 id: deploy
-inputs: [artifact.daily_report, artifact.weekly_report, artifact.discovery_report]
+inputs: [artifact.daily_report]
+optional_inputs: [artifact.weekly_report, artifact.discovery_report]
 outputs: [artifact.published_html]
 policies: [PUBLISH.COMPLETE]
 skills: [deploy]
@@ -9,3 +10,4 @@ steps:
   - verify the published GitHub Pages content
 preflight: []
 completion: [PUBLISH.PUSHED]
+on_failure: [retry rendering or push after correcting the cause, stop until the selected report target is published and verified]

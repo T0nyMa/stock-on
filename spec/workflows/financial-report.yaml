@@ -1,5 +1,6 @@
 id: financial-report
 inputs: [snapshot.fundamentals, snapshot.news]
+optional_inputs: []
 outputs: [artifact.financial_collection_status, artifact.financial_quality_summary]
 policies: [DATA.QUALITY, SEARCH.PRIORITY, RESEARCH.EVIDENCE, DECISION.SEPARATION]
 skills: [financial-report-analysis]
@@ -10,3 +11,4 @@ steps:
   - exclude valuation, position sizing, entry timing, and trading advice
 preflight: [snapshot.fundamentals, snapshot.news, SEARCH.MATERIAL_FACT_VERIFIED]
 completion: [RESEARCH.SOURCES_BOUND]
+on_failure: [retry disclosure collection, fallback by recording explicit collection gaps, stop before quality conclusions when required statements are missing]

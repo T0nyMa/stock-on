@@ -1,5 +1,6 @@
 id: deep-research
 inputs: [snapshot.fundamentals, snapshot.news, artifact.financial_collection_status, artifact.financial_quality_summary]
+optional_inputs: []
 outputs: [artifact.research_summary]
 policies: [DATA.QUALITY, SEARCH.PRIORITY, RESEARCH.EVIDENCE, DECISION.SEPARATION]
 skills: [deep-stock-analysis]
@@ -10,3 +11,4 @@ steps:
   - exclude position sizing, entry timing, and trading advice
 preflight: [snapshot.fundamentals, snapshot.news, SEARCH.MATERIAL_FACT_VERIFIED]
 completion: [RESEARCH.SOURCES_BOUND]
+on_failure: [retry authoritative-source collection, fallback by disclosing unavailable evidence, stop before conclusions when material claims remain unverified]

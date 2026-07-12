@@ -1,6 +1,7 @@
 id: development
 inputs: []
-outputs: [artifact.verified_change]
+optional_inputs: []
+outputs: [artifact.verification_record]
 policies: [DEV.CHANGE]
 skills: []
 steps:
@@ -8,5 +9,7 @@ steps:
   - write a failing regression or feature test before implementation
   - implement the smallest compatible change
   - run focused and risk-proportionate full verification
+  - write command, exit status, test counts, timestamp, and commit identity to data/spec/verification.json
 preflight: []
 completion: [DEV.TESTS_VERIFIED]
+on_failure: [retry failed verification after correcting the implementation, stop without recording completion if verification still fails]

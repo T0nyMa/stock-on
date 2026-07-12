@@ -1,5 +1,6 @@
 id: position-decision
-inputs: [snapshot.indicators, artifact.report_context, artifact.research_summary, artifact.financial_quality_summary, artifact.discovery_report, artifact.strategy_analysis]
+inputs: [snapshot.indicators, artifact.report_context, artifact.research_summary, artifact.financial_quality_summary, artifact.discovery_report, artifact.strategy_scan]
+optional_inputs: []
 outputs: [artifact.tracklist, artifact.position]
 policies: [DATA.QUALITY, RESEARCH.EVIDENCE, DECISION.SEPARATION]
 skills: [decision-agent]
@@ -11,3 +12,4 @@ steps:
   - update tracking/tracklist.json and the applicable position.json
 preflight: [snapshot.indicators, artifact.report_context, artifact.research_summary, artifact.financial_quality_summary]
 completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC]
+on_failure: [retry after refreshing stale evidence, stop without a trading instruction when required research or decision fields are missing]

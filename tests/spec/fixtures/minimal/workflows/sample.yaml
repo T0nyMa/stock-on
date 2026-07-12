@@ -1,8 +1,10 @@
 id: sample
 inputs: []
+optional_inputs: []
 outputs: [artifact.output]
 policies: [policy.core]
 skills: [skill.sample]
 steps: [generate output]
 preflight: [SAMPLE.READY]
 completion: [artifact.output]
+on_failure: [stop]

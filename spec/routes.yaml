@@ -29,9 +29,19 @@
   skill: weekly-report
   priority: 70
 - id: discovery
-  intents: ["潜力股", "发现股票", "发现机会", "discovery", "筛选", "热门股", "板块扫描", "板块排名", "热点板块"]
+  intents: ["潜力股", "发现股票", "发现机会", "discovery"]
   workflow: discovery
   skill: discovery
+  priority: 60
+- id: screener
+  intents: ["筛选", "热门股"]
+  workflow: discovery
+  skill: screener
+  priority: 60
+- id: sector-scan
+  intents: ["板块扫描", "板块排名", "热点板块"]
+  workflow: discovery
+  skill: sector-scan
   priority: 60
 - id: deploy
   intents: ["发布", "deploy"]

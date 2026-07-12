@@ -151,12 +151,14 @@ def _load_workflows(directory: Path) -> dict[str, WorkflowSpec]:
     workflows = []
     tuple_keys = (
         "inputs",
+        "optional_inputs",
         "outputs",
         "policies",
         "skills",
         "steps",
         "preflight",
         "completion",
+        "on_failure",
     )
     for path in sorted(directory.glob("*.yaml")):
         for record in _records(_read_yaml(path), path):

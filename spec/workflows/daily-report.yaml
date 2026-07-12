@@ -1,5 +1,6 @@
 id: daily-report
-inputs: [snapshot.quote, snapshot.news, snapshot.indicators, artifact.report_context, artifact.tracklist, artifact.position, artifact.research_summary, artifact.financial_collection_status, artifact.strategy_analysis]
+inputs: [snapshot.quote, snapshot.news, snapshot.indicators, artifact.report_context, artifact.tracklist, artifact.position, artifact.research_summary, artifact.financial_collection_status, artifact.strategy_scan]
+optional_inputs: []
 outputs: [artifact.daily_report]
 policies: [DATA.QUALITY, SEARCH.PRIORITY, RESEARCH.EVIDENCE, DECISION.SEPARATION, PUBLISH.COMPLETE]
 skills: [daily-report, deploy]
@@ -12,3 +13,4 @@ steps:
   - run the deploy workflow and verify the published page
 preflight: [snapshot.quote, snapshot.news, snapshot.indicators, artifact.report_context, artifact.tracklist, artifact.position, SEARCH.MATERIAL_FACT_VERIFIED]
 completion: [DATA.REGISTERED_CURRENT, RESEARCH.SOURCES_BOUND, DECISION.ACTION_SPECIFIC, PUBLISH.PUSHED]
+on_failure: [retry failed data or publication steps, fallback only by preserving explicit unavailable fields, stop until commit push and deploy verification succeed]

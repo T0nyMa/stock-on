@@ -1,11 +1,13 @@
 id: strategy-analysis
 inputs: [snapshot.indicators]
-outputs: [artifact.strategy_analysis]
+optional_inputs: []
+outputs: [artifact.strategy_scan]
 policies: [DATA.QUALITY]
 skills: [strategy-executor]
 steps:
   - select strategies from the registered market regime
   - execute each selected strategy against the current indicator snapshot
-  - persist signal, score, evidence, and invalidation in strategy_analysis
+  - persist aggregate signal, score, evidence, and invalidation in data/{code}/strategy_scan.json
 preflight: [snapshot.indicators]
 completion: [DATA.REGISTERED_CURRENT]
+on_failure: [retry a failed strategy once with refreshed indicators, fallback by marking that strategy unavailable, stop when no valid strategy result remains]

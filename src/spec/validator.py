@@ -92,7 +92,7 @@ def validate_registry(
 
     for workflow in registry.workflows.values():
         location = f"workflows/{workflow.id}.yaml:{workflow.id}"
-        for artifact_id in (*workflow.inputs, *workflow.outputs):
+        for artifact_id in (*workflow.inputs, *workflow.optional_inputs, *workflow.outputs):
             if artifact_id not in registry.artifacts:
                 add("WORKFLOW.UNKNOWN_ARTIFACT", f"unknown artifact: {artifact_id}", location)
         for policy_id in workflow.policies:
@@ -111,6 +111,19 @@ def validate_registry(
         for gate_id in (*workflow.preflight, *workflow.completion):
             if gate_id not in registry.gates and gate_id not in registry.artifacts:
                 add("WORKFLOW.UNKNOWN_GATE", f"unknown gate: {gate_id}", location)
+        if not workflow.on_failure:
+            add(
+                "WORKFLOW.MISSING_FAILURE_BEHAVIOR",
+                "workflow must declare retry, fallback, or stop behavior",
+                location,
+            )
+        for behavior in workflow.on_failure:
+            if not behavior.casefold().startswith(("retry", "fallback", "stop")):
+                add(
+                    "WORKFLOW.UNKNOWN_FAILURE_BEHAVIOR",
+                    f"failure behavior must begin with retry, fallback, or stop: {behavior}",
+                    location,
+                )
 
     for artifact in registry.artifacts.values():
         location = f"artifacts.yaml:{artifact.id}"
@@ -153,7 +166,7 @@ def validate_registry(
                         f"unknown consumer: {consumer_id}",
                         location,
                     )
-                elif artifact.id not in consumer.inputs:
+                elif artifact.id not in (*consumer.inputs, *consumer.optional_inputs):
                     add(
                         "ARTIFACT.CONSUMER_MISMATCH",
                         f"consumer {consumer_id} does not declare input {artifact.id}",
@@ -170,7 +183,7 @@ def validate_registry(
                     f"output {artifact_id} names {artifact.producer} as producer, not {workflow.id}",
                     f"workflows/{workflow.id}.yaml:{workflow.id}",
                 )
-        for artifact_id in workflow.inputs:
+        for artifact_id in (*workflow.inputs, *workflow.optional_inputs):
             artifact = registry.artifacts.get(artifact_id)
             if artifact is not None and workflow.id not in artifact.consumers:
                 add(
