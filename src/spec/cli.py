@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Sequence
 
 from .loader import load_registry
+from .generator import GeneratedSectionError, generate_documents
 from .router import AmbiguousRouteError, resolve_intent
 from .validator import has_blocking_issues, validate_registry
 
@@ -19,6 +20,8 @@ def _parser() -> argparse.ArgumentParser:
     commands.add_parser("validate")
     inspect = commands.add_parser("inspect")
     inspect.add_argument("--intent", required=True)
+    generate = commands.add_parser("generate")
+    generate.add_argument("--check", action="store_true")
     return parser
 
 
@@ -66,4 +69,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     if args.command == "validate":
         return _validate(args.spec_root, args.repo_root)
+    if args.command == "generate":
+        try:
+            changed = generate_documents(
+                load_registry(args.spec_root), args.repo_root, check=args.check
+            )
+        except GeneratedSectionError as exc:
+            _emit({"error": str(exc)})
+            return 1
+        _emit({"changed": [str(path) for path in changed]})
+        return 0
     return _inspect(args.spec_root, args.intent)

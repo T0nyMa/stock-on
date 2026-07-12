@@ -1,93 +1,40 @@
 # Skills 索引
 
-全部 Skill 的用途、分类和参数。
+Skill 的用途边界由 `spec/skills.yaml` 登记，具体执行方式以各 `SKILL.md` 为准。下表为生成内容，不要手工编辑标记区域。
 
-## 编排类
+<!-- BEGIN GENERATED: skills -->
+| Skill ID | 分类 | 路径 | Workflows | 排除范围 |
+|---|---|---|---|---|
+| `daily-report` | `reporting` | `.agents/skills/daily-report/SKILL.md` | `daily-report` | — |
+| `decision-agent` | `decision` | `.agents/skills/decision-agent/SKILL.md` | `position-decision` | — |
+| `deep-stock-analysis` | `research` | `.agents/skills/deep-stock-analysis/SKILL.md` | `deep-research` | `trading_advice` |
+| `deploy` | `publishing` | `.agents/skills/deploy/SKILL.md` | `deploy`<br>`daily-report`<br>`weekly-report` | — |
+| `discovery` | `discovery` | `.agents/skills/discovery/SKILL.md` | `discovery` | — |
+| `fetch-data` | `data` | `.agents/skills/fetch-data/SKILL.md` | `data-preparation` | — |
+| `financial-report-analysis` | `research` | `.agents/skills/financial-report-analysis/SKILL.md` | `financial-report` | `valuation`<br>`trading_advice` |
+| `market-regime` | `analysis` | `.agents/skills/market-regime/SKILL.md` | `quant-analysis` | — |
+| `screener` | `discovery` | `.agents/skills/screener/SKILL.md` | `discovery` | — |
+| `sector-scan` | `discovery` | `.agents/skills/sector-scan/SKILL.md` | `discovery` | — |
+| `strategy-bottom-volume` | `strategy` | `.agents/skills/strategy-bottom-volume/SKILL.md` | — | — |
+| `strategy-box-oscillation` | `strategy` | `.agents/skills/strategy-box-oscillation/SKILL.md` | — | — |
+| `strategy-bull-trend` | `strategy` | `.agents/skills/strategy-bull-trend/SKILL.md` | — | — |
+| `strategy-chan-theory` | `strategy` | `.agents/skills/strategy-chan-theory/SKILL.md` | — | — |
+| `strategy-dragon-head` | `strategy` | `.agents/skills/strategy-dragon-head/SKILL.md` | — | — |
+| `strategy-emotion-cycle` | `strategy` | `.agents/skills/strategy-emotion-cycle/SKILL.md` | — | — |
+| `strategy-event-driven` | `strategy` | `.agents/skills/strategy-event-driven/SKILL.md` | — | — |
+| `strategy-executor` | `strategy` | `.agents/skills/strategy-executor/SKILL.md` | `strategy-analysis` | — |
+| `strategy-expectation-repricing` | `strategy` | `.agents/skills/strategy-expectation-repricing/SKILL.md` | — | — |
+| `strategy-growth-quality` | `strategy` | `.agents/skills/strategy-growth-quality/SKILL.md` | — | — |
+| `strategy-hot-theme` | `strategy` | `.agents/skills/strategy-hot-theme/SKILL.md` | — | — |
+| `strategy-ma-golden-cross` | `strategy` | `.agents/skills/strategy-ma-golden-cross/SKILL.md` | — | — |
+| `strategy-one-yang-three-yin` | `strategy` | `.agents/skills/strategy-one-yang-three-yin/SKILL.md` | — | — |
+| `strategy-shrink-pullback` | `strategy` | `.agents/skills/strategy-shrink-pullback/SKILL.md` | — | — |
+| `strategy-volume-breakout` | `strategy` | `.agents/skills/strategy-volume-breakout/SKILL.md` | — | — |
+| `strategy-wave-theory` | `strategy` | `.agents/skills/strategy-wave-theory/SKILL.md` | — | — |
+| `tech-indicators` | `data` | `.agents/skills/tech-indicators/SKILL.md` | `quant-analysis` | — |
+| `weekly-report` | `reporting` | `.agents/skills/weekly-report/SKILL.md` | `weekly-report` | — |
+<!-- END GENERATED: skills -->
 
-| Skill | 说明 |
-|-------|------|
-| `daily-report` | 每日追踪报告：大盘 + 全部追踪股单股日报（按tier执行不同策略数） + 持仓汇总 |
-| `weekly-report` | 周度总结：汇总本周日报生成周报 |
-| `discovery` | 潜力股发现：L1快照→L2评分→L3策略验证，完整三层筛选 |
-| `screener` | 全市场筛选：L1快照（10维度）或 L1+L2（技术评分），产出候选清单 |
-| `deploy {date}` | 发布到 GitHub Pages：生成HTML + 更新首页索引 + git push |
-| `strategy-executor {code} {strategy}` | 标准化策略执行器：读策略定义 → 逐步执行 → 输出标准JSON |
+## 使用方式
 
-## 数据准备
-
-| Skill | 别名 | 说明 |
-|-------|------|------|
-| `fetch-data {code}` | `python src/fetch.py --code {code}` | 拉取 K线+行情+基本面+新闻 |
-| `tech-indicators {code}` | `python src/indicators.py --code {code}` | 计算 MA/MACD/RSI/量能/BIAS/趋势 |
-
-## 市场状态
-
-## Quantitative Analysis V2
-
-运行 `python scripts/run_quant_analysis.py --date YYYY-MM-DD`，生成 `technical_snapshot.json`、`strategy_stats.json`、`cross_market.json`、`cross_asset.json`、`market_breadth.json`、`portfolio_risk.json` 和 `data/report_context.json`。报告只能消费这些确定性字段；少于 250 根不发布胜率，`unavailable` 必须原样披露。
-
-| Skill | 输入 | 输出 | 说明 |
-|-------|------|------|------|
-| `market-regime {code}` | indicators.json | regime.json | 判断市场状态，推荐匹配策略 |
-
-## 策略分析（按类型）
-
-### 趋势类（权重 1.0）
-
-| Skill | 适用市场 | 核心判据 |
-|-------|---------|---------|
-| `strategy-ma-golden-cross {code}` | 多头/反转 | MA金叉 + 量能确认 + 乖离率 |
-| `strategy-bull-trend {code}` | 多头 | MA5>MA10>MA20 + MACD零轴上 + 回踩不破 |
-
-### 量价类（权重 1.0）
-
-| Skill | 适用市场 | 核心判据 |
-|-------|---------|---------|
-| `strategy-volume-breakout {code}` | 多头/震荡 | 放量突破阻力 + 收盘站上 + 不限高 |
-| `strategy-shrink-pullback {code}` | 多头回调/空头 | 缩量回踩均线 + 企稳阳线 + 不破前低 |
-| `strategy-bottom-volume {code}` | 空头末端 | 地量(量比<0.5) + RSI超卖 + 止跌企稳 |
-
-### 形态类（权重 0.9）
-
-| Skill | 适用市场 | 核心判据 |
-|-------|---------|---------|
-| `strategy-chan-theory {code}` | 震荡/空头末端 | 分型→笔→中枢→背驰→买卖点 |
-| `strategy-box-oscillation {code}` | 震荡 | 20日箱体 + 下轨买/上轨卖 + 量能配合 |
-| `strategy-wave-theory {code}` | 震荡/空头 | 推动浪/调整浪识别 + 斐波那契 + 浪规检查 |
-
-### 题材类（权重 0.8）
-
-| Skill | 适用市场 | 核心判据 |
-|-------|---------|---------|
-| `strategy-hot-theme {code}` | 题材驱动 | 热点识别 + 相关性 + 强度判断 + 节奏 |
-| `strategy-event-driven {code}` | 事件驱动 | 事件冲击评估 + 持续性判断 + 时效 |
-| `strategy-emotion-cycle {code}` | 全部 | 冰点/启动/高潮/退潮 + 换手率 + 涨跌停 |
-
-### 基本面类（权重 0.7）
-
-| Skill | 适用市场 | 核心判据 |
-|-------|---------|---------|
-| `strategy-growth-quality {code}` | 全部 | 营收/利润增速 + 估值分位 + 质量筛查 |
-| `strategy-expectation-repricing {code}` | 空头/震荡 | 预期差识别 + 催化剂 + 重估空间 |
-
-### 其他（权重 0.9）
-
-| Skill | 适用市场 | 核心判据 |
-|-------|---------|---------|
-| `strategy-dragon-head {code}` | 题材驱动 | 相对强度 + 领涨属性 + 资金聚焦 |
-| `strategy-one-yang-three-yin {code}` | 多头回调 | 一阳吞三阴 + 量能确认 + 支撑不破 |
-
-## 决策汇总
-
-| Skill | 输入 | 输出 | 说明 |
-|-------|------|------|------|
-| `decision-agent {code}` | 所有 strategy_*.json + regime.json | decision.json | 加权评分 + 风险汇总 + 操作建议 |
-
-## 按市场状态选策略
-
-| 市场状态 | 优先策略（前5） | 可选 |
-|----------|----------------|------|
-| trending_up（多头） | ma-golden-cross, volume-breakout, bull-trend, dragon-head, shrink-pullback | hot-theme, emotion-cycle |
-| volatile（震荡） | chan-theory, box-oscillation, wave-theory, bottom-volume, one-yang-three-yin | ma-golden-cross, shrink-pullback |
-| sector_hot（题材） | hot-theme, dragon-head, event-driven, emotion-cycle, volume-breakout | bull-trend |
-| bearish（空头） | expectation-repricing, growth-quality, event-driven, bottom-volume, emotion-cycle | shrink-pullback |
+先从 `AGENTS.md` 的意图路由确定 workflow，再读取 workflow 登记的 Skill。策略 Skill 由策略分析工作流按市场状态选择，不应仅凭名称直接组合。

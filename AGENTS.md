@@ -1,107 +1,50 @@
 # Stock-On: 股票分析与追踪系统
 
-Python 负责数据抓取和技术指标计算，Codex 负责所有分析决策。
+Python 负责确定性数据抓取与指标计算，Codex 负责基于已登记证据的研究和决策。`spec/` 是路由、工作流、Skill、工件和门禁的机器可读事实源。
 
-## 核心规则
+## 不变量
 
-1. **先读后写**：分析任何股票前，先读取 `tracking/` 下已有报告和 `position.json`
-2. **具体到价位和股数**：不说“反弹就减仓”，说“48.5-49.5 缩量 → 卖出 1000 股”
-3. **数据先行**：分析前必须运行 `python src/fetch.py --code {code}` 和 `python src/indicators.py --code {code}`
-4. **日报/周报自动发布**：日报和周报生成完成后，必须执行 `$deploy` 推送到 GitHub Pages，不需要用户提醒
-5. **联网信息必须核验**：新闻、公告、行情等时效性信息必须联网搜索；优先交易所公告、公司公告及权威财经来源，并在报告中保留来源链接和日期
-6. **日报模板固定**：日报必须以 `references/templates/daily-report-v2.md` 为结构模板；第五章必须将全部观察股分为“技术较强/中性震荡/技术偏弱”三组，列出趋势强度、观察区、失效位、目标位和建议
+1. 分析前先读取 `tracking/` 下已有报告、`tracking/tracklist.json` 和适用的 `position.json`。
+2. 需要行情和技术指标时，先执行已登记的数据准备与量化工作流；缺失字段必须保留为 `unavailable`，不得猜测。
+3. 时效性事实必须联网核验，优先交易所、公司公告及权威来源，并保留链接与日期。
+4. 研究与交易决策分离；交易指令必须具体到价格、股数、触发条件和失效条件。
+5. 日报和周报完成后必须执行发布工作流，并验证 commit、push 和发布结果。
+
+## 优先级
+
+用户明确要求 > `AGENTS.md` 手工不变量 > `spec/` 登记的工作流与门禁 > 场景说明和 Skill 实现细节。冲突时遵循更高优先级，并显式披露无法满足的低优先级要求。
 
 ## 意图路由
 
-看到以下用户意图时，读取对应文档或使用对应 Skill，并按步骤执行：
+下表由 `spec/routes.yaml` 生成；不要手工编辑标记区域。
 
-| 用户说 | 执行 |
-|--------|------|
-| “分析三花” / “今日002050” | 读取 `references/scenarios/core-position.md` |
-| “分析兆易创新” / “603986怎么样” | 读取 `references/scenarios/key-observation.md` |
-| “巡检” / “观察列表” / “watchlist” | 读取 `references/scenarios/daily-patrol.md` |
-| “建仓分析 {code}” / “新股票” | 读取 `references/scenarios/first-time-setup.md` |
-| “深度分析 {code}” / “深研 {code}” | 使用 `$deep-stock-analysis`，只做研究，不输出交易建议 |
-| “财报分析 {code}” / “财报深度解析” / “财报排雷” / “财务质量” | 使用 `$financial-report-analysis` |
-| “扫描策略 {code}” / “策略分析” | 读取 `references/scenarios/strategy-scan.md` |
-| “日报” / “今日总结” / “daily” | 使用 `$daily-report`，严格执行日报七章流程 |
-| “周报” / “本周总结” / “weekly” | 使用 `$weekly-report` |
-| “发布” / “deploy” | 使用 `$deploy` |
-| “潜力股” / “发现股票” / “发现机会” / “discovery” | 使用 `$discovery` |
-| “筛选” / “热门股” | 使用 `$screener` |
-| “板块扫描” / “板块排名” / “热点板块” | 使用 `$sector-scan` |
-
-## 追踪清单
-
-读取 `tracking/tracklist.json` 获取当前追踪的所有股票及其分层和场景。
+<!-- BEGIN GENERATED: routes -->
+| Route ID | 用户意图 | Workflow | Skill | 优先级 |
+|---|---|---|---|---:|
+| `daily-report` | “日报”<br>“今日总结”<br>“daily” | `daily-report` | `$daily-report` | 70 |
+| `deep-research` | “深度分析 {code}”<br>“深研 {code}” | `deep-research` | `$deep-stock-analysis` | 100 |
+| `deploy` | “发布”<br>“deploy” | `deploy` | `$deploy` | 50 |
+| `discovery` | “潜力股”<br>“发现股票”<br>“发现机会”<br>“discovery” | `discovery` | `$discovery` | 60 |
+| `financial-report` | “财报分析 {code}”<br>“财报深度解析 {code}”<br>“财报排雷 {code}”<br>“财务质量 {code}” | `financial-report` | `$financial-report-analysis` | 100 |
+| `position-decision` | “建仓分析 {code}”<br>“新股票 {code}”<br>“分析三花”<br>“今日002050”<br>“分析兆易创新”<br>“603986怎么样” | `position-decision` | `$decision-agent` | 90 |
+| `screener` | “筛选”<br>“热门股” | `discovery` | `$screener` | 60 |
+| `sector-scan` | “板块扫描”<br>“板块排名”<br>“热点板块” | `discovery` | `$sector-scan` | 60 |
+| `strategy-analysis` | “扫描策略 {code}”<br>“策略分析 {code}” | `strategy-analysis` | `$strategy-executor` | 80 |
+| `weekly-report` | “周报”<br>“本周总结”<br>“weekly” | `weekly-report` | `$weekly-report` | 70 |
+<!-- END GENERATED: routes -->
 
 ## 目录导航
 
 | 目录 | 说明 | 入口 |
-|------|------|------|
-| `src/` | Python 数据层 | `src/README.md` |
+|---|---|---|
+| `spec/` | 项目注册表：路由、工作流、策略、工件、Skill | `spec/project.yaml` |
+| `src/` | Python 数据层和 spec 引擎 | `src/README.md` |
 | `strategies/` | 策略定义 | `strategies/README.md` |
-| `tracking/` | 追踪报告 + 追踪清单 | `tracking/README.md` |
-| `references/` | 参考知识（方法论、场景、Skill 索引） | `references/README.md` |
-| `data/` | SQLite 股票数据 + 市场级派生数据 | 单股数据用 `python -m src.data_access` 查询 |
-| `.agents/skills/` | Codex 项目 Skill 定义 | 按需使用 |
+| `tracking/` | 追踪报告、清单和持仓 | `tracking/README.md` |
+| `references/` | 方法论、模板和生成索引 | `references/README.md` |
+| `data/` | SQLite 数据和确定性派生工件 | `python -m src.data_access` |
+| `.agents/skills/` | 项目 Skill 实现 | `references/skills-index.md` |
 
 ## 渐进式加载
 
-```text
-用户意图
-  → AGENTS.md（本文件，常驻）→ 匹配路由
-    → references/scenarios/{场景}.md（按需加载）→ 步骤执行
-      → references/analysis-methodology.md（深度分析时加载）→ 知识框架
-      → references/skills-index.md（使用 Skill 时加载）→ 工具参数
-```
-
-本文件只做路由；具体工作流以对应场景文档和 Skill 为准。
-
-## 日报标准流程（强制执行，不可跳过）
-
-用户说“日报”时，使用 `$daily-report`，并确保以下步骤完整执行。
-
-### Step 0: 数据拉取
-
-```bash
-source .venv/bin/activate && python scripts/fetch_all_daily.py
-```
-
-该命令拉取 A 股、港股、指数、金价和板块数据。之后读取 `data/daily_snapshot.json` 获取全量数据。
-
-### Step 1: 消息面搜索
-
-对每只持仓股和核心观察股联网搜索最新公告与新闻。查询中使用执行当天的日期，不要硬编码月份；优先核验一手来源，并记录链接与发布日期。
-
-### Step 2-7: 写报告（单文件）
-
-写任何定量结论前必须读取 `data/report_context.json`。定量字段只允许来自 `market_breadth`、`multi-timeframe`、`relative_strength`、`strategy_stats`、`cross_market` 和 `portfolio_risk`。报告必须展示 ATR、entry、invalidation、targets 与 risk_reward；字段为 `unavailable` 时原样披露，不得自行补算或降级成中性判断。
-
-写作前必须读取 `references/templates/daily-report-v2.md`，并按其完整七章结构填充，不得退回简版卡片或只给数据概览。
-
-输出：`tracking/daily/positions/YYYY-MM-DD.md`（一份文件，不拆分）
-
-七章结构：
-
-1. **宏观背景** — 四大指数 + 金价（COMEX/SGE）+ 板块 TOP5
-2. **持仓追踪** — 每只持仓：成本/现价/浮亏/今日变化，A+H 双市场都要
-3. **核心个股深度** — 工联/山金/三花/兆易/阿里，每只包含数据表、消息面、技术面、共振分析和操作判断；有 H 股的增加港股对比子章节
-4. **A-H 对比** — 表格对比所有双市场股票的溢价和港股 PE
-5. **其余观察股技术巡检与趋势建议** — 全量观察股分为技术较强/中性震荡/技术偏弱三组；每只包含多周期趋势、ADX/RSI、观察区、失效位、目标位和建议
-6. **策略信号** — 持仓股最新策略评分（有变化才更新）
-7. **操作清单** — 每只一句话
-
-### 完成检查清单
-
-- [ ] Step 0 数据拉取完成，`data/daily_snapshot.json` 已生成
-- [ ] Step 1 消息面搜索完成，至少覆盖持仓股，并保留来源链接与日期
-- [ ] 第一章包含四大指数、金价和板块 TOP5
-- [ ] 第二章包含持仓 A+H 双市场
-- [ ] 第三章包含四只 A 股深度分析和阿里巴巴，含 H 股对比
-- [ ] 第四章包含 A-H 全面对比表
-- [ ] 第五章覆盖全部观察股，并分为技术较强/中性震荡/技术偏弱三组
-- [ ] 每只观察股均有趋势强度、观察区、失效位、目标位和建议
-- [ ] 第七章包含每只股票的操作建议
-- [ ] `position.json` 已更新浮亏
-- [ ] 已完成 git commit 和 push
+先用本文件和生成路由定位 `spec/workflows/{workflow}.yaml`，再加载其中登记的 policies、artifacts 和 skills；仅在工作流需要时读取对应场景、方法论与模板。具体执行步骤和完成门禁以工作流注册项为准。
