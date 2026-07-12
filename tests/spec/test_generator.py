@@ -66,3 +66,31 @@ def test_generate_check_reports_stale_documents(tmp_path):
     assert len(changed) == 3
     assert generate_documents(registry, tmp_path, check=True) == ()
     assert generate_documents(registry, tmp_path) == ()
+
+
+def test_generate_preserves_crlf_manual_bytes_outside_markers(tmp_path):
+    registry = load_registry(ROOT / "spec")
+    documents = (
+        (tmp_path / "AGENTS.md", "routes"),
+        (tmp_path / "references" / "skills-index.md", "skills"),
+        (tmp_path / "references" / "generated" / "workflows.md", "workflows"),
+    )
+    for path, section in documents:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(
+            b"manual\r\nbytes\r\n"
+            + f"<!-- BEGIN GENERATED: {section} -->".encode()
+            + b"\r\nstale\r\n"
+            + f"<!-- END GENERATED: {section} -->".encode()
+            + b"\r\ntail\r\nbytes\r\n"
+        )
+
+    assert len(generate_documents(registry, tmp_path)) == 3
+
+    for path, section in documents:
+        result = path.read_bytes()
+        begin = f"<!-- BEGIN GENERATED: {section} -->".encode()
+        end = f"<!-- END GENERATED: {section} -->".encode()
+        assert result[: result.index(begin)] == b"manual\r\nbytes\r\n"
+        end_at = result.index(end) + len(end)
+        assert result[end_at:] == b"\r\ntail\r\nbytes\r\n"

@@ -92,14 +92,15 @@ def generate_documents(
         ),
     )
     changed: list[Path] = []
-    rendered: list[tuple[Path, str]] = []
+    rendered: list[tuple[Path, bytes]] = []
     for path, section, content in documents:
         try:
-            source = path.read_text(encoding="utf-8")
-        except OSError as exc:
+            source_bytes = path.read_bytes()
+            source = source_bytes.decode("utf-8")
+        except (OSError, UnicodeDecodeError) as exc:
             raise GeneratedSectionError(f"cannot read generated document {path}: {exc}") from exc
-        result = replace_generated_section(source, section, content)
-        if result != source:
+        result = replace_generated_section(source, section, content).encode("utf-8")
+        if result != source_bytes:
             changed.append(path)
             rendered.append((path, result))
 
@@ -107,5 +108,5 @@ def generate_documents(
         paths = ", ".join(str(path) for path in changed)
         raise GeneratedSectionError(f"generated documents are out of date: {paths}")
     for path, result in rendered:
-        path.write_text(result, encoding="utf-8")
+        path.write_bytes(result)
     return tuple(changed)

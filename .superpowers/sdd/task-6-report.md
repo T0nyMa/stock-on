@@ -22,3 +22,10 @@ Implemented a deterministic Markdown generator backed by `SpecRegistry`, added t
 - Named regions require exactly one ordered begin/end pair.
 - Replacement preserves every byte outside the marker region.
 - Check mode does not write files and reports stale documents through a non-zero CLI result.
+
+## Review follow-up: CRLF preservation
+
+- Root cause: `Path.read_text()` used universal-newline translation, converting CRLF manual regions to LF before the whole document was rewritten.
+- Added a generator-level regression covering all three documents and comparing the exact byte prefixes and suffixes outside their markers.
+- RED: the regression failed with `b'manual\nbytes\n' != b'manual\r\nbytes\r\n'`.
+- Fix: documents are now read and written as bytes, with explicit UTF-8 decode/encode only around marker replacement. Generated bodies retain their deterministic LF representation while manual bytes remain unchanged.
