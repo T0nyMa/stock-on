@@ -312,4 +312,9 @@ def main():
     logger.info("=== Done: %s ===", date_str)
 
 if __name__ == "__main__":
-    main()
+    print(
+        "DEPRECATED: scripts/orchestrate_daily.py generated legacy multi-file reports. "
+        "Use scripts/run_scheduled_daily.sh or invoke the registered daily-report workflow.",
+        file=sys.stderr,
+    )
+    raise SystemExit(2)
