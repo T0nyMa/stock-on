@@ -50,6 +50,11 @@ def test_strategy_consensus_and_discovery_scale_with_candidate_count():
     discovery = (ROOT / "references/scenarios/discovery.md").read_text(encoding="utf-8")
     assert "buy_ratio" in strategy and "sell_ratio" in strategy
     assert "buy ≥ 5" not in strategy and "sell ≥ 4" not in strategy
+    assert not re.search(
+        r'"buy_ratio": 0\.43.*?"verdict": "偏多".*?"weighted_score": 62',
+        strategy,
+        re.DOTALL,
+    )
     assert "推荐 2-4 只" not in discovery
     assert "容量" in discovery and "门槛" in discovery
 

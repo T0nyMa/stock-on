@@ -83,7 +83,7 @@ sell_ratio ≥ 0.55 或 weighted_score < 40 → 偏空/回避
   "market_regime": "bearish",
   "strategies_used": ["shrink-pullback", "bottom-volume", "emotion-cycle", ...],
   "consensus": {"buy_ratio": 0.43, "hold_ratio": 0.57, "sell_ratio": 0.0},
-  "verdict": "偏多",
+  "verdict": "分歧/观望",
   "weighted_score": 62,
   "details": "共识矩阵 Markdown"
 }

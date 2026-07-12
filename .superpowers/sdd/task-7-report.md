@@ -42,3 +42,8 @@ Completed documentation migration to the project specification registry.
 - Migrated `$discovery` from fixed L3/recommendation counts to evidence and score gates plus current tracking capacity, including valid empty recommendations.
 - Migrated `$weekly-report` to consume only the week's registered single-file daily reports and current registered summaries.
 - Strengthened regex/glob-aware regression coverage across every project Skill for unregistered strategy sidecars, split daily sources, fixed candidate counts, and raw-count-only verdict rules. The focused RED run failed on strategy sidecars and weekly split inputs before migration; the GREEN run passed all seven checks.
+
+## Final consistency fix
+
+- Corrected the strategy-scan example verdict for `buy_ratio: 0.43` and `weighted_score: 62` from `偏多` to `分歧/观望`, matching the documented normalized thresholds.
+- Added a focused regression assertion; it failed against the contradictory example before the edit and passed afterward.
