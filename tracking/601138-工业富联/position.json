@@ -6,10 +6,10 @@
     "buy_price": 78.72,
     "shares": 2200,
     "cost": 173184,
-    "current_price": 66.27,
-    "current_value": 145794.0,
-    "unrealized_pnl": -27390.0,
-    "unrealized_pnl_pct": -15.82,
+    "current_price": 63.08,
+    "current_value": 138776.0,
+    "unrealized_pnl": -34408.0,
+    "unrealized_pnl_pct": -19.87,
     "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
   },
   "key_levels": {
@@ -64,5 +64,5 @@
     "MACD死叉+均线空头，趋势未反转前不补仓",
     "GB300 Q3量产是下一个重要催化"
   ],
-  "last_updated": "2026-07-11T17:10:00+08:00"
+  "last_updated": "2026-07-13T19:35:00+08:00"
 }
