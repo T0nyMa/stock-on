@@ -1,0 +1,468 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>日报 — 2026年7月14日</title><style>*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;line-height:1.6;color:#24292f;font-size:15px;padding:20px;max-width:1024px;margin:auto}h1{font-size:26px;color:#0969da;border-bottom:1px solid #d0d7de;padding-bottom:.4em}h2{font-size:21px;border-bottom:1px solid #d8dee4;padding-bottom:.3em;margin-top:1.6em}h3{font-size:18px;margin-top:1.3em}table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;margin:14px 0;font-size:13px}th,td{border:1px solid #d0d7de;padding:7px 9px;text-align:left;white-space:normal}th{background:#f6f8fa}tr:nth-child(even){background:#fafbfc}blockquote{border-left:4px solid #0969da;color:#57606a;margin:1em 0;padding:.1em 1em;background:#f6f8fa}code{background:#f1f3f5;padding:.1em .3em;border-radius:3px}a{color:#0969da}@media(max-width:640px){body{padding:12px;font-size:14px}h1{font-size:22px}h2{font-size:19px}}</style></head><body><h1>日报 — 2026年7月14日（周二）· Quantitative Analysis V2</h1>
+<blockquote>
+<p><strong>证据质量</strong>：22 只追踪 A 股的行情、基本面与技术快照已更新至 2026-07-14；4 只港股的实时快照亦已更新。基准相对强弱、HKD/CNY 汇率、部分 A/H 历史序列及完整当日策略扫描为 <code>unavailable</code>，未据此补算。</p>
+<p><strong>风险提示</strong>：报告是已登记数据和已核验披露的决策支持，不构成投资建议。量化 setup 是观察结构，不能替代交易触发；历史策略校准未完整更新时均按低置信处理。</p>
+</blockquote>
+<h2>一、宏观背景</h2>
+<h3>四大指数与黄金</h3>
+<table>
+<thead>
+<tr>
+<th>标的</th>
+<th style="text-align: right;">收盘</th>
+<th style="text-align: right;">涨跌</th>
+<th>技术/市场特征</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上证指数</td>
+<td style="text-align: right;">3913.79</td>
+<td style="text-align: right;">-2.06%</td>
+<td>最近登记指数日期为 7 月 13 日，低于 MA5 3981.53</td>
+</tr>
+<tr>
+<td>深证成指</td>
+<td style="text-align: right;">14522.85</td>
+<td style="text-align: right;">-3.48%</td>
+<td>最近登记指数日期为 7 月 13 日，5 日 -4.61%</td>
+</tr>
+<tr>
+<td>创业板指</td>
+<td style="text-align: right;">3723.52</td>
+<td style="text-align: right;">-3.10%</td>
+<td>最近登记指数日期为 7 月 13 日，5 日 -4.82%</td>
+</tr>
+<tr>
+<td>科创50</td>
+<td style="text-align: right;">1994.32</td>
+<td style="text-align: right;">-3.42%</td>
+<td>最近登记指数日期为 7 月 13 日，5 日 -0.36%</td>
+</tr>
+<tr>
+<td>COMEX 黄金</td>
+<td style="text-align: right;">4027.10 美元/盎司</td>
+<td style="text-align: right;"><code>unavailable</code></td>
+<td>当日同口径涨跌未登记</td>
+</tr>
+<tr>
+<td>SGE Au99.99</td>
+<td style="text-align: right;">879.90 元/克</td>
+<td style="text-align: right;"><code>unavailable</code></td>
+<td>当日同口径涨跌未登记</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>市场宽度</strong>：追踪池 17 涨、5 跌、0 平；上涨占比 77.3%，AD 线 +12，2 只涨停、0 只跌停。</li>
+<li><strong>市场状态</strong>：<code>risk_on</code>，评分 77.3；但覆盖度仅 0.25，且指数数据尚停留在 7 月 13 日，不能把追踪池修复等同于全市场趋势反转。</li>
+<li><strong>板块 TOP5</strong>：电子布（100.0，均涨 10.36%）、MLCC（96.5，8.27%）、PCB（95.1，7.56%）、CPO（93.5，6.74%）、铜箔（91.2，9.74%）。科技链出现普涨，仍需后续量能确认。</li>
+<li><strong>数据缺口</strong>：全市场成交额、指数 7 月 14 日收盘、基准相对强弱、HKD/CNY 汇率和黄金同口径日涨跌均为 <code>unavailable</code>。</li>
+</ul>
+<h2>二、持仓追踪</h2>
+<h3>工业富联（601138）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">成本</th>
+<th style="text-align: right;">股数</th>
+<th style="text-align: right;">现价</th>
+<th style="text-align: right;">市值</th>
+<th style="text-align: right;">浮盈亏</th>
+<th style="text-align: right;">ATR/NATR</th>
+<th style="text-align: right;">ADX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">78.70 元</td>
+<td style="text-align: right;">1,100</td>
+<td style="text-align: right;">65.60 元</td>
+<td style="text-align: right;">72,160 元</td>
+<td style="text-align: right;">-14,410 元 / -16.64%</td>
+<td style="text-align: right;">4.15 / 6.33%</td>
+<td style="text-align: right;">18.1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>多周期</strong>：日线 bearish、周线 bullish、月线 bullish，周期冲突；现价仍低于布林中轨 69.95。</li>
+<li><strong>量价资金</strong>：MFI14=37.1、CMF20=+0.050，ADX 低，反弹尚不是趋势反转确认。</li>
+<li><strong>Quant setup</strong>：64.56-66.64 / 失效 65.07 / 目标 68.71 / RR 1.50。失效位落在观察区内，不能机械当作止损。</li>
+<li><strong>当日操作评判</strong>：7 月 13 日卖出 600 股@65.00、7 月 14 日卖出 500 股@65.60，合计将原 2,200 股降至 1,100 股。减仓使 AI 服务器主题风险仍高但已显著下降；在日线尚 bearish、组合高度集中的背景下，方向合理。另一方面，65.00-65.60 未到上一日报的 68.0-68.3 元反弹减仓区，属于主动风控而非原预案触发，后续应把“计划外减仓”的条件预先量化，避免盘中临时规则漂移。</li>
+<li><strong>操作指令</strong>：不补仓。若收盘重新跌破 63.00 且量比≥1.2，卖出 550 股；若反弹至 68.70-70.00 但不能连续两日站稳，卖出 330 股。只有收盘站上 70.00、ADX 回升且量能确认时，才停止减风险计划。</li>
+</ul>
+<h3>山东黄金（600547 / 01787.HK）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">成本</th>
+<th style="text-align: right;">股数</th>
+<th style="text-align: right;">A股现价</th>
+<th style="text-align: right;">H股现价</th>
+<th style="text-align: right;">浮盈亏</th>
+<th style="text-align: right;">ATR/NATR</th>
+<th style="text-align: right;">ADX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">24.00 元</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">25.26 元</td>
+<td style="text-align: right;">HK$18.38</td>
+<td style="text-align: right;">+126 元 / +5.25%（A股）</td>
+<td style="text-align: right;">1.40 / 5.55%</td>
+<td style="text-align: right;">24.8</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>多周期</strong>：A 股日线 neutral、周线 bearish、月线 neutral；H 股当日 +3.03%，A/H 同步反弹，但汇率和溢价为 <code>unavailable</code>。</li>
+<li><strong>量价资金</strong>：MFI14=55.0，CMF20=-0.068，资金面尚未转强；A 股在 24.91-25.61 观察区内。</li>
+<li><strong>Quant setup</strong>：24.91-25.61 / 失效 25.02 / 目标 26.65 / RR 1.98。该失效位处于观察区内，只能作为结构警示。</li>
+<li><strong>当日操作评判</strong>：7 月 14 日将原大仓分三笔卖出（3,600 股@23.40、1,000 股@24.10、2,600 股@25.00），仅保留 7 月 13 日 100 股@24.00 的 FIFO 批次。以日线反弹、周线仍 bearish 的状态看，利用反弹分段出清高成本历史仓位，优于继续把黄金逻辑与单一大仓风险绑定；23.40 的首笔成交锁定了亏损，但随后两笔价格改善，执行上避免了“一次性赌日内高点”。剩余 100 股可作为跟踪仓，不应再被视为可忽略的无纪律例外。</li>
+<li><strong>操作指令</strong>：100 股不加仓；收盘跌破 24.00 元卖出 100 股。若收盘站上 26.65 元且 CMF 转正，再重新评估是否恢复仓位；此前不把金价本身当作买入信号。</li>
+</ul>
+<h3>三花智控 H 股（02050.HK）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">成本</th>
+<th style="text-align: right;">股数</th>
+<th style="text-align: right;">现价</th>
+<th style="text-align: right;">市值</th>
+<th style="text-align: right;">浮盈亏</th>
+<th>技术/数据状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">HK$27.02</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">HK$27.30</td>
+<td style="text-align: right;">HK$2,730</td>
+<td style="text-align: right;">+HK$28 / +1.04%</td>
+<td>H 股历史指标与 A/H 溢价 <code>unavailable</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>当日操作评判</strong>：14:22 以 HK$27.02 建 100 股试探仓，收盘 HK$27.30。规模很小，作为跟踪仓的风险可控；但 A 股日、周线均 bearish，且缺失汇率与完整 H 股技术结构，当前只能评价为“低风险试仓”，不能据收盘小幅浮盈证明入场有效。</li>
+<li><strong>操作指令</strong>：不加仓。港股收盘跌破 HK$26.18（当日低点）卖出 100 股；只有连续两日收盘站上 HK$27.68 且 A 股同步改善，才重新评估加仓。</li>
+</ul>
+<h3>组合风险</h3>
+<p>已登记的 A 股组合年化波动率 56.5%、历史最大回撤 -46.1%、95% 历史 VaR 5.04%、止损压力损失约 6,160 元。工业富联仍占组合风险权重 96.6%，山东黄金 3.4%；新建的三花港股仓因汇率缺失未并入金额风险计算，实际组合风险略高于上述模型值。</p>
+<h2>三、核心个股深度</h2>
+<h3>1. 工业富联（601138）</h3>
+<ul>
+<li><strong>持仓/行情</strong>：65.60 元，+3.99%，PE 32.02；减仓后仍持有 1,100 股。</li>
+<li><strong>消息核验</strong>：公司 7 月 10 日披露 <a href="https://www.sse.com.cn/assortment/stock/list/info/announcement/index.shtml?productId=601138">2026 年半年度业绩预增公告</a>，预计归母净利润 234-244 亿元、同比 +93%-101%。截至 7 月 14 日检索未见更新该盈利结论的公司公告。</li>
+<li><strong>技术面</strong>：日 bearish/周月 bullish；ADX 18.1、MFI 37.1，价格在布林中轨下方，属于低强度反弹。</li>
+<li><strong>研究共振</strong>：业绩增长继续支持 AI 服务器兑现逻辑，但价格尚未验证“增长即上行”；需要关注后续订单、利润率和现金转化。</li>
+<li><strong>操作判断</strong>：减仓正确地降低了单一主题暴露，但未满足既定 68 元以上反弹条件；以后以明确触发而非盘中感受决定剩余仓位。</li>
+</ul>
+<h3>2. 山东黄金（600547 / 01787.HK）</h3>
+<ul>
+<li><strong>持仓/行情</strong>：A 股 25.26 元，+5.43%，PE 22.57；H 股 HK$18.38，+3.03%；仅留 A 股 100 股。</li>
+<li><strong>消息核验</strong>：公司 7 月 11 日披露董事会决议及 <a href="https://www.sse.com.cn/assortment/stock/list/info/announcement/index.shtml?productId=600547">选举董事长、变更法定代表人公告</a>，治理变动已落地；未将此单一事项外推为盈利改善。</li>
+<li><strong>技术面</strong>：A 股日 neutral、周 bearish，ADX 24.8，CMF 为负；本日反弹未改变周线压力。</li>
+<li><strong>研究共振</strong>：金价维持高位是长期驱动，但权益资产仍受产量、成本、现金流与估值约束。</li>
+<li><strong>操作判断</strong>：分段降至跟踪仓是风险调整，而不是确认趋势反转后的卖飞；保留 100 股的前提是严格执行 24 元防守。</li>
+</ul>
+<h3>3. 三花智控（002050 / 02050.HK）</h3>
+<ul>
+<li><strong>持仓/行情</strong>：A 股 41.94 元，+0.82%，PE 43.18；H 股 HK$27.30，-0.94%。</li>
+<li><strong>消息核验</strong>：公司此前披露 <a href="http://www.cninfo.com.cn">2025 年度权益分派实施公告</a>，除权因素已在观察口径中留意；截至 7 月 14 日未发现改变核心经营逻辑的重大更新。</li>
+<li><strong>技术面</strong>：A 股日、周 bearish、月 bullish，ADX 11.6，CMF -0.118；趋势强度不足。</li>
+<li><strong>A/H 与试仓</strong>：没有 HKD/CNY 与连续 H 股指标，溢价为 <code>unavailable</code>；不能用 A/H 名义价格差支持建仓。</li>
+<li><strong>操作判断</strong>：100 股 H 股只是试仓，严格用 HK$26.18 失效；未形成 A、H 共振前不加仓。</li>
+</ul>
+<h3>4. 兆易创新（603986 / 03986.HK）</h3>
+<ul>
+<li><strong>持仓/行情</strong>：A 股 583.99 元，+6.03%，PE 142.56；H 股 HK$689.00，+9.54%，均无持仓。</li>
+<li><strong>消息核验</strong>：公司 7 月 10 日披露 <a href="https://paper.cnstock.com/html/2026-07/10/content_2242432.htm">2026 年半年度业绩预增公告</a>：预计归母净利润约 69 亿元，同比约 +1099%；公告同时明确存储周期波动和金融资产公允价值变动风险。</li>
+<li><strong>技术面</strong>：日 neutral、周月 bullish；ADX 36.5、MFI 28.9、CMF +0.115，波动率高（NATR 9.97%）。</li>
+<li><strong>操作判断</strong>：业绩利好不能消除高估值和高波动。只观察 569.44-598.54 区间能否缩量企稳；跌破 456.70 取消，未确认前不追涨。</li>
+</ul>
+<h3>5. 阿里巴巴（09988.HK）</h3>
+<ul>
+<li><strong>持仓/行情</strong>：HK$110.80，+0.09%，PE 18.11，无持仓。</li>
+<li><strong>消息核验</strong>：公司 7 月 8 日提交的 <a href="https://www.sec.gov/Archives/edgar/data/1577552/000110465926082647/tm2619929d1_ex99-2.htm">次日披露报表</a> 记录了其美股回购；回购提供资本回报信号，但不改变云投入、即时零售与利润率的基本权衡。</li>
+<li><strong>技术面</strong>：日 neutral、周 bearish、月 neutral；ADX 31.3、CMF -0.198，资金持续性未确认。</li>
+<li><strong>操作判断</strong>：HK$108.90-111.50 是观察区，需收盘站上 HK$114.10 且 CMF 转正才确认；跌破 HK$109.57 暂停短线观察。该失效点落在观察区内，按结构谨慎处理。</li>
+</ul>
+<h2>四、A-H 全面对比</h2>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>A股收盘/PE</th>
+<th>H股收盘/PE</th>
+<th>当日表现</th>
+<th>Quant 结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三花智控</td>
+<td>41.94 / 43.18</td>
+<td>HK$27.30 / 25.54</td>
+<td>A +0.82%，H -0.94%</td>
+<td>A/H 分化；溢价 <code>unavailable</code></td>
+</tr>
+<tr>
+<td>山东黄金</td>
+<td>25.26 / 22.57</td>
+<td>HK$18.38 / 16.15</td>
+<td>A +5.43%，H +3.03%</td>
+<td>同步反弹；溢价 <code>unavailable</code></td>
+</tr>
+<tr>
+<td>兆易创新</td>
+<td>583.99 / 142.56</td>
+<td>HK$689.00 / 264.99</td>
+<td>A +6.03%，H +9.54%</td>
+<td>高波动修复；溢价 <code>unavailable</code></td>
+</tr>
+<tr>
+<td>阿里巴巴</td>
+<td><code>unavailable</code></td>
+<td>HK$110.80 / 18.11</td>
+<td>H +0.09%</td>
+<td>港股主上市口径</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>当日 HKD/CNY 汇率未登记，未直接比较两种货币价格或计算 A/H 溢价。</p>
+</blockquote>
+<h2>五、其余观察股技术巡检与趋势建议</h2>
+<h3>A. 技术结构较强，优先跟踪</h3>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>趋势/强度</th>
+<th>关键价位（观察区/失效/目标）</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>药明康德（603259）</td>
+<td>日周月 bullish；ADX 24.8、MFI 66.6</td>
+<td>126.05-128.97 / 115.05 / 146.20，RR 1.50</td>
+<td>接近观察区上沿，等量能确认后再评估</td>
+</tr>
+<tr>
+<td>摩尔线程（688795）</td>
+<td>日周 bullish、月 <code>unavailable</code>；ADX 23.2、MFI 79.5</td>
+<td>682.46-707.78 / 656.90 / 752.45，RR 1.50</td>
+<td>MFI 偏热且月线缺失，不追高</td>
+</tr>
+<tr>
+<td>东山精密（002384）</td>
+<td>日周月 bullish；ADX 23.2、MFI 59.1</td>
+<td>254.99-265.75 / 252.00 / 276.50，RR 1.50</td>
+<td>涨停后只观察回踩，不追板</td>
+</tr>
+</tbody>
+</table>
+<h3>B. 中性震荡，等待方向确认</h3>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>趋势/强度</th>
+<th>关键价位（观察区/失效/目标）</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>扬杰科技（300373）</td>
+<td>日 neutral、周月 bullish；ADX 31.9、MFI 52.4</td>
+<td>110.36-116.24 / 94.67 / 141.25，RR 1.50</td>
+<td>站回 116.24 且量能确认再跟踪</td>
+</tr>
+<tr>
+<td>中微公司（688012）</td>
+<td>日 neutral、周月 bullish；ADX 42.8、MFI 98.7</td>
+<td>396.72-413.88 / 392.00 / 496.02，RR 5.28</td>
+<td>MFI 极端过热，等待回落而非追涨</td>
+</tr>
+<tr>
+<td>北方华创（002371）</td>
+<td>日 neutral、周月 bullish；ADX 35.8、MFI 47.6</td>
+<td>759.96-788.44 / 767.97 / 905.00，RR 4.59</td>
+<td>区间内观察，失效位重叠时不直接入场</td>
+</tr>
+<tr>
+<td>沪电股份（002463）</td>
+<td>日 neutral、周月 bullish；ADX 17.4、MFI 42.0</td>
+<td>134.35-139.91 / 136.41 / 145.46，RR 1.50</td>
+<td>涨停但趋势强度低，次日不追高</td>
+</tr>
+<tr>
+<td>华工科技（000988）</td>
+<td>日 neutral、周月 bullish；ADX 17.2、MFI 48.8</td>
+<td>156.94-162.74 / 144.43 / 182.95，RR 1.50</td>
+<td>等站稳 162.74 与量能共振</td>
+</tr>
+<tr>
+<td>云南锗业（002428）</td>
+<td>日 neutral、周月 bullish；ADX 23.6、MFI 29.0</td>
+<td>92.53-97.01 / 83.34 / 111.91，RR 1.50</td>
+<td>大涨后不追，观察缩量回踩</td>
+</tr>
+<tr>
+<td>紫金矿业（601899）</td>
+<td>日 neutral、周 bearish、月 bullish；ADX 14.7、MFI 50.4</td>
+<td>28.70-29.42 / 27.58 / 31.28，RR 1.50</td>
+<td>周期冲突，暂观望</td>
+</tr>
+<tr>
+<td>上海贝岭（600171）</td>
+<td>日 neutral、周月 bearish；ADX 17.1、MFI 48.6</td>
+<td>26.01-26.79 / 22.21 / 32.68，RR 1.50</td>
+<td>周月未修复，避免以反弹建仓</td>
+</tr>
+</tbody>
+</table>
+<h3>C. 技术偏弱，暂时回避或只做风险观察</h3>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>趋势/强度</th>
+<th>关键价位（观察区/失效/目标）</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>宁波东力（002164）</td>
+<td>日周 bearish；ADX 18.0、MFI 49.9</td>
+<td>10.53-10.89 / 10.14 / 11.57，RR 1.50</td>
+<td>趋势未转，回避</td>
+</tr>
+<tr>
+<td>双林股份（300100）</td>
+<td>日周 bearish；ADX 14.4、MFI 45.4</td>
+<td>23.17-24.07 / 19.39 / 29.96，RR 1.50</td>
+<td>无多周期确认，回避</td>
+</tr>
+<tr>
+<td>中际旭创（300308）</td>
+<td>日 bearish、周月 bullish；ADX 20.7、MFI 43.3</td>
+<td>1164.05-1204.05 / 1169.49 / 1244.06，RR 1.50</td>
+<td>日线未修复，涨幅不等于入场信号</td>
+</tr>
+<tr>
+<td>三环集团（300408）</td>
+<td>日 bearish、周月 bullish；ADX 33.4、MFI 45.2</td>
+<td>118.43-125.33 / 84.64 / 177.74，RR 1.50</td>
+<td>反弹后仍需确认日线结构</td>
+</tr>
+<tr>
+<td>恒瑞医药（600276）</td>
+<td>日 bullish、周月 neutral；ADX 24.6、MFI 59.4</td>
+<td>54.25-55.39 / 54.61 / 57.30，RR 2.17</td>
+<td>失效位在观察区内，暂不下单</td>
+</tr>
+<tr>
+<td>赤峰黄金（600988）</td>
+<td>日月 bullish、周 bearish；ADX 21.6、MFI 59.2</td>
+<td>34.42-35.48 / 34.68 / 38.11，RR 2.96</td>
+<td>周期冲突，等待周线改善</td>
+</tr>
+</tbody>
+</table>
+<h2>六、策略信号</h2>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>当前结构</th>
+<th>历史校准</th>
+<th>主要风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工业富联</td>
+<td>日 bearish、周月 bullish，ADX 18.1</td>
+<td>当日策略聚合 <code>unavailable</code></td>
+<td>组合集中、日线未反转</td>
+</tr>
+<tr>
+<td>山东黄金</td>
+<td>日 neutral、周 bearish，CMF 为负</td>
+<td>当日策略聚合 <code>unavailable</code></td>
+<td>金价与权益表现可能背离</td>
+</tr>
+<tr>
+<td>三花智控</td>
+<td>日周 bearish、月 bullish</td>
+<td>当日策略聚合 <code>unavailable</code></td>
+<td>A/H 分化、汇率缺失</td>
+</tr>
+<tr>
+<td>兆易创新</td>
+<td>日 neutral、周月 bullish，NATR 9.97%</td>
+<td>旧扫描过期，不沿用</td>
+<td>高估值、高波动、周期风险</td>
+</tr>
+<tr>
+<td>阿里巴巴</td>
+<td>日 neutral、周 bearish，CMF 为负</td>
+<td>当日策略聚合 <code>unavailable</code></td>
+<td>资金持续性未确认</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>历史胜率只是事件研究结果，且本日完整策略扫描缺失时不作为未来上涨概率。</p>
+</blockquote>
+<h2>七、操作清单</h2>
+<table>
+<thead>
+<tr>
+<th>股票</th>
+<th>操作</th>
+<th>明确触发条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工业富联</td>
+<td>持有、不补仓，分段降风险</td>
+<td>收盘&lt;63.00 且量比≥1.2，卖 550 股；反弹 68.70-70.00 但两日未站稳，卖 330 股</td>
+</tr>
+<tr>
+<td>山东黄金</td>
+<td>持有 100 股跟踪仓</td>
+<td>收盘&lt;24.00，卖 100 股；收盘&gt;26.65 且 CMF&gt;0，才重新评估建仓</td>
+</tr>
+<tr>
+<td>三花智控 H</td>
+<td>试仓、不加仓</td>
+<td>收盘<HK$26.18，卖 100 股；连续两日>HK$27.68 且 A 股同步改善才重评</td>
+</tr>
+<tr>
+<td>兆易创新</td>
+<td>观察，确认后最多试仓 100 股</td>
+<td>569.44-598.54 缩量企稳才试仓；&lt;456.70 取消</td>
+</tr>
+<tr>
+<td>阿里巴巴</td>
+<td>观察，确认后最多试仓 100 股</td>
+<td>&gt;HK$114.10 且 CMF&gt;0 才试仓；&lt;HK$109.57 暂停</td>
+</tr>
+</tbody>
+</table>
+<p><strong>新机会跟踪优先级</strong>：药明康德 &gt; 北方华创 &gt; 中微公司 &gt; 东山精密。中微 MFI 过热，东山涨停后均不追价。</p>
+<p><strong>入场确认原则</strong>：“站回结构上沿 + ADX 增强 + 量能确认”三项至少满足两项；若失效位落入观察区，则不自动下单，先等待结构重新清晰。</p>
+<hr />
+<p><em>更新时间：2026-07-14 17:15 CST · 行情：SQLite、Tencent 快照、Quantitative Analysis V2 · 消息面：AnySearch 检索后优先交易所/公司披露 · 证据缺口：基准相对强弱、HKD/CNY、部分 A/H 历史、完整当日策略聚合。</em></p></body></html>
