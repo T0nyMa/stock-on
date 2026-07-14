@@ -3,20 +3,23 @@
   "stock_name": "工业富联",
   "position": {
     "buy_date": "2026-06-22",
-    "buy_price": 78.72,
-    "shares": 2200,
-    "cost": 173184,
+    "buy_price": 78.7,
+    "shares": 1100,
+    "cost": 86570.0,
     "current_price": 63.08,
-    "current_value": 138776.0,
-    "unrealized_pnl": -34408.0,
-    "unrealized_pnl_pct": -19.87,
+    "price_as_of": "2026-07-13",
+    "current_value": 69388.0,
+    "unrealized_pnl": -17182.0,
+    "unrealized_pnl_pct": -19.85,
+    "realized_pnl_gross": -14770.0,
+    "cost_method": "fifo",
     "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
   },
   "key_levels": {
-    "cost_basis": 78.72,
+    "cost_basis": 78.7,
     "resistance_2": 84.95,
     "resistance_1": 72.5,
-    "current": 66.27,
+    "current": 63.08,
     "ma5": 65.53,
     "ma10": 67.36,
     "ma20": 70.85,
@@ -39,11 +42,11 @@
     "weighted_score": 38
   },
   "swing_plan": {
-    "status": "业绩预告验证底部(63.78)，但反弹3天后利好出尽回吐。浮亏-15.8%。持有等68-70减仓",
+    "status": "2026-07-13卖出600股@65.00，2026-07-14卖出500股@65.60；剩余1100股，FIFO成本78.70元",
     "scenario_a": {
       "name": "反弹减仓",
       "trigger": "放量站上68-70区域",
-      "action": "减仓30%(约660股)，降低持仓成本至72左右"
+      "action": "减仓30%(约330股)"
     },
     "scenario_b": {
       "name": "横盘整理",
@@ -53,16 +56,43 @@
     "scenario_c": {
       "name": "破位下行",
       "trigger": "放量跌破64元(MA5下方3%)",
-      "action": "减仓50%(1100股)，保留底仓观察"
+      "action": "减仓50%(550股)，保留底仓观察"
     }
   },
   "risk_notes": [
-    "从78.7跌至66.27，累计跌幅-15.8%，深度套牢",
+    "截至2026-07-13收盘63.08，剩侙1100股按FIFO成本78.70计算浮亏-19.85%",
     "业绩翻倍(H1+93-101%)验证基本面，63.78确认是底",
-    "反弹至69.5后利好出尽回吐，短期动能消退",
+    "7月13日和14日合计减仓1100股，已实现毛亏损14770元（未计费税）",
     "PE32.4合理，前瞻PE约21倍(全年612亿利润预期)",
     "MACD死叉+均线空头，趋势未反转前不补仓",
     "GB300 Q3量产是下一个重要催化"
   ],
-  "last_updated": "2026-07-13T19:35:00+08:00"
+  "transactions": [
+    {
+      "date": "2026-06-22",
+      "side": "buy",
+      "shares": 2200,
+      "price": 78.7,
+      "amount": 173140.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-13",
+      "side": "sell",
+      "shares": 600,
+      "price": 65.0,
+      "amount": 39000.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-14",
+      "time": "13:31:15",
+      "side": "sell",
+      "shares": 500,
+      "price": 65.6,
+      "amount": 32800.0,
+      "source": "broker_screenshot"
+    }
+  ],
+  "last_updated": "2026-07-14T15:36:00+08:00"
 }

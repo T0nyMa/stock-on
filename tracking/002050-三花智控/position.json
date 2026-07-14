@@ -2,63 +2,72 @@
   "stock_code": "002050",
   "stock_name": "三花智控",
   "position": {
+    "market": "SZ",
+    "code": "002050",
+    "currency": "CNY",
+    "status": "closed",
     "buy_date": "2026-01-22",
     "buy_price": 57.9,
-    "shares": 4300,
-    "cost": 248970,
-    "current_price": 41.5,
-    "current_value": 178450.0,
-    "unrealized_pnl": -70520.0,
-    "unrealized_pnl_pct": -28.32,
-    "max_drawdown_price": 41.5,
-    "max_drawdown_date": "2026-06-26",
-    "low_since_last": 41.5,
-    "stop_loss_triggered": true,
-    "stop_loss_date": "2026-06-23"
+    "shares": 0,
+    "cost": 0,
+    "close_date": "2026-07-01",
+    "close_price": 44.14,
+    "realized_pnl_gross": -59168.0,
+    "cost_method": "fifo"
   },
-  "today_note": "⛔ 暴跌-5.55%至41.50，创持仓以来新低。开盘43.68即全日最高，单边下跌收最低价，光头光脚大阴线。击穿4/7前低41.77（坚守79个自然日失效）。RSI6从37.59→23.57单日暴跌14点，重返深超卖。MACD绿柱从-0.46→-0.68放大48%，空头加速。量比0.98非放量出逃，属有序资金撤离。MA5=43.55继续下行，均线发散恶化。策略共识：growth-quality hold(40) + expectation-repricing hold(35) + emotion-cycle sell(25) + bottom-volume sell(20) + shrink-pullback sell(15)。0买2持3卖，均分27（较昨日31恶化）。止损已于6/23触发，今日跌幅加剧确认止损正确。如尚持有，6/29竞价必须全仓4300股清仓，浮亏已扩大至¥70,520(-28.3%)。下一个支撑位40.00心理关口，有效支撑待验证。",
-  "key_levels": {
-    "cost_basis": 57.9,
-    "resistance_2": 49.5,
-    "resistance_1": 47.48,
-    "ma10": 44.38,
-    "ma5": 43.55,
-    "stop_loss": 43.5,
-    "current": 41.5,
-    "previous_low_broken": 41.77,
-    "next_support": 40.0,
-    "historical_low": 41.5
+  "hk_position": {
+    "market": "HK",
+    "code": "02050",
+    "currency": "HKD",
+    "status": "open",
+    "buy_date": "2026-07-14",
+    "buy_price": 27.02,
+    "shares": 100,
+    "cost": 2702.0,
+    "current_price": null,
+    "price_as_of": "unavailable",
+    "current_value": null,
+    "unrealized_pnl": null,
+    "unrealized_pnl_pct": null,
+    "cost_method": "fifo"
   },
-  "swing_plan": {
-    "status": "⛔⛔ 止损已触发+前低已破 — 6/23收盘43.19击穿止损线43.50，今日41.50击穿前低41.77，双重破位确认下跌加速。6/29必须执行清仓。",
-    "strategy_consensus": {
-      "sell_signals": [
-        "emotion-cycle(25)",
-        "bottom-volume(20)",
-        "shrink-pullback(15)"
-      ],
-      "hold_signals": [
-        "growth-quality(40)",
-        "expectation-repricing(35)"
-      ],
-      "buy_signals": [],
-      "interpretation": "共识继续恶化：3卖2持0买，均分27。前低41.77被有效击穿，下跌中继确认。RSI6=23.57深超卖但无底背离，MACD加速下行。无任何买入信号。"
+  "transactions": [
+    {
+      "date": "2026-01-22",
+      "side": "buy",
+      "market": "SZ",
+      "currency": "CNY",
+      "shares": 4300,
+      "price": 57.9,
+      "amount": 248970.0,
+      "source": "existing_position_record"
     },
-    "scenario_a": {
-      "name": "技术性反弹（概率15%）",
-      "trigger": "下周一6/29大盘企稳+个股在40-41.5区间出现放量阳线+长下影",
-      "action": "即使反弹也不要买入。反弹是减亏离场的机会，不是做多信号。空头趋势中反弹即为逃命点。"
+    {
+      "date": "2026-07-01",
+      "side": "sell",
+      "market": "SZ",
+      "currency": "CNY",
+      "shares": 4300,
+      "price": 44.14,
+      "amount": 189802.0,
+      "source": "broker_screenshot"
     },
-    "scenario_b": {
-      "name": "继续阴跌至40附近（概率55%）",
-      "trigger": "空头排列延续，MA5继续下压，40元整数关口附近可能有多空争夺",
-      "action": "坚决执行止损。40元心理关口不是做多理由——在空头趋势中整数关口只是暂停点，不是反转点。"
-    },
-    "scenario_c": {
-      "name": "加速下跌破40（概率30%）",
-      "trigger": "止损盘+融资盘被迫平仓形成多杀多，下一个技术支撑在36-38区域",
-      "action": "立即全仓止损，任何延迟都会扩大损失。若已清仓则完全围观。"
+    {
+      "date": "2026-07-14",
+      "time": "14:22:13",
+      "side": "buy",
+      "market": "HK",
+      "currency": "HKD",
+      "shares": 100,
+      "price": 27.02,
+      "amount": 2702.0,
+      "order_type": "enhanced_limit",
+      "source": "broker_screenshot"
     }
-  },
-  "last_updated": "2026-06-26T19:50:00+08:00"
+  ],
+  "notes": [
+    "A股002050与H股02050分市场、分币种记录",
+    "H股当日收盘价与HKD/CNY汇率未提供，浮盈亏保留为unavailable"
+  ],
+  "last_updated": "2026-07-14T15:36:00+08:00"
 }

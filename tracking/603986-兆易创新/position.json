@@ -1,17 +1,44 @@
 {
   "stock_code": "603986",
   "stock_name": "兆易创新",
-  "tracking": "观察标的，无持仓",
-  "first_analyzed": "2026-06-15",
-  "key_levels": {
-    "resistance": 552.82,
-    "current": 518.00,
-    "ma5": 492.86,
-    "ma10": 492.25,
-    "ma20": 482.16,
-    "ma60": 358.67
+  "tracking": "观察标的，当前无持仓",
+  "position": {
+    "market": "SH",
+    "code": "603986",
+    "currency": "CNY",
+    "status": "closed",
+    "shares": 0,
+    "cost": 0,
+    "close_date": "2026-07-02",
+    "realized_pnl_gross": -21800.0,
+    "cost_method": "fifo"
   },
-  "trend": "完全多头排列，趋势强度75",
-  "watch_trigger": "回踩490-500缩量企稳 → 介入点",
-  "last_updated": "2026-06-15T20:00:00+08:00"
+  "transactions": [
+    {
+      "date": "2026-07-01",
+      "side": "buy",
+      "shares": 100,
+      "price": 828.0,
+      "amount": 82800.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-01",
+      "side": "buy",
+      "shares": 100,
+      "price": 830.0,
+      "amount": 83000.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-02",
+      "side": "sell",
+      "shares": 200,
+      "price": 720.0,
+      "amount": 144000.0,
+      "source": "broker_screenshot"
+    }
+  ],
+  "first_analyzed": "2026-06-15",
+  "last_updated": "2026-07-14T15:36:00+08:00"
 }

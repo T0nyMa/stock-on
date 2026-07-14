@@ -17,7 +17,16 @@
       "tier": "watch",
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
-      "has_position": false,
+      "has_position": true,
+      "position_info": {
+        "market": "HK",
+        "code": "02050",
+        "buy_date": "2026-07-14",
+        "buy_price": 27.02,
+        "shares": 100,
+        "cost": 2702.0,
+        "currency": "HKD"
+      },
       "tags": ["机器人", "汽零", "制冷"],
       "market": "SZ",
       "hk_code": "02050"
@@ -122,9 +131,9 @@
       "has_position": true,
       "position_info": {
         "buy_date": "2026-06-22",
-        "buy_price": 78.72,
-        "shares": 2200,
-        "cost": 173194.56
+        "buy_price": 78.7,
+        "shares": 1100,
+        "cost": 86570.0
       },
       "tags": ["AI服务器", "AI算力"],
       "market": "SH"
@@ -167,10 +176,10 @@
       "scenario": "daily-patrol",
       "has_position": true,
       "position_info": {
-        "buy_date": "待补充",
-        "buy_price": 27.15,
-        "shares": 0,
-        "cost": 0
+        "buy_date": "2026-07-13",
+        "buy_price": 24.0,
+        "shares": 100,
+        "cost": 2400.0
       },
       "tags": ["黄金", "贵金属"],
       "market": "SH"

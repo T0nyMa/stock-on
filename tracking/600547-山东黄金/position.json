@@ -2,22 +2,25 @@
   "stock_code": "600547",
   "stock_name": "山东黄金",
   "position": {
-    "buy_date": "2026-07-06",
-    "buy_price": 27.15,
-    "shares": 0,
-    "cost": 0,
+    "buy_date": "2026-07-13",
+    "buy_price": 24.0,
+    "shares": 100,
+    "cost": 2400.0,
     "current_price": 23.96,
-    "current_value": 0,
-    "unrealized_pnl": 0,
-    "unrealized_pnl_pct": -11.75,
+    "price_as_of": "2026-07-13",
+    "current_value": 2396.0,
+    "unrealized_pnl": -4.0,
+    "unrealized_pnl_pct": -0.17,
+    "realized_pnl_gross": -19684.0,
+    "cost_method": "fifo",
     "entry_reason": "黄金板块启动，MACD金叉确立，金价4000美元+，PE23合理。长期持有，看多黄金避险逻辑+全球央行购金趋势"
   },
   "key_levels": {
-    "cost_basis": 27.15,
+    "cost_basis": 24.0,
     "long_term_target": 35.0,
     "mid_term_target": 30.0,
     "resistance_1": 27.33,
-    "current": 25.8,
+    "current": 23.96,
     "ma5": 24.5,
     "ma10": 24.2,
     "ma20": 25.9,
@@ -50,7 +53,7 @@
     "weighted_score": 57
   },
   "swing_plan": {
-    "status": "长期持有模式。金价4112美元高位运行+换帅落地(王成龙)，PE22合理。浮亏收窄至-8%",
+    "status": "2026-07-14卖出7200股后剩侙100股，剩余FIFO批次为2026-07-13买入@24.00元",
     "accumulation": {
       "name": "逢低加仓",
       "trigger": "价格回踩MA20(25.1)或MA10(24.2)缩量企稳",
@@ -68,10 +71,55 @@
     }
   },
   "risk_notes": [
-    "短期：买入当日追高27.15，收盘25.80浮亏-5%，但不影响长期逻辑",
+    "2026-07-14减仓7200股，已实现毛亏损19684元（FIFO，未计费税），剩侙100股@24.00元",
     "中期：金价是核心变量，若金价跌破3500需重新评估",
     "长期：PE23合理，全球矿山增量为成长性提供支撑"
   ],
-  "last_updated": "2026-07-13T19:35:00+08:00",
+  "transactions": [
+    {
+      "date": "2026-07-06",
+      "side": "buy",
+      "shares": 6400,
+      "price": 27.16,
+      "amount": 173824.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-13",
+      "side": "buy",
+      "shares": 900,
+      "price": 24.0,
+      "amount": 21600.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-14",
+      "time": "09:32:59",
+      "side": "sell",
+      "shares": 3600,
+      "price": 23.4,
+      "amount": 84240.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-14",
+      "time": "11:23:36",
+      "side": "sell",
+      "shares": 1000,
+      "price": 24.1,
+      "amount": 24100.0,
+      "source": "broker_screenshot"
+    },
+    {
+      "date": "2026-07-14",
+      "time": "14:13:30",
+      "side": "sell",
+      "shares": 2600,
+      "price": 25.0,
+      "amount": 65000.0,
+      "source": "broker_screenshot"
+    }
+  ],
+  "last_updated": "2026-07-14T15:36:00+08:00",
   "latest_news": "7/10选举王成龙为董事长，开展2026黄金租赁+远期交易组合业务。换帅落地消除不确定性。COMEX金价4112美元高位"
 }
