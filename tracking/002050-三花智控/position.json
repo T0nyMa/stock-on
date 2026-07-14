@@ -29,6 +29,7 @@
     "current_value": 2730.0,
     "unrealized_pnl": 28.0,
     "unrealized_pnl_pct": 1.04,
+    "loss": false,
     "cost_method": "fifo"
   },
   "transactions": [

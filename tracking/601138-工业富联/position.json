@@ -11,6 +11,7 @@
     "current_value": 72160.0,
     "unrealized_pnl": -14410.0,
     "unrealized_pnl_pct": -16.65,
+    "loss": true,
     "realized_pnl_gross": -14770.0,
     "cost_method": "fifo",
     "entry_reason": "MACD零轴上金叉+均线金叉共振+放量突破后延续，AI服务器龙头"
