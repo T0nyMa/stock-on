@@ -6,11 +6,11 @@
     "buy_price": 24.0,
     "shares": 100,
     "cost": 2400.0,
-    "current_price": 25.26,
-    "price_as_of": "2026-07-14",
-    "current_value": 2526.0,
-    "unrealized_pnl": 126.0,
-    "unrealized_pnl_pct": 5.25,
+    "current_price": 24.76,
+    "price_as_of": "2026-07-16",
+    "current_value": 2476.0,
+    "unrealized_pnl": 76.0,
+    "unrealized_pnl_pct": 3.17,
     "loss": false,
     "realized_pnl_gross": -19684.0,
     "cost_method": "fifo",
@@ -121,6 +121,6 @@
       "source": "broker_screenshot"
     }
   ],
-  "last_updated": "2026-07-14T17:15:00+08:00",
+  "last_updated": "2026-07-16T21:20:00+08:00",
   "latest_news": "7/10选举王成龙为董事长，开展2026黄金租赁+远期交易组合业务。换帅落地消除不确定性。COMEX金价4112美元高位"
 }
