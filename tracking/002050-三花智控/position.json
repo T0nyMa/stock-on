@@ -24,12 +24,12 @@
     "buy_price": 27.02,
     "shares": 100,
     "cost": 2702.0,
-    "current_price": 27.72,
-    "price_as_of": "2026-07-16",
-    "current_value": 2772.0,
-    "unrealized_pnl": 70.0,
-    "unrealized_pnl_pct": 2.59,
-    "loss": false,
+    "current_price": 26.06,
+    "price_as_of": "2026-07-17",
+    "current_value": 2606.0,
+    "unrealized_pnl": -96.0,
+    "unrealized_pnl_pct": -3.55,
+    "loss": true,
     "cost_method": "fifo"
   },
   "transactions": [
@@ -70,5 +70,5 @@
     "A股002050与H股02050分市场、分币种记录",
     "H股2026-07-16收盘价已登记为HK$27.72；HKD/CNY汇率未提供，未换算人民币浮盈亏"
   ],
-  "last_updated": "2026-07-16T21:20:00+08:00"
+  "last_updated": "2026-07-18T16:00:00+08:00"
 }
