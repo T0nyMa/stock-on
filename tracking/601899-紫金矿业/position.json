@@ -1,0 +1,46 @@
+{
+  "stock_code": "601899",
+  "stock_name": "紫金矿业",
+  "position": {
+    "market": "SH",
+    "code": "601899",
+    "currency": "CNY",
+    "status": "open",
+    "buy_date": "2026-07-17",
+    "buy_price": 28.0,
+    "shares": 2600,
+    "cost": 72800.0,
+    "current_price": 28.36,
+    "price_as_of": "2026-07-17",
+    "current_value": 73736.0,
+    "unrealized_pnl": 936.0,
+    "unrealized_pnl_pct": 1.29,
+    "loss": false,
+    "cost_method": "fifo"
+  },
+  "transactions": [
+    {
+      "date": "2026-07-17",
+      "side": "buy",
+      "market": "SH",
+      "currency": "CNY",
+      "shares": 2600,
+      "price": 28.0,
+      "amount": 72800.0,
+      "source": "user_confirmed_trade"
+    }
+  ],
+  "key_levels": {
+    "cost_basis": 28.0,
+    "current": 28.36,
+    "entry_zone": [28.02, 28.70],
+    "invalidation": 27.58,
+    "target_1": 29.53,
+    "anchored_vwap": 28.21
+  },
+  "notes": [
+    "新建仓位；资源周期逻辑与交易执行分开复盘",
+    "2026-07-17周线仍bearish、日线neutral，技术周期冲突"
+  ],
+  "last_updated": "2026-07-18T16:35:00+08:00"
+}

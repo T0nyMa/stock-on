@@ -22,9 +22,9 @@
         "market": "HK",
         "code": "02050",
         "buy_date": "2026-07-14",
-        "buy_price": 27.02,
-        "shares": 100,
-        "cost": 2702.0,
+        "buy_price": 26.0291,
+        "shares": 3500,
+        "cost": 91102.0,
         "currency": "HKD"
       },
       "tags": ["机器人", "汽零", "制冷"],
@@ -220,7 +220,16 @@
       "tier": "watch",
       "tier_label": "一般观察",
       "scenario": "daily-patrol",
-      "has_position": false,
+      "has_position": true,
+      "position_info": {
+        "market": "SH",
+        "code": "601899",
+        "buy_date": "2026-07-17",
+        "buy_price": 28.0,
+        "shares": 2600,
+        "cost": 72800.0,
+        "currency": "CNY"
+      },
       "tags": ["黄金", "铜", "贵金属"],
       "market": "SH"
     },
