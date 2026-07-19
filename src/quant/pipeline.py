@@ -8,7 +8,7 @@ from typing import Any
 
 import pandas as pd
 
-from src.data_access import load_bars
+from src.data_access import load_bars, load_quote
 from src.daily_metrics import derive_daily_metrics
 from src.storage import MarketDataStore, get_market_store
 
@@ -27,7 +27,61 @@ from .models import evidence, json_safe, normalize_bars
 SCHEMA_VERSION = "2.0"
 
 
-def build_stock_snapshot(code, name, records, source_evidence=None, as_of=None, benchmark=None):
+def _date_text(value):
+    try:
+        return pd.Timestamp(value).date().isoformat()
+    except (TypeError, ValueError):
+        return None
+
+
+def _records_through(records, as_of):
+    cutoff = _date_text(as_of)
+    if not cutoff:
+        return list(records)
+    return [
+        row for row in records
+        if isinstance(row, dict)
+        and (row_date := _date_text(row.get("date"))) is not None
+        and row_date <= cutoff
+    ]
+
+
+def _quote_for_date(quote, *, as_of, latest_bar_date, market=None):
+    if not isinstance(quote, dict) or not quote:
+        return {}
+    quote_market = str(quote.get("market", "")).upper()
+    if market and quote_market and quote_market != str(market).upper():
+        return {}
+    dated_values = [
+        quote.get(key) for key in ("as_of", "date", "price_as_of")
+        if quote.get(key) is not None
+    ]
+    for container_key in ("evidence", "_evidence"):
+        container = quote.get(container_key)
+        if isinstance(container, dict):
+            dated_values.extend(
+                container.get(key)
+                for key in ("trading_date", "as_of", "date", "price_as_of")
+                if container.get(key) is not None
+            )
+    quote_dates = [value for value in map(_date_text, dated_values) if value]
+    target_date = _date_text(as_of) or _date_text(latest_bar_date)
+    if quote_dates:
+        return quote if target_date and all(value == target_date for value in quote_dates) else {}
+    requested_date = _date_text(as_of)
+    return quote if requested_date and requested_date == _date_text(latest_bar_date) else {}
+
+
+def build_stock_snapshot(
+    code,
+    name,
+    records,
+    source_evidence=None,
+    as_of=None,
+    benchmark=None,
+    quote=None,
+):
+    records = _records_through(records, as_of)
     frame, warnings = normalize_bars(records)
     source_evidence = dict(source_evidence or {})
     gaps = list(source_evidence.get("gaps", []))
@@ -43,6 +97,11 @@ def build_stock_snapshot(code, name, records, source_evidence=None, as_of=None, 
             "mfi14": indicators.get("mfi14"),
             "cmf20": indicators.get("cmf20"),
         },
+        quote=_quote_for_date(
+            quote,
+            as_of=as_of,
+            latest_bar_date=frame.index[-1] if len(frame) else None,
+        ),
     )
     structure = analyze_structure(frame) if len(frame) >= 20 else {"status": "insufficient_data"}
     timeframes = multi_timeframe_state(frame) if len(frame) else {"states": {}, "alignment": "unavailable"}
@@ -126,16 +185,27 @@ def run_repository(root: str | Path, as_of=None, store: MarketDataStore | None =
     )
     for stock in stocks:
         code = str(stock["code"])
-        raw = load_bars(code, store=store)
+        raw = load_bars(code, end=str(as_of) if as_of else None, store=store)
         if stock.get("market") == "HK" and not (raw.get("kline") or raw.get("data")):
             hk_key = f"hk{code.zfill(5)}"
             hk_raw = hk_data.get(hk_key, {})
             raw = {"name": hk_raw.get("name", stock.get("name", code)),
-                   "kline": hk_raw.get("kline", []),
+                   "kline": _records_through(hk_raw.get("kline", []), as_of),
                    "_evidence": {"source": "tencent", "gaps": []}}
-        records = raw.get("kline") or raw.get("data") or []
+        records = _records_through(
+            raw.get("kline") or raw.get("data") or [], as_of
+        )
+        registered_quote = _quote_for_date(
+            load_quote(code, store=store),
+            as_of=as_of,
+            latest_bar_date=records[-1].get("date") if records else None,
+            market=stock.get("market"),
+        )
         if not records:
-            snapshot = build_stock_snapshot(code, stock.get("name", code), [], raw.get("_evidence"), as_of)
+            snapshot = build_stock_snapshot(
+                code, stock.get("name", code), [], raw.get("_evidence"), as_of,
+                quote=registered_quote,
+            )
             snapshots[code] = snapshot
             _write_atomic(root / f"data/{code}/technical_snapshot.json", snapshot)
             _write_atomic(root / f"data/{code}/strategy_stats.json", {
@@ -144,7 +214,10 @@ def run_repository(root: str | Path, as_of=None, store: MarketDataStore | None =
             })
             continue
         frame, _ = normalize_bars(records)
-        snapshot = build_stock_snapshot(code, stock.get("name", raw.get("name", code)), records, raw.get("_evidence"), as_of)
+        snapshot = build_stock_snapshot(
+            code, stock.get("name", raw.get("name", code)), records,
+            raw.get("_evidence"), as_of, quote=registered_quote,
+        )
         if any(tag in {"黄金", "贵金属"} for tag in stock.get("tags", [])):
             relationship = analyze_cross_asset(frame.close, gold_driver) if len(gold_driver) else {"status": "unavailable", "reason": "gold_driver_missing"}
             relationship.update({"schema_version": SCHEMA_VERSION, "driver": "gold_sge"})
@@ -164,7 +237,9 @@ def run_repository(root: str | Path, as_of=None, store: MarketDataStore | None =
         if hk_code:
             hk_key = f"hk{str(hk_code).zfill(5)}"
             hk_raw = hk_data.get(hk_key, {})
-            hk_frame, _ = normalize_bars(hk_raw.get("kline", []))
+            hk_frame, _ = normalize_bars(
+                _records_through(hk_raw.get("kline", []), as_of)
+            )
             if len(hk_frame) and len(fx_series):
                 ah = analyze_ah_pair(frame, hk_frame, fx_series, as_of or frame.index[-1])
             else:

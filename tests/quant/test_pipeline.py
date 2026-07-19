@@ -48,6 +48,30 @@ def test_stock_snapshot_preserves_unavailable_price_volume():
     assert "history_lt_20" in snapshot["price_volume"]["evidence_gaps"]
 
 
+def test_stock_snapshot_excludes_bars_after_as_of():
+    historical = records(21)
+    target_date = historical[-1]["date"]
+    historical.append({
+        "date": "2026-12-31",
+        "open": 99,
+        "high": 101,
+        "low": 98,
+        "close": 100,
+        "volume": 999999,
+    })
+
+    snapshot = build_stock_snapshot(
+        "601899", "紫金矿业", historical, as_of=target_date
+    )
+
+    expected_change = round(
+        (historical[-2]["close"] / historical[-3]["close"] - 1) * 100, 2
+    )
+    assert snapshot["as_of"] == target_date
+    assert snapshot["price_volume"]["price_change_pct"] == expected_change
+    assert snapshot["price_volume"]["volume_vs_ma20"] < 2
+
+
 def test_stock_snapshot_is_versioned_deterministic_and_json_safe():
     first = build_stock_snapshot("600000", "浦发银行", records(), {"source": "fixture"}, "2026-07-10")
     second = build_stock_snapshot("600000", "浦发银行", records(), {"source": "fixture"}, "2026-07-10")
@@ -111,3 +135,69 @@ def test_repository_runner_writes_stock_market_strategy_and_portfolio_artifacts(
     context = json.loads((tmp_path / "data/report_context.json").read_text())
     assert context["stocks"]["600000"]["price_volume"]["volume_vs_ma20"] is not None
     assert context["stocks"]["600002"]["price_volume"]["volume_state"] == "unavailable"
+
+
+def test_repository_uses_only_target_date_quote_and_bars(tmp_path: Path):
+    (tmp_path / "tracking").mkdir(parents=True)
+    (tmp_path / "data/600000").mkdir(parents=True)
+    (tmp_path / "data/600001").mkdir(parents=True)
+    store = MarketDataStore(tmp_path / "data/stock_analysis.db")
+    target_records = records(21)
+    target_date = target_records[-1]["date"]
+    future = {
+        "date": "2026-12-31",
+        "open": 99,
+        "high": 101,
+        "low": 98,
+        "close": 100,
+        "volume": 999999,
+    }
+    for code in ("600000", "600001"):
+        store.upsert_bars(
+            code, code, "SH", target_records + [future], source="fixture"
+        )
+    store.save_snapshot(
+        "600000",
+        "浦发银行",
+        "SH",
+        "quote",
+        {
+            "date": target_date,
+            "volume_ratio": 1.37,
+            "turnover_rate": 2.46,
+        },
+    )
+    store.save_snapshot(
+        "600001",
+        "邯郸钢铁",
+        "SH",
+        "quote",
+        {
+            "price_as_of": "2026-12-31",
+            "volume_ratio": 9.99,
+            "turnover_rate": 8.88,
+        },
+    )
+    (tmp_path / "tracking/tracklist.json").write_text(
+        json.dumps(
+            {
+                "stocks": [
+                    {"code": "600000", "name": "浦发银行"},
+                    {"code": "600001", "name": "邯郸钢铁"},
+                ]
+            },
+            ensure_ascii=False,
+        )
+    )
+
+    run_repository(tmp_path, as_of=target_date, store=store)
+
+    context = json.loads((tmp_path / "data/report_context.json").read_text())
+    accepted = context["stocks"]["600000"]
+    rejected = context["stocks"]["600001"]
+    assert accepted["as_of"] == target_date
+    assert accepted["price_volume"]["intraday_volume_ratio"] == 1.37
+    assert accepted["price_volume"]["turnover_rate"] == 2.46
+    assert accepted["price_volume"]["volume_vs_ma20"] < 2
+    assert rejected["price_volume"]["intraday_volume_ratio"] is None
+    assert rejected["price_volume"]["turnover_rate"] is None
