@@ -9,6 +9,7 @@ from typing import Any
 import pandas as pd
 
 from src.data_access import load_bars
+from src.daily_metrics import derive_daily_metrics
 from src.storage import MarketDataStore, get_market_store
 
 from .analytics import (
@@ -36,6 +37,13 @@ def build_stock_snapshot(code, name, records, source_evidence=None, as_of=None, 
         gaps.append("kline")
     ev = evidence(source_evidence.get("source", "unknown"), sorted(set(gaps)), warnings, source_evidence.get("quality_score", 100))
     indicators = compute_indicators(frame) if len(frame) else {}
+    price_volume = derive_daily_metrics(
+        records,
+        indicators={
+            "mfi14": indicators.get("mfi14"),
+            "cmf20": indicators.get("cmf20"),
+        },
+    )
     structure = analyze_structure(frame) if len(frame) >= 20 else {"status": "insufficient_data"}
     timeframes = multi_timeframe_state(frame) if len(frame) else {"states": {}, "alignment": "unavailable"}
     setup = structure.get("setup") if isinstance(structure, dict) else None
@@ -45,6 +53,7 @@ def build_stock_snapshot(code, name, records, source_evidence=None, as_of=None, 
         "as_of": str(as_of or (frame.index[-1].date() if len(frame) else "")),
         "evidence": ev,
         "indicators": indicators,
+        "price_volume": price_volume,
         "structure": structure,
         "relative_strength": {"status": "unavailable", "reason": "benchmark_missing"} if benchmark is None else benchmark,
         "timeframes": timeframes,
