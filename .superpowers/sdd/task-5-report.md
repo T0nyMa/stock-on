@@ -59,3 +59,24 @@ exit 0
 - 02050.HK has no registered same-market price-volume snapshot; all price-volume fields remain explicit `unavailable`.
 - The generic workflow completion checker requires pushed deployment evidence. Per the branch sequencing resolution, push, Pages deployment, and completion-gate verification are deferred until review and integration.
 - Pre-existing generated modifications under `data/002050`, `data/600547`, `data/601138`, and `data/603986` remain untouched and unstaged.
+
+## Review follow-up
+
+Addressed all Task 5 review findings with a red/green TDD cycle:
+
+1. Changed every empty `interpretation_flags` rendering from `无` to the exact registered list representation `[]`. The expectation helper also renders empty `evidence_gaps` as exact `[]`.
+2. Removed the invented `hk_price_volume_unavailable` identifier. Because 02050.HK has no `report_context` object, its scalar/list price-volume evidence and evidence gap now remain explicit `unavailable`; no 002050 A-share value is substituted.
+3. Reworked report coverage discovery to read `tracking/tracklist.json`, select `has_position=true` or `tier in {core,key}`, then inspect each applicable `position.json` and discover every open market leg. The current discovered open legs include 02050.HK, 601138, 600547, and 601899.
+4. Added a byte-for-byte assertion that rebuilds the HTML with production extensions (`tables`, `fenced_code`, `sane_lists`) and the report's production wrapper/style, then compares encoded bytes with the committed HTML.
+
+TDD evidence:
+
+```text
+# RED: report still used "无"
+PYTHONPATH=. .../pytest tests/test_daily_price_volume_report.py -q
+1 failed, 1 passed in 0.13s
+
+# GREEN: report and mechanical HTML corrected
+PYTHONPATH=. .../pytest tests/test_daily_price_volume_report.py -q
+2 passed in 0.09s
+```

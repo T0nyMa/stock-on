@@ -2,13 +2,15 @@ import json
 import re
 from pathlib import Path
 
+import markdown
+
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "tracking/daily/positions/2026-07-17.md"
+REPORT_HTML = ROOT / "tracking/daily/positions/2026-07-17.html"
 CONTEXT = ROOT / "data/report_context.json"
 TRACKLIST = ROOT / "tracking/tracklist.json"
 
-CORE_CODES = {"601138", "600547", "002050", "603986", "09988"}
 CARD_HEADINGS = {
     "601138": ("### 工业富联（601138）", "### 1. 工业富联（601138）"),
     "600547": ("### 山东黄金（600547 / 01787.HK）", "### 2. 山东黄金（600547 / 01787.HK）"),
@@ -21,8 +23,33 @@ HK_POSITION_HEADING = "### 三花智控 H 股（02050.HK）"
 HK_UNAVAILABLE_LINE = (
     "- **价量结构**：H股同口径量比、当日量÷MA5、当日量÷MA20、近20日÷前20日、"
     "上涨日÷下跌日均量、MFI、CMF、OBV20、标签与解释标记均为 `unavailable`；"
-    "证据缺口 `hk_price_volume_unavailable`（不得借用 A 股 002050 指标）"
+    "证据缺口 `unavailable`（无 02050.HK `report_context`，不得借用 A 股 002050 指标）"
 )
+OPEN_LEG_HEADINGS = {
+    "02050": (HK_POSITION_HEADING,),
+    "601138": CARD_HEADINGS["601138"],
+    "600547": CARD_HEADINGS["600547"],
+    "601899": CARD_HEADINGS["601899"],
+}
+HTML_PREFIX = (
+    '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">'
+    '<meta name="viewport" content="width=device-width,initial-scale=1">'
+    '<title>日报 · 2026-07-17</title><style>'
+    'body{margin:0;background:#0d1117;color:#c9d1d9;font-family:-apple-system,'
+    'BlinkMacSystemFont,"PingFang SC",sans-serif;line-height:1.65}'
+    'main{max-width:980px;margin:auto;padding:32px 18px}'
+    'h1,h2,h3{color:#f0f6fc}'
+    'h2{border-bottom:1px solid #30363d;padding-bottom:8px}'
+    'a{color:#58a6ff}'
+    'blockquote{border-left:4px solid #58a6ff;margin:16px 0;padding:10px 16px;background:#161b22}'
+    'table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:14px 0}'
+    'th,td{border:1px solid #30363d;padding:8px 10px;white-space:nowrap}'
+    'th{background:#161b22}'
+    'code{background:#161b22;padding:2px 5px;border-radius:4px}'
+    '@media(max-width:600px){main{padding:20px 10px}th,td{font-size:12px;padding:6px}}'
+    '</style></head><body><main>'
+)
+HTML_SUFFIX = "</main></body></html>\n"
 
 
 def _card(report: str, heading: str) -> str:
@@ -52,9 +79,29 @@ def _expected_line(code: str, context: dict) -> str:
         f" / CMF {_number(price_volume['cmf20'], signed=price_volume['cmf20'] > 0)}"
         f" / OBV20 `{price_volume['obv_20d_direction']}`；"
         f"标签 {price_volume['price_volume_label']}"
-        f" / 解释标记 {'`' + ','.join(flags) + '`' if flags else '无'}"
-        f" / 证据缺口 {'`' + ','.join(gaps) + '`' if gaps else '无'}"
+        f" / 解释标记 {'`' + ','.join(flags) + '`' if flags else '[]'}"
+        f" / 证据缺口 {'`' + ','.join(gaps) + '`' if gaps else '[]'}"
     )
+
+
+def _open_position_legs(stock: dict) -> set[str]:
+    path = ROOT / "tracking" / f"{stock['code']}-{stock['name']}" / "position.json"
+    if not path.exists():
+        assert not stock.get("has_position"), f"missing position file for {stock['code']}"
+        return set()
+    record = json.loads(path.read_text(encoding="utf-8"))
+    legs = set()
+    for key, value in record.items():
+        if key != "position" and not key.endswith("_position"):
+            continue
+        if not isinstance(value, dict):
+            continue
+        is_open = value.get("status") == "open" or (
+            value.get("status") is None and (value.get("shares") or 0) > 0
+        )
+        if is_open:
+            legs.add(str(value.get("code") or stock["code"]))
+    return legs
 
 
 def test_held_and_core_cards_have_registered_price_volume_without_cross_market_substitution():
@@ -62,19 +109,42 @@ def test_held_and_core_cards_have_registered_price_volume_without_cross_market_s
     context = json.loads(CONTEXT.read_text(encoding="utf-8"))
     tracklist = json.loads(TRACKLIST.read_text(encoding="utf-8"))["stocks"]
 
-    expected_codes = CORE_CODES | {
-        stock["code"] for stock in tracklist if stock.get("has_position")
-    }
-    assert expected_codes == set(CARD_HEADINGS) | {"002050"}
+    applicable = [
+        stock
+        for stock in tracklist
+        if stock.get("has_position") or stock.get("tier") in {"core", "key"}
+    ]
+    expected_a_codes = {stock["code"] for stock in applicable}
+    assert expected_a_codes <= set(CARD_HEADINGS)
 
-    for code, headings in CARD_HEADINGS.items():
+    for code in expected_a_codes:
         expected_line = _expected_line(code, context)
-        for heading in headings:
+        for heading in CARD_HEADINGS[code]:
             card = _card(report, heading)
             assert card.count("**价量结构**") == 1
             assert expected_line in card
 
+    open_legs = {
+        leg
+        for stock in applicable
+        for leg in _open_position_legs(stock)
+    }
+    assert open_legs <= set(OPEN_LEG_HEADINGS)
+    for leg in open_legs:
+        for heading in OPEN_LEG_HEADINGS[leg]:
+            card = _card(report, heading)
+            assert card.count("**价量结构**") == 1
+
     hk_card = _card(report, HK_POSITION_HEADING)
-    assert hk_card.count("**价量结构**") == 1
     assert HK_UNAVAILABLE_LINE in hk_card
     assert _expected_line("002050", context) not in hk_card
+
+
+def test_html_is_byte_for_byte_mechanical_render_of_markdown():
+    markdown_text = REPORT.read_text(encoding="utf-8")
+    rendered_body = markdown.markdown(
+        markdown_text,
+        extensions=["tables", "fenced_code", "sane_lists"],
+    )
+    expected = HTML_PREFIX + rendered_body + HTML_SUFFIX
+    assert REPORT_HTML.read_bytes() == expected.encode("utf-8")
