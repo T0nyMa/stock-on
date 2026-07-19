@@ -51,6 +51,13 @@ def _mean(values: Sequence[Any]) -> float | None:
     return sum(value for value in parsed if value is not None) / len(parsed)
 
 
+def _volume_mean(values: Sequence[Any]) -> float | None:
+    parsed = [_number(value) for value in values]
+    if not parsed or any(value is None or value <= 0 for value in parsed):
+        return None
+    return sum(value for value in parsed if value is not None) / len(parsed)
+
+
 def _row_date(row: Mapping[str, Any]) -> date | None:
     value = row.get("date")
     if isinstance(value, datetime):
@@ -131,7 +138,10 @@ def _volume_vs_average(
     if len(bars) < count:
         return None
     volumes = [row.get("volume") for row in bars[-count:]]
-    return _ratio(volumes[-1], _mean(volumes))
+    latest_volume = _number(volumes[-1])
+    if latest_volume is None or latest_volume <= 0:
+        return None
+    return _ratio(latest_volume, _volume_mean(volumes))
 
 
 def _obv_direction(series: Any) -> str:
@@ -189,8 +199,8 @@ def derive_daily_metrics(
     recent20_vs_previous20 = None
     if len(window) >= 40:
         recent20_vs_previous20 = _ratio(
-            _mean([row.get("volume") for row in window[-20:]]),
-            _mean([row.get("volume") for row in window[-40:-20]]),
+            _volume_mean([row.get("volume") for row in window[-20:]]),
+            _volume_mean([row.get("volume") for row in window[-40:-20]]),
         )
 
     up_volumes: list[float] = []
@@ -199,7 +209,12 @@ def derive_daily_metrics(
         previous_close = _number(previous.get("close"))
         current_close = _number(current.get("close"))
         volume = _number(current.get("volume"))
-        if previous_close is None or current_close is None or volume is None:
+        if (
+            previous_close is None
+            or current_close is None
+            or volume is None
+            or volume <= 0
+        ):
             continue
         if current_close > previous_close:
             up_volumes.append(volume)

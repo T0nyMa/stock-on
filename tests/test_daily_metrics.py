@@ -126,6 +126,28 @@ def test_zero_volume_denominators_and_non_numeric_inputs_are_unavailable():
     assert result["turnover_rate"] is None
 
 
+def test_latest_zero_volume_makes_volume_ratios_and_state_unavailable():
+    bars = make_bars(40, latest_volume=0)
+
+    result = derive_daily_metrics(bars)
+
+    assert result["volume_vs_ma5"] is None
+    assert result["volume_vs_ma20"] is None
+    assert result["recent20_vs_previous20"] is None
+    assert result["volume_state"] == "unavailable"
+
+
+def test_zero_volume_observation_is_excluded_from_up_down_samples():
+    bars = make_bars(3)
+    bars[0].update({"close": 10, "volume": 100})
+    bars[1].update({"close": 11, "volume": 0})
+    bars[2].update({"close": 10, "volume": 100})
+
+    result = derive_daily_metrics(bars)
+
+    assert result["up_down_volume_ratio_90d"] is None
+
+
 @pytest.mark.parametrize("rising", [True, False])
 def test_up_down_ratio_requires_both_up_and_down_days(rising):
     assert derive_daily_metrics(make_bars(61, rising=rising))[
