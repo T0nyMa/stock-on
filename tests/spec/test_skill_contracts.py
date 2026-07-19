@@ -117,3 +117,42 @@ def test_all_skill_markdown_has_no_direct_easyanysearch_mandate():
             if any(pattern.search(line) for pattern in DIRECT_EASYANYSEARCH_MANDATES):
                 conflicts.append(f"{path.relative_to(ROOT)}:{line_number}: {line.strip()}")
     assert not conflicts, "direct EasyAnySearch mandates conflict with SEARCH.PRIORITY:\n" + "\n".join(conflicts)
+
+
+def test_daily_report_requires_price_volume_cards():
+    skill = Path(".agents/skills/daily-report/SKILL.md").read_text(encoding="utf-8")
+    template = Path("references/templates/daily-report-v2.md").read_text(encoding="utf-8")
+    for token in (
+        "artifact.report_context.stocks.{code}.price_volume",
+        "intraday_volume_ratio",
+        "volume_vs_ma5",
+        "volume_vs_ma20",
+        "recent20_vs_previous20",
+        "up_down_volume_ratio_90d",
+        "mfi14",
+        "cmf20",
+        "obv_20d_direction",
+        "price_volume_label_and_interpretation",
+    ):
+        assert token in skill
+    assert template.count("**价量结构**") >= 2
+    for token in (
+        "{{intraday_volume_ratio}}",
+        "{{volume_vs_ma5}}",
+        "{{volume_vs_ma20}}",
+        "{{recent20_vs_previous20}}",
+        "{{up_down_volume_ratio_90d}}",
+        "{{mfi14}}",
+        "{{cmf20}}",
+        "{{obv_20d_direction}}",
+        "{{price_volume_label_and_interpretation}}",
+    ):
+        assert template.count(token) >= 2
+    for boundary in (
+        "上涨放量”不能自动解释为突破",
+        "下跌缩量”不能自动解释为企稳",
+        "下跌放量 + CMF<0”必须描述为负面价量结构",
+        "H 股缺失字段不得用 A 股指标替代",
+    ):
+        assert boundary in skill
+    assert "`unavailable`" in skill

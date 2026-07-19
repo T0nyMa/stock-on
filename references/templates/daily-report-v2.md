@@ -34,6 +34,7 @@
 
 - **多周期**：{{daily_weekly_monthly_alignment}}
 - **量价资金**：{{obv_mfi_cmf}}
+- **价量结构**：量比 {{intraday_volume_ratio}} / 当日量÷MA5 {{volume_vs_ma5}} / 当日量÷MA20 {{volume_vs_ma20}} / 近20日÷前20日 {{recent20_vs_previous20}} / 上涨日÷下跌日均量 {{up_down_volume_ratio_90d}}；MFI {{mfi14}} / CMF {{cmf20}} / OBV20 {{obv_20d_direction}}；{{price_volume_label_and_interpretation}}
 - **Quant setup**：{{entry_zone}} / 失效 {{invalidation}} / 目标 {{targets}} / RR {{risk_reward}}
 - **操作指令**：{{exact_price_volume_action}}
 
@@ -51,6 +52,7 @@
 - **消息核验**：{{dated_news_with_source_links}}
 - **技术面**：{{atr_adx_bollinger_timeframes}}
 - **资金面**：{{obv_mfi_cmf}}
+- **价量结构**：量比 {{intraday_volume_ratio}} / 当日量÷MA5 {{volume_vs_ma5}} / 当日量÷MA20 {{volume_vs_ma20}} / 近20日÷前20日 {{recent20_vs_previous20}} / 上涨日÷下跌日均量 {{up_down_volume_ratio_90d}}；MFI {{mfi14}} / CMF {{cmf20}} / OBV20 {{obv_20d_direction}}；{{price_volume_label_and_interpretation}}
 - **setup**：{{entry_zone}}，失效 {{invalidation}}，目标 {{targets}}，RR {{risk_reward}}
 - **历史校准**：{{calibration_or_insufficient_data}}
 - **操作判断**：{{specific_action}}
