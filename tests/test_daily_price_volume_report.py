@@ -59,6 +59,18 @@ def _card(report: str, heading: str) -> str:
     return report[start:end]
 
 
+def _section_three_cards(report: str) -> dict[str, str]:
+    section = report.split("## 三、核心个股深度", 1)[1].split(
+        "## 四、A-H 全面对比", 1
+    )[0]
+    cards = {}
+    for heading, markets in re.findall(r"^(### .+?（([^）]+)）)$", section, re.MULTILINE):
+        primary_code = re.search(r"\d{5,6}", markets)
+        assert primary_code is not None, f"missing code in Section 3 heading: {heading}"
+        cards[heading] = primary_code.group()
+    return cards
+
+
 def _number(value: float | None, digits: int = 2, signed: bool = False) -> str:
     if value is None:
         return "`unavailable`"
@@ -117,23 +129,26 @@ def test_held_and_core_cards_have_registered_price_volume_without_cross_market_s
     expected_a_codes = {stock["code"] for stock in applicable}
     assert expected_a_codes <= set(CARD_HEADINGS)
 
-    for code in expected_a_codes:
-        expected_line = _expected_line(code, context)
-        for heading in CARD_HEADINGS[code]:
-            card = _card(report, heading)
-            assert card.count("**价量结构**") == 1
-            assert expected_line in card
-
     open_legs = {
         leg
         for stock in applicable
         for leg in _open_position_legs(stock)
     }
     assert open_legs <= set(OPEN_LEG_HEADINGS)
-    for leg in open_legs:
-        for heading in OPEN_LEG_HEADINGS[leg]:
-            card = _card(report, heading)
-            assert card.count("**价量结构**") == 1
+    section_three_cards = _section_three_cards(report)
+    expected_cards = {
+        **section_three_cards,
+        **{
+            heading: leg
+            for leg in open_legs
+            for heading in OPEN_LEG_HEADINGS[leg]
+        },
+    }
+    for heading, code in expected_cards.items():
+        card = _card(report, heading)
+        assert card.count("**价量结构**") == 1
+        if code in context["stocks"]:
+            assert _expected_line(code, context) in card
 
     hk_card = _card(report, HK_POSITION_HEADING)
     assert HK_UNAVAILABLE_LINE in hk_card

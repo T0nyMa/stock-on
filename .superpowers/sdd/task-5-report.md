@@ -80,3 +80,21 @@ PYTHONPATH=. .../pytest tests/test_daily_price_volume_report.py -q
 PYTHONPATH=. .../pytest tests/test_daily_price_volume_report.py -q
 2 passed in 0.09s
 ```
+
+### Section 3 coverage follow-up
+
+Closed the remaining review gap by parsing every `###` card between `## 三、核心个股深度` and `## 四、A-H 全面对比`. The test extracts each card's primary code from its heading, unions those cards with the dynamically discovered open-position market legs, and requires exactly one registered `价量结构` line per resulting card. This includes 603986 even though its current tracklist tier is `watch`.
+
+Regression evidence:
+
+```text
+# RED: temporarily removed the 603986 price-volume line
+PYTHONPATH=. .../pytest \
+  tests/test_daily_price_volume_report.py::test_held_and_core_cards_have_registered_price_volume_without_cross_market_substitution -q
+1 failed in 0.09s
+# Failure: 兆易创新（603986 / 03986.HK）价量结构 count was 0
+
+# GREEN: restored the registered 603986 line
+PYTHONPATH=. .../pytest tests/test_daily_price_volume_report.py -q
+2 passed in 0.09s
+```
