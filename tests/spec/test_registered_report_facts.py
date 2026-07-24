@@ -41,3 +41,21 @@ def test_registered_weekly_artifact_uses_report_date_path():
     )
     weekly = next(item for item in result.results if item.rule_id == "DATA.REGISTERED_CURRENT")
     assert weekly.passed, weekly.actual
+
+
+def test_registered_daily_facts_cover_first_party_search_preflight():
+    facts = load_workflow_facts(ROOT, "daily-report")
+    result = check_workflow(
+        "daily-report",
+        "preflight",
+        load_registry(ROOT / "spec"),
+        ROOT,
+        now=NOW,
+        facts=facts,
+    )
+    search = next(
+        item
+        for item in result.results
+        if item.rule_id == "SEARCH.MATERIAL_FACT_VERIFIED"
+    )
+    assert search.passed, search.actual

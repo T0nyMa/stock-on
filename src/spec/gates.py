@@ -196,7 +196,10 @@ def _is_current(artifact: ArtifactSpec, timestamp: str, ctx: _Context) -> bool:
 
 def _artifact_result(artifact: ArtifactSpec, ctx: _Context) -> tuple[bool, str, str]:
     positions = ctx.facts.get("positions")
-    if positions is not None and "{" in artifact.path:
+    template_fields = {
+        field for _, field, _, _ in Formatter().parse(artifact.path) if field
+    }
+    if positions is not None and template_fields.intersection({"code", "name"}):
         if not isinstance(positions, list) or not positions:
             return False, "position paths", "missing positions fact"
         results = [_artifact_result_at(artifact, ctx, item) for item in positions if isinstance(item, Mapping)]

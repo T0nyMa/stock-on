@@ -93,6 +93,17 @@
         }
       ]
     },
+    "source_verification": {
+      "evidence": [
+        {"claim_id": "daily-601138-distribution", "entity": "601138", "material": true, "url": "https://www.fii-foxconn.com/TemporaryAnnouncement", "publication_date": "2026-07-23", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "daily-600547-distribution", "entity": "600547", "material": true, "url": "https://www.sdhjgf.com.cn/column/104/", "publication_date": "2026-07-21", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "daily-02050-announcements", "entity": "02050", "material": true, "url": "https://www.zjshc.com/investor.aspx", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "daily-601899-disclosures", "entity": "601899", "material": true, "url": "https://www.zijinmining.com/investor/announcement.htm", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "daily-00981-disclosures", "entity": "00981", "material": true, "url": "https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh", "publication_date": "2026-07-24", "source_tier": "authoritative", "verification_status": "verified"},
+        {"claim_id": "daily-603986-disclosures", "entity": "603986", "material": true, "url": "https://www.gigadevice.com.cn/about/investor", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "daily-09988-disclosures", "entity": "09988", "material": true, "url": "https://www.alibabagroup.com/tc/ir/hkexfilings", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"}
+      ]
+    },
     "decision_fields": {
       "decisions": [
         {"entity": "601138", "price": 58.18, "shares": 500, "trigger": "收盘低于58.18", "invalidation": "收盘站上63.36且量能确认"},
