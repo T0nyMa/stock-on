@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "workflow": "weekly-report",
+  "facts": {
+    "positions": [
+      {"code": "601138", "name": "工业富联"},
+      {"code": "600547", "name": "山东黄金"},
+      {"code": "002050", "name": "三花智控"},
+      {"code": "601899", "name": "紫金矿业"}
+    ],
+    "required_entities": [
+      "601138",
+      "600547",
+      "02050",
+      "601899",
+      "00981",
+      "603986",
+      "09988"
+    ],
+    "claim_manifest": [
+      {"claim_id": "weekly-601138-distribution", "entity": "601138", "material": true},
+      {"claim_id": "weekly-600547-distribution", "entity": "600547", "material": true},
+      {"claim_id": "weekly-02050-announcements", "entity": "02050", "material": true},
+      {"claim_id": "weekly-601899-disclosures", "entity": "601899", "material": true},
+      {"claim_id": "weekly-00981-disclosures", "entity": "00981", "material": true},
+      {"claim_id": "weekly-603986-disclosures", "entity": "603986", "material": true},
+      {"claim_id": "weekly-09988-disclosures", "entity": "09988", "material": true}
+    ],
+    "source_links": {
+      "evidence": [
+        {"claim_id": "weekly-601138-distribution", "entity": "601138", "material": true, "url": "https://www.fii-foxconn.com/TemporaryAnnouncement", "publication_date": "2026-07-23", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "weekly-600547-distribution", "entity": "600547", "material": true, "url": "https://www.sdhjgf.com.cn/column/104/", "publication_date": "2026-07-21", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "weekly-02050-announcements", "entity": "02050", "material": true, "url": "https://www.zjshc.com/investor.aspx", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "weekly-601899-disclosures", "entity": "601899", "material": true, "url": "https://www.zijinmining.com/investor/announcement.htm", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "weekly-00981-disclosures", "entity": "00981", "material": true, "url": "https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh", "publication_date": "2026-07-24", "source_tier": "authoritative", "verification_status": "verified"},
+        {"claim_id": "weekly-603986-disclosures", "entity": "603986", "material": true, "url": "https://www.gigadevice.com.cn/about/investor", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"},
+        {"claim_id": "weekly-09988-disclosures", "entity": "09988", "material": true, "url": "https://www.alibabagroup.com/tc/ir/hkexfilings", "publication_date": "2026-07-24", "source_tier": "first_party", "verification_status": "verified"}
+      ]
+    },
+    "decision_fields": {
+      "decisions": [
+        {"entity": "601138", "price": 58.18, "shares": 500, "trigger": "收盘低于58.18", "invalidation": "收盘站上63.36且量能确认"},
+        {"entity": "600547", "price": 25.18, "shares": 100, "trigger": "收盘低于25.18", "invalidation": "到达27.08且量能确认"},
+        {"entity": "02050", "price": 24.24, "shares": 1700, "trigger": "收盘低于HK$24.24", "invalidation": "收盘站回HK$26.03"},
+        {"entity": "601899", "price": 29.43, "shares": 1300, "trigger": "收盘低于29.43", "invalidation": "到达34.63且量能确认"},
+        {"entity": "00981", "price": 72.92, "shares": 500, "trigger": "收盘高于72.92且量能达到MA20均量", "invalidation": "收盘低于68.46"},
+        {"entity": "603986", "price": 470.48, "shares": 100, "trigger": "收盘高于470.48且CMF转正", "invalidation": "收盘低于456.70"},
+        {"entity": "09988", "price": 114.10, "shares": 500, "trigger": "收盘站稳HK$114.10", "invalidation": "收盘低于HK$109.57"}
+      ]
+    },
+    "git_pushed": {
+      "paths": [
+        "data/spec/workflow-facts/weekly-report.json",
+        "tracking/weekly/2026-07-24.html",
+        "tracking/weekly/2026-07-24.md",
+        "index.html"
+      ],
+      "deployment": {
+        "url": "https://t0nyma.github.io/stock-on/tracking/weekly/2026-07-24.html",
+        "verified": true
+      }
+    }
+  }
+}

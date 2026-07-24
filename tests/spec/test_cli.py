@@ -76,6 +76,85 @@ def test_check_loads_facts_file(tmp_path, capsys, monkeypatch):
     assert json.loads(capsys.readouterr().out)["ok"] is True
 
 
+def test_check_auto_loads_durable_workflow_facts(tmp_path, capsys, monkeypatch):
+    record = tmp_path / "data/spec/workflow-facts/sample.json"
+    record.parent.mkdir(parents=True)
+    record.write_text(
+        json.dumps({
+            "schema_version": "1.0",
+            "workflow": "sample",
+            "facts": {"required_entities": ["A"]},
+        })
+    )
+    captured = {}
+
+    class Report:
+        ok = True
+        def to_dict(self):
+            return {"ok": True, "results": []}
+
+    def fake_check(*args, **kwargs):
+        captured.update(kwargs["facts"])
+        return Report()
+
+    monkeypatch.setattr("src.spec.cli.check_workflow", fake_check)
+    result = main([
+        "--spec-root", str(FIXTURE), "--repo-root", str(tmp_path),
+        "check", "--workflow", "sample", "--phase", "preflight",
+    ])
+    assert result == 0
+    assert captured == {"required_entities": ["A"]}
+    assert json.loads(capsys.readouterr().out)["ok"] is True
+
+
+def test_explicit_facts_recursively_override_durable_values(tmp_path, capsys, monkeypatch):
+    record = tmp_path / "data/spec/workflow-facts/sample.json"
+    record.parent.mkdir(parents=True)
+    record.write_text(
+        json.dumps({
+            "schema_version": "1.0",
+            "workflow": "sample",
+            "facts": {
+                "git_pushed": {
+                    "paths": ["report.md"],
+                    "deployment": {
+                        "url": "https://example.test/report",
+                        "verified": False,
+                    },
+                },
+            },
+        })
+    )
+    explicit = tmp_path / "explicit.json"
+    explicit.write_text('{"git_pushed":{"deployment":{"verified":true}}}')
+    captured = {}
+
+    class Report:
+        ok = True
+        def to_dict(self):
+            return {"ok": True, "results": []}
+
+    def fake_check(*args, **kwargs):
+        captured.update(kwargs["facts"])
+        return Report()
+
+    monkeypatch.setattr("src.spec.cli.check_workflow", fake_check)
+    result = main([
+        "--spec-root", str(FIXTURE), "--repo-root", str(tmp_path),
+        "check", "--workflow", "sample", "--phase", "preflight",
+        "--facts", str(explicit),
+    ])
+    assert result == 0
+    assert captured["git_pushed"] == {
+        "paths": ["report.md"],
+        "deployment": {
+            "url": "https://example.test/report",
+            "verified": True,
+        },
+    }
+    assert json.loads(capsys.readouterr().out)["ok"] is True
+
+
 def test_check_reports_invalid_facts_json(tmp_path, capsys):
     facts_path = tmp_path / "facts.json"
     facts_path.write_text("not-json")

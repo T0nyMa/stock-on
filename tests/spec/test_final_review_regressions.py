@@ -196,6 +196,43 @@ def test_multi_position_artifact_checks_each_position(tmp_path):
     assert check_workflow("sample", "preflight", registry, tmp_path, facts=facts).ok
 
 
+def test_position_manifest_does_not_expand_date_only_artifacts(tmp_path):
+    root = _base_spec(tmp_path)
+    (root / "artifacts.yaml").write_text(
+        "- id: report\n"
+        "  path: reports/{date}.md\n"
+        "  producer: sample\n"
+        "  consumers: []\n"
+        "  freshness: trading_day\n"
+        "  missing: block\n"
+    )
+    (root / "policies/p.yaml").write_text("id: p\ndescription: p\ngates: []\n")
+    (root / "workflows/sample.yaml").write_text(
+        "id: sample\ninputs: [report]\noptional_inputs: []\noutputs: []\n"
+        "policies: [p]\nskills: []\nsteps: [s]\npreflight: [report]\n"
+        "completion: []\non_failure: [stop]\n"
+    )
+    report = tmp_path / "reports/2026-07-24.md"
+    report.parent.mkdir()
+    report.write_text("ok")
+    facts = {
+        "positions": [
+            {"code": "1", "name": "one"},
+            {"code": "2", "name": "two"},
+        ]
+    }
+    result = check_workflow(
+        "sample",
+        "preflight",
+        load_registry(root),
+        tmp_path,
+        now=datetime.fromisoformat("2026-07-24T21:00:00+08:00"),
+        facts=facts,
+    )
+    assert result.ok
+    assert result.results[0].actual != "2 current"
+
+
 @pytest.mark.parametrize("mutation,error", [
     ("priority: nope", "expected integer for priority"),
     ("intents: [ok, 1]", "expected string element for intents"),
