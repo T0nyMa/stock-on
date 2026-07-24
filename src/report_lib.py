@@ -4,7 +4,8 @@ import os
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-from src.data_access import load_fundamentals, load_indicators, load_quote
+from src.daily_metrics import derive_daily_metrics
+from src.data_access import load_bars, load_fundamentals, load_indicators, load_quote
 from src.storage import MarketDataStore
 
 _TZ_CN = timezone(timedelta(hours=8))
@@ -46,6 +47,16 @@ def load_all_stocks(store: MarketDataStore | None = None):
         ind, q, fund = load_stock_data(s["code"], store=store)
         if not ind or not q:
             continue
+        bars = load_bars(s["code"], store=store).get("kline", [])
+        quantitative_snapshot = ind
+        daily_metrics = derive_daily_metrics(
+            bars,
+            indicators={
+                "mfi14": quantitative_snapshot.get("mfi14"),
+                "cmf20": quantitative_snapshot.get("cmf20"),
+            },
+            quote=q,
+        )
         result.append({
             "code": s["code"], "name": s["name"], "tier": s["tier"],
             "has_position": s.get("has_position", False),
@@ -63,6 +74,7 @@ def load_all_stocks(store: MarketDataStore | None = None):
             "pe": fund.get("pe"), "pb": fund.get("pb"),
             "mcap": fund.get("market_cap_yi"),
             "raw_indicators": ind, "raw_quote": q, "raw_fund": fund,
+            **daily_metrics,
         })
     return result
 

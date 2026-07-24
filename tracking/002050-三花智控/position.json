@@ -24,12 +24,12 @@
     "buy_price": 26.0291,
     "shares": 3500,
     "cost": 91102.0,
-    "current_price": 26.06,
-    "price_as_of": "2026-07-17",
-    "current_value": 91210.0,
-    "unrealized_pnl": 108.0,
-    "unrealized_pnl_pct": 0.12,
-    "loss": false,
+    "current_price": 25.02,
+    "price_as_of": "2026-07-24",
+    "current_value": 87570.0,
+    "unrealized_pnl": -3532.0,
+    "unrealized_pnl_pct": -3.88,
+    "loss": true,
     "cost_method": "fifo"
   },
   "transactions": [
@@ -81,5 +81,5 @@
     "H股2026-07-17收盘价登记为HK$26.06；累计3500股，含7月17日新增3400股@HK$26.00",
     "HKD/CNY汇率未提供，未换算人民币浮盈亏"
   ],
-  "last_updated": "2026-07-18T16:35:00+08:00"
+  "last_updated": "2026-07-24T18:00:00+08:00"
 }

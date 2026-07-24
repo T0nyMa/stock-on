@@ -1,3 +1,5 @@
+from datetime import date
+from functools import partial
 from types import SimpleNamespace
 
 import src.fetch as fetch_module
@@ -40,6 +42,11 @@ def test_v2_fetch_initializes_then_uses_incremental_window(tmp_path, monkeypatch
     monkeypatch.setattr(fetch_module, "KlineProvider", FakeKlineProvider)
     monkeypatch.setattr(fetch_module, "QuoteProvider", FakeQuoteProvider)
     monkeypatch.setattr(fetch_module, "setup_env", lambda: None)
+    monkeypatch.setattr(
+        fetch_module,
+        "incremental_days",
+        partial(fetch_module.incremental_days, as_of=date(2026, 7, 12)),
+    )
 
     fetch_module.fetch_stock_data(
         "002050", provider="v2", days=500, store=store, include_context=False

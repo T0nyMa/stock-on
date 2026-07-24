@@ -26,7 +26,7 @@ A_STOCKS = [
     ("601899","紫金矿业"), ("600171","上海贝岭"), ("688795","摩尔线程"),
 ]
 HK_STOCKS = [
-    ("hk09988","阿里巴巴"), ("hk02050","三花智控"), ("hk01787","山东黄金"),
+    ("hk00981","中芯国际"), ("hk09988","阿里巴巴"), ("hk02050","三花智控"), ("hk01787","山东黄金"),
     ("hk03986","兆易创新"),
 ]
 
@@ -210,6 +210,16 @@ def main():
             "macd_hist": round(s["macd_hist"], 2),
             "bias5": round(s["bias5"], 1),
             "turnover": s.get("turnover", 0),
+            "volume_vs_ma5": s.get("volume_vs_ma5"),
+            "volume_vs_ma20": s.get("volume_vs_ma20"),
+            "recent20_vs_previous20": s.get("recent20_vs_previous20"),
+            "up_down_volume_ratio_90d": s.get("up_down_volume_ratio_90d"),
+            "mfi14": s.get("mfi14"),
+            "cmf20": s.get("cmf20"),
+            "obv_20d_direction": s.get("obv_20d_direction"),
+            "volume_state": s.get("volume_state"),
+            "price_volume_label": s.get("price_volume_label"),
+            "price_volume_gaps": s.get("evidence_gaps", []),
             "consensus": v, "score": round(avg),
             "has_position": s.get("has_position", False),
             "tier": s["tier"],

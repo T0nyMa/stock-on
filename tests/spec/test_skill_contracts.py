@@ -4,6 +4,7 @@ import re
 
 import pytest
 
+from src.daily_metrics import derive_daily_metrics
 from src.spec.loader import load_registry
 
 
@@ -117,3 +118,56 @@ def test_all_skill_markdown_has_no_direct_easyanysearch_mandate():
             if any(pattern.search(line) for pattern in DIRECT_EASYANYSEARCH_MANDATES):
                 conflicts.append(f"{path.relative_to(ROOT)}:{line_number}: {line.strip()}")
     assert not conflicts, "direct EasyAnySearch mandates conflict with SEARCH.PRIORITY:\n" + "\n".join(conflicts)
+
+
+def test_daily_report_requires_price_volume_cards():
+    skill = Path(".agents/skills/daily-report/SKILL.md").read_text(encoding="utf-8")
+    template = Path("references/templates/daily-report-v2.md").read_text(encoding="utf-8")
+    bars = [
+        {"close": 10 + index * 0.1, "volume": 100 + index}
+        for index in range(40)
+    ]
+    producer_keys = derive_daily_metrics(bars).keys()
+    required_keys = (
+        "artifact.report_context.stocks.{code}.price_volume",
+        "intraday_volume_ratio",
+        "volume_vs_ma5",
+        "volume_vs_ma20",
+        "recent20_vs_previous20",
+        "up_down_volume_ratio_90d",
+        "mfi14",
+        "cmf20",
+        "obv_20d_direction",
+        "price_volume_label",
+        "interpretation_flags",
+        "evidence_gaps",
+    )
+    for token in required_keys:
+        assert token in skill
+        if not token.startswith("artifact."):
+            assert token in producer_keys
+    assert "price_volume_label_and_interpretation" not in skill
+    assert "price_volume_label_and_interpretation" not in template
+    assert template.count("**价量结构**") >= 2
+    for token in (
+        "{{intraday_volume_ratio}}",
+        "{{volume_vs_ma5}}",
+        "{{volume_vs_ma20}}",
+        "{{recent20_vs_previous20}}",
+        "{{up_down_volume_ratio_90d}}",
+        "{{mfi14}}",
+        "{{cmf20}}",
+        "{{obv_20d_direction}}",
+        "{{price_volume_label}}",
+        "{{interpretation_flags}}",
+        "{{evidence_gaps}}",
+    ):
+        assert template.count(token) >= 2
+    for boundary in (
+        "放量上涨”不能自动解释为突破",
+        "缩量下跌”不能自动解释为企稳",
+        "放量下跌 + CMF<0”必须描述为负面价量结构",
+        "H 股缺失字段不得用 A 股指标替代",
+    ):
+        assert boundary in skill
+    assert "`unavailable`" in skill

@@ -10,11 +10,11 @@
     "buy_price": 28.0,
     "shares": 2600,
     "cost": 72800.0,
-    "current_price": 28.36,
-    "price_as_of": "2026-07-17",
-    "current_value": 73736.0,
-    "unrealized_pnl": 936.0,
-    "unrealized_pnl_pct": 1.29,
+    "current_price": 31.51,
+    "price_as_of": "2026-07-24",
+    "current_value": 81926.0,
+    "unrealized_pnl": 9126.0,
+    "unrealized_pnl_pct": 12.54,
     "loss": false,
     "cost_method": "fifo"
   },
@@ -42,5 +42,5 @@
     "新建仓位；资源周期逻辑与交易执行分开复盘",
     "2026-07-17周线仍bearish、日线neutral，技术周期冲突"
   ],
-  "last_updated": "2026-07-18T16:35:00+08:00"
+  "last_updated": "2026-07-24T18:00:00+08:00"
 }
