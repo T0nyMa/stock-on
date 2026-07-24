@@ -8,6 +8,7 @@ from typing import Sequence
 
 from .loader import load_registry
 from .generator import GeneratedSectionError, generate_documents
+from .facts import load_workflow_facts, merge_facts
 from .gates import check_workflow
 from .router import AmbiguousRouteError, resolve_intent
 from .validator import has_blocking_issues, validate_registry
@@ -87,7 +88,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "check":
         try:
-            facts = json.loads(args.facts.read_text()) if args.facts else {}
+            durable_facts = load_workflow_facts(args.repo_root, args.workflow)
+            explicit_facts = json.loads(args.facts.read_text()) if args.facts else {}
+            if not isinstance(explicit_facts, dict):
+                raise ValueError("facts must be a JSON object")
+            facts = merge_facts(durable_facts, explicit_facts)
             report = check_workflow(
                 args.workflow, args.phase, load_registry(args.spec_root), args.repo_root,
                 facts=facts,
