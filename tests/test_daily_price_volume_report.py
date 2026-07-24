@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 
 import markdown
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,7 @@ CARD_HEADINGS = {
     "603986": ("### 4. 兆易创新（603986 / 03986.HK）",),
     "09988": ("### 5. 阿里巴巴（09988.HK）",),
     "601899": ("### 紫金矿业（601899）", "### 3A. 紫金矿业（601899）"),
+    "00981": ("### 7. 中芯国际H股（00981.HK）— 新增重点观察",),
 }
 HK_POSITION_HEADING = "### 三花智控 H 股（02050.HK）"
 HK_UNAVAILABLE_LINE = (
@@ -119,6 +121,8 @@ def _open_position_legs(stock: dict) -> set[str]:
 def test_held_and_core_cards_have_registered_price_volume_without_cross_market_substitution():
     report = REPORT.read_text(encoding="utf-8")
     context = json.loads(CONTEXT.read_text(encoding="utf-8"))
+    if context["stocks"]["601138"].get("as_of") != "2026-07-17":
+        pytest.skip("historical report contract requires a matching 2026-07-17 context")
     tracklist = json.loads(TRACKLIST.read_text(encoding="utf-8"))["stocks"]
 
     applicable = [

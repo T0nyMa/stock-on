@@ -6,11 +6,11 @@
     "buy_price": 78.7,
     "shares": 1100,
     "cost": 86570.0,
-    "current_price": 57.59,
-    "price_as_of": "2026-07-17",
-    "current_value": 63349.0,
-    "unrealized_pnl": -23221.0,
-    "unrealized_pnl_pct": -26.82,
+    "current_price": 60.25,
+    "price_as_of": "2026-07-24",
+    "current_value": 66275.0,
+    "unrealized_pnl": -20295.0,
+    "unrealized_pnl_pct": -23.44,
     "loss": true,
     "realized_pnl_gross": -14770.0,
     "cost_method": "fifo",
@@ -95,5 +95,5 @@
       "source": "broker_screenshot"
     }
   ],
-  "last_updated": "2026-07-18T16:00:00+08:00"
+  "last_updated": "2026-07-24T18:00:00+08:00"
 }
