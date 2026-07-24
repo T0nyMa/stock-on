@@ -98,7 +98,7 @@
   freshness: trading_day
   missing: block
 - id: artifact.weekly_report
-  path: tracking/weekly/{week}.md
+  path: tracking/weekly/{date}.md
   storage: filesystem
   producer: weekly-report
   consumers: [deploy]
